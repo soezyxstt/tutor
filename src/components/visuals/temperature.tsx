@@ -272,6 +272,7 @@ function DynamicRtd({ spec, locale }: Props) {
     t < stepTime ? initialR : firstOrder(t - stepTime, tau, initialR, finalR);
   const value = response(clock.t);
   const endTime = Math.max(duration, stepTime + 6 * tau);
+  const rangePadding = Math.max(Math.abs(finalR - initialR), 0.1) * 0.15;
   const series: Series[] = [
     {
       name: text(locale, "Respons R(t)", "Response R(t)"),
@@ -305,6 +306,8 @@ function DynamicRtd({ spec, locale }: Props) {
         yLabel="R (Ω)"
         xMin={0}
         xMax={endTime}
+        yMin={Math.min(initialR, finalR) - rangePadding}
+        yMax={Math.max(initialR, finalR) + rangePadding}
         series={series}
       />
       <Playback clock={clock} locale={locale} />

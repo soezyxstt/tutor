@@ -93,14 +93,14 @@ export default function App() {
       .toLowerCase()
       .includes(search.toLowerCase()),
   );
-  function select(id: string) {
+  function select(id: string, closeMenu = true) {
     const next = questions.find((item) => item.id === id);
     if (!next) return;
     setSelected(id);
     setYear(String(next.year));
     setExam(next.exam);
     setView("study");
-    setMenuOpen(false);
+    if (closeMenu) setMenuOpen(false);
     setSearchOpen(false);
     setSearch("");
     window.history.replaceState(null, "", `#soal/${id}`);
@@ -113,7 +113,7 @@ export default function App() {
     const first = questions.find(
       (item) => String(item.year) === nextYear && item.exam === nextExam,
     );
-    if (first) select(first.id);
+    if (first) select(first.id, false);
   }
   useEffect(() => {
     document.documentElement.lang = locale;

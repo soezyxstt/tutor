@@ -47,6 +47,7 @@ export function useClock(end = 10, speed = 1) {
   }, [playing, end, speed]);
   return {
     t,
+    end,
     setT,
     playing,
     setPlaying,
@@ -71,7 +72,8 @@ export function Playback({
         size="sm"
         variant="ghost"
         onClick={() => {
-          if (!clock.playing && clock.t > 0) {
+          if (!clock.playing && clock.t >= clock.end) {
+            clock.setT(0);
           }
           clock.setPlaying(!clock.playing);
         }}
