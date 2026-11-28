@@ -1,5 +1,8 @@
+import { useLanguage } from '../i18n/language-provider';
+import { languageHref } from '../i18n/language';
 import * as React from 'react';
 import {
+  ArrowLeft,
   BookOpen,
   Check,
   ChevronRight,
@@ -70,6 +73,7 @@ export function TutorSidebarContent({
   onOpenSearch?: () => void;
 }) {
   const completedIds = useTutorStore((s) => s.completedIds);
+  const { t, preference } = useLanguage();
   const bookmarkedIds = useTutorStore((s) => s.bookmarkedIds);
 
   const [groupMode, setGroupMode] = React.useState<SidebarGroupMode>('chapter');
@@ -171,7 +175,7 @@ export function TutorSidebarContent({
 
         <div className="space-y-1">
           <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-            <span>Progres belajar</span>
+            <span>{t("Progres belajar", "Study progress")}</span>
             <span className="font-mono">
               {completedCount}/{allItems.length}
             </span>
@@ -184,13 +188,13 @@ export function TutorSidebarContent({
       {hasExams && (
         <div
           role="tablist"
-          aria-label="Mode pengelompokan"
+          aria-label={t("Mode pengelompokan", "Group lessons")}
           className="grid grid-cols-2 border-b border-border px-4"
         >
           {(
             [
-              { id: 'chapter', label: 'Per Bab' },
-              { id: 'exam', label: 'Per Ujian' },
+              { id: 'chapter', label: t('Per Bab', 'By chapter') },
+              { id: 'exam', label: t('Per Ujian', 'By exam') },
             ] as const
           ).map((tab) => {
             const active = groupMode === tab.id;
@@ -232,7 +236,7 @@ export function TutorSidebarContent({
           >
             <span className="inline-flex items-center gap-2">
               <Search className="size-3.5" />
-              <span>Cari cepat…</span>
+              <span>{t("Cari cepat…", "Quick search…")}</span>
             </span>
             <kbd className="font-mono text-[10px] opacity-70">⌘K</kbd>
           </button>
@@ -240,32 +244,32 @@ export function TutorSidebarContent({
 
         {groupMode === 'chapter' ? (
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground">Tampilkan</span>
+            <span className="text-[11px] text-muted-foreground">{t("Tampilkan", "Show")}</span>
             <Select
               value={filter}
               onValueChange={(v) => setFilter(v as SidebarFilter)}
             >
-              <SelectTrigger aria-label="Filter kategori" className="h-6 px-1 text-xs">
+              <SelectTrigger aria-label={t("Filter kategori", "Filter by type")} className="h-6 px-1 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent align="end">
-                <SelectItem value="all">Semua ({allItems.length})</SelectItem>
-                <SelectItem value="material">Materi ({counts.material})</SelectItem>
-                <SelectItem value="practice">Latihan ({counts.practice})</SelectItem>
-                <SelectItem value="problem">Pembahasan ({counts.problem})</SelectItem>
-                <SelectItem value="bookmarked">Tersimpan ({counts.bookmarked})</SelectItem>
+                <SelectItem value="all">{t('Semua', 'All')} ({allItems.length})</SelectItem>
+                <SelectItem value="material">{t('Materi', 'Lessons')} ({counts.material})</SelectItem>
+                <SelectItem value="practice">{t('Latihan', 'Practice')} ({counts.practice})</SelectItem>
+                <SelectItem value="problem">{t('Pembahasan', 'Solutions')} ({counts.problem})</SelectItem>
+                <SelectItem value="bookmarked">{t('Tersimpan', 'Saved')} ({counts.bookmarked})</SelectItem>
               </SelectContent>
             </Select>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground">Tahun ujian</span>
+            <span className="text-[11px] text-muted-foreground">{t("Tahun ujian", "Exam year")}</span>
             <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger aria-label="Filter tahun ujian" className="h-6 px-1 text-xs">
+              <SelectTrigger aria-label={t("Filter tahun ujian", "Filter by exam year")} className="h-6 px-1 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent align="end">
-                <SelectItem value="all">Semua tahun</SelectItem>
+                <SelectItem value="all">{t("Semua tahun", "All years")}</SelectItem>
                 {examYears.map((y) => (
                   <SelectItem key={y} value={String(y)}>
                     {y}
@@ -283,7 +287,7 @@ export function TutorSidebarContent({
           {groupMode === 'chapter' ? (
             <motion.nav
               key="mode-chapter"
-              aria-label="Daftar per bab"
+              aria-label={t("Daftar per bab", "Lessons by chapter")}
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
@@ -333,7 +337,7 @@ export function TutorSidebarContent({
                             <div key={kind} className="space-y-1">
                               <div className="flex items-center gap-1.5 px-2 text-[11px] font-medium text-muted-foreground">
                                 <SectionIcon className="size-3 opacity-75" />
-                                <span>{label}</span>
+                                <span>{t(label, kind === 'material' ? 'Lessons' : kind === 'practice' ? 'Practice' : 'Solutions')}</span>
                               </div>
 
                               <ul className="space-y-0.5">
@@ -379,7 +383,7 @@ export function TutorSidebarContent({
           ) : (
             <motion.nav
               key={`mode-exam-${selectedYear}`}
-              aria-label="Daftar per ujian"
+              aria-label={t("Daftar per ujian", "Problems by exam")}
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
@@ -410,7 +414,7 @@ export function TutorSidebarContent({
                           <span className="truncate">{group.label}</span>
                         </span>
                         <span className="font-mono text-[11px] font-normal text-muted-foreground">
-                          {group.entries.length} soal
+                          {group.entries.length} {t('soal', 'problems')}
                         </span>
                       </button>
 
@@ -471,6 +475,13 @@ export function TutorSidebarContent({
         </AnimatePresence>
       </ScrollArea>
 
+      <div className="border-t border-border px-4 py-2.5">
+        <a href={languageHref('https://tutor.adihnursyam.com', preference)} className="inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground">
+          <ArrowLeft className="size-3.5" />
+          {t('Semua mata kuliah', 'All courses')}
+        </a>
+      </div>
+
       {/* Optional Core UI Showcase footer link */}
       {course.enableShowcase && onSelectShowcase && (
         <div className="border-t border-border px-3 py-2.5">
@@ -485,7 +496,7 @@ export function TutorSidebarContent({
             )}
           >
             <Component className="size-3.5" />
-            <span>Komponen Core UI</span>
+            <span>{t("Komponen Core UI", "Core UI components")}</span>
           </button>
         </div>
       )}

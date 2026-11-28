@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import { BotMessageSquare } from 'lucide-react';
 import { Button } from '@tutor/ui';
@@ -16,6 +17,7 @@ export function SelectionAiPopover({
   fallbackAnchorId: string | null;
 }) {
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
+  const { t } = useLanguage();
   const [selectionState, setSelectionState] = React.useState<{
     text: string;
     anchorId: string;
@@ -119,12 +121,12 @@ export function SelectionAiPopover({
           setSelectionState(null);
           openInlineAi(anchorId, {
             quotedText: text,
-            draftPrompt: `Jelaskan maksud bagian ini: "${text}"`,
+            draftPrompt: t(`Jelaskan maksud bagian ini: "${text}"`, `Explain this excerpt: "${text}"`),
           });
         }}
       >
         <BotMessageSquare className="size-3 text-primary" />
-        <span>Tanya AI</span>
+        <span>{t("Tanya AI", "Ask AI")}</span>
       </Button>
     </div>
   );

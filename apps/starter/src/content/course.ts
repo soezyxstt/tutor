@@ -2,6 +2,8 @@ import type { CourseConfig } from '@tutor/core';
 
 export const course: CourseConfig = {
   slug: 'starter',
+  sourceLanguage: 'id',
+  catalog: { status: 'draft' },
   code: 'MK1001',
   title: 'Nama Mata Kuliah',
   subtitle: 'Materi & Pembahasan Soal',

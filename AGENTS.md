@@ -8,6 +8,9 @@ Jika pengguna hanya menyebut repo ini dan memberikan tautan/berkas materi, soal 
 
 ## 1. Peta Cepat Repo
 
+- **`apps/catalog`**: Katalog pusat di `tutor.adihnursyam.com`. Build membaca konfigurasi semua mata kuliah secara otomatis. Jangan buat daftar katalog manual.
+- **`docs/catalog-and-admin.md`**: Acuan publikasi katalog, terjemahan `id`/`en`, setelan AI bersama, dan login admin.
+
 - **`COURSES.md`** — Indeks resmi seluruh mata kuliah yang sudah ada, domain custom, nama Worker, workflow deploy, dan daftar modul/ujiannya. **Selalu baca file ini lebih dulu** untuk mengecek apakah mata kuliah sudah ada atau perlu dibuat baru.
 - **`packages/ui` (`@tutor/ui`)** — Sistem desain, token warna kontras belajar (terang & gelap), primitif Shadcn/Radix, dan animasi `motion/react`.
 - **`packages/core` (`@tutor/core`)** — Engine aplikasi bersama: layout & sidebar (`Per Bab` & `Per Ujian`), renderer Markdown + KaTeX, stepper pembahasan bergaya `ipe.tutor`, latihan interaktif (`PracticeView`), registry simulasi *lazy-loaded*, **Inline AI Tutor** (+ *highlight-to-ask*), 9 tool **AI UI-SDK** (termasuk grafik 2D & 3D interaktif), dan factory Cloudflare Worker (`createTutorWorker`).
@@ -71,6 +74,15 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
 ---
 
 ## 4. Aturan Desain & Invarian UI (Jangan Dilanggar)
+
+### Bahasa dan publikasi
+
+- Gunakan `sourceLanguage` dan `translations` pada `CourseConfig`. Semua teks UI bersama memakai `useLanguage()` dari `@tutor/core`; jangan menambah teks antarmuka satu bahasa saja.
+- Pertahankan ID modul, item, langkah, opsi, dan parameter saat menerjemahkan. Terjemahkan teks saja. Jangan membuat ID baru per bahasa.
+- Starter memakai `catalog.status: 'draft'`. Setelah isi selesai dan lolos verifikasi, ubah ke `'published'` sebelum push ke `main`. Workflow katalog membaca data baru secara otomatis.
+- Katalog menandai terjemahan yang belum lengkap dan menampilkan bahasa sumber sebagai pengganti. Jangan mengklaim terjemahan lengkap jika hanya judul yang diterjemahkan.
+- Untuk katalog/admin, gunakan entry point `@tutor/core/catalog` agar halaman tidak memuat engine simulasi dan matematika yang tidak dipakai.
+- Login admin hanya tersedia di Worker katalog. Semua Worker mata kuliah membaca pilihan model dari `https://tutor.adihnursyam.com/api/tutor-config`.
 
 - **Satu Sistem UI Bersama**: Jangan membangun ulang sidebar, topbar, layout, atau primitif UI di dalam `apps/<slug>`. Selalu impor dari `@tutor/core` dan `@tutor/ui`.
 - **Hampir 0 Cards**: Hindari membungkus paragraf, soal, atau langkah dalam kotak card/shadow. Gunakan tipografi, spasi lega, garis tipis 1px (`border-border`), dan callout `border-l-2`.

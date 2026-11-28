@@ -173,7 +173,69 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      esbuild:
+        specifier: ^0.25.12
+        version: 0.25.12
+
+  apps/catalog:
+    dependencies:
+      '@fontsource/jetbrains-mono':
+        specifier: ^5.2.5
+        version: 5.3.0
+      '@fontsource/plus-jakarta-sans':
+        specifier: ^5.2.5
+        version: 5.3.0
+      '@tutor/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@tutor/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      katex:
+        specifier: ^0.16.22
+        version: 0.16.47
+      lucide-react:
+        specifier: ^0.553.0
+        version: 0.553.0(react@19.3.1)
+      motion:
+        specifier: ^12.23.24
+        version: 12.43.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react:
+        specifier: ^19.1.0
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.11
+        version: 4.3.5(vite@6.4.6(@types/node@22.20.7)(jiti@2.7.0)(lightningcss@1.33.0))
+      '@types/node':
+        specifier: ^22.15.0
+        version: 22.20.7
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.3.3
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.3.0(@types/react@19.3.3)
+      '@vitejs/plugin-react':
+        specifier: ^4.5.0
+        version: 4.7.0(supports-color@10.2.2)(vite@6.4.6(@types/node@22.20.7)(jiti@2.7.0)(lightningcss@1.33.0))
+      tailwindcss:
+        specifier: ^4.1.11
+        version: 4.3.5
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vite:
+        specifier: ^6.3.5
+        version: 6.4.6(@types/node@22.20.7)(jiti@2.7.0)(lightningcss@1.33.0)
+      wrangler:
+        specifier: ^4.16.0
+        version: 4.168.0(@types/node@22.20.7)
 
   apps/demo:
     dependencies:

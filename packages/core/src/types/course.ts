@@ -1,3 +1,5 @@
+import type { Locale } from '../i18n/language';
+
 export type DifficultyLevel = 'dasar' | 'menengah' | 'lanjut';
 
 export type LessonKind = 'material' | 'practice' | 'problem';
@@ -191,6 +193,27 @@ export interface CourseModule {
   items: LessonItem[];
 }
 
+/** Translation overlays only replace display text; stable IDs, answer keys and physics stay in the source. */
+type TranslationInvariant = 'id' | 'key' | 'slug' | 'kind' | 'type' | 'mode' | 'code' | 'domain' | 'difficulty' | 'correctOptionId' | 'misconceptionTag' | 'latex' | 'unit';
+export type TextTranslation<T> = T extends string ? string
+  : T extends readonly (infer E)[] ? E extends string ? string[]
+    : Array<TextTranslation<E> & (E extends { id: string } ? { id: string } : E extends { key: string } ? { key: string } : unknown)>
+  : T extends object ? { [K in keyof T as K extends TranslationInvariant ? never : K]?: TextTranslation<T[K]> }
+  : never;
+
+export type LessonTranslation = TextTranslation<LessonItem>;
+
+export interface CourseTranslation {
+  title?: string;
+  subtitle?: string;
+  semester?: string;
+  /** Key modules and lessons by source IDs, never by translated titles or array positions. */
+  modules?: Record<string, {
+    title?: string;
+    items?: Record<string, LessonTranslation>;
+  }>;
+}
+
 export interface CourseConfig {
   slug: string;
   code: string;
@@ -199,5 +222,8 @@ export interface CourseConfig {
   domain: string;
   semester?: string;
   enableShowcase?: boolean;
+  sourceLanguage?: Locale;
+  translations?: Partial<Record<Locale, CourseTranslation>>;
+  catalog?: { listed?: boolean; status?: 'published' | 'draft' | 'showcase'; order?: number };
   modules: CourseModule[];
 }

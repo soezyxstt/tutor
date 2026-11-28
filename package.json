@@ -6,6 +6,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "dev:catalog": "pnpm --filter @tutor/app-catalog dev",
+    "build:catalog": "pnpm --filter @tutor/app-catalog build",
+    "catalog:generate": "node scripts/generate-catalog.mjs",
+    "test": "node scripts/test.mjs",
     "dev:demo": "pnpm --filter @tutor/app-demo dev",
     "build:demo": "pnpm --filter @tutor/app-demo build",
     "preview:demo": "pnpm --filter @tutor/app-demo preview",
@@ -15,5 +19,8 @@
     "typecheck": "pnpm -r typecheck",
     "validate": "node scripts/validate-course.mjs",
     "new-course": "node scripts/new-course.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
   }
 }

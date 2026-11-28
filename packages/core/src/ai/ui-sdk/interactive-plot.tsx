@@ -1,3 +1,4 @@
+import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
 import { Button, Slider } from '@tutor/ui';
@@ -27,6 +28,7 @@ export default function InteractivePlotBlock({
   const [params, setParams] = React.useState<Record<string, number>>(defaults);
   const [hoverX, setHoverX] = React.useState<number | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const { t } = useLanguage();
 
   const compiledCurves = React.useMemo(
     () =>
@@ -218,7 +220,7 @@ export default function InteractivePlotBlock({
           <Button
             variant="icon"
             size="icon-xs"
-            aria-label="Reset parameter grafik"
+            aria-label={t('Reset parameter grafik', 'Reset plot parameters')}
             onClick={() => setParams(defaults)}
           >
             <RotateCcw className="size-3" />

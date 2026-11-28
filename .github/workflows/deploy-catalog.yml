@@ -1,0 +1,69 @@
+name: Deploy Tutor Catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'package.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/deploy-catalog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-tutor-catalog
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.21.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Validate content and types
+        run: |
+          pnpm validate
+          pnpm typecheck
+      - name: Test catalog, language, and admin behavior
+        run: pnpm test
+      - name: Build catalog
+        run: pnpm build:catalog
+      - name: Deploy catalog and synchronize runtime secrets
+        working-directory: apps/catalog
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_DEPLOY_PAGES_TOKEN }}
+          CF_AIG_TOKEN: ${{ secrets.CF_AIG_TOKEN }}
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          node -e 'for (const name of ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN", "CF_AIG_TOKEN", "ADMIN_USERNAME", "ADMIN_PASSWORD"]) { if (!process.env[name]) { console.error("Missing required secret: " + name); process.exit(1); } }'
+          pnpm exec wrangler deploy --var "CF_ACCOUNT_ID:${CLOUDFLARE_ACCOUNT_ID}"
+          node -e 'process.stdout.write(JSON.stringify(Object.fromEntries(["CF_AIG_TOKEN", "ADMIN_USERNAME", "ADMIN_PASSWORD"].map(name => [name, process.env[name]]))))' | pnpm exec wrangler secret bulk
+      - name: Check live catalog, sign in, and provider model lists
+        env:
+          CATALOG_ORIGIN: https://tutor.adihnursyam.com
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: node scripts/verify-catalog.mjs

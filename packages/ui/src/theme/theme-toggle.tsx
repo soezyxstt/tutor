@@ -15,7 +15,7 @@ const options: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
   { value: 'system', label: 'Sistem', icon: Monitor },
 ];
 
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({ className, labels }: { className?: string; labels?: { toggle: string; light: string; dark: string; system: string } }) {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
 
@@ -25,7 +25,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         <Button
           variant="icon"
           size="icon"
-          aria-label="Ubah tema"
+          aria-label={labels?.toggle ?? 'Ubah tema'}
           className={cn('relative', className)}
         >
           <Sun
@@ -54,7 +54,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             )}
           >
             <Icon className="size-3.5" />
-            <span className="flex-1">{label}</span>
+            <span className="flex-1">{labels?.[value] ?? label}</span>
             {theme === value && (
               <span className="size-1.5 rounded-full bg-primary" />
             )}

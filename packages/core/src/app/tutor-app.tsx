@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { LanguageProvider, useLanguage, resolveCourseLocale } from '../i18n';
 import { MotionProvider, ThemeProvider, TooltipProvider } from '@tutor/ui';
 import type { CourseConfig, LessonItem } from '../types/course';
 import { TutorShell } from '../layout/tutor-shell';
@@ -36,6 +37,13 @@ function getInitialRoute(
 }
 
 export function TutorApp({ course }: { course: CourseConfig }) {
+  return <LanguageProvider><LocalizedTutorApp source={course} /></LanguageProvider>;
+}
+
+function LocalizedTutorApp({ source }: { source: CourseConfig }) {
+  const { locale, t } = useLanguage();
+  const localization = React.useMemo(() => resolveCourseLocale(source, locale), [source, locale]);
+  const { course } = localization;
   const entries = React.useMemo<FlatEntry[]>(
     () =>
       course.modules.flatMap((mod) =>
@@ -102,17 +110,17 @@ export function TutorApp({ course }: { course: CourseConfig }) {
   React.useEffect(() => {
     if (typeof document === 'undefined') return;
     if (activeView === 'showcase') {
-      document.title = `Komponen Core UI · ${course.title}`;
+      document.title = `${t('Komponen Core UI', 'Core UI components')} · ${course.title}`;
     } else if (activeEntry) {
       document.title = `${activeEntry.item.title} · ${course.title}`;
     } else {
       document.title = course.title;
     }
-  }, [activeEntry, activeView, course.title]);
+  }, [activeEntry, activeView, course.title, t]);
 
   const sectionLabel =
     activeView === 'showcase'
-      ? 'Komponen Core UI'
+      ? t('Komponen Core UI', 'Core UI components')
       : activeEntry?.moduleLabel ?? course.subtitle;
 
   return (
@@ -131,6 +139,15 @@ export function TutorApp({ course }: { course: CourseConfig }) {
               course.enableShowcase ? handleSelectShowcase : undefined
             }
           >
+            {activeView === 'lesson' && activeEntry && localization.missingItemIds.includes(activeEntry.item.id) && (
+              <p role="status" className="mb-5 border-l-2 border-border pl-3 text-xs leading-relaxed text-muted-foreground">
+                {localization.partiallyTranslatedItemIds.includes(activeEntry.item.id)
+                  ? t('Sebagian teks masih memakai bahasa sumber. Terjemahan lengkap belum tersedia.', 'Some text still uses the source language. A full translation is not available yet.')
+                  : localization.sourceLanguage === 'id'
+                    ? t('Materi ini tersedia dalam Bahasa Indonesia.', 'This lesson is available in Indonesian. Its English translation is not available yet.')
+                    : t('Materi ini tersedia dalam bahasa Inggris. Terjemahan Indonesia belum tersedia.', 'This lesson is available in English.')}
+              </p>
+            )}
             {activeView === 'showcase' ? (
               <CoreShowcaseView />
             ) : activeEntry ? (
@@ -155,7 +172,7 @@ export function TutorApp({ course }: { course: CourseConfig }) {
               )
             ) : (
               <div className="py-12 text-sm text-muted-foreground">
-                Belum ada materi atau soal pada mata kuliah ini.
+                {t('Belum ada materi atau soal pada mata kuliah ini.', 'No lessons or problems are available for this course yet.')}
               </div>
             )}
           </TutorShell>

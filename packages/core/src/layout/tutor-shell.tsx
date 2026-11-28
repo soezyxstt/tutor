@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -55,6 +56,7 @@ export function TutorShell({
   children: React.ReactNode;
 }) {
   const sidebarCollapsed = useTutorStore((s) => s.sidebarCollapsed);
+  const { t } = useLanguage();
   const fontSize = useTutorStore((s) => s.fontSize);
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -91,7 +93,7 @@ export function TutorShell({
     <div className="flex min-h-dvh w-full bg-background text-foreground">
       {/* Desktop Collapsible Sidebar — smooth motion width/opacity without text reflow */}
       <motion.aside
-        aria-label="Navigasi mata kuliah"
+        aria-label={t("Navigasi mata kuliah", "Course navigation")}
         initial={false}
         animate={{
           width: sidebarCollapsed ? 0 : 256,
@@ -162,7 +164,7 @@ export function TutorShell({
           {/* Minimal prev / next navigation for lessons */}
           {activeView === 'lesson' && (prevItem || nextItem) && (
             <nav
-              aria-label="Navigasi halaman"
+              aria-label={t("Navigasi halaman", "Page navigation")}
               className="mt-4 flex items-center justify-between gap-4 border-t border-border pt-5 text-[13px]"
             >
               {prevItem ? (

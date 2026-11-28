@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import { Bookmark, BotMessageSquare, CheckCircle2, Circle } from 'lucide-react';
 import {
   Accordion,
@@ -27,6 +28,7 @@ export function MaterialView({
   material: MaterialItem;
 }) {
   const itemKey = `${courseSlug}:${material.id}`;
+  const { t } = useLanguage();
   const materialAnchor = `${itemKey}:material`;
   const simAnchor = `${itemKey}:simulation`;
 
@@ -43,11 +45,11 @@ export function MaterialView({
       <header className="space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-            <Badge variant="primary">Materi</Badge>
+            <Badge variant="primary">{t("Materi", "Lesson")}</Badge>
             {material.estimatedMinutes && (
               <>
                 <span aria-hidden="true">·</span>
-                <span>{material.estimatedMinutes} mnt baca</span>
+                <span>{material.estimatedMinutes} {t('mnt baca', 'min read')}</span>
               </>
             )}
           </div>
@@ -56,7 +58,7 @@ export function MaterialView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isBookmarked ? 'Hapus simpanan' : 'Simpan materi'}
+              aria-label={isBookmarked ? t('Hapus simpanan', 'Remove bookmark') : t('Simpan materi', 'Save lesson')}
               onClick={() => toggleBookmark(itemKey)}
               className={cn(isBookmarked && 'text-primary')}
             >
@@ -69,7 +71,7 @@ export function MaterialView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isCompleted ? 'Tandai belum dibaca' : 'Tandai selesai'}
+              aria-label={isCompleted ? t('Tandai belum dibaca', 'Mark unread') : t('Tandai selesai', 'Mark complete')}
               onClick={() => toggleComplete(itemKey)}
               className={cn(isCompleted && 'text-success')}
             >
@@ -85,12 +87,12 @@ export function MaterialView({
               size="sm"
               onClick={() =>
                 openInlineAi(materialAnchor, {
-                  draftPrompt: `Ringkaskan poin inti dari materi "${material.title}" dalam tabel perbandingan.`,
+                  draftPrompt: t(`Ringkaskan poin inti dari materi "${material.title}" dalam tabel perbandingan.`, `Summarize the key points of "${material.title}" in a comparison table.`),
                 })
               }
             >
               <BotMessageSquare className="size-3.5 text-primary" />
-              <span>Tanya AI</span>
+              <span>{t("Tanya AI", "Ask AI")}</span>
             </Button>
           </div>
         </div>
@@ -122,7 +124,7 @@ export function MaterialView({
 
         <InlineAiThread
           anchorId={materialAnchor}
-          anchorLabel="Diskusi Materi"
+          anchorLabel={t("Diskusi Materi", "Lesson discussion")}
           courseSlug={courseSlug}
           courseTitle={courseTitle}
           itemKey={itemKey}
@@ -133,7 +135,7 @@ export function MaterialView({
 
       {material.simulation && (
         <section
-          aria-label="Simulasi Interaktif"
+          aria-label={t("Simulasi Interaktif", "Interactive simulation")}
           data-ai-anchor={simAnchor}
           className="mt-8"
         >
@@ -144,7 +146,7 @@ export function MaterialView({
           />
           <InlineAiThread
             anchorId={simAnchor}
-            anchorLabel="Simulasi Interaktif"
+            anchorLabel={t("Simulasi Interaktif", "Interactive simulation")}
             courseSlug={courseSlug}
             courseTitle={courseTitle}
             itemKey={itemKey}
@@ -156,12 +158,12 @@ export function MaterialView({
 
       {material.derivations && material.derivations.length > 0 && (
         <section
-          aria-label="Penurunan Rumus"
+          aria-label={t("Penurunan Rumus", "Formula derivation")}
           data-ai-anchor={materialAnchor}
           className="mt-8"
         >
           <h2 className="mb-1 text-sm font-semibold tracking-tight text-foreground">
-            Penurunan &amp; Pendalaman
+            {t("Penurunan &amp; Pendalaman", "Derivations and details")}
           </h2>
           <Accordion type="multiple" className="border-t border-border">
             {material.derivations.map((d) => (
@@ -177,9 +179,9 @@ export function MaterialView({
       )}
 
       {material.checkpoints && material.checkpoints.length > 0 && (
-        <section aria-label="Cek Penguasaan Konsep" className="mt-8 space-y-2.5">
+        <section aria-label={t("Cek Penguasaan Konsep", "Check your understanding")} className="mt-8 space-y-2.5">
           <h2 className="text-sm font-semibold tracking-tight text-foreground">
-            Cek Penguasaan Konsep
+            {t("Cek Penguasaan Konsep", "Check your understanding")}
           </h2>
           <ul className="space-y-2">
             {material.checkpoints.map((cp, idx) => {
@@ -216,7 +218,7 @@ export function MaterialView({
           onClick={() => toggleComplete(itemKey)}
         >
           <CheckCircle2 className="size-3.5" />
-          <span>{isCompleted ? 'Selesai dibaca' : 'Tandai selesai'}</span>
+          <span>{isCompleted ? t('Selesai dibaca', 'Read') : t('Tandai selesai', 'Mark complete')}</span>
         </Button>
       </div>
     </article>

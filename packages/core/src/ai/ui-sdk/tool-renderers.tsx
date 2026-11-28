@@ -1,3 +1,4 @@
+import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import {
   AlertTriangle,
@@ -14,6 +15,7 @@ const LazyInteractivePlot = React.lazy(() => import('./interactive-plot'));
 const LazyInteractive3D = React.lazy(() => import('./interactive-3d'));
 
 function QuickQuizBlock({ data }: { data: ShowQuickQuizInput }) {
+  const { t } = useLanguage();
   const [selected, setSelected] = React.useState<string>('');
   const answered = selected !== '';
   const isCorrect = selected === data.correctOptionId;
@@ -21,7 +23,7 @@ function QuickQuizBlock({ data }: { data: ShowQuickQuizInput }) {
   return (
     <div className="my-2.5 space-y-2.5 border-y border-border/80 py-3">
       <div className="text-xs font-semibold text-primary">
-        Cek Pemahaman
+        {t('Cek Pemahaman', 'Check your understanding')}
       </div>
       <MathMarkdown
         content={data.question}
@@ -81,6 +83,7 @@ export function AiToolInvocationView({
 }: {
   invocation: AiUiToolInvocation;
 }) {
+  const { t } = useLanguage();
   switch (invocation.toolName) {
     case 'updateSimulationParams': {
       const entries = Object.entries(invocation.args.params ?? {});
@@ -88,7 +91,7 @@ export function AiToolInvocationView({
         <div className="my-2 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-border/70 py-2 font-mono text-[11px] text-primary">
           <span className="inline-flex items-center gap-1.5 font-semibold">
             <SlidersHorizontal className="size-3" />
-            Simulasi diperbarui
+            {t('Simulasi diperbarui', 'Simulation updated')}
           </span>
           {entries.map(([k, v]) => (
             <span key={k} className="text-foreground">
@@ -104,7 +107,7 @@ export function AiToolInvocationView({
         <div className="my-2 flex items-center gap-2 border-y border-border/70 py-2 text-xs text-primary">
           <ListChecks className="size-3.5 shrink-0" />
           <span>
-            Langkah {invocation.args.stepIndex + 1} dibuka di halaman
+            {t(`Langkah ${invocation.args.stepIndex + 1} dibuka di halaman`, `Step ${invocation.args.stepIndex + 1} opened on the page`)}
             {invocation.args.note ? ` — ${invocation.args.note}` : ''}
           </span>
         </div>
@@ -232,14 +235,14 @@ export function AiToolInvocationView({
           </div>
           <div className="space-y-1 text-muted-foreground">
             <div>
-              <span className="font-medium text-foreground">Sering keliru: </span>
+              <span className="font-medium text-foreground">{t('Sering keliru: ', 'Common mistake: ')}</span>
               <MathMarkdown
                 content={invocation.args.misconception}
                 className="inline text-xs text-muted-foreground"
               />
             </div>
             <div>
-              <span className="font-medium text-success">Seharusnya: </span>
+              <span className="font-medium text-success">{t('Seharusnya: ', 'Correction: ')}</span>
               <MathMarkdown
                 content={invocation.args.correction}
                 className="inline text-xs text-foreground"
