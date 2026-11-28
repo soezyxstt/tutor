@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
   Check,
@@ -7,8 +7,6 @@ import {
   Library,
   ExternalLink,
   X,
-  PanelLeftClose,
-  PanelLeftOpen,
 } from "lucide-react";
 import { MotionConfig } from "motion/react";
 import { questions, practice, reference, archiveUrl } from "@/content";
@@ -19,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -36,6 +35,7 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { IconButton, TextSelect } from "@/components/controls";
 import { Study } from "@/components/study";
+import { QuestionListToggle } from "@/components/question-list-toggle";
 import { Practice } from "@/components/practice";
 function Logo() {
   return (
@@ -82,6 +82,7 @@ export default function App() {
     [sourcesOpen, setSourcesOpen] = useState(false),
     [searchOpen, setSearchOpen] = useState(false),
     [railHidden, setRailHidden] = useState(false);
+  const desktopToggleRef = useRef<HTMLButtonElement>(null);
   const filtered = questions.filter(
     (item) =>
       String(item.year) === year &&
@@ -111,7 +112,10 @@ export default function App() {
     setExam(nextExam);
     setSearch("");
     const first = questions.find(
-      (item) => String(item.year) === nextYear && item.exam === nextExam,
+      (item) =>
+        String(item.year) === nextYear &&
+        item.exam === nextExam &&
+        (!onlySaved || bookmarks.includes(item.id)),
     );
     if (first) select(first.id, false);
   }
@@ -131,6 +135,14 @@ export default function App() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
+  }, []);
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 700px)");
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (!event.matches) setMenuOpen(false);
+    };
+    mobile.addEventListener("change", closeOnDesktop);
+    return () => mobile.removeEventListener("change", closeOnDesktop);
   }, []);
   useEffect(() => {
     const handler = () => {
@@ -325,88 +337,132 @@ export default function App() {
               />
             </div>
           </header>
-          <TabsContent value="study" className="study-page">
-            <div className="course-intro">
-              <div>
-                <h2>
-                  {text(
-                    locale,
-                    "Belajar dari setiap pengukuran.",
-                    "Understand every measurement.",
-                  )}
-                </h2>
-                <p>
-                  {text(
-                    locale,
-                    "Instrumentasi, Pengukuran & Eksperimen",
-                    "Instrumentation, Measurement & Experiment",
-                  )}
-                  <span>MS3105</span>
-                </p>
-              </div>
-              <div className="archive-summary">
-                <strong>
-                  2023<span>{text(locale, " sampai ", " to ")}</span>2025
-                </strong>
-                <p>
-                  {questions.length} {text(locale, "soal", "questions")} ·{" "}
-                  {
-                    new Set(
-                      questions.map((item) => `${item.year}-${item.exam}`),
-                    ).size
-                  }{" "}
-                  {text(locale, "ujian", "exams")}
-                </p>
-              </div>
-            </div>
-            <div className={`study-layout ${railHidden ? "rail-hidden" : ""}`}>
-              <aside className="desktop-sidebar">{sidebar}</aside>
-              <main id="main-content" tabIndex={-1} className="main-content">
-                <div className="rail-toggle">
-                  <IconButton
-                    label={text(
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <TabsContent value="study" className="study-page">
+              <div className="course-intro">
+                <div>
+                  <h2>
+                    {text(
                       locale,
-                      railHidden ? "Tampilkan daftar" : "Sembunyikan daftar",
-                      railHidden ? "Show question list" : "Hide question list",
+                      "Belajar dari setiap pengukuran.",
+                      "Understand every measurement.",
                     )}
-                    onClick={() => setRailHidden(!railHidden)}
-                  >
-                    {railHidden ? <PanelLeftOpen /> : <PanelLeftClose />}
-                  </IconButton>
+                  </h2>
+                  <p>
+                    {text(
+                      locale,
+                      "Instrumentasi, Pengukuran & Eksperimen",
+                      "Instrumentation, Measurement & Experiment",
+                    )}
+                    <span>MS3105</span>
+                  </p>
                 </div>
-                <Study
-                  q={q}
-                  locale={locale}
-                  completed={completed.includes(q.id)}
-                  bookmarked={bookmarks.includes(q.id)}
-                  maxStep={progress[q.id] ?? 0}
-                  onOpenList={() => setMenuOpen(true)}
-                  onBookmark={() =>
-                    setBookmarks((prev) =>
-                      prev.includes(q.id)
-                        ? prev.filter((id) => id !== q.id)
-                        : [...prev, q.id],
-                    )
-                  }
-                  onComplete={() =>
-                    setCompleted((prev) =>
-                      prev.includes(q.id) ? prev : [...prev, q.id],
-                    )
-                  }
-                  onStep={(s) =>
-                    setProgress((prev) => ({
-                      ...prev,
-                      [q.id]: Math.max(prev[q.id] ?? 0, s),
-                    }))
-                  }
-                  onNext={() => {
-                    const i = questions.findIndex((item) => item.id === q.id);
-                    select(questions[(i + 1) % questions.length].id);
-                  }}
-                />
-              </main>
-            </div>
-          </TabsContent>
+                <div className="archive-summary">
+                  <strong>
+                    2023<span>{text(locale, " sampai ", " to ")}</span>2025
+                  </strong>
+                  <p>
+                    {questions.length} {text(locale, "soal", "questions")} ·{" "}
+                    {
+                      new Set(
+                        questions.map((item) => `${item.year}-${item.exam}`),
+                      ).size
+                    }{" "}
+                    {text(locale, "ujian", "exams")}
+                  </p>
+                </div>
+              </div>
+              <div
+                className={`study-layout ${railHidden ? "rail-hidden" : ""}`}
+              >
+                <aside
+                  id="question-sidebar"
+                  className="desktop-sidebar"
+                  aria-label={text(locale, "Daftar soal", "Question list")}
+                >
+                  {sidebar}
+                </aside>
+                <main id="main-content" tabIndex={-1} className="main-content">
+                  <Study
+                    q={q}
+                    locale={locale}
+                    completed={completed.includes(q.id)}
+                    bookmarked={bookmarks.includes(q.id)}
+                    maxStep={progress[q.id] ?? 0}
+                    questionListControl={
+                      <QuestionListToggle
+                        locale={locale}
+                        open={!railHidden}
+                        onToggle={() => setRailHidden((hidden) => !hidden)}
+                        toggleRef={desktopToggleRef}
+                      />
+                    }
+                    onBookmark={() =>
+                      setBookmarks((prev) =>
+                        prev.includes(q.id)
+                          ? prev.filter((id) => id !== q.id)
+                          : [...prev, q.id],
+                      )
+                    }
+                    onComplete={() =>
+                      setCompleted((prev) =>
+                        prev.includes(q.id) ? prev : [...prev, q.id],
+                      )
+                    }
+                    onStep={(s) =>
+                      setProgress((prev) => ({
+                        ...prev,
+                        [q.id]: Math.max(prev[q.id] ?? 0, s),
+                      }))
+                    }
+                    onNext={() => {
+                      const i = questions.findIndex((item) => item.id === q.id);
+                      select(questions[(i + 1) % questions.length].id);
+                    }}
+                  />
+                </main>
+              </div>
+            </TabsContent>
+            <SheetContent
+              side="left"
+              className="mobile-sidebar"
+              showCloseButton={false}
+              onCloseAutoFocus={(event) => {
+                if (!window.matchMedia("(max-width: 700px)").matches) {
+                  event.preventDefault();
+                  desktopToggleRef.current?.focus({ preventScroll: true });
+                }
+              }}
+            >
+              <SheetHeader>
+                <SheetTitle>
+                  {text(locale, "Pilih soal", "Choose a question")}
+                </SheetTitle>
+                <SheetDescription>
+                  {text(
+                    locale,
+                    "UTS 1, UTS 2 & UAS · 2023 sampai 2025",
+                    "Midterms 1, 2 & finals · 2023 to 2025",
+                  )}
+                </SheetDescription>
+              </SheetHeader>
+              <SheetClose asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="icon-button sidebar-close"
+                  aria-label={text(
+                    locale,
+                    "Tutup daftar soal",
+                    "Close question list",
+                  )}
+                >
+                  <X />
+                </Button>
+              </SheetClose>
+              {sidebar}
+            </SheetContent>
+          </Sheet>
           <TabsContent value="practice">
             <Practice locale={locale} onOpenQuestion={select} />
           </TabsContent>
@@ -423,23 +479,6 @@ export default function App() {
               {text(locale, "Sumber & catatan", "Sources & notes")}
             </button>
           </footer>
-          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-            <SheetContent side="left" className="mobile-sidebar">
-              <SheetHeader>
-                <SheetTitle>
-                  {text(locale, "Pilih soal", "Choose a question")}
-                </SheetTitle>
-                <SheetDescription>
-                  {text(
-                    locale,
-                    "UTS 1, UTS 2 & UAS · 2023 sampai 2025",
-                    "Midterms 1, 2 & finals · 2023 to 2025",
-                  )}
-                </SheetDescription>
-              </SheetHeader>
-              {sidebar}
-            </SheetContent>
-          </Sheet>
           <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
             <DialogContent className="search-dialog">
               <DialogHeader>

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -16,17 +16,12 @@ import { Slider } from "@/components/ui/slider";
 export function IconButton({
   label,
   children,
-  onClick,
   pressed,
-  disabled,
   className = "",
-}: {
+  ...props
+}: Omit<ComponentProps<typeof Button>, "aria-label"> & {
   label: string;
-  children: ReactNode;
-  onClick?: () => void;
   pressed?: boolean;
-  disabled?: boolean;
-  className?: string;
 }) {
   return (
     <Tooltip>
@@ -37,9 +32,8 @@ export function IconButton({
           size="icon"
           aria-label={label}
           aria-pressed={pressed}
-          disabled={disabled}
-          onClick={onClick}
           className={`icon-button ${className}`}
+          {...props}
         >
           {children}
         </Button>
