@@ -1,0 +1,224 @@
+import { Bookmark, BotMessageSquare, CheckCircle2, Circle } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Badge,
+  Button,
+  Checkbox,
+  Separator,
+  cn,
+} from '@tutor/ui';
+import type { MaterialItem } from '../types/course';
+import { useTutorStore } from '../store/tutor-store';
+import { MathMarkdown } from './math-markdown';
+import { Callout } from './callout';
+import { SimulationStage } from '../simulation/simulation-stage';
+import { InlineAiThread } from '../ai/inline-ai-thread';
+
+export function MaterialView({
+  courseSlug,
+  courseTitle,
+  material,
+}: {
+  courseSlug: string;
+  courseTitle?: string;
+  material: MaterialItem;
+}) {
+  const itemKey = `${courseSlug}:${material.id}`;
+  const materialAnchor = `${itemKey}:material`;
+  const simAnchor = `${itemKey}:simulation`;
+
+  const isCompleted = useTutorStore((s) => !!s.completedIds[itemKey]);
+  const isBookmarked = useTutorStore((s) => !!s.bookmarkedIds[itemKey]);
+  const checkedPoints = useTutorStore((s) => s.checkedPoints);
+  const toggleComplete = useTutorStore((s) => s.toggleComplete);
+  const toggleBookmark = useTutorStore((s) => s.toggleBookmark);
+  const toggleCheckpoint = useTutorStore((s) => s.toggleCheckpoint);
+  const openInlineAi = useTutorStore((s) => s.openInlineAi);
+
+  return (
+    <article className="pb-16">
+      <header className="space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <Badge variant="primary">Materi</Badge>
+            {material.estimatedMinutes && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{material.estimatedMinutes} mnt baca</span>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1">
+            <Button
+              variant="icon"
+              size="icon"
+              aria-label={isBookmarked ? 'Hapus simpanan' : 'Simpan materi'}
+              onClick={() => toggleBookmark(itemKey)}
+              className={cn(isBookmarked && 'text-primary')}
+            >
+              <Bookmark
+                className="size-4"
+                fill={isBookmarked ? 'currentColor' : 'none'}
+              />
+            </Button>
+
+            <Button
+              variant="icon"
+              size="icon"
+              aria-label={isCompleted ? 'Tandai belum dibaca' : 'Tandai selesai'}
+              onClick={() => toggleComplete(itemKey)}
+              className={cn(isCompleted && 'text-success')}
+            >
+              {isCompleted ? (
+                <CheckCircle2 className="size-4" />
+              ) : (
+                <Circle className="size-4" />
+              )}
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                openInlineAi(materialAnchor, {
+                  draftPrompt: `Ringkaskan poin inti dari materi "${material.title}" dalam tabel perbandingan.`,
+                })
+              }
+            >
+              <BotMessageSquare className="size-3.5 text-primary" />
+              <span>Tanya AI</span>
+            </Button>
+          </div>
+        </div>
+
+        <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-[1.6rem]">
+          {material.title}
+        </h1>
+      </header>
+
+      <Separator className="my-5" />
+
+      <div data-ai-anchor={materialAnchor}>
+        {material.keyFormula && (
+          <Callout
+            tone="formula"
+            label={material.keyFormula.label}
+            className="mb-6"
+          >
+            <MathMarkdown content={`$$\n${material.keyFormula.latex}\n$$`} />
+            {material.keyFormula.note && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                {material.keyFormula.note}
+              </p>
+            )}
+          </Callout>
+        )}
+
+        <MathMarkdown content={material.body} />
+
+        <InlineAiThread
+          anchorId={materialAnchor}
+          anchorLabel="Diskusi Materi"
+          courseSlug={courseSlug}
+          courseTitle={courseTitle}
+          itemKey={itemKey}
+          itemTitle={material.title}
+          simulation={material.simulation}
+        />
+      </div>
+
+      {material.simulation && (
+        <section
+          aria-label="Simulasi Interaktif"
+          data-ai-anchor={simAnchor}
+          className="mt-8"
+        >
+          <SimulationStage
+            courseSlug={courseSlug}
+            spec={material.simulation}
+            aiAnchorId={simAnchor}
+          />
+          <InlineAiThread
+            anchorId={simAnchor}
+            anchorLabel="Simulasi Interaktif"
+            courseSlug={courseSlug}
+            courseTitle={courseTitle}
+            itemKey={itemKey}
+            itemTitle={material.title}
+            simulation={material.simulation}
+          />
+        </section>
+      )}
+
+      {material.derivations && material.derivations.length > 0 && (
+        <section
+          aria-label="Penurunan Rumus"
+          data-ai-anchor={materialAnchor}
+          className="mt-8"
+        >
+          <h2 className="mb-1 text-sm font-semibold tracking-tight text-foreground">
+            Penurunan &amp; Pendalaman
+          </h2>
+          <Accordion type="multiple" className="border-t border-border">
+            {material.derivations.map((d) => (
+              <AccordionItem key={d.id} value={d.id}>
+                <AccordionTrigger>{d.title}</AccordionTrigger>
+                <AccordionContent>
+                  <MathMarkdown content={d.content} className="text-[14px]" />
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+      )}
+
+      {material.checkpoints && material.checkpoints.length > 0 && (
+        <section aria-label="Cek Penguasaan Konsep" className="mt-8 space-y-2.5">
+          <h2 className="text-sm font-semibold tracking-tight text-foreground">
+            Cek Penguasaan Konsep
+          </h2>
+          <ul className="space-y-2">
+            {material.checkpoints.map((cp, idx) => {
+              const cpKey = `${itemKey}:cp:${idx}`;
+              const checked = !!checkedPoints[cpKey];
+              return (
+                <li key={cpKey}>
+                  <label className="flex cursor-pointer items-start gap-2.5 text-[14px] text-foreground">
+                    <Checkbox
+                      checked={checked}
+                      onCheckedChange={() => toggleCheckpoint(cpKey)}
+                      className="mt-0.5"
+                    />
+                    <span
+                      className={cn(
+                        'leading-snug transition-colors',
+                        checked && 'text-muted-foreground line-through'
+                      )}
+                    >
+                      {cp}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
+      <div className="mt-10 flex items-center justify-end border-t border-border pt-4">
+        <Button
+          size="sm"
+          variant={isCompleted ? 'secondary' : 'default'}
+          onClick={() => toggleComplete(itemKey)}
+        >
+          <CheckCircle2 className="size-3.5" />
+          <span>{isCompleted ? 'Selesai dibaca' : 'Tandai selesai'}</span>
+        </Button>
+      </div>
+    </article>
+  );
+}

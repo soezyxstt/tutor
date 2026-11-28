@@ -1,0 +1,18 @@
+{
+  "name": "tutor",
+  "private": true,
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev:demo": "pnpm --filter @tutor/app-demo dev",
+    "build:demo": "pnpm --filter @tutor/app-demo build",
+    "preview:demo": "pnpm --filter @tutor/app-demo preview",
+    "dev:starter": "pnpm --filter @tutor/app-starter dev",
+    "build:starter": "pnpm --filter @tutor/app-starter build",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "new-course": "node scripts/new-course.mjs"
+  }
+}
