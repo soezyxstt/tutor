@@ -14,9 +14,11 @@ export const topics: Record<Topic, Localized> = {
   statistics: L("Data & galat", "Data & error"),
 };
 export const examName = (exam: string, locale: Locale) =>
-  exam === "uts2"
-    ? text(locale, "UTS 2", "Midterm 2")
-    : text(locale, "UAS", "Final exam");
+  exam === "uts1"
+    ? text(locale, "UTS 1", "Midterm 1")
+    : exam === "uts2"
+      ? text(locale, "UTS 2", "Midterm 2")
+      : text(locale, "UAS", "Final exam");
 export const num = (value: number, locale: Locale, digits = 3) =>
   new Intl.NumberFormat(locale === "id" ? "id-ID" : "en-US", {
     maximumFractionDigits: digits,

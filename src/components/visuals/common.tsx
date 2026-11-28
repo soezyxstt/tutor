@@ -119,6 +119,32 @@ export function Metric({
     </div>
   );
 }
+export function PlotLegend({
+  items,
+}: {
+  items: { label: string; color: string; dashed?: boolean }[];
+}) {
+  return (
+    <div className="plot-legend">
+      {items.map((item) => (
+        <span key={item.label}>
+          <svg width="20" height="10" aria-hidden="true">
+            <line
+              x1="0"
+              y1="5"
+              x2="20"
+              y2="5"
+              stroke={item.color}
+              strokeWidth="2"
+              strokeDasharray={item.dashed ? "4 3" : undefined}
+            />
+          </svg>
+          {item.label}
+        </span>
+      ))}
+    </div>
+  );
+}
 export function Svg({
   children,
   label,

@@ -9,6 +9,12 @@ import { RichText, Formula } from "@/components/math";
 import { TextSelect } from "@/components/controls";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
 import {
   Dialog,
@@ -26,7 +32,7 @@ export function Practice({
   onOpenQuestion: (id: string) => void;
 }) {
   const [answers, setAnswers] = usePersisted<Record<string, number>>(
-    "ipe:practice:v1",
+    "ipe:practice:concepts:v2",
     {},
   );
   const [index, setIndex] = useState(0);
@@ -60,12 +66,14 @@ export function Practice({
     <main id="main-content" tabIndex={-1} className="practice-page">
       <div className="practice-intro">
         <div>
-          <h1>{text(locale, "Uji pemahamanmu", "Check your understanding")}</h1>
+          <h1>
+            {text(locale, "Uji pemahaman Anda", "Check your understanding")}
+          </h1>
           <p>
             {text(
               locale,
-              "30 soal baru, satu konsep setiap kali. Pembahasan terbuka setelah kamu menjawab.",
-              "30 original questions, one concept at a time. Each answer comes with an explanation.",
+              "30 soal untuk melatih alur berpikir. Pilih satu jawaban paling tepat, lalu periksa alasan Anda melalui pembahasan.",
+              "30 questions to practise reasoning. Choose one best answer, then compare your reasoning with the explanation.",
             )}
           </p>
         </div>
@@ -78,12 +86,12 @@ export function Practice({
         <div>
           <strong>
             {totalAnswered}
-            <span> / 30</span>
+            <span> / {practice.length}</span>
           </strong>
           <span>{text(locale, "sudah dijawab", "answered")}</span>
         </div>
         <Progress
-          value={(totalAnswered / 30) * 100}
+          value={(totalAnswered / practice.length) * 100}
           aria-label={text(locale, "Kemajuan latihan", "Practice progress")}
         />
         <span>
@@ -135,7 +143,7 @@ export function Practice({
           <p>
             {text(
               locale,
-              "Jawab soal untuk melihat bagian yang perlu kamu ulang.",
+              "Jawab soal untuk melihat bagian yang perlu Anda ulang.",
               "Answer a question to see what to review.",
             )}
           </p>
@@ -214,6 +222,7 @@ export function Practice({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 className="practice-explanation"
+                aria-live="polite"
               >
                 <div
                   className={`feedback-heading ${isCorrect ? "correct" : "incorrect"}`}
@@ -223,7 +232,7 @@ export function Practice({
                     {isCorrect
                       ? text(
                           locale,
-                          "Jawabanmu tepat",
+                          "Jawaban Anda tepat",
                           "Your answer is correct",
                         )
                       : text(
@@ -234,6 +243,44 @@ export function Practice({
                   </h3>
                 </div>
                 <RichText>{q.explanation[locale]}</RichText>
+                {!isCorrect && q.optionExplanations?.[answers[q.id]] && (
+                  <div className="choice-reflection">
+                    <h4>
+                      {text(
+                        locale,
+                        `Mengapa pilihan ${String.fromCharCode(65 + answers[q.id])} kurang tepat?`,
+                        `Why does option ${String.fromCharCode(65 + answers[q.id])} fall short?`,
+                      )}
+                    </h4>
+                    <RichText>
+                      {q.optionExplanations[answers[q.id]][locale]}
+                    </RichText>
+                  </div>
+                )}
+                <Accordion type="single" collapsible className="choice-reasons">
+                  <AccordionItem value="choices">
+                    <AccordionTrigger>
+                      {text(
+                        locale,
+                        "Alasan tiap pilihan",
+                        "Reasoning for every option",
+                      )}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {q.optionExplanations.map((reason, i) => (
+                        <div key={i} className="choice-reason">
+                          <span
+                            className={i === q.correctIndex ? "correct" : ""}
+                          >
+                            {String.fromCharCode(65 + i)}
+                            {i === q.correctIndex && <Check size={14} />}
+                          </span>
+                          <RichText>{reason[locale]}</RichText>
+                        </div>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
                 {q.math && <Formula>{q.math}</Formula>}
                 {q.sourceQuestionId && (
                   <Button
@@ -291,7 +338,7 @@ export function Practice({
           <p>
             {text(
               locale,
-              `${correct} dari 30 jawaban tepat. Tinjau penjelasan pada soal yang ingin kamu pelajari lagi.`,
+              `${correct} dari 30 jawaban tepat. Tinjau penjelasan pada soal yang ingin Anda pelajari lagi.`,
               `${correct} of 30 answers correct. Revisit any explanation you want to study again.`,
             )}
           </p>
@@ -306,8 +353,8 @@ export function Practice({
             <DialogDescription>
               {text(
                 locale,
-                "Ini menghapus jawaban latihan yang tersimpan di perangkat ini. Penanda dan kemajuan pembahasan tetap ada.",
-                "This clears practice answers on this device. Bookmarks and solution progress stay saved.",
+                "Tindakan ini menghapus jawaban latihan yang tersimpan di perangkat ini. Penanda dan kemajuan pembahasan tetap ada.",
+                "Restarting clears practice answers on this device. Bookmarks and solution progress stay saved.",
               )}
             </DialogDescription>
           </DialogHeader>

@@ -129,8 +129,8 @@ export function SystemVisual({
           {optical
             ? text(
                 locale,
-                "Skema pemancar–penerima. Keluaran ilustratif bernilai 1 saat target memotong berkas. Persentase menyatakan posisi, bukan jarak terkalibrasi.",
-                "Emitter–receiver schematic. Illustrative output is 1 when the target blocks the beam. Percentage is position, not a calibrated distance.",
+                "Skema pemancar dan penerima. Keluaran ilustratif bernilai 1 saat target memotong berkas. Persentase menyatakan posisi, bukan jarak terkalibrasi.",
+                "Emitter and receiver schematic. Illustrative output is 1 when the target blocks the beam. Percentage is position, not a calibrated distance.",
               )
             : text(
                 locale,

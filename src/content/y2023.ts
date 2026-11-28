@@ -49,54 +49,139 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "1a · Ubah tinggi menjadi beda tekanan",
-          en: "1a · Convert height to pressure difference",
+          id: "1a · Tentukan besaran yang dicari",
+          en: "1a · Identify the quantity to find",
         },
         body: [
           {
-            id: "Kita pakai meter: \\(D=0.800\\), \\(d=0.160\\), dan \\(h=0.450\\). Pada dua tap yang sama tinggi, air di atas raksa ikut memberi tekanan. Karena itu, pakai selisih massa jenis.",
-            en: "Use metres: \\(D=0.800\\), \\(d=0.160\\), and \\(h=0.450\\). With pressure taps at the same elevation, water above the mercury also contributes pressure. We therefore use the density difference.",
+            id: "Kita mencari **debit volume** (volume air yang melewati pipa tiap detik), Q. Satuan yang diminta adalah m³/s. Kita perlu mengubah semua panjang menjadi meter sebelum menghitung luas.",
+            en: "We seek **volume flow rate**, the water volume passing through the pipe each second. The requested unit is m³/s. We convert all lengths to metres before calculating areas.",
           },
           {
-            id: "Tekanan hulu lebih tinggi. Tekanan itu menekan permukaan raksa di sisi hulu, sehingga sisi hilir lebih tinggi.",
-            en: "Upstream pressure is higher. It pushes down the upstream mercury surface, leaving the downstream surface higher.",
+            id: "Diameter pipa menentukan luas aliran di hulu. Diameter kecil menentukan luas aliran di bagian sempit. Beda tinggi raksa memberi beda tekanan, bukan kecepatan secara langsung.",
+            en: "The pipe diameter sets the upstream flow area. The smaller diameter sets the restricted area. Mercury height gives a pressure difference, rather than velocity directly.",
+          },
+        ],
+        math: "D=\\frac{800}{1000}=0.800\\ \\mathrm m,\\quad d=0.160\\ \\mathrm m,\\quad h=\\frac{45}{100}=0.450\\ \\mathrm m",
+      },
+      {
+        title: {
+          id: "Ubah beda tinggi raksa menjadi tekanan",
+          en: "Convert mercury height into pressure",
+        },
+        body: [
+          {
+            id: "**Massa jenis** (massa per volume) memakai simbol \\(\\rho\\), dibaca rho. Kedua kaki manometer berisi air di atas raksa. Pengaruh kolom air mengurangi pengaruh kolom raksa, sehingga kita memakai \\(\\rho_m-\\rho_w\\).",
+            en: "**Density**, the mass per unit volume, uses symbol \\(\\rho\\), read rho. Both manometer legs contain water above the mercury. The water-column contribution subtracts from the mercury contribution, so we use \\(\\rho_m-\\rho_w\\).",
+          },
+          {
+            id: "Kedua tap berada pada ketinggian yang sama. Dengan \\(g=9.81\\ \\mathrm{m/s^2}\\), selisih tinggi 0.450 m memberi tekanan hulu yang lebih besar. Sisi bertekanan lebih besar menekan raksa ke bawah.",
+            en: "The two pressure taps are at the same elevation. With \\(g=9.81\\ \\mathrm{m/s^2}\\), the 0.450 m height difference indicates higher upstream pressure. The higher-pressure side pushes mercury downward.",
           },
         ],
         math: "\\Delta p=(\\rho_m-\\rho_w)gh=(13600-1000)(9.81)(0.450)=55622.7\\ \\mathrm{Pa}",
       },
       {
         title: {
-          id: "Hubungkan debit dengan beda tekanan",
-          en: "Connect flow rate to pressure difference",
+          id: "Gunakan debit yang sama pada dua penampang",
+          en: "Use the same flow rate at both sections",
         },
         body: [
           {
-            id: "Kontinuitas memberi \\(Q=A_1v_1=A_2v_2\\). Bernoulli untuk aliran ideal mendatar memberi \\(\\Delta p=\\tfrac12\\rho(v_2^2-v_1^2)\\). Gabungkan keduanya, lalu kalikan dengan \\(C_d\\) untuk memperhitungkan aliran nyata.",
-            en: "Continuity gives \\(Q=A_1v_1=A_2v_2\\). Bernoulli for ideal horizontal flow gives \\(\\Delta p=\\tfrac12\\rho(v_2^2-v_1^2)\\). Combine them, then multiply by \\(C_d\\) to account for real flow.",
+            id: "Pada aliran tunak, air tidak terus menumpuk di antara dua penampang. Massa jenis tetap membuat debit masuk sama dengan debit keluar. **Persamaan kontinuitas** (hubungan kekekalan aliran) menyatakan kesamaan tersebut.",
+            en: "In steady flow, water does not keep accumulating between the sections. Constant density makes incoming and outgoing volume rates equal. The **continuity equation**, a statement of flow conservation, expresses that equality.",
           },
           {
-            id: "Rasio diameter \\(\\beta=d/D=0.2\\), sehingga faktor dalam akar memakai \\(\\beta^4\\), bukan \\(\\beta^2\\).",
-            en: "The diameter ratio is \\(\\beta=d/D=0.2\\), so the square-root factor contains \\(\\beta^4\\), not \\(\\beta^2\\).",
+            id: "Luas lingkaran adalah \\(A=\\pi d^2/4\\). Hubungan \\(Q=Av\\) memberi kecepatan rata-rata \\(v=Q/A\\). Luas yang lebih kecil memerlukan kecepatan lebih tinggi untuk melewatkan debit yang sama.",
+            en: "A circular area is \\(A=\\pi d^2/4\\). Since \\(Q=Av\\), mean velocity at a section is \\(v=Q/A\\). A smaller area needs a higher velocity to carry the same flow rate.",
           },
         ],
-        math: "Q=C_d\\frac{\\pi d^2}{4}\\sqrt{\\frac{2\\Delta p}{\\rho_w(1-\\beta^4)}}=C_d(0.2122358)\\ \\mathrm{m^3/s}",
+        math: "A_1=\\frac{\\pi(0.800)^2}{4}=0.502655\\ \\mathrm{m^2},\\quad A_2=\\frac{\\pi(0.160)^2}{4}=0.0201062\\ \\mathrm{m^2},\\quad Q=A_1v_1=A_2v_2",
       },
       {
         title: {
-          id: "Pilih koefisien yang cocok dengan Reynolds",
-          en: "Choose a coefficient consistent with Reynolds number",
+          id: "Hubungkan kenaikan kecepatan dengan penurunan tekanan",
+          en: "Connect increasing speed with decreasing pressure",
         },
         body: [
           {
-            id: "Tabel memerlukan \\(Re\\), tetapi \\(Re\\) memerlukan debit. Mulai dengan \\(C_d=0.600\\): kita dapat \\(Q=0.127341\\,\\mathrm{m^3/s}\\) dan \\(Re\\approx2.13\\times10^4\\). Jadi, gunakan baris \\(\\beta=0.2\\) antara kolom \\(10^4\\) dan \\(10^5\\).",
-            en: "The table needs \\(Re\\), while \\(Re\\) needs the flow rate. Start with \\(C_d=0.600\\): this gives \\(Q=0.127341\\,\\mathrm{m^3/s}\\) and \\(Re\\approx2.13\\times10^4\\). Use the \\(\\beta=0.2\\) row between \\(10^4\\) and \\(10^5\\).",
+            id: "Bernoulli membandingkan energi tekanan, energi gerak, dan energi ketinggian fluida. Kita mulai dari model ideal tanpa rugi aliran; pipa mendatar membuat kedua suku ketinggian saling menghapus.",
+            en: "Bernoulli compares pressure energy, kinetic energy, and elevation energy. Start with an ideal lossless model. A horizontal pipe lets the two elevation terms cancel.",
           },
           {
-            id: "Dengan interpolasi terhadap \\(\\log_{10}Re\\), lalu ulangi hitungan, hasilnya \\(C_d=0.59837\\) dan \\(Re=2.1209\\times10^4\\). Pembulatan \\(C_d\\approx0.60\\) juga memberi \\(Q\\approx0.127\\,\\mathrm{m^3/s}\\).",
-            en: "Interpolating against \\(\\log_{10}Re\\) and repeating the calculation gives \\(C_d=0.59837\\) and \\(Re=2.1209\\times10^4\\). Rounding to \\(C_d\\approx0.60\\) also gives \\(Q\\approx0.127\\,\\mathrm{m^3/s}\\).",
+            id: "Kita kurangi tekanan hilir pada kedua ruas untuk membentuk selisih tekanan. Bagian sempit memiliki kecepatan lebih tinggi. Pada model ideal ini, kenaikan kecepatan tersebut membutuhkan tekanan hulu yang lebih tinggi.",
+            en: "We subtract downstream pressure from both sides to place the pressure difference on the left. Because the restricted section is faster, upstream pressure is higher in this ideal model.",
           },
         ],
-        math: "Re=\\frac{\\rho_wv_1D}{\\mu}=\\frac{4\\rho_wQ}{\\pi\\mu D},\\qquad \\boxed{Q\\approx0.1270\\ \\mathrm{m^3/s}=127.0\\ \\mathrm{L/s}}",
+        math: "p_1+\\frac12\\rho_wv_1^2=p_2+\\frac12\\rho_wv_2^2\\quad\\Rightarrow\\quad \\Delta p=\\frac12\\rho_w(v_2^2-v_1^2)",
+      },
+      {
+        title: {
+          id: "Turunkan rumus debit, lalu beri koreksi aliran nyata",
+          en: "Derive flow rate, then correct for real flow",
+        },
+        body: [
+          {
+            id: "Kita masukkan \\(v_1=Q/A_1\\) dan \\(v_2=Q/A_2\\). Kedua suku memuat \\(Q^2\\), sehingga kita dapat mengeluarkannya sebagai faktor. Setelah membagi dengan faktor luas dan massa jenis, ambil akar positif untuk besar debit.",
+            en: "We substitute \\(v_1=Q/A_1\\) and \\(v_2=Q/A_2\\). Both terms contain \\(Q^2\\), so factor it out. We divide by the area and density factors, then take the positive square root for the flow magnitude.",
+          },
+          {
+            id: "Koefisien debit \\(C_d\\) mengoreksi model ideal terhadap aliran nyata. Rasio luas adalah \\((d/D)^2\\); saat rasio luas dikuadratkan, muncul \\((d/D)^4\\).",
+            en: "The discharge coefficient \\(C_d\\) corrects ideal flow to match real flow. The area ratio is \\((d/D)^2\\); squaring that area ratio produces \\((d/D)^4\\).",
+          },
+        ],
+        math: "\\begin{aligned}\\Delta p&=\\frac{\\rho_wQ_{\\rm ideal}^2}{2A_2^2}\\left[1-\\left(\\frac{A_2}{A_1}\\right)^2\\right]\\\\Q&=C_dQ_{\\rm ideal}=C_dA_2\\sqrt{\\frac{2\\Delta p}{\\rho_w[1-(d/D)^4]}}\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Hitung bagian rumus yang sudah diketahui",
+          en: "Calculate the known part of the formula",
+        },
+        body: [
+          {
+            id: "Rasio diameter \\(\\beta=d/D=0.160/0.800=0.2\\). Kita dapat menghitung debit ideal lebih dulu, meskipun \\(C_d\\) yang sesuai belum dipilih.",
+            en: "The diameter ratio is \\(\\beta=d/D=0.160/0.800=0.2\\). We can calculate ideal flow before choosing the matching \\(C_d\\).",
+          },
+          {
+            id: "Hasil 0.2122358 m³/s masih perlu dikalikan \\(C_d\\). Tabel pada soal menunjukkan nilai sekitar 0.60, sehingga debit nyata diperkirakan sekitar 60% dari hasil ideal dalam model ini.",
+            en: "The result 0.2122358 m³/s still needs multiplication by \\(C_d\\). The supplied table gives values near 0.60, so real flow is about 60% of the ideal result in this model.",
+          },
+        ],
+        math: "Q_{\\rm ideal}=0.0201062\\sqrt{\\frac{2(55622.7)}{1000(1-0.2^4)}}=0.2122358\\ \\mathrm{m^3/s}",
+      },
+      {
+        title: {
+          id: "Coba Cd, lalu periksa bilangan Reynolds",
+          en: "Try a discharge coefficient, then check Reynolds number",
+        },
+        body: [
+          {
+            id: "Bilangan Reynolds \\(Re\\) membandingkan pengaruh gerak fluida dengan pengaruh kekentalan. Tabel memerlukan \\(Re\\), tetapi perhitungan \\(Re\\) memerlukan kecepatan yang belum kita ketahui. Kita mulai dengan tebakan tabel, lalu memperbaruinya.",
+            en: "Reynolds number \\(Re\\) compares fluid inertia with viscous effects. The table needs \\(Re\\), but computing \\(Re\\) needs the unknown velocity. Start with a table estimate, then update it.",
+          },
+          {
+            id: "Kita ambil \\(C_d=0.600\\) dari baris \\(\\beta=0.2\\). Kita hitung \\(Q\\), lalu gunakan \\(v_1=Q/A_1\\) pada rumus Reynolds. Diameter yang dipakai di sini adalah diameter pipa \\(D\\).",
+            en: "We take \\(C_d=0.600\\) from the \\(\\beta=0.2\\) row. We calculate \\(Q\\), then use \\(v_1=Q/A_1\\) in Reynolds number. The relevant diameter here is the pipe diameter \\(D\\).",
+          },
+        ],
+        math: "Q^{(0)}=0.600(0.2122358)=0.127341\\ \\mathrm{m^3/s},\\qquad Re=\\frac{\\rho_wv_1D}{\\mu}=\\frac{4\\rho_wQ}{\\pi\\mu D}\\approx2.13\\times10^4",
+      },
+      {
+        title: {
+          id: "Perbarui Cd dari dua kolom yang mengapit Re",
+          en: "Update the coefficient between the bracketing columns",
+        },
+        body: [
+          {
+            id: "Nilai Reynolds berada antara \\(10^4\\) dan \\(10^5\\). Pada baris \\(\\beta=0.2\\), kedua nilai \\(C_d\\) adalah 0.600 dan 0.595. Kita pilih interpolasi pada skala \\(\\log_{10}Re\\), karena kolom naik per kelipatan sepuluh.",
+            en: "The Reynolds number lies between \\(10^4\\) and \\(10^5\\). At \\(\\beta=0.2\\), the corresponding coefficients are 0.600 and 0.595. We choose interpolation on a \\(\\log_{10}Re\\) scale because the columns increase by decades.",
+          },
+          {
+            id: "Kita masukkan Reynolds hasil tebakan, hitung \\(C_d\\) baru, lalu ulangi perhitungan debit dan Reynolds. Hasilnya stabil di sekitar \\(C_d=0.59837\\) dan \\(Re=21209\\).",
+            en: "We insert the estimated Reynolds number, calculate a new \\(C_d\\), then repeat the flow and Reynolds calculation. The values settle near \\(C_d=0.59837\\) and \\(Re=21209\\).",
+          },
+        ],
+        math: "C_d=0.600+\\frac{\\log_{10}Re-4}{5-4}(0.595-0.600)\\quad\\Rightarrow\\quad C_d\\approx0.59837",
         note: {
           id: "Soal tidak menetapkan cara interpolasi. Digit akhir dapat sedikit berubah; tiga angka penting tetap sama.",
           en: "The problem does not prescribe an interpolation method. Final digits can vary slightly; the three-significant-figure result is unchanged.",
@@ -104,36 +189,62 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "1b · Cairan konduktif",
-          en: "1b · Conductive liquid",
+          id: "Nyatakan debit dan periksa satuannya",
+          en: "State the flow rate and check its units",
         },
         body: [
           {
-            id: "Pilih flowmeter elektromagnetik. Cairan konduktif yang bergerak melintasi medan magnet menimbulkan tegangan pada elektroda. Pada geometri dan medan tetap, tegangan sebanding dengan kecepatan rata-rata, lalu \\(Q=Av\\).",
-            en: "Choose an electromagnetic flowmeter. A conducting liquid moving across a magnetic field creates a voltage between electrodes. For fixed geometry and magnetic field, voltage is proportional to mean velocity, then \\(Q=Av\\).",
+            id: "Kita kalikan debit ideal dengan koefisien akhir. Di dalam akar, tekanan dibagi massa jenis memberi satuan m²/s². Akar itu berupa kecepatan; setelah dikali luas, hasilnya m³/s.",
+            en: "We multiply ideal flow by the final coefficient. Inside the square root, pressure divided by density has units m²/s². The square root is a velocity; multiplying by area gives m³/s.",
           },
           {
-            id: "Untuk H₂SO₄, bahan elektroda dan pelapis pipa juga harus tahan terhadap konsentrasi serta suhu asam. Sifat konduktif saja belum cukup untuk menentukan bahan alat.",
-            en: "For H₂SO₄, the electrode and pipe-liner materials must also suit the acid concentration and temperature. Conductivity alone does not determine material compatibility.",
+            id: "Hasilnya lebih kecil dari debit ideal, sesuai koefisien yang kurang dari satu. Hubungan 1 m³ = 1000 L memberi debit sekitar 127 liter tiap detik.",
+            en: "The result is below ideal flow, consistent with a coefficient below one. Since 1 m³ = 1000 L, it equals about 127 litres each second.",
+          },
+        ],
+        math: "Q=0.59837(0.2122358)\\approx\\boxed{0.1270\\ \\mathrm{m^3/s}=127.0\\ \\mathrm{L/s}}",
+      },
+      {
+        title: {
+          id: "1b · Pilih sensor berdasarkan sifat cairan",
+          en: "1b · Choose a sensor from the liquid's properties",
+        },
+        body: [
+          {
+            id: "Cairan konduktif dapat membawa muatan listrik. Saat cairan itu melintasi medan magnet, dua elektroda membaca tegangan yang terkait dengan kecepatan alirannya. Prinsip ini mendukung pilihan flowmeter elektromagnetik.",
+            en: "A conducting liquid can carry electric charge. As it moves across a magnetic field, two electrodes detect a voltage related to flow velocity. This supports choosing an electromagnetic flowmeter.",
+          },
+          {
+            id: "Pada bentuk sederhana, \\(e=BLv\\): \\(B\\) adalah kuat medan magnet, \\(L\\) jarak efektif elektroda, dan \\(v\\) kecepatan rata-rata. Setelah memperoleh \\(v\\), alat menghitung \\(Q=Av\\).",
+            en: "In a simple model, \\(e=BLv\\): \\(B\\) is magnetic field strength, \\(L\\) the effective electrode spacing, and \\(v\\) mean velocity. Once \\(v\\) is known, the meter obtains \\(Q=Av\\).",
+          },
+          {
+            id: "Untuk H₂SO₄, pemilihan alat juga perlu menyesuaikan bahan elektroda dan pelapis dengan suhu serta konsentrasi asam. Kesesuaian prinsip ukur dan ketahanan bahan merupakan dua syarat yang berbeda.",
+            en: "For H₂SO₄, electrode and liner materials must also suit the acid temperature and concentration. A suitable measurement principle and compatible materials are separate requirements.",
           },
         ],
         math: "e=BLv,\\qquad Q=Av",
       },
       {
         title: {
-          id: "1c · Debit massa langsung",
-          en: "1c · Direct mass flow",
+          id: "1c · Bedakan debit massa dari debit volume",
+          en: "1c · Distinguish mass flow from volume flow",
         },
         body: [
           {
-            id: "Pilih flowmeter Coriolis. Alat menggetarkan pipa. Aliran massa mengubah fase getaran pada dua lokasi; hasil kalibrasinya memberi \\(\\dot m\\) dalam kg/s.",
-            en: "Choose a Coriolis flowmeter. It vibrates a tube. Mass flow changes the vibration phase at two locations; calibration converts that phase change into \\(\\dot m\\) in kg/s.",
+            id: "Debit massa \\(\\dot m\\), dibaca m titik, menyatakan kilogram yang lewat tiap detik. Jika alat hanya memberi debit volume, kita perlu massa jenis untuk mengubahnya menjadi \\(\\dot m=\\rho Q\\).",
+            en: "Mass flow \\(\\dot m\\), read m dot, is the number of kilograms passing each second. A volume-flow reading needs density to convert it through \\(\\dot m=\\rho Q\\).",
           },
           {
-            id: "Jika memakai flowmeter volume, kita masih perlu massa jenis untuk menghitung \\(\\dot m=\\rho Q\\). Coriolis mengukur debit massa langsung melalui respons tabungnya.",
-            en: "A volume flowmeter still needs density to calculate \\(\\dot m=\\rho Q\\). A Coriolis meter measures mass flow directly through its tube response.",
+            id: "Flowmeter Coriolis memberi pengukuran debit massa langsung. Alat menggetarkan tabung; fluida yang bergerak di dalamnya mengubah gerak dan beda fase tabung pada dua titik. Kalibrasi menghubungkan perubahan fase itu dengan kg/s.",
+            en: "A Coriolis flowmeter measures mass flow directly. It vibrates a tube; flowing fluid changes the tube motion and the phase difference at two locations. Calibration relates that phase change to kg/s.",
+          },
+          {
+            id: "Soal meminta sensor dengan keluaran kg/s. Coriolis memenuhi tujuan tersebut tanpa memulai dari debit volume dan asumsi massa jenis tetap.",
+            en: "Because the question asks for a sensor giving kg/s, Coriolis meets that goal without starting from a volume-flow measurement and an assumed fixed density.",
           },
         ],
+        math: "\\dot m=\\rho Q\\quad\\text{for conversion from volume flow}",
       },
     ],
     answer: {
@@ -195,37 +306,75 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "2a · Samakan acuan tabel",
-          en: "2a · Match the table reference",
+          id: "2a · Baca arti angka pada tabel termokopel",
+          en: "2a · Read what the thermocouple table represents",
         },
         body: [
           {
-            id: "Tabel termokopel memakai sambungan referensi 0 °C, sedangkan soal memakai 100 °C. Kita kurangi tegangan kedua suhu terhadap acuan yang sama.",
-            en: "The table uses a 0 °C reference junction, while the problem uses 100 °C. Subtract both voltages measured against the same reference.",
+            id: "Dua sambungan logam berbeda dapat menghasilkan tegangan saat suhunya berbeda. **Termokopel** (sensor suhu yang membaca tegangan tersebut) memakai prinsip ini. Satu suhu saja belum cukup untuk menentukan tegangan keluaran.",
+            en: "Two junctions of dissimilar metals can produce voltage when their temperatures differ. A **thermocouple**, a temperature sensor that reads this voltage, uses that effect. One temperature alone cannot determine its output.",
           },
           {
-            id: "Jangan langsung mencari tegangan pada \\(340-100=240\\,{}^\\circ\\mathrm C\\): hubungan tegangan dengan suhu tidak persis linear.",
-            en: "Do not simply look up the voltage at \\(340-100=240\\,{}^\\circ\\mathrm C\\): the temperature-voltage relationship is not exactly linear.",
+            id: "Notasi \\(E_K(T,0)\\) berarti tegangan tipe K saat sambungan ukur berada pada \\(T\\) dan sambungan referensi pada 0°C. Soal memakai referensi 100°C, sehingga angka tabel 340°C belum menjadi jawaban akhir.",
+            en: "The notation \\(E_K(T,0)\\) means type K voltage with a measuring junction at \\(T\\) and a reference junction at 0°C. This problem uses a 100°C reference, so the 340°C table entry is not yet the final answer.",
+          },
+        ],
+        math: "E_K(340,0)=13.874\\ \\mathrm{mV},\\qquad E_K(100,0)=4.096\\ \\mathrm{mV}",
+      },
+      {
+        title: {
+          id: "Kurangi dua tegangan yang memakai acuan sama",
+          en: "Subtract two voltages with the same reference",
+        },
+        body: [
+          {
+            id: "Kita menghilangkan pengaruh referensi 0°C dengan mengurangkan tegangan 100°C dari tegangan 340°C. Hasilnya adalah tegangan antara kedua suhu pada soal.",
+            en: "We subtract the 100°C table voltage from the 340°C table voltage to remove the common 0°C reference contribution. The result is the voltage between the two stated temperatures.",
+          },
+          {
+            id: "Nilainya positif karena sambungan ukur lebih panas dalam polaritas tabel. Jangan mencari tabel pada 240°C: mengurangkan suhu lebih dulu akan menganggap hubungan suhu dengan tegangan selalu linear.",
+            en: "The value is positive because the measuring junction is hotter under the table's polarity convention. Do not look up 240°C: subtracting temperatures first would assume a linear relationship between temperature and voltage.",
           },
         ],
         math: "E_K(340,100)=E_K(340,0)-E_K(100,0)=13.874-4.096=\\boxed{9.778\\ \\mathrm{mV}}",
       },
       {
         title: {
-          id: "2b(i) · Definisikan perubahan dari keadaan awal",
-          en: "2b(i) · Define changes from the initial state",
+          id: "2b(i) · Pisahkan nilai awal dan perubahan RTD",
+          en: "2b(i) · Separate the RTD baseline from its change",
         },
         body: [
           {
-            id: "Kita ukur perubahan dari titik awal: \\(\\Delta T=T-20\\) dan \\(\\Delta R=R-100\\). Sensitivitas menghubungkan perubahan tahanan dengan perubahan suhu.",
-            en: "Measure changes from the initial state: \\(\\Delta T=T-20\\) and \\(\\Delta R=R-100\\). Sensitivity relates resistance changes to temperature changes.",
+            id: "Tahanan elemen logam berubah saat suhunya berubah. **RTD** (sensor suhu dengan elemen tahanan logam) membaca perubahan tersebut. Sensitivitas 0.004 Ω/°C berarti kenaikan suhu 1°C memberi kenaikan tahanan akhir 0.004 Ω.",
+            en: "A metal element changes resistance as its temperature changes. An **RTD**, a temperature sensor with a metal resistance element, reads that change. Sensitivity 0.004 Ω/°C means a 1°C rise produces a final resistance rise of 0.004 Ω.",
           },
           {
-            id: "Dengan pilihan ini, model tanpa bias cocok dengan nilai awal soal. Menulis \\(R=0.004T\\) untuk nilai mutlak justru bertentangan dengan \\(R=100\\,\\Omega\\) pada 20 °C.",
-            en: "This bias-free deviation model agrees with the initial values. Writing absolute \\(R=0.004T\\) would contradict \\(R=100\\,\\Omega\\) at 20 °C.",
+            id: "Nilai awalnya sudah diketahui: 20°C dan 100 Ω. Kita definisikan \\(\\Delta T=T-20\\) dan \\(\\Delta R=R-100\\). Kedua perubahan bernilai nol sebelum suhu berubah.",
+            en: "The baseline is given: 20°C and 100 Ω. We define \\(\\Delta T=T-20\\) and \\(\\Delta R=R-100\\). Both changes are zero before the temperature step.",
+          },
+          {
+            id: "Pernyataan tanpa bias cocok untuk perubahan ini. Model absolut \\(R=0.004T\\) justru memberi 0.08 Ω pada 20°C, sehingga bertentangan dengan nilai awal soal.",
+            en: "The no-bias statement fits these changes. An absolute model \\(R=0.004T\\) would give 0.08 Ω at 20°C, contradicting the stated baseline.",
           },
         ],
-        math: "0.5\\frac{d\\Delta R}{dt}+\\Delta R=0.004\\Delta T\\quad\\Longleftrightarrow\\quad0.5\\frac{dR}{dt}+R-100=0.004(T-20)",
+        math: "\\Delta T=T-20,\\qquad \\Delta R=R-100",
+      },
+      {
+        title: {
+          id: "Susun model orde satu",
+          en: "Form the first-order model",
+        },
+        body: [
+          {
+            id: "Orde satu berarti persamaan memuat turunan pertama keluaran terhadap waktu. Konstanta waktu \\(\\tau\\) mengatur laju respons; semakin besar \\(\\tau\\), semakin lama keluaran mendekati nilai akhirnya.",
+            en: "First order means the equation contains the first time derivative of the output. The time constant \\(\\tau\\) sets response speed; a larger \\(\\tau\\) makes the output approach its final value more slowly.",
+          },
+          {
+            id: "Suku \\(K\\Delta T\\) adalah perubahan tahanan yang dituju pada keadaan tunak. Suku \\(\\tau\\,d\\Delta R/dt\\) menjelaskan selisih sementara antara target itu dan perubahan tahanan saat ini.",
+            en: "The term \\(K\\Delta T\\) is the target steady resistance change. The term \\(\\tau\\,d\\Delta R/dt\\) accounts for the temporary difference between that target and the current resistance change.",
+          },
+        ],
+        math: "\\tau\\frac{d\\Delta R}{dt}+\\Delta R=K\\Delta T\\quad\\Rightarrow\\quad0.5\\frac{d\\Delta R}{dt}+\\Delta R=0.004\\Delta T",
         visual: {
           kind: "rtd",
           caption: {
@@ -247,20 +396,71 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Tentukan nilai akhir dan waktu yang telah berlalu",
-          en: "Find the final value and elapsed time",
+          id: "Tulis persamaan dengan suhu dan tahanan asli",
+          en: "Write the equation using absolute temperature and resistance",
         },
         body: [
           {
-            id: "Kenaikan suhu adalah \\(100-20=80\\,{}^\\circ\\mathrm C\\). Karena itu kenaikan tahanan akhirnya hanya \\(0.004(80)=0.320\\,\\Omega\\).",
-            en: "The temperature rise is \\(100-20=80\\,{}^\\circ\\mathrm C\\), so the final resistance increase is only \\(0.004(80)=0.320\\,\\Omega\\).",
+            id: "Nilai awal 100 Ω adalah konstanta, sehingga turunannya nol: \\(d(R-100)/dt=dR/dt\\). Kita ganti kedua variabel perubahan dengan definisinya untuk memperoleh model yang diminta.",
+            en: "The 100 Ω baseline is constant, so its derivative is zero: \\(d(R-100)/dt=dR/dt\\). We substitute the two deviation definitions to obtain the requested model.",
           },
           {
-            id: "Pada waktu baca \\(t=2\\,\\mathrm{s}\\), perubahan baru berlangsung \\(2-1=1\\,\\mathrm{s}\\), yaitu dua konstanta waktu.",
-            en: "At reading time \\(t=2\\,\\mathrm{s}\\), the response has lasted \\(2-1=1\\,\\mathrm{s}\\), or two time constants.",
+            id: "Cek satuannya: 0.5 s dikali laju tahanan Ω/s menghasilkan Ω. Ruas kanan juga Ω karena sensitivitas Ω/°C dikali perubahan suhu °C.",
+            en: "Check the units: 0.5 s times a resistance rate in Ω/s gives Ω. The right side also has units Ω because sensitivity in Ω/°C multiplies a temperature change in °C.",
           },
         ],
-        math: "R_\\infty=100.320\\ \\Omega,\\qquad R(t)=100+0.320\\left(1-e^{-(t-1)/0.5}\\right),\\quad t\\ge1",
+        math: "\\boxed{0.5\\frac{dR}{dt}+R-100=0.004(T-20)}",
+      },
+      {
+        title: {
+          id: "Cari tahanan akhir setelah suhu berubah",
+          en: "Find the final resistance after the temperature step",
+        },
+        body: [
+          {
+            id: "Pada keadaan tunak, tahanan sudah tidak berubah terhadap waktu, sehingga suku turunannya nol. Model lalu menjadi perubahan tahanan = sensitivitas × perubahan suhu.",
+            en: "At steady state, resistance no longer changes with time, so its derivative is zero. The model then becomes resistance change = sensitivity × temperature change.",
+          },
+          {
+            id: "Suhu naik dari 20°C ke 100°C, yaitu 80°C. Perubahan tahanan akhirnya 0.320 Ω; nilai ini perlu ditambahkan pada 100 Ω, bukan menggantikannya.",
+            en: "Temperature rises from 20°C to 100°C, a change of 80°C. The final resistance change is 0.320 Ω; add it to the 100 Ω baseline rather than replacing that baseline.",
+          },
+        ],
+        math: "\\Delta T=100-20=80^\\circ\\mathrm C,\\quad\\Delta R_\\infty=0.004(80)=0.320\\ \\Omega,\\quad R_\\infty=100.320\\ \\Omega",
+      },
+      {
+        title: {
+          id: "Mulai waktu respons saat perubahan terjadi",
+          en: "Start the response clock at the temperature step",
+        },
+        body: [
+          {
+            id: "Suhu belum berubah sebelum t=1 s. Sensor awalnya tunak, sehingga tahanan tetap 100 Ω sepanjang selang itu.",
+            en: "Temperature has not changed before t=1 s. Since the sensor starts at equilibrium, resistance remains 100 Ω during that interval.",
+          },
+          {
+            id: "Untuk \\(t\\ge1\\), gunakan waktu berjalan \\(t-1\\). Saat pembacaan pada t=2 s, respons baru berlangsung 1 s. Dengan \\(\\tau=0.5\\) s, ini setara dua konstanta waktu.",
+            en: "For \\(t\\ge1\\), use elapsed time \\(t-1\\). At the reading time t=2 s, the response has lasted only 1 s. With \\(\\tau=0.5\\) s, this is two time constants.",
+          },
+        ],
+        math: "\\Delta t=t-t_0=2-1=1\\ \\mathrm s,\\qquad\\frac{\\Delta t}{\\tau}=\\frac{1}{0.5}=2",
+      },
+      {
+        title: {
+          id: "Gunakan bentuk respons yang memenuhi kondisi awal",
+          en: "Use a response that satisfies the initial condition",
+        },
+        body: [
+          {
+            id: "Respons langkah orde satu menyisakan fraksi \\(e^{-\\Delta t/\\tau}\\) dari perubahan yang belum selesai. Oleh karena itu, fraksi perubahan yang sudah selesai adalah \\(1-e^{-\\Delta t/\\tau}\\).",
+            en: "A first-order step response leaves a fraction \\(e^{-\\Delta t/\\tau}\\) of the change unfinished. The completed fraction is therefore \\(1-e^{-\\Delta t/\\tau}\\).",
+          },
+          {
+            id: "Kita kalikan fraksi selesai dengan perubahan akhir 0.320 Ω, lalu tambahkan tahanan awal. Saat t=1 s, eksponensial bernilai satu dan perubahan keluaran masih nol.",
+            en: "We multiply the completed fraction by the final change of 0.320 Ω, then add initial resistance. At t=1 s, the exponential equals one, leaving zero output change.",
+          },
+        ],
+        math: "R(t)=100+0.320\\left(1-e^{-(t-1)/0.5}\\right),\\qquad t\\ge1",
         visual: {
           kind: "rtd",
           caption: {
@@ -282,20 +482,20 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "2b(ii) · Hitung tahanan pada 2 detik",
-          en: "2b(ii) · Evaluate resistance at 2 seconds",
+          id: "2b(ii) · Hitung tahanan pada t=2 s",
+          en: "2b(ii) · Evaluate resistance at t=2 s",
         },
         body: [
           {
-            id: "Pada dua konstanta waktu, keluaran sudah menempuh sekitar 86.47% dari perubahan akhirnya. Tahanannya harus di antara 100 dan 100.320 Ω.",
-            en: "After two time constants, the output has completed about 86.47% of its final change. Resistance must lie between 100 and 100.320 Ω.",
+            id: "Kita masukkan waktu berjalan 1 s. Nilai \\(e^{-2}=0.135335\\), sehingga fraksi perubahan yang selesai adalah \\(1-0.135335=0.864665\\).",
+            en: "We substitute the elapsed time of 1 s. Since \\(e^{-2}=0.135335\\), the completed fraction is \\(1-0.135335=0.864665\\).",
           },
           {
-            id: "Angka 0.004 pada soal bersatuan Ω/°C. Kita tidak mengalikannya lagi dengan tahanan awal, karena soal tidak memberi koefisien relatif per °C.",
-            en: "The supplied 0.004 has units Ω/°C. Do not multiply it by the initial resistance again; the problem does not give a relative coefficient per °C.",
+            id: "Kenaikan tahanan saat pembacaan adalah sekitar 0.276693 Ω. Tambahkan nilai itu ke 100 Ω untuk mendapat pembacaan sensor.",
+            en: "The resistance increase at the reading time is about 0.276693 Ω. Add that increase to 100 Ω to obtain the sensor reading.",
           },
         ],
-        math: "R(2)=100+0.320(1-e^{-2})=\\boxed{100.27669\\ \\Omega}",
+        math: "\\begin{aligned}R(2)&=100+0.320(1-e^{-2})\\\\&=100+0.320(0.864665)\\\\&=\\boxed{100.27669\\ \\Omega}\\end{aligned}",
         visual: {
           kind: "rtd",
           caption: {
@@ -314,6 +514,22 @@ export const questions2023: ExamQuestion[] = [
             final: 100.32,
           },
         },
+      },
+      {
+        title: {
+          id: "Periksa batas dan arti sensitivitas",
+          en: "Check the limits and the meaning of sensitivity",
+        },
+        body: [
+          {
+            id: "Hasil berada antara 100 Ω dan 100.320 Ω, sesuai sensor yang sedang mendekati keadaan akhir. Pada waktu yang sangat lama, eksponensial menuju nol dan tahanan menuju 100.320 Ω.",
+            en: "The result lies between 100 Ω and 100.320 Ω, as expected while the sensor approaches equilibrium. At very long times the exponential approaches zero and resistance approaches 100.320 Ω.",
+          },
+          {
+            id: "Jangan kalikan 0.004 dengan 100 Ω lagi. Satuan yang diberikan Ω/°C sudah menyatakan perubahan tahanan langsung. Koefisien relatif per °C akan membutuhkan model dan satuan yang berbeda.",
+            en: "Do not multiply 0.004 by 100 Ω again. Its stated units Ω/°C already describe the resistance change directly. A relative coefficient per °C would require different units and a different model.",
+          },
+        ],
       },
     ],
     answer: {
@@ -369,36 +585,60 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "3a · Bedakan posisi dengan perubahan posisi",
-          en: "3a · Distinguish position from position change",
+          id: "3a · Baca posisi dari kode encoder absolut",
+          en: "3a · Read position from an absolute encoder code",
         },
         body: [
           {
-            id: "Encoder absolut memakai pola kode yang memberi nilai unik untuk tiap sektor sudut. Pada encoder optik, beberapa jalur kode dapat memberi kata biner atau Gray; nilai sudut dapat terbaca tanpa menghitung seluruh gerak sejak awal.",
-            en: "An absolute encoder uses a code pattern with a unique value for each angular sector. In an optical encoder, several code tracks can provide binary or Gray words, so angle can be read without counting all motion from startup.",
+            id: "Posisi mekanis dapat kita baca sebagai sinyal listrik melalui **encoder** (alat pembaca posisi). Encoder absolut memakai pola pada cakram atau skala. Pola tersebut memberi kode berbeda untuk setiap posisi yang dapat dibedakan alat.",
+            en: "We can read mechanical position electrically using an **encoder**, a device that converts position into a signal. An absolute encoder uses a disc or scale pattern. Its pattern gives a different code for each distinguishable position.",
           },
           {
-            id: "Encoder inkremental memakai pola berulang. Kanal A dan B biasanya berselisih seperempat siklus; jumlah pulsa memberi perubahan sudut, dan kanal yang mendahului memberi arah. Kanal indeks Z menandai satu posisi acuan. Setelah kehilangan hitungan atau daya, sistem perlu acuan ulang kecuali posisi tersimpan dengan cara lain.",
-            en: "An incremental encoder uses a repeating pattern. Channels A and B are usually a quarter-cycle apart; pulse count gives angular change, and the leading channel gives direction. Index Z marks a reference position. Lost counts or power require a reference procedure unless another method preserves position.",
+            id: "Pada encoder optik, pembaca membaca beberapa jalur bersama sebagai satu kata kode biner atau Gray. Kode menunjukkan posisi saat itu. Pembaca dapat mengenali sudut dalam satu putaran tanpa menghitung gerak sejak alat menyala.",
+            en: "In an optical encoder, the reader combines several tracks into a binary or Gray code word. The code identifies the current position. The reader can recognise single-turn angle without counting motion from startup.",
+          },
+          {
+            id: "Batas satu putaran tetap penting: kemampuan mengenali jumlah putaran memerlukan rancangan multiturn, bukan hanya lebih banyak kode dalam satu putaran.",
+            en: "The one-revolution limit matters: identifying completed revolutions requires a multiturn design, rather than simply more codes within one turn.",
           },
         ],
       },
       {
         title: {
-          id: "3b · Pisahkan luas udara dan cairan",
-          en: "3b · Split air and liquid areas",
+          id: "Baca perubahan posisi dari encoder inkremental",
+          en: "Read position changes from an incremental encoder",
         },
         body: [
           {
-            id: "Dua bagian elektroda mengalami tegangan yang sama. Bagian udara dan bagian cairan karena itu membentuk kapasitor paralel, sehingga kapasitansinya dijumlahkan.",
-            en: "Both electrode sections have the same voltage across them. The air and liquid sections therefore act as parallel capacitors, so their capacitances add.",
+            id: "Encoder inkremental memakai pola terang dan gelap atau pola magnetik yang berulang. Saat pola melewati pembaca, keluaran menjadi rangkaian pulsa. Pulsa itu memberi informasi gerak, bukan kode posisi yang unik.",
+            en: "An incremental encoder uses a repeating optical or magnetic pattern. As the pattern passes the reader, the output becomes a pulse train. Those pulses describe motion rather than a unique position code.",
           },
           {
-            id: "Panjang aktif adalah \\(L=h-h_0\\), bukan seluruh tinggi tangki. Saat \\(h_0\\le h_2\\le h\\), fraksi aktif yang tercelup adalah \\(\\eta=(h_2-h_0)/L\\); luas cairan \\(A\\eta\\) dan luas udara \\(A(1-\\eta)\\).",
-            en: "The active length is \\(L=h-h_0\\), not the full tank height. For \\(h_0\\le h_2\\le h\\), the immersed fraction is \\(\\eta=(h_2-h_0)/L\\); liquid area is \\(A\\eta\\) and air area is \\(A(1-\\eta)\\).",
+            id: "Kanal A dan B biasanya bergeser seperempat siklus. Kanal yang lebih dulu berubah memberi arah putaran; jumlah pulsa yang dihitung memberi perubahan sudut. Kanal Z dapat memberi satu tanda acuan tiap putaran.",
+            en: "Channels A and B are usually a quarter-cycle apart. Which channel changes first gives direction; the number of counted pulses gives angular change. Channel Z can supply one reference mark per turn.",
+          },
+          {
+            id: "Jika hitungan hilang saat daya mati, pembaca perlu menemukan acuan lagi, kecuali sistem memiliki cara lain untuk menyimpan posisi. Menambah kanal Z tidak membuat setiap sudut memiliki kode absolut.",
+            en: "If power loss erases the count, the readout needs to find a reference again unless another method preserves position. Adding channel Z does not give every angle an absolute code.",
           },
         ],
-        math: "C=\\frac{\\varepsilon_{\\rm air}A}{D}\\left[(1-\\eta)+k\\eta\\right]=\\frac{\\varepsilon_{\\rm air}A}{D}\\left[1+(k-1)\\eta\\right]",
+      },
+      {
+        title: {
+          id: "3b · Tentukan bagian probe yang aktif",
+          en: "3b · Identify the active part of the probe",
+        },
+        body: [
+          {
+            id: "Pada sensor level, udara dan cairan mengisi ruang di antara dua elektroda. Permitivitas \\(\\varepsilon\\) menyatakan pengaruh bahan di ruang itu terhadap kapasitansi; cairan memiliki nilai \\(k\\varepsilon_{\\rm air}\\).",
+            en: "In the level sensor, air and liquid occupy the gap between two electrodes. Permittivity \\(\\varepsilon\\) describes how the material in that gap affects capacitance; the liquid has value \\(k\\varepsilon_{\\rm air}\\).",
+          },
+          {
+            id: "Probe mulai pada ketinggian \\(h_0\\) dari dasar. Jadi panjang aktifnya \\(L=h-h_0\\). Untuk level cairan \\(h_2\\), panjang probe yang tercelup adalah \\(h_2-h_0\\), selama level masih di antara ujung bawah dan ujung atas probe.",
+            en: "The probe starts at height \\(h_0\\) above the bottom. Its active length is therefore \\(L=h-h_0\\). At liquid level \\(h_2\\), the immersed probe length is \\(h_2-h_0\\), as long as the level lies between the probe's bottom and top.",
+          },
+        ],
+        math: "L=h-h_0,\\qquad\\eta=\\frac{h_2-h_0}{h-h_0},\\qquad0\\le\\eta\\le1",
         visual: {
           kind: "capacitive",
           caption: {
@@ -417,20 +657,74 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Tulis hasil sesuai label gambar",
-          en: "Express the result using the figure labels",
+          id: "Tentukan luas yang berhadapan dengan tiap bahan",
+          en: "Find the electrode area facing each material",
         },
         body: [
           {
-            id: "Karena \\(h_1=h-h_2\\), bentuk berikut memakai semua tinggi pada gambar. Jika ujung elektroda mencapai dasar, ambil \\(h_0=0\\).",
-            en: "Since \\(h_1=h-h_2\\), the following expression uses all figure heights. If the electrode reaches the bottom, set \\(h_0=0\\).",
+            id: "Luas \\(A\\) pada soal adalah seluruh luas elektroda aktif. Jika bentuknya seragam sepanjang tinggi, fraksi panjang yang tercelup sama dengan fraksi luas yang tercelup. Maka \\(A_{\\rm cair}=A\\eta\\).",
+            en: "The stated area \\(A\\) is the entire active electrode area. With a uniform shape along the height, the immersed length fraction equals the immersed area fraction. Thus \\(A_{\\rm liquid}=A\\eta\\).",
           },
           {
-            id: "Untuk level di bawah ujung probe, seluruh luas aktif masih berisi udara: \\(C=C_{\\rm air}\\). Saat seluruh probe terendam, \\(C=kC_{\\rm air}\\). Pada bentuk silinder konsentris yang celahnya tidak tipis, gunakan faktor geometri \\(2\\pi/\\ln(b/a)\\) sebagai pengganti \\(A/(DL)\\).",
-            en: "Below the probe tip, the entire active area still contains air: \\(C=C_{\\rm air}\\). At full immersion, \\(C=kC_{\\rm air}\\). For concentric cylinders with a non-thin gap, use geometric factor \\(2\\pi/\\ln(b/a)\\) instead of \\(A/(DL)\\).",
+            id: "Sisa luas masih berhadapan dengan udara. Menjumlahkan kedua luas harus mengembalikan A; cek ini membantu menghindari menghitung daerah yang sama dua kali.",
+            en: "The remaining area still faces air. Adding the two areas must return A; this check helps avoid counting the same region twice.",
           },
         ],
-        math: "\\boxed{C=\\frac{\\varepsilon_{\\rm air}A}{D(h-h_0)}\\left[h_1+k(h_2-h_0)\\right]},\\quad h_0\\le h_2\\le h",
+        math: "A_{\\rm liquid}=A\\eta,\\qquad A_{\\rm air}=A(1-\\eta),\\qquad A_{\\rm liquid}+A_{\\rm air}=A",
+      },
+      {
+        title: {
+          id: "Jumlahkan kapasitansi dua daerah yang paralel",
+          en: "Add the capacitances of the parallel regions",
+        },
+        body: [
+          {
+            id: "Kedua daerah berada pada pasangan elektroda yang sama, sehingga tegangannya sama. Muatan dari daerah udara dan cairan menambah muatan total. Hubungan ini sama dengan dua kapasitor paralel.",
+            en: "Both regions lie across the same electrodes and have the same voltage. Their charges add to the total charge. This electrical arrangement behaves as parallel capacitors.",
+          },
+          {
+            id: "Pada model pelat sejajar atau celah tipis, \\(C=\\varepsilon A/D\\), dengan \\(D\\) jarak elektroda. Kita gunakan permitivitas udara pada luas udara, dan \\(k\\varepsilon_{\\rm air}\\) pada luas cairan.",
+            en: "For a parallel-plate or thin-gap model, \\(C=\\varepsilon A/D\\), where \\(D\\) is electrode spacing. We use air permittivity over the air area and \\(k\\varepsilon_{\\rm air}\\) over the liquid area.",
+          },
+        ],
+        math: "\\begin{aligned}C&=C_{\\rm air\\ region}+C_{\\rm liquid\\ region}\\\\&=\\frac{\\varepsilon_{\\rm air}A(1-\\eta)}D+\\frac{k\\varepsilon_{\\rm air}A\\eta}D\\\\&=\\frac{\\varepsilon_{\\rm air}A}D[1+(k-1)\\eta]\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Tulis rumus sesuai semua tinggi pada gambar",
+          en: "Express the formula using the figure heights",
+        },
+        body: [
+          {
+            id: "Kita masukkan definisi \\(\\eta\\) ke persamaan kapasitansi. Panjang bagian berisi udara adalah \\(h_1=h-h_2\\), sehingga \\(L-(h_2-h_0)=h_1\\).",
+            en: "We substitute the definition of \\(\\eta\\) into capacitance. The air-filled length is \\(h_1=h-h_2\\), so \\(L-(h_2-h_0)=h_1\\).",
+          },
+          {
+            id: "Faktor di luar kurung memuat luas per panjang aktif. Isi kurung menjumlahkan panjang udara dan panjang cairan yang diberi bobot k. Tidak ada angka dimensi yang perlu ditebak karena soal meminta bentuk simbolik.",
+            en: "The factor outside the brackets contains area per active length. Inside, air length adds to liquid length weighted by k. No dimensions need to be guessed because the question asks for a symbolic expression.",
+          },
+        ],
+        math: "\\boxed{C=\\frac{\\varepsilon_{\\rm air}A}{D(h-h_0)}[h_1+k(h_2-h_0)]},\\qquad h_0\\le h_2\\le h",
+      },
+      {
+        title: {
+          id: "Cek probe kosong, penuh, dan batas geometri",
+          en: "Check empty, full, and geometric limits",
+        },
+        body: [
+          {
+            id: "Saat level tepat di ujung bawah, \\(\\eta=0\\) dan seluruh celah aktif berisi udara: \\(C=C_{\\rm air}=\\varepsilon_{\\rm air}A/D\\). Saat probe terendam penuh, \\(\\eta=1\\) dan \\(C=kC_{\\rm air}\\).",
+            en: "At the probe's bottom tip, \\(\\eta=0\\) and the entire active gap contains air: \\(C=C_{\\rm air}=\\varepsilon_{\\rm air}A/D\\). At full immersion, \\(\\eta=1\\) and \\(C=kC_{\\rm air}\\).",
+          },
+          {
+            id: "Jika cairan masih di bawah \\(h_0\\), sensor belum merespons kenaikan level karena probe belum tercelup. Jika \\(k=1\\), mengganti udara dengan cairan juga tidak mengubah kapasitansi.",
+            en: "If liquid remains below \\(h_0\\), the probe is not yet immersed and does not respond to the level rise. If \\(k=1\\), replacing air with liquid also leaves capacitance unchanged.",
+          },
+          {
+            id: "Rumus \\(A/D\\) memakai celah tipis. Untuk dua silinder konsentris dengan jari-jari \\(a,b\\), gunakan bentuk tepat \\(C=2\\pi\\varepsilon_{\\rm air}[h_1+k(h_2-h_0)]/\\ln(b/a)\\). Pembagian daerahnya tetap sama.",
+            en: "The \\(A/D\\) formula assumes a thin gap. For concentric cylinders of radii \\(a,b\\), use the exact form \\(C=2\\pi\\varepsilon_{\\rm air}[h_1+k(h_2-h_0)]/\\ln(b/a)\\). The division into regions stays the same.",
+          },
+        ],
         visual: {
           kind: "capacitive",
           caption: {
@@ -449,20 +743,19 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "3c · Ubah kapasitansi menjadi tegangan",
-          en: "3c · Convert capacitance into voltage",
+          id: "3c · Susun jembatan untuk membaca kapasitansi",
+          en: "3c · Arrange a bridge to read capacitance",
         },
         body: [
           {
-            id: "Satu pilihan adalah jembatan AC. Hubungkan \\(C_s\\) di lengan kiri atas, \\(C_{\\rm ref}\\) di kiri bawah, dan dua resistor sama besar di kanan. Beri eksitasi AC antara titik atas dan bawah. Ukur selisih titik tengah dengan penguat diferensial, lalu demodulator sinkron dan penyaring lolos rendah.",
-            en: "One option is an AC bridge. Put \\(C_s\\) in the upper-left arm, \\(C_{\\rm ref}\\) below it, and equal resistors in the right arms. Apply AC between top and bottom. Feed the midpoint difference to a differential amplifier, synchronous demodulator, and low-pass filter.",
+            id: "Kita perlu mengubah kapasitansi menjadi sinyal yang mudah dibaca. Satu pilihan adalah **jembatan AC** (rangkaian pembanding dengan catu bolak-balik). Letakkan \\(C_s\\) di kiri atas, \\(C_{\\rm ref}\\) di kiri bawah, dan dua resistor sama besar di kanan.",
+            en: "We need to convert capacitance into a readable signal. One choice is an **AC bridge**, a comparison circuit driven by alternating voltage. Place \\(C_s\\) upper-left, \\(C_{\\rm ref}\\) lower-left, and equal resistors in the right arms.",
           },
           {
-            id: "Saat \\(C_s=C_{\\rm ref}\\), kedua titik tengah sama sehingga keluarannya nol. Level naik mengubah \\(C_s\\), lalu mengubah keluaran jembatan. AC diperlukan karena kapasitor tidak melewatkan arus DC pada keadaan tunak.",
-            en: "When \\(C_s=C_{\\rm ref}\\), both midpoint voltages match and bridge output is zero. Rising level changes \\(C_s\\) and the bridge output. AC is needed because a capacitor passes no steady DC current.",
+            id: "Beri tegangan AC antara titik atas dan bawah. Ukur selisih kedua titik tengah. AC memberi arus bolak-balik melalui kapasitor, sedangkan setelah transien selesai, catu DC tetap tidak memberi arus melalui kapasitor ideal.",
+            en: "Apply AC between the top and bottom nodes, and measure the midpoint difference. AC produces alternating capacitor current; after transients end, a steady DC supply produces no current through an ideal capacitor.",
           },
         ],
-        math: "V_b=V_{\\rm ex}\\left(\\frac{C_s}{C_s+C_{\\rm ref}}-\\frac12\\right)",
         visual: {
           kind: "bridge",
           caption: {
@@ -480,20 +773,41 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "3d · Ikuti fluks pada LVDT",
-          en: "3d · Follow the LVDT coupling",
+          id: "Ikuti keluaran jembatan hingga menjadi pembacaan level",
+          en: "Follow bridge output into a level reading",
         },
         body: [
           {
-            id: "Eksitasi AC pada kumparan primer menghasilkan fluks bolak-balik. Inti besi yang bergerak mengubah kopling menuju dua kumparan sekunder. Hubungkan kedua sekunder secara seri berlawanan sehingga \\(V_o=V_1-V_2\\).",
-            en: "AC excitation in the primary produces alternating flux. The moving iron core changes coupling to the two secondaries. Connect the secondaries in series opposition so \\(V_o=V_1-V_2\\).",
+            id: "Impedansi kapasitor berbanding terbalik dengan kapasitansi: \\(Z_C=1/(j\\omega C)\\). Oleh karena itu, pembagi tegangan sisi kiri memberi \\(V_{\\rm ex}C_s/(C_s+C_{\\rm ref})\\); sisi kanan selalu memberi \\(V_{\\rm ex}/2\\).",
+            en: "Capacitor impedance is inversely proportional to capacitance: \\(Z_C=1/(j\\omega C)\\). The left divider therefore gives \\(V_{\\rm ex}C_s/(C_s+C_{\\rm ref})\\); the right divider gives \\(V_{\\rm ex}/2\\).",
           },
           {
-            id: "Di tengah, \\(V_1\\approx V_2\\) dan keluaran mendekati nol. Saat inti bergeser, satu tegangan naik dan yang lain turun. Dalam daerah kerja linear, amplitudo memberi besar simpangan; perubahan fase 180° memberi sisi simpangan. Demodulasi peka fase menghasilkan keluaran bertanda.",
-            en: "At the centre, \\(V_1\\approx V_2\\) and output is near zero. Moving the core raises one voltage and lowers the other. Within the linear range, amplitude gives displacement magnitude; a 180° phase reversal distinguishes the side. Phase-sensitive demodulation produces a signed output.",
+            id: "Saat \\(C_s=C_{\\rm ref}\\), selisihnya nol. Perubahan level mengubah \\(C_s\\), lalu mengubah tegangan selisih. Penguat diferensial memperbesar selisih itu; demodulator sinkron dan penyaring lolos rendah menghasilkan keluaran untuk tampilan level.",
+            en: "When \\(C_s=C_{\\rm ref}\\), the difference is zero. A level change alters \\(C_s\\), then the difference voltage. A differential amplifier increases that difference; a synchronous demodulator and low-pass filter produce an output for the level display.",
           },
         ],
-        math: "V_o(t)=K_xx\\sin(\\omega_ct),\\qquad V_{\\rm DC}\\propto x",
+        math: "V_b=V_{\\rm ex}\\left(\\frac{C_s}{C_s+C_{\\rm ref}}-\\frac12\\right)",
+      },
+      {
+        title: {
+          id: "3d · Susun kumparan LVDT dan baca selisihnya",
+          en: "3d · Arrange the LVDT windings and read their difference",
+        },
+        body: [
+          {
+            id: "LVDT mengukur perpindahan lurus. Gambar skemanya memuat satu kumparan primer, dua kumparan sekunder, dan inti besi yang dapat bergerak sepanjang sumbu kumparan.",
+            en: "An LVDT measures linear displacement. Its sketch needs one primary winding, two secondary windings, and an iron core moving along the winding axis.",
+          },
+          {
+            id: "Eksitasi AC pada primer memberi fluks magnet bolak-balik. Posisi inti menentukan seberapa kuat fluks menghubungkan primer dengan tiap sekunder. Hubungkan kedua sekunder berlawanan agar keluaran menjadi \\(V_1-V_2\\).",
+            en: "AC primary excitation creates alternating magnetic flux. Core position sets the coupling from the primary to each secondary. Connect the secondaries in opposition so the output becomes \\(V_1-V_2\\).",
+          },
+          {
+            id: "Pada posisi tengah, kedua tegangan hampir sama dan saling menghapus. Pergeseran inti meningkatkan satu kopling dan mengurangi kopling lainnya, sehingga selisih tidak lagi nol.",
+            en: "At the centre, the two voltages are almost equal and cancel. Core motion strengthens one coupling and weakens the other, creating a nonzero difference.",
+          },
+        ],
+        math: "V_o=V_1-V_2",
         visual: {
           kind: "lvdt",
           caption: {
@@ -509,19 +823,24 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "3e · Bandingkan dengan potensiometer",
-          en: "3e · Compare with a potentiometer",
+          id: "Baca besar dan arah perpindahan LVDT",
+          en: "Read both magnitude and direction from an LVDT",
         },
         body: [
           {
-            id: "LVDT tidak memerlukan kontak geser listrik, sehingga tidak mengalami keausan wiper dan dapat mengukur gerak kecil dengan halus. Potensiometer memakai wiper, tetapi rangkaiannya ringkas dan dapat bekerja dengan catu DC sederhana.",
-            en: "An LVDT needs no sliding electrical contact, so it avoids wiper wear and can resolve small motion smoothly. A potentiometer uses a wiper but has a compact circuit and can run from a simple DC supply.",
+            id: "Dalam daerah linear, amplitudo selisih tegangan sebanding dengan besar perpindahan. Tetapi dua posisi pada sisi berlawanan dapat memberi amplitudo yang sama.",
+            en: "Within the linear range, voltage-difference amplitude is proportional to displacement magnitude. Two positions on opposite sides can nevertheless have the same amplitude.",
           },
           {
-            id: "Kekurangan LVDT adalah kebutuhan eksitasi dan pengondisi sinyal, ukuran serta biaya yang dapat lebih besar, dan perlunya menjaga inti dalam daerah linear. Resolusi praktis tetap dibatasi derau dan rangkaian baca.",
-            en: "LVDT tradeoffs include excitation and signal-conditioning needs, potentially greater size and cost, and the need to keep the core in its linear range. Practical resolution remains limited by noise and readout electronics.",
+            id: "Fase sinyal terhadap eksitasi membedakan kedua sisi: sinyal berbalik fase 180° saat inti melewati tengah. Demodulator peka fase memakai informasi ini untuk memberi tegangan DC positif atau negatif.",
+            en: "Signal phase relative to excitation distinguishes the sides: crossing the centre reverses phase by 180°. A phase-sensitive demodulator uses that information to produce positive or negative DC voltage.",
+          },
+          {
+            id: "Pada model di bawah, \\(x\\) adalah perpindahan bertanda dan \\(\\omega_c\\) frekuensi sudut eksitasi. Membaca amplitudo saja akan membuang informasi tanda \\(x\\).",
+            en: "In the model below, \\(x\\) is signed displacement and \\(\\omega_c\\) the excitation angular frequency. Reading amplitude alone would discard the sign of \\(x\\).",
           },
         ],
+        math: "V_o(t)=K_xx\\sin(\\omega_ct),\\qquad V_{\\rm DC}\\propto x",
         visual: {
           kind: "lvdt",
           caption: {
@@ -534,6 +853,26 @@ export const questions2023: ExamQuestion[] = [
             x: 2,
           },
         },
+      },
+      {
+        title: {
+          id: "3e · Pilih LVDT atau potensiometer sesuai kebutuhan",
+          en: "3e · Choose an LVDT or potentiometer for the task",
+        },
+        body: [
+          {
+            id: "Potensiometer memakai kontak geser listrik, atau wiper, untuk membaca bagian tahanan sepanjang lintasan. Rangkaiannya ringkas dan dapat memakai catu DC, tetapi kontaknya dapat aus dan menambah derau.",
+            en: "A potentiometer uses a sliding electrical contact, or wiper, to read the resistance along its track. Its circuit is compact and can use DC excitation, but the contact can wear and introduce noise.",
+          },
+          {
+            id: "LVDT tidak membutuhkan kontak geser listrik pada inti. Keunggulannya adalah gerak ukur yang halus tanpa keausan wiper. Namun alat memerlukan eksitasi AC dan pengondisi sinyal; ukuran serta biayanya dapat lebih besar.",
+            en: "An LVDT needs no sliding electrical contact on the core. It measures motion smoothly without wiper wear, but needs AC excitation and signal conditioning. Size and cost can also be greater.",
+          },
+          {
+            id: "Keduanya tetap memiliki batas: LVDT perlu bekerja dalam daerah linearnya, dan resolusi praktisnya dipengaruhi derau serta rangkaian baca. Tidak adanya wiper tidak berarti ketelitian tak terbatas.",
+            en: "Both still have limits: an LVDT must stay in its linear region, and practical resolution depends on noise and readout electronics. Absence of a wiper does not mean unlimited accuracy.",
+          },
+        ],
       },
     ],
     answer: {
@@ -591,54 +930,126 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "4a · Pilih sumber bergerak dan pengamat diam",
-          en: "4a · Identify a moving source and stationary observer",
+          id: "4a · Tentukan sumber, pengamat, dan satuan kecepatan",
+          en: "4a · Identify the source, observer, and speed units",
         },
         body: [
           {
-            id: "Soal menyebut mobil sebagai sumber bunyi. Kecepatan sumber \\(v_s=120/3.6=33.333\\,\\mathrm{m/s}\\), sedangkan polisi tidak bergerak.",
-            en: "The car is the sound source in this problem. Its speed is \\(v_s=120/3.6=33.333\\,\\mathrm{m/s}\\), while the observer is stationary.",
+            id: "Mobil memancarkan bunyi 880 Hz, sehingga mobil adalah sumber bergerak. Polisi menerima bunyi sambil diam. Kita memakai model Doppler sumber bergerak, dengan udara sebagai medium yang diam.",
+            en: "The car emits sound at 880 Hz, so it is the moving source. The stationary officer receives that sound. We use the moving-source Doppler model with stationary air.",
           },
           {
-            id: "Saat mendekat, sumber memancarkan puncak gelombang berikutnya dari posisi yang lebih dekat. Panjang gelombang di depan menjadi \\((c-v_s)/f_s\\), sehingga frekuensi yang diterima naik.",
-            en: "On approach, each new wave crest starts closer to the observer. Wavelength ahead becomes \\((c-v_s)/f_s\\), increasing the received frequency.",
+            id: "Kecepatan mobil dan kecepatan bunyi harus memakai satuan yang sama. Ubah 120 km/h menjadi m/s dengan mengalikan 1000 m/km dan membagi 3600 s/jam.",
+            en: "Car speed and sound speed must use the same units. Convert 120 km/h to m/s by multiplying by 1000 m/km and dividing by 3600 s/hour.",
           },
         ],
-        math: "f_{\\rm approach}=f_s\\frac{c}{c-v_s}=880\\frac{330}{330-33.333}=\\boxed{978.88\\ \\mathrm{Hz}}",
+        math: "v_s=120\\frac{1000}{3600}=33.3333\\ \\mathrm{m/s},\\qquad c=330\\ \\mathrm{m/s},\\qquad f_s=880\\ \\mathrm{Hz}",
       },
       {
         title: {
-          id: "Hitung saat sumber menjauh",
-          en: "Calculate the receding case",
+          id: "Cari jarak antarpuncak bunyi saat mobil mendekat",
+          en: "Find wave-crest spacing during approach",
         },
         body: [
           {
-            id: "Setelah lewat, jarak antar puncak gelombang yang menuju polisi menjadi lebih besar. Penyebut kini \\(c+v_s\\), sehingga frekuensi turun di bawah 880 Hz.",
-            en: "After passing, wave crests travelling toward the observer are farther apart. The denominator becomes \\(c+v_s\\), so frequency falls below 880 Hz.",
+            id: "Dalam satu periode \\(T_s=1/f_s\\), puncak bunyi bergerak sejauh \\(cT_s\\). Selama waktu yang sama, mobil maju sejauh \\(v_sT_s\\) sebelum memancarkan puncak berikutnya.",
+            en: "In one source period \\(T_s=1/f_s\\), a sound crest travels \\(cT_s\\). During the same time, the car moves forward by \\(v_sT_s\\) before emitting the next crest.",
           },
           {
-            id: "Ini model bunyi langsung dari mobil, bukan gelombang radar yang dipantulkan dua kali. Kita juga menganggap geraknya searah garis pandang; di lintasan menyamping gunakan komponen kecepatan radial.",
-            en: "This models sound emitted directly by the car, not a reflected radar signal with two Doppler shifts. Motion is taken along the line of sight; an oblique path requires radial velocity.",
+            id: "Jarak dua puncak di depan sumber menjadi \\(\\lambda=(c-v_s)T_s\\). Pengamat diam menerima puncak dengan laju \\(f=c/\\lambda\\). Penyebut lebih kecil daripada \\(c\\), sehingga frekuensi naik.",
+            en: "The spacing ahead of the source becomes \\(\\lambda=(c-v_s)T_s\\). A stationary observer receives crests at rate \\(f=c/\\lambda\\). The denominator is smaller than \\(c\\), so frequency rises.",
           },
         ],
-        math: "f_{\\rm recede}=f_s\\frac{c}{c+v_s}=880\\frac{330}{330+33.333}=\\boxed{799.27\\ \\mathrm{Hz}}",
+        math: "\\lambda_{\\rm approach}=\\frac{c-v_s}{f_s},\\qquad f_{\\rm approach}=\\frac c{\\lambda_{\\rm approach}}=f_s\\frac c{c-v_s}",
       },
       {
         title: {
-          id: "4b · Ubah percepatan menjadi kecepatan",
-          en: "4b · Convert acceleration amplitude into velocity amplitude",
+          id: "Hitung frekuensi saat mendekat",
+          en: "Calculate the approaching frequency",
         },
         body: [
           {
-            id: "Untuk gerak sinus, amplitudo percepatan \\(\\hat a=\\omega\\hat v\\), dengan \\(\\omega=2\\pi f\\). Jadi \\(\\hat v=\\hat a/(2\\pi f)\\). Pada percepatan tetap, frekuensi yang lebih tinggi justru memerlukan amplitudo kecepatan yang lebih kecil.",
-            en: "For sinusoidal motion, acceleration amplitude is \\(\\hat a=\\omega\\hat v\\), where \\(\\omega=2\\pi f\\). Thus \\(\\hat v=\\hat a/(2\\pi f)\\). At fixed acceleration, higher frequency requires lower velocity amplitude.",
+            id: "Kita masukkan kecepatan dengan tanda pengurangan, sesuai jarak puncak yang memendek. Pengurangan terjadi pada penyebut karena sumber bergerak, sedangkan pengamat tetap diam.",
+            en: "We insert the speeds with subtraction, matching the shorter crest spacing. The subtraction belongs in the denominator because the source moves while the observer stays still.",
           },
           {
-            id: "Samakan satuan sensitivitas: 1 cm/s = 0.01 m/s. Maka 40 mV/(cm/s) sama dengan 4 V/(m/s).",
-            en: "Convert sensitivity units: 1 cm/s = 0.01 m/s, so 40 mV/(cm/s) equals 4 V/(m/s).",
+            id: "Hasil harus lebih besar dari 880 Hz. Angka sekitar 978.88 Hz memenuhi cek arah ini.",
+            en: "The result must exceed 880 Hz. The value near 978.88 Hz passes this direction check.",
           },
         ],
-        math: "\\hat e=K\\hat v=\\frac{K\\hat a}{2\\pi f}=\\frac{4(9.81)}{2\\pi f}\\ \\mathrm V",
+        math: "f_{\\rm approach}=880\\frac{330}{330-33.3333}=\\boxed{978.88\\ \\mathrm{Hz}}",
+      },
+      {
+        title: {
+          id: "Balik perubahan jarak puncak saat mobil menjauh",
+          en: "Reverse the crest-spacing change during recession",
+        },
+        body: [
+          {
+            id: "Saat mobil menjauh, posisi emisi berikutnya makin jauh dari polisi. Jarak puncak yang menuju polisi bertambah, sehingga penyebut berubah menjadi c+vs.",
+            en: "As the car recedes, the next emission point is farther from the officer. Spacing between crests travelling toward the officer increases, so the denominator becomes c+vs.",
+          },
+          {
+            id: "Hasil berada di bawah 880 Hz. Kedua hasil menganggap gerak segaris dengan polisi; lintasan menyamping memerlukan komponen kecepatan radial.",
+            en: "The result falls below 880 Hz. Both results assume motion along the line to the officer; an oblique path needs the radial velocity component.",
+          },
+          {
+            id: "Walaupun soal menyebut deteksi Doppler polisi, data menyatakan bunyi berasal dari mobil. Oleh karena itu, kita tidak menambahkan faktor pantulan radar yang mengalami pergeseran pada perjalanan pergi dan pulang.",
+            en: "Although the question mentions police Doppler detection, its data describe sound emitted by the car. We therefore do not add the two-way shift of a reflected radar signal.",
+          },
+        ],
+        math: "f_{\\rm recede}=880\\frac{330}{330+33.3333}=\\boxed{799.27\\ \\mathrm{Hz}}",
+      },
+      {
+        title: {
+          id: "4b · Tentukan besaran yang langsung dibaca vibrometer",
+          en: "4b · Identify what the vibrometer measures directly",
+        },
+        body: [
+          {
+            id: "Vibrometer pada soal menghasilkan tegangan yang sebanding dengan kecepatan gerak kumparan: \\(e\\approx Kv\\). Namun soal memberi amplitudo percepatan 1G, bukan amplitudo kecepatan. Kita perlu menghubungkan keduanya lebih dulu.",
+            en: "This vibrometer produces voltage proportional to coil velocity: \\(e\\approx Kv\\). The problem gives acceleration amplitude of 1G rather than velocity amplitude, so we must connect those quantities first.",
+          },
+          {
+            id: "Tanda topi, seperti \\(\\hat a\\), menyatakan amplitudo puncak. Nilai yang diberikan adalah \\(\\hat a=9.81\\ \\mathrm{m/s^2}\\). Besarnya tetap pada kedua frekuensi yang dibandingkan.",
+            en: "A hat, as in \\(\\hat a\\), denotes peak amplitude. Here \\(\\hat a=9.81\\ \\mathrm{m/s^2}\\), held fixed at both frequencies.",
+          },
+        ],
+        math: "\\hat e=K\\hat v,\\qquad \\hat a=9.81\\ \\mathrm{m/s^2}",
+      },
+      {
+        title: {
+          id: "Hubungkan kecepatan dan percepatan untuk gerak sinus",
+          en: "Connect velocity and acceleration for sinusoidal motion",
+        },
+        body: [
+          {
+            id: "Kita ambil perpindahan \\(x(t)=\\hat x\\sin\\omega t\\). Satu kali turunan memberi kecepatan, dan turunan berikutnya memberi percepatan. Setiap turunan menambahkan faktor \\(\\omega\\) pada amplitudo.",
+            en: "We take displacement \\(x(t)=\\hat x\\sin\\omega t\\). One derivative gives velocity, and the next gives acceleration. Each derivative introduces a factor of \\(\\omega\\) into the amplitude.",
+          },
+          {
+            id: "Jadi \\(\\hat v=\\omega\\hat x\\) dan \\(\\hat a=\\omega^2\\hat x=\\omega\\hat v\\). Frekuensi \\(f\\) menghitung siklus per detik, sedangkan \\(\\omega=2\\pi f\\) memakai radian per detik.",
+            en: "Thus \\(\\hat v=\\omega\\hat x\\) and \\(\\hat a=\\omega^2\\hat x=\\omega\\hat v\\). Frequency \\(f\\) counts cycles per second, while \\(\\omega=2\\pi f\\) uses radians per second.",
+          },
+        ],
+        math: "\\hat v=\\frac{\\hat a}{\\omega}=\\frac{\\hat a}{2\\pi f},\\qquad\\hat e=\\frac{K\\hat a}{2\\pi f}",
+      },
+      {
+        title: {
+          id: "Samakan satuan sensitivitas dan kecepatan",
+          en: "Match sensitivity and velocity units",
+        },
+        body: [
+          {
+            id: "Sensitivitas 40 mV/(cm/s) berarti gerak 1 cm/s memberi 40 mV. Kita memakai m/s dalam perhitungan gerak, sehingga kedua satuan pada perbandingan perlu diubah.",
+            en: "Sensitivity 40 mV/(cm/s) means a velocity of 1 cm/s gives 40 mV. Since the motion calculation uses m/s, convert both units in that ratio.",
+          },
+          {
+            id: "40 mV sama dengan 0.040 V, dan 1 cm/s sama dengan 0.01 m/s. Pembagian memberi 4 V/(m/s), sehingga tegangan akhirnya langsung dalam volt.",
+            en: "40 mV equals 0.040 V, and 1 cm/s equals 0.01 m/s. Their ratio is 4 V/(m/s), so the resulting voltage is directly in volts.",
+          },
+        ],
+        math: "K=\\frac{0.040\\ \\mathrm V}{0.01\\ \\mathrm{m/s}}=4\\ \\mathrm{V/(m/s)},\\qquad\\hat e=\\frac{4(9.81)}{2\\pi f}\\ \\mathrm V",
         visual: {
           kind: "vibrometer",
           caption: {
@@ -656,20 +1067,37 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Bandingkan dua frekuensi",
-          en: "Compare the two frequencies",
+          id: "Hitung keluaran pada 10 Hz",
+          en: "Calculate output at 10 Hz",
         },
         body: [
           {
-            id: "Pada 10 Hz, \\(\\hat v=0.156131\\,\\mathrm{m/s}\\), sehingga \\(\\hat e=0.624524\\,\\mathrm V\\). Pada 2000 Hz, \\(\\hat v=0.000780655\\,\\mathrm{m/s}\\), sehingga \\(\\hat e=0.00312262\\,\\mathrm V\\).",
-            en: "At 10 Hz, \\(\\hat v=0.156131\\,\\mathrm{m/s}\\), giving \\(\\hat e=0.624524\\,\\mathrm V\\). At 2000 Hz, \\(\\hat v=0.000780655\\,\\mathrm{m/s}\\), giving \\(\\hat e=0.00312262\\,\\mathrm V\\).",
+            id: "Kita hitung frekuensi sudut, lalu bagi amplitudo percepatan dengan frekuensi sudut untuk memperoleh amplitudo kecepatan. Setelah itu, kalikan dengan sensitivitas.",
+            en: "We calculate angular frequency, then divide acceleration amplitude by it to obtain velocity amplitude. We multiply that velocity by sensitivity.",
           },
           {
-            id: "Frekuensi naik 200 kali, maka tegangan turun 200 kali. Ini amplitudo puncak, bukan nilai RMS; kedua frekuensi masih berada dalam rentang sensitivitas yang soal berikan.",
-            en: "Frequency increases by a factor of 200, so voltage decreases by a factor of 200. These are peak amplitudes, not RMS values; both frequencies fall within the specified sensitivity range.",
+            id: "Hasil 0.624524 V sama dengan 624.524 mV. Nilai ini adalah amplitudo puncak keluaran sinus, bukan tegangan tetap.",
+            en: "The result 0.624524 V equals 624.524 mV. It is the peak amplitude of a sinusoidal output rather than a constant voltage.",
           },
         ],
-        math: "\\boxed{\\begin{aligned}\\hat e(10\\,\\mathrm{Hz})&=624.524\\ \\mathrm{mV}\\\\\\hat e(2000\\,\\mathrm{Hz})&=3.12262\\ \\mathrm{mV}\\end{aligned}}",
+        math: "\\begin{aligned}\\omega&=2\\pi(10)=62.8319\\ \\mathrm{rad/s}\\\\\\hat v&=\\frac{9.81}{62.8319}=0.156131\\ \\mathrm{m/s}\\\\\\hat e&=4(0.156131)=0.624524\\ \\mathrm V=624.524\\ \\mathrm{mV}\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Hitung keluaran pada 2000 Hz",
+          en: "Calculate output at 2000 Hz",
+        },
+        body: [
+          {
+            id: "Kita gunakan urutan yang sama pada frekuensi 2000 Hz. Percepatannya tetap 9.81 m/s², tetapi kecepatan puncaknya kini jauh lebih kecil karena dibagi frekuensi yang lebih besar.",
+            en: "Follow the same sequence at 2000 Hz. Acceleration stays at 9.81 m/s², but peak velocity is now much smaller because it is divided by a higher frequency.",
+          },
+          {
+            id: "Setelah dikali sensitivitas, tegangan puncaknya sekitar 0.00312262 V atau 3.12262 mV.",
+            en: "Multiplying by sensitivity gives a peak voltage of about 0.00312262 V, or 3.12262 mV.",
+          },
+        ],
+        math: "\\hat v=\\frac{9.81}{2\\pi(2000)}=0.000780655\\ \\mathrm{m/s},\\qquad\\hat e=4(0.000780655)=\\boxed{3.12262\\ \\mathrm{mV}}",
         visual: {
           kind: "vibrometer",
           caption: {
@@ -684,6 +1112,27 @@ export const questions2023: ExamQuestion[] = [
             maxFrequency: 2000,
           },
         },
+      },
+      {
+        title: {
+          id: "Periksa hubungan kedua hasil",
+          en: "Check the relationship between the results",
+        },
+        body: [
+          {
+            id: "Frekuensi naik dari 10 menjadi 2000 Hz, yaitu 200 kali. Pada percepatan tetap, rumus memberi kecepatan dan tegangan yang turun 200 kali. Kedua hasil memenuhi hubungan ini.",
+            en: "Frequency rises from 10 to 2000 Hz, a factor of 200. At fixed acceleration, the formula makes velocity and voltage fall by a factor of 200. The two results satisfy that relationship.",
+          },
+          {
+            id: "Kesimpulan ini memakai sensitivitas tetap dalam rentang 10 sampai 2000 Hz yang diberikan. Jika yang tetap adalah amplitudo kecepatan, bukan percepatan, tegangan tidak akan turun dengan cara yang sama.",
+            en: "This conclusion uses the stated constant sensitivity over 10 to 2000 Hz. If velocity amplitude were fixed instead of acceleration amplitude, voltage would not decrease in this way.",
+          },
+          {
+            id: "Kedua angka merupakan amplitudo puncak. Untuk RMS sinyal sinus, barulah bagi amplitudo puncak dengan akar dua; soal tidak meminta konversi itu.",
+            en: "Both numbers are peak amplitudes. RMS for a sinusoid would require division by the square root of two; the question does not request that conversion.",
+          },
+        ],
+        math: "\\frac{\\hat e(10)}{\\hat e(2000)}=\\frac{2000}{10}=200",
       },
     ],
     answer: {
@@ -737,83 +1186,183 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "1a · Tandai dua lokasi tekanan",
-          en: "1a · Mark the two pressure locations",
+          id: "1a · Susun gambar Venturi dan dua tap tekanan",
+          en: "1a · Arrange the Venturi and its two pressure taps",
         },
         body: [
           {
-            id: "Penampang A berada sebelum penyempitan; B berada di leher. Kontinuitas membuat kecepatan di B lebih tinggi. Pada pipa mendatar, tekanan di A lebih tinggi, sehingga permukaan raksa di kaki A lebih rendah.",
-            en: "Section A is upstream of the contraction; B is at the throat. Continuity makes velocity at B higher. In a horizontal pipe, pressure at A is higher, so the mercury surface in leg A is lower.",
+            id: "Gambar aliran dari penampang besar A menuju penyempitan halus, leher B, lalu pelebaran halus atau diffuser. Diameter A adalah 80 mm dan diameter leher B adalah 20 mm.",
+            en: "Sketch flow from the large section A through a smooth contraction, throat B, and a gradual expansion or diffuser. Section A has diameter 80 mm; throat B has diameter 20 mm.",
           },
           {
-            id: "Gambar perlu memperlihatkan penyempitan halus, leher, pelebaran halus, dua tap, serta selisih vertikal permukaan raksa. Beda tinggi itu 50 mm; bukan panjang kolom raksa seluruhnya.",
-            en: "The sketch should show the smooth contraction, throat, diffuser, both pressure taps, and the vertical mercury-level difference. That difference is 50 mm, not the entire mercury-column length.",
+            id: "Hubungkan tap tekanan A dan B ke dua kaki manometer U berisi raksa. Fluida proses mengisi ruang di atas raksa. Tandai h sebagai selisih vertikal dua permukaan raksa, bukan seluruh panjang kolom.",
+            en: "Connect pressure taps A and B to the two legs of a mercury U-tube. The process fluid occupies the space above the mercury. Mark h as the vertical difference between the mercury surfaces, not the full column length.",
+          },
+          {
+            id: "Untuk aliran dari A ke B pada pipa mendatar, tekanan A lebih besar. Raksa pada kaki yang terhubung ke A turun, sehingga permukaan kaki B lebih tinggi.",
+            en: "For flow from A toward B in a horizontal pipe, pressure at A is higher. Mercury in the leg connected to A moves downward, leaving the B-leg surface higher.",
           },
         ],
       },
       {
         title: {
-          id: "Ubah pembacaan manometer menjadi tekanan",
-          en: "Convert the manometer reading to pressure",
+          id: "Baca beda tekanan dari manometer",
+          en: "Read pressure difference from the manometer",
         },
         body: [
           {
-            id: "Karena kedua tap sama tinggi dan kedua kaki di atas raksa berisi fluida proses, gunakan selisih massa jenis. Ubah 50 mm menjadi 0.050 m.",
-            en: "Both taps are at the same elevation and the spaces above mercury contain process fluid, so use the density difference. Convert 50 mm to 0.050 m.",
+            id: "Kita memakai selisih massa jenis raksa dan fluida proses karena kedua kaki di atas raksa juga berisi fluida. Pada ketinggian yang sama dalam raksa yang diam, tekanannya sama; menyeimbangkan kedua kolom memberi hubungan berikut.",
+            en: "We use the difference between mercury and process-fluid densities because the upper parts of both legs also contain process fluid. At equal elevation in stationary mercury, pressures are equal; balancing the two columns gives the following relation.",
+          },
+          {
+            id: "Ubah 50 mm menjadi 0.050 m. Hasil Δp menyatakan pA−pB dan bernilai positif untuk arah aliran pada sketsa.",
+            en: "Convert 50 mm to 0.050 m. The resulting Δp is pA−pB and is positive for the flow direction in the sketch.",
           },
         ],
-        math: "\\Delta p=(13600-950)(9.81)(0.050)=6204.825\\ \\mathrm{Pa}",
+        math: "\\Delta p=(\\rho_m-\\rho)gh=(13600-950)(9.81)(0.050)=6204.825\\ \\mathrm{Pa}",
       },
       {
         title: {
-          id: "1b · Turunkan aliran pada penampang A",
-          en: "1b · Derive section-A flow",
+          id: "1b · Gunakan kontinuitas untuk mengurangi variabel",
+          en: "1b · Use continuity to reduce the unknowns",
         },
         body: [
           {
-            id: "Dari \\(A_Av_A=A_Bv_B\\), diperoleh \\(v_B=(A_A/A_B)v_A\\). Masukkan ke Bernoulli mendatar. Setelah itu, masukkan \\(C_d\\) sebagai koreksi debit nyata.",
-            en: "From \\(A_Av_A=A_Bv_B\\), obtain \\(v_B=(A_A/A_B)v_A\\). Substitute into horizontal Bernoulli, then include \\(C_d\\) as the real-flow correction.",
+            id: "Aliran tunak tak termampatkan memiliki debit volume yang sama pada A dan B. Kita tidak perlu mencari kedua kecepatan secara terpisah: salah satunya dapat dinyatakan melalui yang lain.",
+            en: "Steady incompressible flow has the same volume flow rate at A and B. We need not solve for both velocities separately: one can be expressed in terms of the other.",
           },
           {
-            id: "Rasio luas \\(A_A/A_B=(80/20)^2=16\\). Jadi kecepatan di leher 16 kali kecepatan rata-rata di A.",
-            en: "The area ratio is \\(A_A/A_B=(80/20)^2=16\\), so throat mean velocity is 16 times section-A mean velocity.",
+            id: "Luas lingkaran berbanding dengan kuadrat diameter. Diameter A empat kali diameter B, sehingga luas A adalah \\(4^2=16\\) kali luas B. Kecepatan di B menjadi 16 kali kecepatan di A.",
+            en: "Circular area scales with diameter squared. Since A's diameter is four times B's, its area is \\(4^2=16\\) times as large. Velocity at B is therefore 16 times velocity at A.",
           },
         ],
-        math: "\\begin{aligned}\\Delta p&=\\tfrac12\\rho v_A^2\\left[\\left(\\frac{A_A}{A_B}\\right)^2-1\\right]&&\\text{(ideal)}\\\\v_A&=C_d\\sqrt{\\frac{2\\Delta p}{\\rho[(D_A/D_B)^4-1]}}\\\\Q&=A_Av_A=C_dA_B\\sqrt{\\frac{2\\Delta p}{\\rho[1-(D_B/D_A)^4]}}\\end{aligned}",
+        math: "A_Av_A=A_Bv_B,\\qquad v_B=\\frac{A_A}{A_B}v_A,\\qquad\\frac{A_A}{A_B}=\\left(\\frac{80}{20}\\right)^2=16",
       },
       {
         title: {
-          id: "1c · Hitung dan periksa debit",
-          en: "1c · Calculate and check flow",
+          id: "Masukkan hubungan kecepatan ke Bernoulli",
+          en: "Substitute the velocity relation into Bernoulli",
         },
         body: [
           {
-            id: "Luas leher \\(A_B=\\pi(0.020)^2/4=3.14159\\times10^{-4}\\,\\mathrm{m^2}\\). Pakai diameter dalam meter sebelum menguadratkannya.",
-            en: "Throat area is \\(A_B=\\pi(0.020)^2/4=3.14159\\times10^{-4}\\,\\mathrm{m^2}\\). Use metres before squaring the diameter.",
+            id: "Pada pipa mendatar, suku energi ketinggian sama pada kedua penampang. Model ideal menghubungkan penurunan tekanan dengan kenaikan energi gerak.",
+            en: "In a horizontal pipe, elevation-energy terms are equal at the two sections. The ideal model relates pressure drop to increasing kinetic energy.",
           },
           {
-            id: "Hasil ini setara 1.10354 L/s. Kecepatan \\(v_A=0.21954\\,\\mathrm{m/s}\\) dan \\(v_B=3.51269\\,\\mathrm{m/s}\\) memenuhi rasio 16:1.",
-            en: "The result is 1.10354 L/s. Velocities \\(v_A=0.21954\\,\\mathrm{m/s}\\) and \\(v_B=3.51269\\,\\mathrm{m/s}\\) satisfy the 16:1 ratio.",
+            id: "Ganti \\(v_B\\) dengan \\((A_A/A_B)v_A\\). Setelah dikuadratkan, kedua suku kecepatan memuat \\(v_A^2\\), sehingga faktor itu dapat dikeluarkan.",
+            en: "Replace \\(v_B\\) by \\((A_A/A_B)v_A\\). After squaring, both velocity terms contain \\(v_A^2\\), allowing it to be factored out.",
           },
         ],
-        math: "Q=0.97\\frac{\\pi(0.020)^2}{4}\\sqrt{\\frac{2(6204.825)}{950[1-(0.020/0.080)^4]}}=\\boxed{1.10354\\times10^{-3}\\ \\mathrm{m^3/s}}",
+        math: "\\begin{aligned}\\Delta p&=\\frac12\\rho(v_B^2-v_A^2)\\\\&=\\frac12\\rho\\left[\\left(\\frac{A_A}{A_B}v_A\\right)^2-v_A^2\\right]\\\\&=\\frac12\\rho v_A^2\\left[\\left(\\frac{A_A}{A_B}\\right)^2-1\\right]\\end{aligned}",
       },
       {
         title: {
-          id: "1d · Nyatakan apa yang tetap saat alat diganti",
-          en: "1d · State what stays fixed when replacing the meter",
+          id: "Selesaikan kecepatan ideal di A",
+          en: "Solve for ideal section-A velocity",
         },
         body: [
           {
-            id: "Nozzle umumnya memberi pemulihan tekanan yang lebih kecil daripada Venturi karena tidak memiliki diffuser sepanjang Venturi. Namun rugi tekanan permanen berbeda dari beda tekanan antara tap pengukuran.",
-            en: "A nozzle generally recovers less pressure than a Venturi because it lacks the Venturi’s long diffuser. Permanent pressure loss, however, differs from the measured pressure difference between taps.",
+            id: "Kita kalikan kedua ruas dengan 2, lalu bagi dengan massa jenis dan faktor rasio luas. Hasilnya adalah kuadrat kecepatan di A. Kita ambil akar positif karena kita mencari besar kecepatan dalam arah aliran.",
+            en: "We multiply both sides by 2, then divide by density and the area-ratio factor. This gives section-A velocity squared. We take the positive root because we seek the speed along the flow direction.",
           },
           {
-            id: "Jika debit dipertahankan dan \\(C_{d,n}<0.97\\), beda tekanan dan tinggi raksa naik menurut hubungan di bawah. Tanpa nilai \\(C_{d,n}\\) serta kondisi pompa, kita tidak dapat memberi tinggi baru yang unik. Rentang \\(C_d\\) nozzle pada materi juga tumpang tindih dengan 0.97, jadi penurunannya bukan kepastian untuk setiap nozzle.",
-            en: "If flow is held fixed and \\(C_{d,n}<0.97\\), pressure difference and mercury height increase by the relation below. Without \\(C_{d,n}\\) and the pumping condition, there is no unique new height. The course’s nozzle \\(C_d\\) range overlaps 0.97, so a decrease is not guaranteed for every nozzle.",
+            id: "Rasio luas yang dikuadratkan menjadi rasio diameter pangkat empat. Kemunculan pangkat empat berasal dari geometri luas, bukan rumus baru yang harus dihafal.",
+            en: "The squared area ratio becomes the fourth power of the diameter ratio. That fourth power comes from area geometry rather than a separate rule to memorise.",
           },
         ],
-        math: "\\left.\\frac{h_n}{h_v}\\right|_{Q\\ \\rm fixed}=\\left(\\frac{C_{d,v}}{C_{d,n}}\\right)^2",
+        math: "v_{A,\\rm ideal}=\\sqrt{\\frac{2\\Delta p}{\\rho[(A_A/A_B)^2-1]}}=\\sqrt{\\frac{2\\Delta p}{\\rho[(D_A/D_B)^4-1]}}",
+      },
+      {
+        title: {
+          id: "Ubah aliran ideal menjadi debit nyata",
+          en: "Convert ideal flow into real flow",
+        },
+        body: [
+          {
+            id: "Koefisien debit \\(C_d=0.97\\) memberi debit nyata sebesar 97% dari debit ideal. Luas penampang tetap. Oleh karena itu, faktor koreksi debit juga berlaku untuk kecepatan rata-rata di A.",
+            en: "The discharge coefficient \\(C_d=0.97\\) makes real flow 97% of ideal flow for this meter and model. Since area is fixed, the same correction also applies to mean section-A velocity.",
+          },
+          {
+            id: "Debit adalah luas dikali kecepatan. Bentuk memakai luas leher \\(A_B\\) berikut setara dengan bentuk \\(A_Av_A\\), tetapi lebih ringkas untuk substitusi.",
+            en: "Flow rate equals area times velocity. The form using throat area \\(A_B\\) below is equivalent to \\(A_Av_A\\), but is shorter for numerical substitution.",
+          },
+        ],
+        math: "v_A=C_dv_{A,\\rm ideal},\\qquad Q=A_Av_A=C_dA_B\\sqrt{\\frac{2\\Delta p}{\\rho[1-(D_B/D_A)^4]}}",
+      },
+      {
+        title: {
+          id: "1c · Masukkan diameter dalam meter",
+          en: "1c · Substitute diameters in metres",
+        },
+        body: [
+          {
+            id: "Ubah diameter 20 mm menjadi 0.020 m sebelum menghitung luas leher. Jika diameter masih mm, luas akan berupa mm² dan satuan debit tidak cocok.",
+            en: "Convert 20 mm to 0.020 m before calculating throat area. Keeping diameter in millimetres would produce mm² and inconsistent flow units.",
+          },
+          {
+            id: "Rasio diameter 0.020/0.080 = 0.25 tidak memiliki satuan. Kita masukkan luas, tekanan, massa jenis, serta koefisien yang telah diketahui.",
+            en: "The diameter ratio 0.020/0.080 = 0.25 is dimensionless. We insert the area, pressure, density, and discharge coefficient already found.",
+          },
+        ],
+        math: "\\begin{aligned}A_B&=\\frac{\\pi(0.020)^2}{4}=3.14159\\times10^{-4}\\ \\mathrm{m^2}\\\\Q&=0.97(3.14159\\times10^{-4})\\sqrt{\\frac{2(6204.825)}{950(1-0.25^4)}}\\\\&=\\boxed{1.10354\\times10^{-3}\\ \\mathrm{m^3/s}}\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Periksa debit melalui kedua kecepatan",
+          en: "Check flow using both velocities",
+        },
+        body: [
+          {
+            id: "Debit 0.00110354 m³/s sama dengan 1.10354 L/s. Kita bagi debit itu dengan luas masing-masing penampang untuk mendapat kecepatan rata-ratanya.",
+            en: "The flow 0.00110354 m³/s equals 1.10354 L/s. We divide it by each section's area to obtain the mean velocities.",
+          },
+          {
+            id: "Kecepatan leher 16 kali kecepatan A, sesuai kontinuitas. Kenaikan kecepatan ini juga sesuai tekanan B yang lebih rendah pada manometer.",
+            en: "Throat velocity is 16 times section-A velocity, agreeing with continuity. This increase also agrees with the lower B pressure indicated by the manometer.",
+          },
+        ],
+        math: "v_A=\\frac{Q}{\\pi(0.080)^2/4}=0.21954\\ \\mathrm{m/s},\\qquad v_B=\\frac Q{A_B}=3.51269\\ \\mathrm{m/s},\\qquad \\frac{v_B}{v_A}=16",
+      },
+      {
+        title: {
+          id: "1d · Bedakan pemulihan tekanan dan beda tekanan ukur",
+          en: "1d · Distinguish pressure recovery from measured pressure difference",
+        },
+        body: [
+          {
+            id: "Diffuser Venturi memperlambat aliran secara bertahap setelah leher, sehingga sebagian energi gerak kembali menjadi tekanan. Nozzle umumnya memulihkan tekanan lebih sedikit karena tidak memiliki diffuser sepanjang Venturi.",
+            en: "A Venturi diffuser gradually slows flow after the throat, converting some kinetic energy back into pressure. A nozzle generally recovers less pressure because it lacks the Venturi's long diffuser.",
+          },
+          {
+            id: "Rugi tekanan permanen adalah tekanan yang tidak kembali setelah alat. Beda tekanan tap adalah selisih tekanan pada dua lokasi pengukuran. Keduanya terkait dengan bentuk alat, tetapi tidak boleh dianggap besaran yang sama.",
+            en: "Permanent pressure loss is the pressure not recovered after the meter. Tap pressure difference compares the two measurement locations. Both depend on geometry, but they are not the same quantity.",
+          },
+          {
+            id: "Koefisien nozzle bergantung pada rancangan dan kondisi aliran. Rentang pada materi tumpang tindih dengan 0.97, sehingga kita tidak dapat menyatakan bahwa semua nozzle pasti memiliki Cd yang lebih rendah.",
+            en: "A nozzle's coefficient depends on design and flow conditions. The range in the notes overlaps 0.97, so not every nozzle necessarily has a lower Cd.",
+          },
+        ],
+      },
+      {
+        title: {
+          id: "Tentukan perubahan tinggi dengan menyebut kondisi yang tetap",
+          en: "Determine height change by stating what stays fixed",
+        },
+        body: [
+          {
+            id: "Untuk diameter dan cairan yang sama, bentuk debitnya dapat ditulis \\(Q=C_dB\\sqrt h\\), dengan \\(B\\) memuat semua faktor yang tetap. Jika debit juga dijaga sama, kedua alat memenuhi \\(C_{d,v}\\sqrt{h_v}=C_{d,n}\\sqrt{h_n}\\).",
+            en: "For the same diameters and fluid, write flow as \\(Q=C_dB\\sqrt h\\), with \\(B\\) containing the fixed factors. If flow is also held constant, the two meters satisfy \\(C_{d,v}\\sqrt{h_v}=C_{d,n}\\sqrt{h_n}\\).",
+          },
+          {
+            id: "Kita bagi dengan koefisien nozzle lalu kuadratkan. Jika Cd nozzle lebih kecil, tinggi raksa perlu lebih besar untuk menghasilkan debit yang sama. Jika pompa tidak menjaga debit, debit dapat ikut berubah.",
+            en: "We divide by the nozzle coefficient, then square. If nozzle Cd is lower, mercury height must be larger to produce the same flow. If the pump does not maintain flow, the flow rate can also change.",
+          },
+          {
+            id: "Soal tidak memberi Cd nozzle maupun kondisi pompa. Kita dapat memberi hubungan bersyarat di atas, tetapi belum dapat menetapkan satu tinggi raksa baru.",
+            en: "Because nozzle Cd and pump conditions are absent, this conditional relationship is justified, but a unique new mercury height is not.",
+          },
+        ],
+        math: "\\left.\\frac{h_n}{h_v}\\right|_{Q\\ {\\rm fixed}}=\\left(\\frac{C_{d,v}}{C_{d,n}}\\right)^2",
         note: {
           id: "Jika tekanan pendorong tetap, debit juga dapat berubah. Jangan menganggap Q tetap tanpa menyebutnya.",
           en: "If driving pressure is fixed, flow can also change. Do not silently assume fixed Q.",
@@ -875,60 +1424,155 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "Jumlahkan semua hasil",
-          en: "Add all measurements",
+          id: "Tentukan fungsi rata-rata dan simpangan baku",
+          en: "Identify what the mean and standard deviation describe",
         },
         body: [
           {
-            id: "Ada 10 hasil. Rata-rata menggunakan semua nilai, termasuk 120.0 Ω yang muncul empat kali. Jumlah seluruhnya 1199.9 Ω.",
-            en: "There are 10 measurements. The mean uses every value, including all four occurrences of 120.0 Ω. Their total is 1199.9 Ω.",
+            id: "Sepuluh angka adalah tahanan sepuluh strain gauge yang diambil sebagai sampel. **Rata-rata** (jumlah nilai dibagi jumlah data) menyatakan pusat data. **Simpangan baku** (ukuran sebaran terhadap rata-rata) menyatakan sebaran dalam satuan tahanan.",
+            en: "The ten values are resistances from ten sampled strain gauges. The **mean**, the sum divided by sample size, describes the data centre. **Standard deviation** measures spread around that mean in resistance units.",
+          },
+          {
+            id: "Kita memakai semua hasil pengukuran, termasuk nilai yang berulang. Empat kemunculan 120.0 Ω adalah empat unit sampel, bukan satu data yang boleh dihapus sebagai duplikat.",
+            en: "We use every measurement, including repeated values. The four occurrences of 120.0 Ω represent four sampled units, not one value to keep after removing duplicates.",
           },
         ],
-        math: "\\bar R=\\frac{\\sum R_i}{n}=\\frac{1199.9}{10}=119.99\\ \\Omega",
+        math: "n=10,\\qquad \\bar R=\\frac{1}{n}\\sum_{i=1}^nR_i",
       },
       {
         title: {
-          id: "Ukur jarak tiap hasil dari rata-rata",
-          en: "Measure each result’s distance from the mean",
+          id: "Jumlahkan tahanan lalu bagi jumlah sampel",
+          en: "Sum the resistances and divide by sample size",
         },
         body: [
           {
-            id: "Kurangi tiap nilai dengan 119.99 Ω, kuadratkan selisihnya, lalu jumlahkan. Menguadratkan mencegah selisih positif dan negatif saling menghapus.",
-            en: "Subtract 119.99 Ω from each value, square each difference, and add them. Squaring prevents positive and negative differences from cancelling.",
+            id: "Simbol \\(\\sum R_i\\) berarti menjumlahkan semua tahanan, dari unit pertama sampai kesepuluh. Totalnya 1199.9 Ω. Kita membagi total dengan sepuluh karena jumlah unitnya sepuluh.",
+            en: "The symbol \\(\\sum R_i\\) means adding every resistance, from the first unit to the tenth. Their total is 1199.9 Ω. We divide by ten because there are ten units.",
           },
           {
-            id: "Sebagai contoh, 119.6 Ω memberi selisih −0.39 Ω dan kuadrat 0.1521 Ω². Seluruh kuadrat selisih berjumlah 0.3490 Ω².",
-            en: "For example, 119.6 Ω has deviation −0.39 Ω and squared deviation 0.1521 Ω². All squared deviations sum to 0.3490 Ω².",
+            id: "Rata-rata 119.99 Ω berada di antara nilai terkecil 119.6 Ω dan terbesar 120.3 Ω. Pemeriksaan rentang ini memastikan pusat data tidak berada di luar data yang kita jumlahkan.",
+            en: "The mean 119.99 Ω lies between the minimum 119.6 Ω and maximum 120.3 Ω. This range check confirms that the centre lies within the data we averaged.",
+          },
+        ],
+        math: "\\sum R_i=1199.9\\ \\Omega,\\qquad\\bar R=\\frac{1199.9}{10}=\\boxed{119.99\\ \\Omega}",
+      },
+      {
+        title: {
+          id: "Hitung selisih tiap nilai dari pusat data",
+          en: "Calculate each value's deviation from the centre",
+        },
+        body: [
+          {
+            id: "Untuk unit pertama, selisihnya \\(120.1-119.99=0.11\\) Ω. Untuk nilai terkecil, selisihnya \\(119.6-119.99=-0.39\\) Ω. Tanda menunjukkan apakah data berada di atas atau di bawah rata-rata.",
+            en: "The first unit's deviation is \\(120.1-119.99=0.11\\) Ω. The smallest value has deviation \\(119.6-119.99=-0.39\\) Ω. The sign indicates whether a value lies above or below the mean.",
+          },
+          {
+            id: "Menjumlahkan selisih bertanda tidak mengukur sebaran: nilai positif dan negatif saling menghapus. Oleh karena itu, simpangan baku memakai kuadrat selisih.",
+            en: "Adding signed deviations does not measure spread: positive and negative values cancel. Standard deviation therefore uses squared deviations.",
+          },
+        ],
+        math: "d_i=R_i-\\bar R,\\qquad\\sum d_i=0",
+      },
+      {
+        title: {
+          id: "Kuadratkan selisih dan jumlahkan",
+          en: "Square the deviations and sum them",
+        },
+        body: [
+          {
+            id: "Kuadrat membuat tiap kontribusi tidak negatif dan memberi bobot lebih besar pada data yang jauh dari pusat. Satuan kini menjadi Ω² karena kita mengalikan Ω dengan Ω.",
+            en: "Squaring makes every contribution nonnegative and gives greater weight to values farther from the centre. Units become Ω² because Ω is multiplied by Ω.",
+          },
+          {
+            id: "Tabel memperlihatkan seluruh hitungan. Jumlah kolom terakhir adalah 0.3490 Ω²; ini masih jumlah kuadrat selisih, belum varians atau simpangan baku.",
+            en: "The table shows every calculation. The final column sums to 0.3490 Ω²; this is the sum of squared deviations, not yet variance or standard deviation.",
           },
         ],
         math: "\\sum_{i=1}^{10}(R_i-\\bar R)^2=0.3490\\ \\Omega^2",
+        table: {
+          headers: [
+            {
+              id: "Rᵢ (Ω)",
+              en: "Rᵢ (Ω)",
+            },
+            {
+              id: "Rᵢ − 119.99 (Ω)",
+              en: "Rᵢ − 119.99 (Ω)",
+            },
+            {
+              id: "Kuadrat (Ω²)",
+              en: "Square (Ω²)",
+            },
+          ],
+          rows: [
+            ["120.1", "0.11", "0.0121"],
+            ["120.0", "0.01", "0.0001"],
+            ["120.2", "0.21", "0.0441"],
+            ["120.0", "0.01", "0.0001"],
+            ["119.8", "−0.19", "0.0361"],
+            ["120.3", "0.31", "0.0961"],
+            ["120.0", "0.01", "0.0001"],
+            ["119.6", "−0.39", "0.1521"],
+            ["120.0", "0.01", "0.0001"],
+            ["119.9", "−0.09", "0.0081"],
+          ],
+        },
       },
       {
         title: {
-          id: "Gunakan penyebut sampel",
-          en: "Use the sample denominator",
+          id: "Gunakan n−1 untuk varians sampel",
+          en: "Use n−1 for sample variance",
         },
         body: [
           {
-            id: "Soal menyebut sepuluh unit sebagai sampel. Karena itu varians sampel memakai penyebut \\(n-1=9\\). Akar kuadratnya mengembalikan satuan dari Ω² menjadi Ω.",
-            en: "The problem describes the ten units as a sample. Sample variance therefore uses denominator \\(n-1=9\\). Taking the square root restores units from Ω² to Ω.",
+            id: "Kita memperkirakan sebaran populasi dari sampel, sementara rata-rata populasi juga belum diketahui. Rata-rata yang dipakai berasal dari sepuluh data yang sama.",
+            en: "We estimate population spread from a sample, and the population mean is also unknown. The mean used here was estimated from those same ten values.",
+          },
+          {
+            id: "Setelah rata-rata ditetapkan, sepuluh selisih harus berjumlah nol; sembilan selisih menentukan selisih terakhir. Pembagi n−1 pada varians sampel menyesuaikan penggunaan rata-rata sampel itu.",
+            en: "Once the mean is set, the ten deviations must sum to zero; nine deviations determine the last one. The n−1 divisor in sample variance accounts for estimating the mean from the sample.",
+          },
+          {
+            id: "Jadi pembaginya 9, bukan 10. Hasil varians tetap memakai Ω².",
+            en: "The divisor is therefore 9 rather than 10. Variance still has units Ω².",
           },
         ],
-        math: "s=\\sqrt{\\frac{\\sum(R_i-\\bar R)^2}{n-1}}=\\sqrt{\\frac{0.3490}{9}}=\\boxed{0.196921\\ \\Omega}",
+        math: "s^2=\\frac{\\sum(R_i-\\bar R)^2}{n-1}=\\frac{0.3490}{9}=0.0387778\\ \\Omega^2",
       },
       {
         title: {
-          id: "Tafsirkan kedua angka",
-          en: "Interpret both results",
+          id: "Ambil akar untuk kembali ke satuan tahanan",
+          en: "Take the square root to return to resistance units",
         },
         body: [
           {
-            id: "Rata-rata 119.99 Ω menunjukkan pusat data, sedangkan simpangan baku sekitar 0.197 Ω menunjukkan sebaran antarsampel. Angka itu bukan otomatis galat alat atau ketidakpastian rata-rata.",
-            en: "The mean of 119.99 Ω locates the data centre, while standard deviation of about 0.197 Ω describes between-sample spread. It is not automatically instrument error or the uncertainty of the mean.",
+            id: "Simpangan baku adalah akar varians. Akar mengubah satuan Ω² kembali menjadi Ω, sehingga nilainya dapat dibandingkan langsung dengan tahanan.",
+            en: "Standard deviation is the square root of variance. It converts Ω² back to Ω, allowing direct comparison with resistance values.",
           },
           {
-            id: "Jika sepuluh unit dianggap seluruh populasi yang hendak dideskripsikan, penyebut 10 memberi 0.186815 Ω. Untuk redaksi soal yang menyebut sampel, gunakan hasil 0.196921 Ω.",
-            en: "If these ten units were the entire population of interest, denominator 10 would give 0.186815 Ω. The exam’s sample wording supports 0.196921 Ω.",
+            id: "Kita gunakan nilai belum dibulatkan selama hitungan, lalu bulatkan hasil akhir. Dua besaran yang diminta adalah rata-rata 119.99 Ω dan simpangan baku sampel sekitar 0.196921 Ω.",
+            en: "Keep unrounded values during calculation, then round the final result. The requested quantities are mean 119.99 Ω and sample standard deviation about 0.196921 Ω.",
+          },
+        ],
+        math: "s=\\sqrt{\\frac{0.3490}{9}}=\\boxed{0.196921\\ \\Omega}",
+      },
+      {
+        title: {
+          id: "Tafsirkan hasil tanpa menyamakan sebaran dengan galat",
+          en: "Interpret spread without equating it with error",
+        },
+        body: [
+          {
+            id: "Simpangan baku sekitar 0.197 Ω menggambarkan sebaran tahanan antarunit sampel. Nilai itu bukan otomatis galat alat ukur, dan bukan ketidakpastian rata-rata.",
+            en: "The standard deviation of about 0.197 Ω describes resistance spread between sampled units. It is not automatically measurement-instrument error or uncertainty of the mean.",
+          },
+          {
+            id: "Jika sepuluh unit merupakan seluruh populasi yang ingin dideskripsikan, pembagi 10 memberi simpangan baku populasi 0.186815 Ω. Kata sampel pada soal mendukung penggunaan 0.196921 Ω.",
+            en: "If the ten units were the entire population of interest, division by 10 would give population standard deviation 0.186815 Ω. The question's sample wording supports using 0.196921 Ω.",
+          },
+          {
+            id: "Data ini juga tidak memberi nilai tahanan benar yang tersertifikasi. Oleh karena itu, kedekatan rata-rata terhadap 120 Ω belum membuktikan tidak adanya bias pengukuran.",
+            en: "These data also provide no certified true resistance. A mean near 120 Ω therefore does not by itself establish that the measurements are free of bias.",
           },
         ],
       },
@@ -978,70 +1622,147 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "3a · Mulai dari keadaan tunak awal",
-          en: "3a · Start from the initial equilibrium",
+          id: "3a · Jadikan keadaan awal sebagai titik acuan",
+          en: "3a · Use the initial equilibrium as the reference",
         },
         body: [
           {
-            id: "Definisikan \\(\\Delta T=T-27\\) dan \\(\\Delta R=R-200\\). Model orde satu menyatakan laju perubahan dan nilai tahanan saat ini bersama-sama mengikuti masukan.",
-            en: "Define \\(\\Delta T=T-27\\) and \\(\\Delta R=R-200\\). The first-order model combines the current resistance change with its rate of change to follow the input.",
+            id: "Sensor mulai pada 27°C dan 200 Ω dalam keadaan tunak. Tunak berarti keluarannya sudah berhenti berubah ketika suhu belum berubah.",
+            en: "The sensor starts at 27°C and 200 Ω in steady state. Steady means its output has stopped changing while temperature remains fixed.",
           },
           {
-            id: "Pada keadaan tunak, turunan nol dan \\(\\Delta R=K\\Delta T\\). Ini juga membantu memeriksa satuan model.",
-            en: "At steady state the derivative vanishes and \\(\\Delta R=K\\Delta T\\). This also provides a unit check.",
+            id: "Definisikan perubahan \\(\\Delta T=T-27\\) dan \\(\\Delta R=R-200\\). Sensitivitas 0.08 Ω/°C menghubungkan kedua perubahan ini, bukan menyatakan bahwa tahanan absolut sama dengan 0.08 kali suhu absolut.",
+            en: "We define deviations \\(\\Delta T=T-27\\) and \\(\\Delta R=R-200\\). Sensitivity 0.08 Ω/°C relates these changes; it does not say absolute resistance equals 0.08 times absolute temperature.",
           },
         ],
-        math: "\\tau\\frac{d\\Delta R}{dt}+\\Delta R=K\\Delta T\\quad\\Rightarrow\\quad\\frac{dR}{dt}+R-200=0.08(T-27)",
+        math: "\\Delta T=T-27,\\qquad\\Delta R=R-200,\\qquad K=0.08\\ \\Omega/{}^\\circ\\mathrm C",
       },
       {
         title: {
-          id: "Hitung perubahan akhir",
-          en: "Calculate the final change",
+          id: "Masukkan konstanta waktu ke persamaan orde satu",
+          en: "Insert the time constant into the first-order equation",
         },
         body: [
           {
-            id: "Suhu naik \\(100-27=73\\,{}^\\circ\\mathrm C\\). Kenaikan tahanan akhir adalah \\(0.08(73)=5.84\\,\\Omega\\), sehingga \\(R_\\infty=205.84\\,\\Omega\\).",
-            en: "Temperature rises by \\(100-27=73\\,{}^\\circ\\mathrm C\\). The final resistance increase is \\(0.08(73)=5.84\\,\\Omega\\), so \\(R_\\infty=205.84\\,\\Omega\\).",
+            id: "Model orde satu adalah \\(\\tau\\,d\\Delta R/dt+\\Delta R=K\\Delta T\\). Turunan menyatakan seberapa cepat tahanan sedang berubah; konstanta waktu \\(\\tau=1\\) s menentukan laju pendekatan ke keadaan akhir.",
+            en: "The first-order model is \\(\\tau\\,d\\Delta R/dt+\\Delta R=K\\Delta T\\). The derivative describes how fast resistance is changing; the time constant \\(\\tau=1\\) s sets how quickly it approaches equilibrium.",
           },
           {
-            id: "Karena tahanan mulai dari keadaan tunak, respons sebelum \\(t=1\\) tetap 200 Ω. Setelah perubahan, tahanan mendekati nilai akhir secara eksponensial.",
-            en: "The sensor starts at equilibrium, so resistance stays at 200 Ω before \\(t=1\\). After the step it approaches the final value exponentially.",
+            id: "Kita ganti variabel perubahan dengan tahanan dan suhu asli. Nilai awal 200 Ω konstan, sehingga turunan R−200 sama dengan turunan R.",
+            en: "Replace deviations with absolute resistance and temperature. Since 200 Ω is constant, the derivative of R−200 equals the derivative of R.",
+          },
+          {
+            id: "Setiap suku memiliki satuan Ω: konstanta waktu dalam detik dikali Ω/s, perubahan tahanan dalam Ω, dan sensitivitas Ω/°C dikali perubahan suhu °C.",
+            en: "Every term has units Ω: the time constant in seconds multiplies Ω/s, resistance change is in Ω, and sensitivity in Ω/°C multiplies temperature change in °C.",
           },
         ],
-        math: "R(t)=\\begin{cases}200,&t<1\\\\200+5.84(1-e^{-(t-1)}),&t\\ge1\\end{cases}\\quad[\\Omega]",
+        math: "\\boxed{(1\\ \\mathrm s)\\frac{dR}{dt}+R-200=0.08(T-27)}",
       },
       {
         title: {
-          id: "3b · Pakai waktu sejak perubahan",
-          en: "3b · Use time since the step",
+          id: "Nyatakan masukan sebelum dan sesudah t=1 s",
+          en: "State the input before and after t=1 s",
         },
         body: [
           {
-            id: "Waktu baca 3 s bukan waktu respons 3 s. Suhu berubah pada 1 s, jadi sensor sudah merespons selama 2 s atau dua konstanta waktu.",
-            en: "A reading at 3 s does not mean 3 s of response. The temperature changed at 1 s, so response duration is 2 s, or two time constants.",
+            id: "Sebelum t=1 s, suhu tetap 27°C, sehingga ΔT=0 dan tahanan tetap 200 Ω. Pada t=1 s, suhu berubah mendadak menjadi 100°C.",
+            en: "Before t=1 s, temperature stays at 27°C, so ΔT=0 and resistance remains 200 Ω. At t=1 s, temperature abruptly becomes 100°C.",
           },
           {
-            id: "Masukkan \\(t-1=2\\) ke fungsi respons.",
-            en: "Substitute \\(t-1=2\\) into the response.",
+            id: "Perubahan mendadak pada masukan disebut langkah. Besar langkahnya 100−27=73°C. Sensor orde satu tidak langsung menyelesaikan seluruh perubahan keluarannya pada saat itu.",
+            en: "An abrupt input change is called a step. Its size is 100−27=73°C. A first-order sensor does not complete its entire output change instantaneously.",
           },
         ],
-        math: "R(3)=200+5.84(1-e^{-2})=\\boxed{205.04964\\ \\Omega}",
+        math: "\\Delta T(t)=\\begin{cases}0,&t<1\\\\73^\\circ\\mathrm C,&t\\ge1\\end{cases}",
       },
       {
         title: {
-          id: "Periksa batas hasil",
-          en: "Check the result against its limits",
+          id: "Cari keadaan akhir sebagai batas respons",
+          en: "Find the final equilibrium as a response limit",
         },
         body: [
           {
-            id: "Hasil berada di antara tahanan awal 200 Ω dan akhir 205.84 Ω. Sisa galat dinamik adalah \\(205.84-205.04964=0.79036\\,\\Omega\\), atau 13.53% dari perubahan 5.84 Ω.",
-            en: "The result lies between initial 200 Ω and final 205.84 Ω. Remaining dynamic error is \\(205.84-205.04964=0.79036\\,\\Omega\\), or 13.53% of the 5.84 Ω change.",
+            id: "Setelah menunggu cukup lama pada suhu 100°C, laju perubahan tahanan menuju nol. Hapus suku turunan dari model untuk mencari nilai akhir.",
+            en: "After a sufficiently long time at 100°C, resistance rate approaches zero. Remove the derivative term from the model to find the final value.",
           },
           {
-            id: "Jika \\(t\\to\\infty\\), suku eksponensial menuju nol dan tahanan menuju 205.84 Ω. Jika \\(t=1\\), tahanan belum meloncat dari 200 Ω.",
-            en: "As \\(t\\to\\infty\\), the exponential vanishes and resistance approaches 205.84 Ω. At \\(t=1\\), resistance has not jumped away from 200 Ω.",
+            id: "Kenaikan tahanan akhirnya 0.08×73=5.84 Ω. Tambahkan pada tahanan awal 200 Ω untuk memperoleh 205.84 Ω.",
+            en: "The final resistance rise is 0.08×73=5.84 Ω. Add it to the initial 200 Ω to obtain 205.84 Ω.",
           },
         ],
+        math: "R_\\infty-200=0.08(100-27)=5.84\\ \\Omega\\quad\\Rightarrow\\quad R_\\infty=205.84\\ \\Omega",
+      },
+      {
+        title: {
+          id: "Lihat mengapa respons berbentuk eksponensial",
+          en: "See why the response is exponential",
+        },
+        body: [
+          {
+            id: "Sesudah langkah, model dapat ditulis \\(\\tau\\,dR/dt=R_\\infty-R\\). Jadi tahanan berubah paling cepat ketika jaraknya dari nilai akhir masih besar, lalu melambat saat jarak itu mengecil.",
+            en: "After the step, the model can be written \\(\\tau\\,dR/dt=R_\\infty-R\\). Resistance changes fastest when it is far from the final value, then slows as that gap closes.",
+          },
+          {
+            id: "Sebut sisa perubahan itu \\(u=R_\\infty-R\\). Turunannya adalah \\(du/dt=-dR/dt\\), sehingga model menjadi \\(du/dt=-u/\\tau\\). Solusinya menyusut sebagai eksponensial terhadap waktu yang berlalu.",
+            en: "Call the remaining change \\(u=R_\\infty-R\\). Since \\(du/dt=-dR/dt\\), the model becomes \\(du/dt=-u/\\tau\\). Its solution decays exponentially with elapsed time.",
+          },
+        ],
+        math: "\\frac{du}{dt}=-\\frac u\\tau\\quad\\Rightarrow\\quad u(t)=u(1)e^{-(t-1)/\\tau}",
+      },
+      {
+        title: {
+          id: "Gunakan kondisi awal untuk menentukan besar respons",
+          en: "Use the initial condition to set the response size",
+        },
+        body: [
+          {
+            id: "Tepat saat suhu berubah, tahanan masih 200 Ω. Sisa menuju nilai akhir adalah 205.84−200=5.84 Ω, sehingga u(1)=5.84 Ω.",
+            en: "At the instant temperature changes, resistance is still 200 Ω. The remaining change is 205.84−200=5.84 Ω, so u(1)=5.84 Ω.",
+          },
+          {
+            id: "Kita kurangi sisa eksponensial itu dari nilai akhir. Bentuk kedua di bawah menunjukkan hal yang sama sebagai nilai awal ditambah perubahan yang sudah selesai.",
+            en: "We subtract the remaining exponential from the final value. The second form below expresses the same result as the initial value plus the completed change.",
+          },
+        ],
+        math: "R(t)=205.84-5.84e^{-(t-1)/1}=200+5.84(1-e^{-(t-1)/1}),\\qquad t\\ge1",
+      },
+      {
+        title: {
+          id: "3b · Evaluasi setelah dua detik respons",
+          en: "3b · Evaluate after two seconds of response",
+        },
+        body: [
+          {
+            id: "Waktu pembacaan adalah t=3 s, sedangkan langkah terjadi pada t=1 s. Jadi selang respons 3−1=2 s, atau dua konstanta waktu.",
+            en: "The reading is at t=3 s, while the step occurred at t=1 s. The response duration is therefore 3−1=2 s, or two time constants.",
+          },
+          {
+            id: "Nilai \\(e^{-2}=0.135335\\) berarti 13.5335% dari perubahan masih tersisa. Fraksi yang sudah terjadi adalah 0.864665; kalikan dengan 5.84 Ω lalu tambahkan 200 Ω.",
+            en: "The value \\(e^{-2}=0.135335\\) means 13.5335% of the change remains. The completed fraction is 0.864665; multiply it by 5.84 Ω and add 200 Ω.",
+          },
+        ],
+        math: "\\begin{aligned}R(3)&=200+5.84(1-e^{-(3-1)/1})\\\\&=200+5.84(0.864665)\\\\&=\\boxed{205.04964\\ \\Omega}\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Periksa kondisi awal, akhir, dan sisa galat dinamik",
+          en: "Check the initial value, final value, and remaining dynamic error",
+        },
+        body: [
+          {
+            id: "Pada t=1 s, rumus memberi 200 Ω. Pada waktu yang sangat lama, rumus memberi 205.84 Ω. Pembacaan 205.04964 Ω berada di antara keduanya, sesuai respons pemanasan tanpa lonjakan.",
+            en: "At t=1 s, the formula gives 200 Ω. At very long times, it gives 205.84 Ω. The reading 205.04964 Ω lies between these limits, consistent with a heating response without overshoot.",
+          },
+          {
+            id: "Sisa 0.79036 Ω adalah selisih sementara akibat respons yang belum selesai. Nilai ini diukur terhadap tahanan akhir, bukan terhadap nol ohm.",
+            en: "The remaining 0.79036 Ω is a temporary difference caused by incomplete response. It is measured relative to final resistance rather than zero ohms.",
+          },
+          {
+            id: "Perbandingan 13.53% memakai perubahan 5.84 Ω sebagai penyebut. Membaginya dengan seluruh tahanan 205.84 Ω akan menjawab pertanyaan persentase yang berbeda.",
+            en: "The 13.53% ratio uses the 5.84 Ω change as denominator. Dividing by the full 205.84 Ω resistance would answer a different percentage question.",
+          },
+        ],
+        math: "R_\\infty-R(3)=205.84-205.04964=0.79036\\ \\Omega,\\qquad\\frac{0.79036}{5.84}\\approx13.53\\%",
       },
     ],
     answer: {
@@ -1094,37 +1815,62 @@ export const questions2023: ExamQuestion[] = [
     steps: [
       {
         title: {
-          id: "4a · Baca sudut dari dua keluaran resolver",
-          en: "4a · Read angle from both resolver outputs",
+          id: "4a · Hubungkan sudut rotor dengan dua tegangan resolver",
+          en: "4a · Connect rotor angle to two resolver voltages",
         },
         body: [
           {
-            id: "Resolver mengubah kopling magnetik saat rotor berputar. Eksitasi AC rotor membangkitkan dua keluaran stator dengan amplitudo sebanding \\(\\sin\\theta\\) dan \\(\\cos\\theta\\). Keduanya memakai pembawa AC yang sama.",
-            en: "A resolver changes magnetic coupling as its rotor turns. Rotor AC excitation induces stator outputs with amplitudes proportional to \\(\\sin\\theta\\) and \\(\\cos\\theta\\). Both use the same AC carrier.",
+            id: "Resolver mengukur sudut melalui kopling magnet antar-kumparan. Eksitasi AC pada rotor menghasilkan fluks yang berubah terhadap waktu. Dua kumparan stator menghadap arah yang berbeda 90°.",
+            en: "A resolver measures angle through magnetic coupling between windings. AC rotor excitation creates time-varying flux. Two stator windings face directions 90° apart.",
           },
           {
-            id: "Setelah demodulasi, gunakan \\(\\operatorname{atan2}(V_s,V_c)\\) untuk menentukan sudut dan kuadrannya. Rasio \\(V_s/V_c\\) saja tidak membedakan sudut yang terpaut 180°. Pada resolver tanpa sikat, transformator putar menyalurkan eksitasi tanpa kontak geser.",
-            en: "After demodulation, \\(\\operatorname{atan2}(V_s,V_c)\\) gives angle and quadrant. The ratio \\(V_s/V_c\\) alone cannot distinguish angles separated by 180°. In a brushless resolver, a rotary transformer transfers excitation without sliding contacts.",
+            id: "Pada sudut rotor \\(\\theta\\), amplitudo keluaran stator mengikuti \\(\\sin\\theta\\) dan \\(\\cos\\theta\\). Kedua tegangan tetap memakai frekuensi pembawa AC yang sama; yang berubah dengan posisi adalah amplitudonya.",
+            en: "At rotor angle \\(\\theta\\), stator-output amplitudes follow \\(\\sin\\theta\\) and \\(\\cos\\theta\\). Both voltages retain the same AC carrier frequency; position changes their amplitudes.",
+          },
+          {
+            id: "Dalam persamaan, \\(V_r\\) adalah amplitudo eksitasi, \\(K\\) faktor kopling, dan \\(\\omega_c\\) frekuensi sudut pembawa. Pada bentuk tanpa sikat, transformator putar menyalurkan eksitasi tanpa kontak geser.",
+            en: "Here \\(V_r\\) is excitation amplitude, \\(K\\) a coupling factor, and \\(\\omega_c\\) carrier angular frequency. In a brushless design, a rotary transformer supplies excitation without sliding contacts.",
           },
         ],
         math: "v_s(t)=KV_r\\sin\\theta\\sin\\omega_ct,\\qquad v_c(t)=KV_r\\cos\\theta\\sin\\omega_ct",
       },
       {
         title: {
-          id: "4b · Susun LVDT",
-          en: "4b · Arrange the LVDT",
+          id: "Gunakan kedua tanda untuk menentukan kuadran",
+          en: "Use both signs to identify the quadrant",
         },
         body: [
           {
-            id: "LVDT memiliki satu primer, dua sekunder, dan inti yang dapat bergerak. Eksitasi primer dengan AC. Hubungkan sekunder seri berlawanan, sehingga keluaran \\(V_1-V_2\\).",
-            en: "An LVDT has one primary, two secondary windings, and a movable core. Excite the primary with AC and connect the secondaries in series opposition, giving output \\(V_1-V_2\\).",
+            id: "Demodulasi membandingkan setiap keluaran dengan eksitasi untuk mengambil amplitudo bertanda. Tanda positif atau negatif memuat informasi sisi sudut, bukan hanya besar tegangan.",
+            en: "Demodulation compares each output with excitation to recover a signed amplitude. Positive and negative signs carry angular-side information rather than voltage magnitude alone.",
           },
           {
-            id: "Inti di tengah memberi selisih mendekati nol. Pergeseran mengubah besar dan fase selisih. Demodulator peka fase memberi tegangan DC bertanda yang sebanding dengan posisi dalam daerah linear.",
-            en: "A centred core gives nearly zero difference. Displacement changes the magnitude and phase of the difference. A phase-sensitive demodulator produces signed DC proportional to position within the linear range.",
+            id: "Perbandingan \\(V_s/V_c=\\tan\\theta\\) belum membedakan sudut yang terpisah 180°. Fungsi \\(\\operatorname{atan2}(V_s,V_c)\\) memakai kedua tanda secara terpisah sehingga dapat memilih kuadran.",
+            en: "The ratio \\(V_s/V_c=\\tan\\theta\\) cannot by itself distinguish angles separated by 180°. The function \\(\\operatorname{atan2}(V_s,V_c)\\) uses both signs separately to select the quadrant.",
           },
         ],
-        math: "E=S z,\\qquad S=0.31\\ \\mathrm{mV/mm}=0.31\\ \\mathrm{V/m}",
+        math: "V_s=KV_r\\sin\\theta,\\quad V_c=KV_r\\cos\\theta,\\quad\\theta=\\operatorname{atan2}(V_s,V_c)",
+      },
+      {
+        title: {
+          id: "4b · Gambar susunan LVDT",
+          en: "4b · Sketch the LVDT arrangement",
+        },
+        body: [
+          {
+            id: "LVDT mengukur perpindahan lurus. Tunjukkan satu primer di antara dua sekunder, inti magnet yang bergerak sepanjang sumbu, serta rumah sensor yang menjadi acuan posisi.",
+            en: "An LVDT measures linear displacement. Show one primary between two secondaries, a magnetic core moving along the axis, and a housing that defines the position reference.",
+          },
+          {
+            id: "Eksitasi AC pada primer menimbulkan tegangan pada kedua sekunder. Hubungkan sekunder secara seri berlawanan sehingga tegangan keluarannya adalah selisih \\(V_1-V_2\\).",
+            en: "Primary AC excitation induces voltages in both secondaries. Connect the secondaries in series opposition so output is the difference \\(V_1-V_2\\).",
+          },
+          {
+            id: "Inti di tengah memberi kopling yang hampir sama dan keluaran mendekati nol. Jika inti bergeser, satu kopling meningkat dan yang lain menurun.",
+            en: "A centred core gives nearly equal coupling and an output near zero. Moving the core increases one coupling and decreases the other.",
+          },
+        ],
+        math: "V_{\\rm diff}=V_1-V_2",
         visual: {
           kind: "lvdt",
           caption: {
@@ -1140,20 +1886,62 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "4c(i) · Gambar gaya pada massa gabungan",
-          en: "4c(i) · Draw forces on the combined mass",
+          id: "Bedakan sinyal AC LVDT dari keluaran yang sudah dikondisikan",
+          en: "Distinguish raw LVDT AC from the conditioned output",
         },
         body: [
           {
-            id: "Ambil arah atas positif. \\(y\\) adalah gerak rumah sensor, \\(x\\) gerak mutlak massa, dan \\(z=x-y\\) simpangan relatif dari keseimbangan statik. Massa yang bergerak adalah \\(m_1+m_2\\), bukan salah satu saja.",
-            en: "Take upward as positive. \\(y\\) is housing motion, \\(x\\) absolute mass motion, and \\(z=x-y\\) relative displacement from static equilibrium. The moving mass is \\(m_1+m_2\\), not either mass alone.",
+            id: "Besar tegangan AC memberi besar simpangan, sedangkan fase terhadap eksitasi membedakan sisi simpangan. Pengondisi peka fase mengubah keduanya menjadi tegangan bertanda yang sebanding dengan posisi dalam daerah linear.",
+            en: "AC voltage magnitude gives displacement magnitude, while phase relative to excitation identifies the side. A phase-sensitive conditioner converts both into signed voltage proportional to position within the linear region.",
           },
           {
-            id: "Pegas menahan berat pada keadaan awal. Gaya pegas total \\(mg-kz\\), berat \\(-mg\\), gaya redam \\(-c\\dot z\\), dan gaya inersia D’Alembert \\(-m\\ddot x\\) berjumlah nol. Karena \\(\\ddot x=\\ddot z+\\ddot y\\), kita memperoleh persamaan berikut.",
-            en: "The spring supports weight initially. Total spring force \\(mg-kz\\), weight \\(-mg\\), damping \\(-c\\dot z\\), and D’Alembert inertia \\(-m\\ddot x\\) sum to zero. Since \\(\\ddot x=\\ddot z+\\ddot y\\), the following equation results.",
+            id: "Soal memberi sensitivitas sesudah pengondisi: \\(S=0.31\\) mV/mm. Hubungan satuannya adalah 1 mV = 0.001 V dan 1 mm = 0.001 m. Konversi tersebut memberi sensitivitas setara 0.31 V/m.",
+            en: "The problem gives conditioned sensitivity \\(S=0.31\\) mV/mm. Since 1 mV = 0.001 V and 1 mm = 0.001 m, this is also 0.31 V/m.",
+          },
+          {
+            id: "Hubungan \\(E=Sz\\) membaca simpangan inti terhadap rumah, bukan posisi inti terhadap tanah. Hal ini menentukan koordinat yang perlu kita pakai pada model mekanis.",
+            en: "The relation \\(E=Sz\\) reads core displacement relative to the housing, rather than its position relative to the ground. This determines the coordinates needed for the mechanical model.",
           },
         ],
-        math: "\\underbrace{(mg-kz)-mg-c\\dot z-m(\\ddot z+\\ddot y)}_{\\text{force balance}}=0\\quad\\Rightarrow\\quad m\\ddot z+c\\dot z+kz=-m a,\\quad a=\\ddot y",
+        math: "E=Sz,\\qquad S=\\frac{0.00031\\ \\mathrm V}{0.001\\ \\mathrm m}=0.31\\ \\mathrm{V/m}",
+      },
+      {
+        title: {
+          id: "4c(i) · Pilih koordinat untuk massa dan rumah",
+          en: "4c(i) · Choose coordinates for the mass and housing",
+        },
+        body: [
+          {
+            id: "Kita ambil arah ke atas sebagai positif. Sebut \\(y\\) gerak rumah sensor, \\(x\\) gerak absolut massa, dan \\(z=x-y\\) simpangan massa relatif terhadap rumah. Kita ukur \\(z\\) dari keadaan setimbang statik.",
+            en: "We take upward as positive. Let \\(y\\) be housing motion, \\(x\\) absolute mass motion, and \\(z=x-y\\) mass displacement relative to the housing. Measure \\(z\\) from static equilibrium.",
+          },
+          {
+            id: "Percepatan yang ingin diukur adalah \\(a=\\ddot y\\), yaitu percepatan rumah. Tanda dua titik menyatakan turunan kedua terhadap waktu. Hubungan \\(x=z+y\\) memberi percepatan absolut massa \\(\\ddot x=\\ddot z+a\\).",
+            en: "The input acceleration is \\(a=\\ddot y\\), the housing acceleration. Two dots denote the second time derivative. Since \\(x=z+y\\), absolute mass acceleration is \\(\\ddot x=\\ddot z+a\\).",
+          },
+          {
+            id: "Kedua bagian massa bergerak bersama, sehingga massa dalam persamaan adalah m1+m2=0.05 kg. Memakai hanya satu bagian akan mengubah sensitivitas dan frekuensi alami.",
+            en: "The two mass parts move together, so the equation uses m1+m2=0.05 kg. Using only one part would change sensitivity and natural frequency.",
+          },
+        ],
+        math: "z=x-y,\\qquad a=\\ddot y,\\qquad\\ddot x=\\ddot z+a,\\qquad m=m_1+m_2=0.05\\ \\mathrm{kg}",
+      },
+      {
+        title: {
+          id: "Tulis gaya nyata dan gaya inersia pada massa yang sama",
+          en: "Write real and inertia forces on the same mass",
+        },
+        body: [
+          {
+            id: "Pada keadaan awal, pegas menopang berat. Dengan z diukur dari keadaan itu, gaya pegas total adalah mg−kz, sedangkan berat adalah −mg. Kedua suku mg saling menghapus dalam persamaan perubahan.",
+            en: "Initially the spring supports the weight. With z measured from that equilibrium, total spring force is mg−kz and weight is −mg. The two mg terms cancel in the motion-about-equilibrium equation.",
+          },
+          {
+            id: "Peredam melawan kecepatan relatif, sehingga gayanya \\(-c\\dot z\\). Neraca D'Alembert menambahkan gaya inersia \\(-m\\ddot x\\), lalu menjumlahkan semuanya menjadi nol. Gaya inersia memakai percepatan absolut massa.",
+            en: "The damper opposes relative velocity, giving force \\(-c\\dot z\\). A D'Alembert balance adds inertia force \\(-m\\ddot x\\), then sets the total to zero. That inertia force uses absolute mass acceleration.",
+          },
+        ],
+        math: "(mg-kz)-mg-c\\dot z-m\\ddot x=0",
         visual: {
           kind: "accelerometer",
           caption: {
@@ -1175,20 +1963,37 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Turunkan hubungan dinamik tegangan",
-          en: "Derive the dynamic voltage relation",
+          id: "Dapatkan persamaan gerak relatif",
+          en: "Obtain the relative-motion equation",
         },
         body: [
           {
-            id: "Dengan kondisi awal nol, ambil transformasi Laplace dan gunakan \\(E=Sz\\). Tanda minus muncul karena massa tertinggal relatif terhadap rumah saat rumah mempercepat ke atas.",
-            en: "With zero initial conditions, take the Laplace transform and use \\(E=Sz\\). The negative sign indicates that the mass lags relative to the housing when the housing accelerates upward.",
+            id: "Kita masukkan \\(\\ddot x=\\ddot z+a\\). Setelah suku mg saling menghapus, persamaan memuat gaya pegas, gaya peredam, dan percepatan massa.",
+            en: "We substitute \\(\\ddot x=\\ddot z+a\\). After cancelling mg, the equation contains spring force, damping force, and mass acceleration.",
           },
           {
-            id: "Frekuensi alami \\(\\omega_n=\\sqrt{k/m}=69.282\\,\\mathrm{rad/s}\\), atau \\(f_n=11.027\\,\\mathrm{Hz}\\), dan rasio redaman \\(\\zeta=c/(2\\sqrt{km})=0.4994\\). Respons berubah terhadap frekuensi; hubungan statik saja tidak berlaku di seluruh rentang.",
-            en: "Natural frequency is \\(\\omega_n=\\sqrt{k/m}=69.282\\,\\mathrm{rad/s}\\), or \\(f_n=11.027\\,\\mathrm{Hz}\\), and damping ratio is \\(\\zeta=c/(2\\sqrt{km})=0.4994\\). Response varies with frequency; a static relation does not cover the whole band.",
+            id: "Tambahkan semua suku gerak relatif ke kedua ruas untuk menyusunnya di kiri. Percepatan rumah menjadi masukan di kanan dengan tanda negatif: saat rumah dipercepat ke atas, massa cenderung tertinggal relatif ke bawah.",
+            en: "Add the relative-motion terms to both sides to collect them on the left. Housing acceleration becomes the input on the right with a negative sign: when the housing accelerates upward, the mass tends to lag downward relative to it.",
           },
         ],
-        math: "\\frac{E(s)}{A(s)}=-\\frac{Sm}{ms^2+cs+k}=\\boxed{-\\frac{0.31}{s^2+69.2s+4800}}\\quad\\frac{\\mathrm V}{\\mathrm{m/s^2}}",
+        math: "\\begin{aligned}-kz-c\\dot z-m(\\ddot z+a)&=0\\\\m\\ddot z+c\\dot z+kz&=-ma\\\\0.05\\ddot z+3.46\\dot z+240z&=-0.05a\\end{aligned}",
+      },
+      {
+        title: {
+          id: "Ubah model gerak menjadi hubungan tegangan dengan percepatan",
+          en: "Convert motion into a relationship between voltage and acceleration",
+        },
+        body: [
+          {
+            id: "Untuk keadaan awal nol, transformasi Laplace mengubah \\(\\dot z\\) menjadi \\(sZ(s)\\) dan \\(\\ddot z\\) menjadi \\(s^2Z(s)\\). **Transformasi Laplace** (perubahan bentuk matematis dari waktu ke variabel s) membuat model menjadi persamaan aljabar.",
+            en: "For zero initial conditions, the Laplace transform maps \\(\\dot z\\) to \\(sZ(s)\\) and \\(\\ddot z\\) to \\(s^2Z(s)\\). This mathematical transformation expresses a time-domain model in variable s, giving an algebraic equation.",
+          },
+          {
+            id: "Kita keluarkan \\(Z(s)\\) sebagai faktor, lalu bagi dengan koefisiennya untuk mendapat \\(Z/A\\). Hubungan \\(E=Sz\\) menunjukkan bahwa kita perlu mengalikan hasil itu dengan sensitivitas LVDT.",
+            en: "Factor out \\(Z(s)\\), then divide by its coefficient to obtain \\(Z/A\\). Since \\(E=Sz\\), multiply that relation by the LVDT sensitivity.",
+          },
+        ],
+        math: "\\begin{aligned}(ms^2+cs+k)Z(s)&=-mA(s)\\\\\\frac{Z(s)}{A(s)}&=-\\frac m{ms^2+cs+k}\\\\\\frac{E(s)}{A(s)}&=-\\frac{Sm}{ms^2+cs+k}\\end{aligned}",
         visual: {
           kind: "accelerometer",
           caption: {
@@ -1210,20 +2015,37 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Hubungan pada percepatan yang berubah lambat",
-          en: "Relation for slowly varying acceleration",
+          id: "Masukkan konstanta dan kenali batas frekuensinya",
+          en: "Insert the constants and identify the frequency scale",
         },
         body: [
           {
-            id: "Untuk frekuensi jauh di bawah frekuensi alami, pengaruh \\(m\\ddot z\\) dan \\(c\\dot z\\) kecil dibanding \\(kz\\). Maka \\(z\\approx-ma/k\\), lalu \\(E\\approx-Sm a/k\\).",
-            en: "At frequencies well below the natural frequency, \\(m\\ddot z\\) and \\(c\\dot z\\) are small compared with \\(kz\\). Thus \\(z\\approx-ma/k\\), then \\(E\\approx-Sm a/k\\).",
+            id: "Kita bagi pembilang dan penyebut dengan m=0.05 kg. Koefisien c/m menjadi 69.2 dan k/m menjadi 4800. Tegangan pada bentuk ini memakai volt karena S memakai V/m.",
+            en: "We divide numerator and denominator by m=0.05 kg. The coefficient c/m becomes 69.2 and k/m becomes 4800. Voltage in this form is in volts because S uses V/m.",
           },
           {
-            id: "Gunakan mV jika ingin membaca percepatan langsung dari tegangan. Pembalikan kabel keluaran membalik tanda, tetapi tidak mengubah besar sensitivitas.",
-            en: "Use mV to read acceleration directly from voltage. Reversing output wiring reverses the sign, not sensitivity magnitude.",
+            id: "Frekuensi alami \\(\\omega_n=\\sqrt{k/m}\\) memberi skala frekuensi mekanis; rasio redaman \\(\\zeta=c/(2\\sqrt{km})\\) mengatur pengaruh peredam. Nilainya menunjukkan bahwa sensitivitas tidak konstan pada semua frekuensi.",
+            en: "Natural frequency \\(\\omega_n=\\sqrt{k/m}\\) sets the mechanical frequency scale; damping ratio \\(\\zeta=c/(2\\sqrt{km})\\) describes damping strength. These values show that sensitivity cannot be constant at every frequency.",
           },
         ],
-        math: "E[\\mathrm{mV}]\\approx-0.0645833\\,a[\\mathrm{m/s^2}],\\qquad a\\approx-15.4839\\,E[\\mathrm{mV}]",
+        math: "\\boxed{\\frac{E(s)}{A(s)}=-\\frac{0.31}{s^2+69.2s+4800}}\\quad\\frac{\\mathrm V}{\\mathrm{m/s^2}},\\qquad\\omega_n=69.282\\ \\mathrm{rad/s},\\quad f_n=\\frac{\\omega_n}{2\\pi}=11.027\\ \\mathrm{Hz},\\quad\\zeta=0.4994",
+      },
+      {
+        title: {
+          id: "Ambil pendekatan untuk percepatan yang berubah lambat",
+          en: "Use the slowly varying acceleration approximation",
+        },
+        body: [
+          {
+            id: "Jika frekuensi masukan jauh di bawah \\(\\omega_n\\), gerak relatif berubah cukup lambat sehingga \\(m\\ddot z\\) dan \\(c\\dot z\\) kecil dibanding \\(kz\\). Model lalu mendekati \\(kz=-ma\\).",
+            en: "If input frequency is far below \\(\\omega_n\\), relative motion changes slowly enough that \\(m\\ddot z\\) and \\(c\\dot z\\) are small compared with \\(kz\\). The model then approaches \\(kz=-ma\\).",
+          },
+          {
+            id: "Kita bagi dengan \\(k\\), lalu gunakan \\(E=Sz\\). Tanda negatif berasal dari arah simpangan relatif yang kita pilih; membalik kabel keluaran membalik tanda tanpa mengubah besar sensitivitas.",
+            en: "We divide by \\(k\\), then use \\(E=Sz\\). The negative sign follows the chosen relative-displacement direction; reversing output wires changes the sign without changing sensitivity magnitude.",
+          },
+        ],
+        math: "z\\approx-\\frac mk a,\\qquad E\\approx-\\frac{Sm}{k}a=-\\frac{0.31(0.05)}{240}a\\quad[\\mathrm V]",
         visual: {
           kind: "accelerometer",
           caption: {
@@ -1245,20 +2067,37 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "4c(ii) · Terapkan batas gerak inti",
-          en: "4c(ii) · Apply the core-travel limit",
+          id: "Nyatakan sensitivitas dalam mV dan cara membacanya",
+          en: "Express sensitivity in mV and show how to read it",
         },
         body: [
           {
-            id: "Batas ±10 mm sama dengan ±0.010 m. Dalam pendekatan kuasistatik, \\(|a|_{\\max}=k|z|_{\\max}/m=48\\,\\mathrm{m/s^2}\\), sekitar 4.89 g. Batas keluaran \\(|E|_{\\max}=0.31(10)=3.1\\,\\mathrm{mV}\\).",
-            en: "Travel limit ±10 mm equals ±0.010 m. In the quasistatic approximation, \\(|a|_{\\max}=k|z|_{\\max}/m=48\\,\\mathrm{m/s^2}\\), about 4.89 g. Output limit is \\(|E|_{\\max}=0.31(10)=3.1\\,\\mathrm{mV}\\).",
+            id: "Koefisien pada langkah sebelumnya adalah 0.0000645833 V per m/s². Kita kalikan dengan 1000 untuk memakai mV: besar sensitivitas menjadi 0.0645833 mV per m/s².",
+            en: "The preceding coefficient is 0.0000645833 V per m/s². We multiply by 1000 to use mV: sensitivity magnitude becomes 0.0645833 mV per m/s².",
           },
           {
-            id: "Untuk percepatan sinus pada frekuensi tertentu, gunakan batas dinamik di bawah. Karena soal tidak memberi frekuensi masukan, 48 m/s² harus ditulis sebagai batas kuasistatik, bukan batas universal.",
-            en: "For sinusoidal acceleration at a specified frequency, use the dynamic limit below. As no input frequency is given, 48 m/s² is a quasistatic limit, not a universal one.",
+            id: "Jika keluaran yang diketahui berupa mV, bagi dengan sensitivitas tersebut untuk memperoleh percepatan. Hubungan ini hanya memakai pendekatan frekuensi rendah yang sudah disebut.",
+            en: "If the known output is in mV, divide by that sensitivity to obtain acceleration. This relation retains the low-frequency assumption already stated.",
           },
         ],
-        math: "\\boxed{|a|_{\\max,\\,\\omega\\ll\\omega_n}=48\\ \\mathrm{m/s^2}}\\qquad\\hat a_{\\max}(\\omega)=\\frac{z_{\\max}}{m}\\sqrt{(k-m\\omega^2)^2+(c\\omega)^2}",
+        math: "E[\\mathrm{mV}]\\approx-0.0645833\\,a[\\mathrm{m/s^2}],\\qquad a[\\mathrm{m/s^2}]\\approx-15.4839\\,E[\\mathrm{mV}]",
+      },
+      {
+        title: {
+          id: "4c(ii) · Gunakan batas simpangan inti",
+          en: "4c(ii) · Apply the core-displacement limit",
+        },
+        body: [
+          {
+            id: "Batas ±10 mm adalah simpangan relatif inti dari tengah, sehingga besar batasnya zmax=0.010 m. Dalam pendekatan lambat, besar percepatan yang mencapai batas itu adalah k zmax/m.",
+            en: "The ±10 mm limit is relative core displacement from the centre, so its magnitude is zmax=0.010 m. Under the slow-input approximation, acceleration reaching that limit is k zmax/m.",
+          },
+          {
+            id: "Tegangan pada batas tersebut adalah sensitivitas LVDT dikali 10 mm. Ini memberi cek lain: percepatan 48 m/s² dikali sensitivitas tegangan juga menghasilkan 3.1 mV.",
+            en: "Voltage at the travel limit is LVDT sensitivity times 10 mm. This provides another check: acceleration of 48 m/s² times voltage sensitivity also gives 3.1 mV.",
+          },
+        ],
+        math: "|a|_{\\max}=\\frac{kz_{\\max}}m=\\frac{240(0.010)}{0.05}=\\boxed{48\\ \\mathrm{m/s^2}},\\qquad |E|_{\\max}=0.31(10)=3.1\\ \\mathrm{mV}",
         visual: {
           kind: "accelerometer",
           caption: {
@@ -1277,6 +2116,27 @@ export const questions2023: ExamQuestion[] = [
             omegaN: 69.2820323027551,
           },
         },
+      },
+      {
+        title: {
+          id: "Jelaskan mengapa batas 48 m/s² bukan untuk semua frekuensi",
+          en: "Explain why 48 m/s² is not a universal frequency-independent limit",
+        },
+        body: [
+          {
+            id: "Pada masukan sinus dengan frekuensi sudut \\(\\omega\\), substitusi \\(s=j\\omega\\) pada model memberi amplitudo simpangan \\(\\hat z=m\\hat a/\\sqrt{(k-m\\omega^2)^2+(c\\omega)^2}\\).",
+            en: "For a sinusoidal input at angular frequency \\(\\omega\\), substituting \\(s=j\\omega\\) into the model gives displacement amplitude \\(\\hat z=m\\hat a/\\sqrt{(k-m\\omega^2)^2+(c\\omega)^2}\\).",
+          },
+          {
+            id: "Batas mekanis tetap ±10 mm, tetapi percepatan yang menghasilkan simpangan itu dapat berubah menurut frekuensi. Untuk menemukan batas percepatan dinamik, setel amplitudo simpangan sama dengan zmax lalu selesaikan amplitudo percepatan.",
+            en: "The mechanical limit stays ±10 mm, but the acceleration producing that displacement can change with frequency. Set displacement amplitude equal to zmax and solve for acceleration amplitude to obtain the dynamic limit.",
+          },
+          {
+            id: "Soal tidak memberi frekuensi masukan. Oleh karena itu, 48 m/s² merupakan jawaban numerik dengan syarat kuasistatik, yaitu percepatan yang berubah cukup lambat.",
+            en: "The question gives no input frequency. The numerical answer 48 m/s² therefore requires quasistatic operation, meaning acceleration changes sufficiently slowly.",
+          },
+        ],
+        math: "\\hat a_{\\max}(\\omega)=\\frac{z_{\\max}}m\\sqrt{(k-m\\omega^2)^2+(c\\omega)^2}\\quad\\longrightarrow\\quad48\\ \\mathrm{m/s^2}\\ \\text{as }\\omega\\to0",
       },
     ],
     answer: {
@@ -1327,40 +2187,99 @@ export const questions2023: ExamQuestion[] = [
     original:
       "5. Systematic Characteristic of Measurement Systems\nA pressure sensor has an input range of 0.0 to 3.0 BarG and a standard supply voltage Vs = 0.5 volts. Using the calibration result given in the table,\na. [5%] Calculate the slope K and a of the ideal straight line.\nb. [5%] Calculate the constants KM and KI associated with supply voltage variations.\nc. [5%] Calculate the maximum non-linearity as a percentage of f.s.d.\nPressure x in Bar gauge (BarG): 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0.\nOutput voltage in millivolts (Vs = 0.5 volts): 0.0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5.\nOutput voltage in millivolts (Vs = 0.6 volts): 0.0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0.",
     prompt: {
-      id: "Sensor tekanan memiliki rentang 0–3.0 barG dan catu nominal \\(V_s=0.5\\,\\mathrm V\\). Tekanan \\(x\\): 0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0 barG. Keluaran pada 0.5 V: 0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5 mV. Keluaran pada 0.6 V: 0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0 mV. (a) Cari kemiringan \\(K\\) dan intersep \\(a\\) garis ideal. (b) Cari \\(K_M\\) dan \\(K_I\\) akibat perubahan catu. (c) Cari ketaklinearan maksimum sebagai persen rentang penuh.",
-      en: "A pressure sensor spans 0–3.0 barG with nominal supply \\(V_s=0.5\\,\\mathrm V\\). Pressures \\(x\\): 0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0 barG. Outputs at 0.5 V: 0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5 mV. Outputs at 0.6 V: 0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0 mV. (a) Find ideal-line slope \\(K\\) and intercept \\(a\\). (b) Find supply-effect constants \\(K_M\\) and \\(K_I\\). (c) Find maximum nonlinearity as a percentage of full-scale span.",
+      id: "Sensor tekanan memiliki rentang 0 sampai 3.0 barG dan catu nominal \\(V_s=0.5\\,\\mathrm V\\). Tekanan \\(x\\): 0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0 barG. Keluaran pada 0.5 V: 0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5 mV. Keluaran pada 0.6 V: 0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0 mV. (a) Cari kemiringan \\(K\\) dan intersep \\(a\\) garis ideal. (b) Cari \\(K_M\\) dan \\(K_I\\) akibat perubahan catu. (c) Cari ketaklinearan maksimum sebagai persen rentang penuh.",
+      en: "A pressure sensor spans 0 to 3.0 barG with nominal supply \\(V_s=0.5\\,\\mathrm V\\). Pressures \\(x\\): 0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0 barG. Outputs at 0.5 V: 0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5 mV. Outputs at 0.6 V: 0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0 mV. (a) Find ideal-line slope \\(K\\) and intercept \\(a\\). (b) Find supply-effect constants \\(K_M\\) and \\(K_I\\). (c) Find maximum nonlinearity as a percentage of full-scale span.",
     },
     steps: [
       {
         title: {
-          id: "5a · Tentukan garis acuan",
-          en: "5a · Define the reference line",
+          id: "5a · Tentukan garis acuan dari data standar",
+          en: "5a · Define the reference line from standard data",
         },
         body: [
           {
-            id: "Kita memakai garis yang menghubungkan dua titik ujung pada catu nominal. Titiknya \\((0,0)\\) dan \\((3,58.5)\\), dengan tekanan dalam barG dan keluaran dalam mV.",
-            en: "Use the line joining the nominal-supply endpoints: \\((0,0)\\) and \\((3,58.5)\\), with pressure in barG and output in mV.",
+            id: "Kalibrasi membandingkan tekanan masukan dengan tegangan keluaran. Kita memerlukan garis lurus acuan sebelum dapat membahas kemiringan atau nonlinearitas.",
+            en: "Calibration compares input pressure with output voltage. A straight reference line is needed before discussing slope or nonlinearity.",
           },
           {
-            id: "Metode garis ujung perlu disebut karena garis regresi akan memberi hasil lain. Jangan mencampur kemiringan dari satu metode dengan galat dari metode lain.",
-            en: "The endpoint method must be stated because a regression line would give different values. Do not mix one method’s slope with another method’s errors.",
+            id: "Catu standar adalah 0.5 V. Kita memilih garis yang melewati kedua titik ujungnya, yaitu (0 barG, 0 mV) dan (3 barG, 58.5 mV). Soal tidak menetapkan regresi kuadrat terkecil, yang dapat memberi garis berbeda.",
+            en: "The standard supply is 0.5 V. We choose the line through its two endpoints: (0 barG, 0 mV) and (3 barG, 58.5 mV). The question does not specify least-squares regression, which could give a different line.",
+          },
+          {
+            id: "Pada model \\(O=Kx+a\\), \\(x\\) adalah tekanan, \\(O\\) tegangan, \\(K\\) kemiringan atau sensitivitas, dan \\(a\\) keluaran saat tekanan nol.",
+            en: "In \\(O=Kx+a\\), \\(x\\) is pressure, \\(O\\) voltage, \\(K\\) slope or sensitivity, and \\(a\\) zero-pressure output.",
           },
         ],
-        math: "K=\\frac{58.5-0}{3-0}=19.5\\ \\mathrm{mV/barG},\\qquad a=0,\\qquad O_{\\rm ideal}=19.5x",
+        math: "O_{\\rm ideal}=Kx+a",
       },
       {
         title: {
-          id: "5b · Pisahkan perubahan kemiringan dan titik nol",
-          en: "5b · Separate slope and zero changes",
+          id: "Hitung kemiringan dan keluaran pada nol",
+          en: "Calculate slope and zero output",
         },
         body: [
           {
-            id: "Definisikan perubahan catu \\(\\Delta V_s=V_s-0.5\\). Model garis ujungnya \\(O=[K+K_M\\Delta V_s]x+a+K_I\\Delta V_s\\). \\(K_M\\) mengubah sensitivitas, sedangkan \\(K_I\\) menggeser titik nol.",
-            en: "Define supply change \\(\\Delta V_s=V_s-0.5\\). The endpoint-line model is \\(O=[K+K_M\\Delta V_s]x+a+K_I\\Delta V_s\\). \\(K_M\\) changes sensitivity, while \\(K_I\\) shifts zero.",
+            id: "Kemiringan membagi perubahan keluaran dengan perubahan masukan. Tegangan naik 58.5 mV ketika tekanan naik 3 barG, sehingga setiap kenaikan 1 barG pada garis acuan memberi 19.5 mV.",
+            en: "Slope divides output change by input change. Voltage rises 58.5 mV over a 3 barG pressure increase, so each additional 1 barG gives 19.5 mV on the reference line.",
           },
           {
-            id: "Pada catu 0.6 V, kemiringan garis ujung \\(K_1=74/3=24.6667\\,\\mathrm{mV/barG}\\). Keluaran nol tetap 0 mV pada kedua catu.",
-            en: "At 0.6 V, endpoint slope is \\(K_1=74/3=24.6667\\,\\mathrm{mV/barG}\\). Zero-input output remains 0 mV for both supplies.",
+            id: "Kita masukkan titik x=0, O=0 pada model untuk memperoleh a=0 mV. Nilai a adalah keluaran nol, sedangkan K menjelaskan laju perubahan keluaran; keduanya memiliki satuan berbeda.",
+            en: "We insert x=0, O=0 into the model to obtain a=0 mV. The value a is zero output, while K is output change per input change; they have different units.",
+          },
+        ],
+        math: "K=\\frac{58.5-0}{3-0}=19.5\\ \\mathrm{mV/barG},\\qquad a=0\\ \\mathrm{mV},\\qquad O_{\\rm ideal}=19.5x",
+      },
+      {
+        title: {
+          id: "5b · Nyatakan perubahan catu terhadap acuan",
+          en: "5b · Express supply change relative to the reference",
+        },
+        body: [
+          {
+            id: "Definisikan \\(\\Delta V_s=V_s-0.5\\) V. Variabel ini nol pada kondisi standar dan 0.1 V pada kondisi kedua. Dengan definisi itu, \\(K\\) serta \\(a\\) tetap menyatakan karakteristik standar.",
+            en: "We define \\(\\Delta V_s=V_s-0.5\\) V. It is zero at standard conditions and 0.1 V in the second condition. This keeps \\(K\\) and \\(a\\) as the standard-condition characteristics.",
+          },
+          {
+            id: "Konstanta \\(K_M\\) menjelaskan perubahan kemiringan per volt perubahan catu. Konstanta \\(K_I\\) menjelaskan pergeseran keluaran nol per volt perubahan catu. Pengaruhnya berbeda: satu mengalikan tekanan, satu menambah keluaran pada semua tekanan.",
+            en: "The constant \\(K_M\\) describes slope change per volt of supply change. The constant \\(K_I\\) describes zero-output shift per volt of supply change. Their effects differ: one multiplies pressure, while the other adds to output at every pressure.",
+          },
+        ],
+        math: "O=[K+K_M\\Delta V_s]x+a+K_I\\Delta V_s",
+      },
+      {
+        title: {
+          id: "Cari kemiringan pada catu 0.6 V",
+          en: "Find the slope at a 0.6 V supply",
+        },
+        body: [
+          {
+            id: "Pakai metode garis ujung yang sama pada data kedua. Kedua ujungnya adalah (0,0) dan (3,74.0), sehingga kemiringan menjadi 24.6667 mV/barG.",
+            en: "Apply the same endpoint method to the second dataset. Its endpoints are (0,0) and (3,74.0), giving a slope of 24.6667 mV/barG.",
+          },
+          {
+            id: "Kita bandingkan kemiringan ini dengan 19.5 mV/barG. Kenaikan catu 0.1 V meningkatkan sensitivitas, tetapi kita belum menyatakan seberapa besar kenaikan per satu volt.",
+            en: "We compare that slope with 19.5 mV/barG. A 0.1 V supply increase raises sensitivity; we still need to express that change per one volt.",
+          },
+        ],
+        math: "K_1=\\frac{74.0-0}{3-0}=24.6667\\ \\mathrm{mV/barG},\\qquad\\Delta K=24.6667-19.5=5.1667\\ \\mathrm{mV/barG}",
+      },
+      {
+        title: {
+          id: "Pisahkan perubahan sensitivitas dan pergeseran nol",
+          en: "Separate sensitivity change from zero shift",
+        },
+        body: [
+          {
+            id: "Kita bagi kenaikan sensitivitas dengan kenaikan catu untuk memperoleh KM. Satuan tambahan per volt menunjukkan bahwa KM bukan sensitivitas tekanan itu sendiri.",
+            en: "We divide the sensitivity increase by the supply increase to obtain KM. The additional per-volt unit shows that KM is not pressure sensitivity itself.",
+          },
+          {
+            id: "Pada tekanan nol, kedua data memberi keluaran 0 mV. Keluaran nol tidak berubah di antara kedua kondisi, sehingga KI=0.",
+            en: "At zero pressure, both datasets give 0 mV. Since zero output does not change between the conditions, KI=0.",
+          },
+          {
+            id: "KI=0 tidak berarti catu tidak berpengaruh. Catu tetap mengubah kemiringan melalui KM yang tidak nol.",
+            en: "KI=0 does not mean supply has no effect. It still changes slope through the nonzero KM.",
           },
         ],
         math: "K_M=\\frac{24.6667-19.5}{0.6-0.5}=\\boxed{51.6667\\ \\mathrm{mV/(barG\\,V)}},\\qquad K_I=\\frac{0-0}{0.1}=\\boxed{0\\ \\mathrm{mV/V}}",
@@ -1371,19 +2290,37 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "5c · Hitung selisih dari garis ideal",
-          en: "5c · Compute departures from the ideal line",
+          id: "5c · Hitung keluaran garis ideal pada setiap tekanan",
+          en: "5c · Calculate ideal-line output at each pressure",
         },
         body: [
           {
-            id: "Untuk tiap tekanan, hitung \\(N(x)=O_{0.5}(x)-19.5x\\). Gunakan tabel pada catu nominal, bukan selisih antara dua catu.",
-            en: "At each pressure calculate \\(N(x)=O_{0.5}(x)-19.5x\\). Use the nominal-supply data, not the difference between supplies.",
+            id: "Nonlinearitas mengukur selisih kurva data dari garis lurus acuan. Untuk catu standar, garisnya \\(O_{\\rm ideal}=19.5x\\). Pada 1.5 barG, garis memberi \\(19.5(1.5)=29.25\\) mV.",
+            en: "Nonlinearity measures the data curve's departure from its straight reference line. At standard supply, the line is \\(O_{\\rm ideal}=19.5x\\). At 1.5 barG, it gives \\(19.5(1.5)=29.25\\) mV.",
           },
           {
-            id: "Selisih terbesar adalah 14.75 mV pada 1.5 barG. Titik ujung memiliki selisih nol karena garis acuan melewati keduanya.",
-            en: "The largest deviation is 14.75 mV at 1.5 barG. Endpoint deviations are zero because the reference line passes through both.",
+            id: "Data nyata pada tekanan itu adalah 44.0 mV. Selisihnya 44.0−29.25=14.75 mV. Kita perlu memeriksa semua titik sebelum menyebut nilai itu maksimum.",
+            en: "The actual datum at that pressure is 44.0 mV. Its deviation is 44.0−29.25=14.75 mV. Check every point before calling that the maximum.",
           },
         ],
+        math: "N(x)=O_{0.5}(x)-O_{\\rm ideal}(x)=O_{0.5}(x)-19.5x",
+      },
+      {
+        title: {
+          id: "Cari selisih terbesar dari seluruh tabel",
+          en: "Find the largest deviation in the table",
+        },
+        body: [
+          {
+            id: "Tabel memakai data catu 0.5 V dan garis acuannya sendiri. Selisih antara dua kondisi catu bukan nonlinearitas yang sedang dicari.",
+            en: "The table uses the 0.5 V data and its own reference line. Differences between the two supply conditions are not the nonlinearity being calculated.",
+          },
+          {
+            id: "Selisih terbesar adalah 14.75 mV pada 1.5 barG. Kedua titik ujung berselisih nol karena garis acuan memang melewati keduanya; itu tidak membuat semua titik di tengah linear.",
+            en: "The largest deviation is 14.75 mV at 1.5 barG. Both endpoint deviations are zero because the reference line passes through them; this does not make the intermediate points linear.",
+          },
+        ],
+        math: "N_{\\max}=\\max_x|N(x)|=14.75\\ \\mathrm{mV}",
         table: {
           headers: [
             {
@@ -1416,20 +2353,36 @@ export const questions2023: ExamQuestion[] = [
       },
       {
         title: {
-          id: "Bagi dengan rentang penuh keluaran",
+          id: "Bagi dengan rentang keluaran penuh",
           en: "Divide by the full output span",
         },
         body: [
           {
-            id: "Rentang penuh keluaran pada catu nominal adalah \\(58.5-0=58.5\\,\\mathrm{mV}\\). Bagi simpangan maksimum dengan rentang ini, lalu kalikan 100%.",
-            en: "Nominal full output span is \\(58.5-0=58.5\\,\\mathrm{mV}\\). Divide the maximum deviation by this span and multiply by 100%.",
+            id: "Full-scale deflection, disingkat f.s.d., adalah perubahan keluaran sepanjang rentang masukan yang dipakai. Pada kondisi standar, span keluaran adalah 58.5−0=58.5 mV.",
+            en: "Full-scale deflection, abbreviated f.s.d., is the output change across the input range. At standard conditions, output span is 58.5−0=58.5 mV.",
           },
           {
-            id: "Persentase ini menggambarkan deviasi maksimum dari garis ujung pada data kalibrasi yang tersedia. Ia bukan galat persentase terhadap tekanan pada satu titik.",
-            en: "This percentage describes the largest endpoint-line departure among the supplied calibration data. It is not percentage error relative to the pressure at a single point.",
+            id: "Kita bagi selisih maksimum dengan span tersebut, lalu kalikan 100%. Pembilang dan penyebut sama-sama mV, sehingga hasil perbandingan tidak memiliki satuan.",
+            en: "We divide maximum deviation by that span, then multiply by 100%. Numerator and denominator are both in mV, so their ratio is dimensionless.",
           },
         ],
-        math: "\\%N_{\\max}=\\frac{14.75}{58.5}\\times100\\%=\\boxed{25.2137\\%\\ \\mathrm{f.s.d.}}",
+        math: "\\%N_{\\max}=\\frac{14.75\\ \\mathrm{mV}}{58.5\\ \\mathrm{mV}}\\times100\\%=\\boxed{25.2137\\%\\ \\mathrm{f.s.d.}}",
+      },
+      {
+        title: {
+          id: "Tafsirkan model dan batas hasilnya",
+          en: "Interpret the model and its limits",
+        },
+        body: [
+          {
+            id: "K dan a merangkum garis ujung pada catu standar. KM dan KI merangkum perubahan garis ujung saat catu berubah. Data di antara titik ujung tetap memiliki nonlinearitas yang tidak dihapus oleh empat konstanta ini.",
+            en: "K and a describe the standard-supply endpoint line. KM and KI describe how that endpoint line changes with supply. Intermediate data retain nonlinearity that these four constants do not remove.",
+          },
+          {
+            id: "Angka 25.2137% menyatakan selisih terbesar terhadap span keluaran penuh, bukan persentase terhadap tekanan pada satu titik. Jika kita memilih regresi sebagai garis acuan, seluruh hitungan sensitivitas dan nonlinearitas harus mengikuti garis baru itu.",
+            en: "The value 25.2137% is the largest deviation relative to full output span, not a percentage of pressure at one point. If regression were chosen as the reference, sensitivity and nonlinearity calculations would all need to use that new line.",
+          },
+        ],
       },
     ],
     answer: {
@@ -1466,340 +2419,513 @@ export const questions2023: ExamQuestion[] = [
 
 export const practice2023: PracticeQuestion[] = [
   {
-    id: "practice-2023-01",
-    topic: "flow",
-    difficulty: "foundation",
-    prompt: {
-      id: "Manometer raksa membaca aliran air melalui dua tap yang sama tinggi. Rumus beda tekanan yang tepat adalah …",
-      en: "A mercury manometer reads water flow through two equal-elevation taps. Which pressure-difference formula is correct?",
-    },
-    options: [
-      {
-        id: "\\(\\rho_mgh\\)",
-        en: "\\(\\rho_mgh\\)",
-      },
-      {
-        id: "\\((\\rho_m-\\rho_w)gh\\)",
-        en: "\\((\\rho_m-\\rho_w)gh\\)",
-      },
-      {
-        id: "\\((\\rho_m+\\rho_w)gh\\)",
-        en: "\\((\\rho_m+\\rho_w)gh\\)",
-      },
-      {
-        id: "\\(\\rho_wg/h\\)",
-        en: "\\(\\rho_wg/h\\)",
-      },
-    ],
-    correctIndex: 1,
-    explanation: {
-      id: "Air di atas raksa ikut memberi tekanan. Pada tap sama tinggi, penjumlahan tekanan hidrostatik menyisakan selisih massa jenis raksa dan air.",
-      en: "Water above the mercury also contributes pressure. At equal tap elevations, the hydrostatic balance leaves the mercury-water density difference.",
-    },
-    sourceQuestionId: "2023-uts2-q1",
-  },
-  {
-    id: "practice-2023-02",
-    topic: "flow",
-    difficulty: "applied",
-    prompt: {
-      id: "Pada alat dan fluida yang sama, \\(C_d\\) dianggap tetap. Jika beda tekanan naik dari 4 kPa menjadi 16 kPa, debit menjadi …",
-      en: "For the same meter and fluid, treat \\(C_d\\) as constant. If pressure difference rises from 4 kPa to 16 kPa, flow becomes …",
-    },
-    options: [
-      {
-        id: "setengah semula",
-        en: "half the original",
-      },
-      {
-        id: "tetap",
-        en: "unchanged",
-      },
-      {
-        id: "empat kali semula",
-        en: "four times the original",
-      },
-      {
-        id: "dua kali semula",
-        en: "twice the original",
-      },
-    ],
-    correctIndex: 3,
-    explanation: {
-      id: "Debit sebanding akar beda tekanan. Beda tekanan naik empat kali, sehingga debit naik \\(\\sqrt4=2\\) kali.",
-      en: "Flow is proportional to the square root of pressure difference. A fourfold pressure increase gives a \\(\\sqrt4=2\\)-fold flow increase.",
-    },
-    math: "\\frac{Q_2}{Q_1}=\\sqrt{\\frac{16}{4}}=2",
-    sourceQuestionId: "2023-uas-q1",
-  },
-  {
-    id: "practice-2023-03",
-    topic: "temperature",
-    difficulty: "applied",
-    prompt: {
-      id: "Tabel termokopel terhadap 0 °C memberi \\(E(200)=8.138\\,\\mathrm{mV}\\) dan \\(E(50)=2.023\\,\\mathrm{mV}\\). Jika sambungan ukur 200 °C dan referensi 50 °C, keluarannya …",
-      en: "A 0 °C-reference thermocouple table gives \\(E(200)=8.138\\,\\mathrm{mV}\\) and \\(E(50)=2.023\\,\\mathrm{mV}\\). With hot junction 200 °C and reference 50 °C, output is …",
-    },
-    options: [
-      {
-        id: "10.161 mV",
-        en: "10.161 mV",
-      },
-      {
-        id: "8.138 mV",
-        en: "8.138 mV",
-      },
-      {
-        id: "6.115 mV",
-        en: "6.115 mV",
-      },
-      {
-        id: "2.023 mV",
-        en: "2.023 mV",
-      },
-    ],
-    correctIndex: 2,
-    explanation: {
-      id: "Kurangi dua tegangan terhadap acuan tabel yang sama. Nilai suhu tidak langsung menjadi tegangan tanpa tabel.",
-      en: "Subtract both voltages referred to the same table reference. Temperature values cannot be treated as voltages.",
-    },
-    math: "E(200,50)=8.138-2.023=6.115\\ \\mathrm{mV}",
-    sourceQuestionId: "2023-uts2-q2",
-  },
-  {
-    id: "practice-2023-04",
-    topic: "dynamics",
-    difficulty: "applied",
-    prompt: {
-      id: "Sensor orde satu berubah dari 100 Ω menuju 110 Ω, dengan \\(\\tau=2\\,\\mathrm s\\). Langkah masukan terjadi pada \\(t=3\\,\\mathrm s\\). Berapa tahanan pada \\(t=5\\,\\mathrm s\\)?",
-      en: "A first-order sensor changes from 100 Ω toward 110 Ω with \\(\\tau=2\\,\\mathrm s\\). The input step occurs at \\(t=3\\,\\mathrm s\\). What is resistance at \\(t=5\\,\\mathrm s\\)?",
-    },
-    options: [
-      {
-        id: "106.321 Ω",
-        en: "106.321 Ω",
-      },
-      {
-        id: "103.679 Ω",
-        en: "103.679 Ω",
-      },
-      {
-        id: "109.179 Ω",
-        en: "109.179 Ω",
-      },
-      {
-        id: "110.000 Ω",
-        en: "110.000 Ω",
-      },
-    ],
-    correctIndex: 0,
-    explanation: {
-      id: "Waktu respons baru \\(5-3=2\\,\\mathrm s=\\tau\\). Setelah satu konstanta waktu, sensor mencapai \\(1-e^{-1}=63.21\\%\\) dari perubahan 10 Ω.",
-      en: "Response time is only \\(5-3=2\\,\\mathrm s=\\tau\\). After one time constant, the sensor completes \\(1-e^{-1}=63.21\\%\\) of its 10 Ω change.",
-    },
-    math: "R=100+10(1-e^{-1})=106.321\\ \\Omega",
-    sourceQuestionId: "2023-uas-q3",
-  },
-  {
-    id: "practice-2023-05",
-    topic: "position",
-    difficulty: "foundation",
-    prompt: {
-      id: "Dua kanal A dan B encoder inkremental bergeser seperempat siklus. Informasi tambahan apa yang dapat diperoleh dari kanal yang mendahului?",
-      en: "An incremental encoder has A and B channels a quarter-cycle apart. What additional information does the leading channel provide?",
-    },
-    options: [
-      {
-        id: "Suhu encoder",
-        en: "Encoder temperature",
-      },
-      {
-        id: "Arah putaran",
-        en: "Rotation direction",
-      },
-      {
-        id: "Posisi mutlak setelah daya mati tanpa acuan",
-        en: "Absolute position after power loss without a reference",
-      },
-      {
-        id: "Massa rotor",
-        en: "Rotor mass",
-      },
-    ],
-    correctIndex: 1,
-    explanation: {
-      id: "Urutan tepi A dan B berubah saat arah putaran berbalik. Jumlah hitungan menyatakan perubahan sudut; urutannya menyatakan arah.",
-      en: "The A/B edge order reverses when rotation reverses. Count gives angular change; edge order gives direction.",
-    },
-    sourceQuestionId: "2023-uts2-q3",
-  },
-  {
-    id: "practice-2023-06",
-    topic: "position",
-    difficulty: "applied",
-    prompt: {
-      id: "Sensor level kapasitif memiliki \\(C_{\\rm air}=20\\,\\mathrm{pF}\\), \\(k=4\\), dan setengah panjang aktif terendam. Berapa kapasitansinya?",
-      en: "A capacitive level sensor has \\(C_{\\rm air}=20\\,\\mathrm{pF}\\), \\(k=4\\), and half its active length immersed. What is capacitance?",
-    },
-    options: [
-      {
-        id: "10 pF",
-        en: "10 pF",
-      },
-      {
-        id: "40 pF",
-        en: "40 pF",
-      },
-      {
-        id: "80 pF",
-        en: "80 pF",
-      },
-      {
-        id: "50 pF",
-        en: "50 pF",
-      },
-    ],
-    correctIndex: 3,
-    explanation: {
-      id: "Bagian udara dan cairan tersusun paralel. Gunakan fraksi terendam \\(\\eta=0.5\\), sehingga \\(C=20[1+(4-1)(0.5)]\\).",
-      en: "The air and liquid sections are in parallel. Use immersed fraction \\(\\eta=0.5\\), giving \\(C=20[1+(4-1)(0.5)]\\).",
-    },
-    math: "C=50\\ \\mathrm{pF}",
-    sourceQuestionId: "2023-uts2-q3",
-  },
-  {
-    id: "practice-2023-07",
-    topic: "dynamics",
+    id: "concept-2023-01",
+    topic: "systems",
     difficulty: "reasoning",
+    sourceQuestionId: "2023-uts1-q1",
     prompt: {
-      id: "Vibrometer mengukur getaran sinus pada percepatan puncak tetap. Frekuensi naik dua kali, masih di dalam rentang sensitivitas tetap. Bagaimana amplitudo tegangannya berubah?",
-      en: "A vibrometer measures sinusoidal motion at fixed peak acceleration. Frequency doubles within the constant-sensitivity band. What happens to voltage amplitude?",
+      id: "Sebuah sistem gaya memakai strain gauge, jembatan Wheatstone, mikrokontroler, dan LCD. Jembatan mengubah perubahan tahanan menjadi beda tegangan. Peran utama jembatan pada rantai ini adalah…",
+      en: "A force system uses a strain gauge, Wheatstone bridge, microcontroller, and LCD. The bridge turns resistance change into a voltage difference. Its main role in this chain is…",
     },
     options: [
       {
-        id: "Turun menjadi setengah",
-        en: "Halves",
+        id: "Pengolah data, karena jembatan sudah menghitung gaya dalam satuan newton.",
+        en: "Data processor, because the bridge already calculates force in newtons.",
       },
       {
-        id: "Naik empat kali",
-        en: "Quadruples",
+        id: "Elemen sensor, karena semua bagian yang keluarannya berubah adalah sensor.",
+        en: "Sensing element, because any part with a changing output is a sensor.",
       },
       {
-        id: "Tetap",
-        en: "Stays the same",
+        id: "Pengondisi sinyal, karena jembatan mengubah keluaran sensor menjadi bentuk listrik yang lebih mudah dibaca.",
+        en: "Signal conditioner, because it converts the sensor output into a more readable electrical form.",
       },
       {
-        id: "Naik dua kali",
-        en: "Doubles",
-      },
-    ],
-    correctIndex: 0,
-    explanation: {
-      id: "Vibrometer membaca kecepatan, sedangkan \\(\\hat v=\\hat a/(2\\pi f)\\). Pada percepatan tetap, frekuensi dua kali memberi kecepatan dan tegangan setengah.",
-      en: "A vibrometer senses velocity, and \\(\\hat v=\\hat a/(2\\pi f)\\). At fixed acceleration, doubling frequency halves velocity and voltage.",
-    },
-    sourceQuestionId: "2023-uts2-q4",
-  },
-  {
-    id: "practice-2023-08",
-    topic: "statistics",
-    difficulty: "applied",
-    prompt: {
-      id: "Tiga tahanan sampel adalah 9, 10, dan 11 Ω. Berapa simpangan baku sampelnya?",
-      en: "Three sample resistances are 9, 10, and 11 Ω. What is their sample standard deviation?",
-    },
-    options: [
-      {
-        id: "0 Ω",
-        en: "0 Ω",
-      },
-      {
-        id: "0.8165 Ω",
-        en: "0.8165 Ω",
-      },
-      {
-        id: "1 Ω",
-        en: "1 Ω",
-      },
-      {
-        id: "2 Ω",
-        en: "2 Ω",
+        id: "Penyaji data, karena beda tegangan langsung memberi tampilan bagi pengguna.",
+        en: "Data presenter, because a voltage difference directly provides a user display.",
       },
     ],
     correctIndex: 2,
     explanation: {
-      id: "Rata-ratanya 10 Ω. Kuadrat selisih berjumlah 1+0+1=2 Ω². Varians sampel membaginya dengan n−1=2, lalu ambil akar.",
-      en: "The mean is 10 Ω. Squared deviations sum to 1+0+1=2 Ω². Sample variance divides by n−1=2, then take the square root.",
+      id: "Strain gauge berhubungan langsung dengan regangan dan mengubah tahanan. Jembatan membaca perubahan itu sebagai beda tegangan, sehingga perannya pengondisi sinyal. Mengubah bentuk sinyal belum sama dengan menghitung gaya lewat kalibrasi atau menampilkan hasil.",
+      en: "The strain gauge directly responds to strain by changing resistance. The bridge reads that change as a voltage difference, so its role is signal conditioning. Changing signal form is distinct from calculating calibrated force or displaying a result.",
     },
-    math: "s=\\sqrt{2/2}=1\\ \\Omega",
-    sourceQuestionId: "2023-uas-q2",
-  },
-  {
-    id: "practice-2023-09",
-    topic: "dynamics",
-    difficulty: "applied",
-    prompt: {
-      id: "Akselerometer kuasistatik memiliki \\(m=0.10\\,\\mathrm{kg}\\), \\(k=500\\,\\mathrm{N/m}\\), dan batas gerak relatif 2 mm. Berapa besar percepatan maksimumnya?",
-      en: "A quasistatic accelerometer has \\(m=0.10\\,\\mathrm{kg}\\), \\(k=500\\,\\mathrm{N/m}\\), and relative travel limit 2 mm. What is its maximum acceleration magnitude?",
-    },
-    options: [
+    optionExplanations: [
       {
-        id: "0.1 m/s²",
-        en: "0.1 m/s²",
+        id: "Jembatan memberi tegangan. Perhitungan gaya melalui persamaan kalibrasi merupakan tugas pengolahan berikutnya.",
+        en: "The bridge supplies voltage. Converting it into force through calibration belongs to later processing.",
       },
       {
-        id: "10 m/s²",
-        en: "10 m/s²",
+        id: "Perubahan keluaran saja tidak menentukan kelas sensor. Dalam rantai ini, strain gauge yang pertama merespons regangan mekanis.",
+        en: "A changing output does not by itself define a sensor. In this chain, the strain gauge first responds to mechanical strain.",
       },
       {
-        id: "1 m/s²",
-        en: "1 m/s²",
+        id: "Benar. Jembatan mengubah perubahan tahanan menjadi beda tegangan untuk tahap berikutnya.",
+        en: "Correct. The bridge converts resistance change into a voltage difference for the next stage.",
       },
       {
-        id: "100 m/s²",
-        en: "100 m/s²",
+        id: "LCD menyajikan hasil. Tegangan internal belum merupakan tampilan yang dapat dibaca pengguna.",
+        en: "The LCD presents the result. An internal voltage is not yet a user-readable display.",
       },
     ],
-    correctIndex: 1,
-    explanation: {
-      id: "Ubah 2 mm menjadi 0.002 m. Untuk percepatan yang berubah lambat, besar gaya inersia ma sama dengan gaya pegas kz.",
-      en: "Convert 2 mm to 0.002 m. For slowly varying acceleration, inertia-force magnitude ma equals spring-force magnitude kz.",
-    },
-    math: "a_{\\max}=\\frac{kz_{\\max}}m=\\frac{500(0.002)}{0.10}=10\\ \\mathrm{m/s^2}",
-    sourceQuestionId: "2023-uas-q4",
   },
   {
-    id: "practice-2023-10",
+    id: "concept-2023-02",
     topic: "calibration",
     difficulty: "reasoning",
+    sourceQuestionId: "2023-uts1-q2",
     prompt: {
-      id: "Kalibrasi memiliki rentang keluaran 0–80 mV. Deviasi terbesar dari garis ujung adalah 4 mV. Berapa ketaklinearan maksimum terhadap rentang penuh?",
-      en: "A calibration has output range 0–80 mV. Its largest endpoint-line departure is 4 mV. What is maximum full-scale nonlinearity?",
+      id: "Setelah catu sensor gaya dinaikkan, garis kalibrasi menjadi lebih curam, tetapi keluaran saat gaya nol tetap. Kesimpulan mana yang paling tepat untuk model garis ini?",
+      en: "After a force sensor's supply is increased, its calibration line becomes steeper, while its zero-force output stays unchanged. Which conclusion best fits this linear model?",
     },
     options: [
       {
-        id: "0.05%",
-        en: "0.05%",
+        id: "Catu mengubah sensitivitas; bukti ini tidak menunjukkan pergeseran nol.",
+        en: "Supply changes sensitivity; this evidence does not show a zero shift.",
       },
       {
-        id: "4%",
-        en: "4%",
+        id: "Catu tidak berpengaruh karena keluaran nol tetap.",
+        en: "Supply has no effect because zero output stays unchanged.",
       },
       {
-        id: "5%",
-        en: "5%",
+        id: "Catu menambah offset yang sama pada semua gaya.",
+        en: "Supply adds the same offset at every force.",
       },
       {
-        id: "20%",
-        en: "20%",
+        id: "Semua selisih akibat catu harus disebut nonlinearitas.",
+        en: "Every supply-induced difference must be called nonlinearity.",
+      },
+    ],
+    correctIndex: 0,
+    explanation: {
+      id: "Kemiringan menyatakan perubahan keluaran per perubahan gaya. Garis yang lebih curam berarti sensitivitas berubah. Offset yang tetap menunjukkan tidak ada pergeseran nol pada garis itu. Nonlinearitas memerlukan pemeriksaan jarak data dari garis, bukan sekadar membandingkan dua kemiringan.",
+      en: "Slope expresses output change per force change. A steeper line means sensitivity has changed. An unchanged intercept means no zero shift in that line. Nonlinearity requires checking departures from a line rather than merely comparing two slopes.",
+    },
+    optionExplanations: [
+      {
+        id: "Benar. Perubahan kemiringan menunjukkan masukan yang memodifikasi sensitivitas, bukan tambahan offset tetap.",
+        en: "Correct. A slope change indicates an input that modifies sensitivity, rather than a fixed additive offset.",
+      },
+      {
+        id: "Keluaran nol hanya memeriksa offset. Sensitivitas masih dapat berubah meskipun titik nol tetap.",
+        en: "Zero output tests only the offset. Sensitivity can change even when the zero point stays fixed.",
+      },
+      {
+        id: "Offset seragam akan menggeser seluruh garis, termasuk titik gaya nol. Di sini titik nol tetap.",
+        en: "A uniform offset would shift the entire line, including the zero-force point. Here that point stays fixed.",
+      },
+      {
+        id: "Dua garis lurus dapat memiliki kemiringan berbeda tanpa masing-masing memiliki nonlinearitas.",
+        en: "Two straight lines can have different slopes without either line being nonlinear.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-03",
+    topic: "dynamics",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uts1-q4",
+    prompt: {
+      id: "Termometer orde satu mula-mula tunak pada suhu yang tidak nol, lalu menerima kenaikan suhu mendadak. Soal meminta waktu untuk mencapai 98% perubahan suhu. Acuan 98% yang benar adalah…",
+      en: "A first-order thermometer starts at equilibrium at a nonzero temperature, then receives a sudden temperature rise. The question asks when it reaches 98% of the temperature change. The correct reference for 98% is…",
+    },
+    options: [
+      {
+        id: "Nilai keluaran akhir yang dihitung dari nol, tanpa memperhatikan nilai awal.",
+        en: "The final output measured from zero, regardless of the initial value.",
+      },
+      {
+        id: "Jumlah waktu sejak alat dinyalakan, walaupun suhu berubah jauh sesudahnya.",
+        en: "Total time since power-on, even if the temperature step happens much later.",
+      },
+      {
+        id: "Konstanta waktu alat; setelah satu konstanta waktu, keluaran selalu mencapai 98%.",
+        en: "The instrument's time constant; after one time constant, output always reaches 98%.",
+      },
+      {
+        id: "Kenaikan keluaran dari nilai awal menuju nilai akhir, dengan waktu dihitung sejak suhu berubah.",
+        en: "The output increase from initial to final value, with time measured from the temperature step.",
+      },
+    ],
+    correctIndex: 3,
+    explanation: {
+      id: "Persentase respons langkah mengacu pada perubahan yang harus ditempuh, yaitu nilai akhir dikurangi nilai awal. Jam respons mulai saat langkah terjadi. Menggunakan nol keluaran mengubah besar perubahan; menggunakan waktu menyala memasukkan masa ketika sensor masih tunak.",
+      en: "Step-response percentage refers to the required change: final value minus initial value. The response clock begins at the step. Referencing zero output changes the size of the change, while time since power-on includes an earlier equilibrium period.",
+    },
+    optionExplanations: [
+      {
+        id: "Jika keluaran awal tidak nol, 98% nilai akhir berbeda dari 98% kenaikan. Itu bukan besaran yang soal minta.",
+        en: "With nonzero initial output, 98% of the final value differs from 98% of the rise. The first quantity does not match the requested change.",
+      },
+      {
+        id: "Respons terhadap langkah belum berlangsung sebelum langkah terjadi. Waktu menyala tidak otomatis sama dengan waktu respons.",
+        en: "The step response has not begun before the step occurs. Power-on time is not automatically response duration.",
+      },
+      {
+        id: "Konstanta waktu mengatur laju respons, bukan menyatakan waktu untuk semua persentase. Satu konstanta waktu belum mencapai 98% perubahan.",
+        en: "The time constant sets response speed, not the time for every percentage. One time constant does not complete 98% of the change.",
+      },
+      {
+        id: "Benar. Fraksi selesai harus diukur dari keluaran awal dan dibandingkan dengan seluruh perubahan menuju keadaan akhir.",
+        en: "Correct. The completed fraction is measured from initial output and compared with the whole change toward equilibrium.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-04",
+    topic: "flow",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uas-q1",
+    prompt: {
+      id: "Sebuah Venturi diganti nozzle dengan diameter pipa dan leher yang sama. Untuk kondisi ini, Cd nozzle diketahui lebih rendah. Pompa menjaga debit tetap dan manometer memakai fluida yang sama. Apa yang terjadi pada selisih tinggi manometer?",
+      en: "A Venturi is replaced by a nozzle with the same pipe and throat diameters. For these conditions, the nozzle Cd is known to be lower. The pump holds flow constant and the manometer fluids stay the same. What happens to the manometer height difference?",
+    },
+    options: [
+      {
+        id: "Turun, karena Cd yang lebih kecil selalu berarti beda tekanan lebih kecil.",
+        en: "It falls because a smaller Cd always means a smaller pressure difference.",
+      },
+      {
+        id: "Naik, karena debit yang sama memerlukan beda tekanan lebih besar ketika Cd lebih kecil.",
+        en: "It rises because the same flow requires a larger pressure difference when Cd is lower.",
+      },
+      {
+        id: "Pasti nol, karena pompa sudah menjaga debit tetap.",
+        en: "It must become zero because the pump maintains constant flow.",
+      },
+      {
+        id: "Tetap, karena kedua diameter tidak berubah.",
+        en: "It stays the same because both diameters are unchanged.",
+      },
+    ],
+    correctIndex: 1,
+    explanation: {
+      id: "Pada geometri dan fluida yang tetap, debit bertambah dengan Cd dan akar beda tekanan. Jika Cd turun tetapi debit dijaga, beda tekanan harus naik. Selisih tinggi manometer ikut naik. Diameter yang sama saja tidak menjamin pembacaan yang sama, dan debit tetap tidak berarti beda tekanan nol.",
+      en: "For fixed geometry and fluid, flow increases with Cd and the square root of pressure difference. If Cd falls while flow is maintained, pressure difference must rise. Manometer height rises with it. Equal diameters alone do not ensure equal readings, and constant flow does not mean zero pressure difference.",
+    },
+    optionExplanations: [
+      {
+        id: "Kesimpulan itu mengabaikan syarat debit tetap. Cd yang lebih kecil perlu diimbangi beda tekanan yang lebih besar.",
+        en: "This ignores the fixed-flow condition. A smaller Cd must be compensated by greater pressure difference.",
+      },
+      {
+        id: "Benar. Beda tekanan dan tinggi manometer meningkat agar debit tetap sama pada Cd yang lebih kecil.",
+        en: "Correct. Pressure difference and manometer height increase to maintain the same flow with lower Cd.",
+      },
+      {
+        id: "Pompa mempertahankan aliran dengan menyediakan tekanan yang diperlukan. Pengaturan debit tidak menghapus penurunan tekanan pada meter.",
+        en: "The pump maintains flow by supplying the required pressure. Flow regulation does not remove the meter's pressure drop.",
+      },
+      {
+        id: "Geometri sama hanya mempertahankan faktor geometri. Perubahan Cd masih memengaruhi hubungan debit dengan tekanan.",
+        en: "Equal geometry preserves only the geometric factor. Cd still changes the relationship between flow and pressure.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-05",
+    topic: "temperature",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uts2-q2",
+    prompt: {
+      id: "Tabel termokopel memakai referensi 0°C, tetapi sambungan referensi alat berada di atas 0°C. Tegangan terukur sudah diketahui. Bagaimana cara yang tepat mencari suhu sambungan panas dari tabel?",
+      en: "A thermocouple table uses a 0°C reference, but the instrument's reference junction is above 0°C. The measured voltage is known. How should the hot-junction temperature be found from the table?",
+    },
+    options: [
+      {
+        id: "Kurangi tegangan tabel referensi dari tegangan terukur, lalu cari suhu.",
+        en: "Subtract the reference table voltage from measured voltage, then look up temperature.",
+      },
+      {
+        id: "Cari tegangan terukur langsung pada tabel, lalu tambahkan suhu referensi.",
+        en: "Look up measured voltage directly, then add reference temperature.",
+      },
+      {
+        id: "Abaikan referensi karena termokopel selalu memberi suhu panas secara absolut.",
+        en: "Ignore the reference because a thermocouple always reports absolute hot-junction temperature.",
+      },
+      {
+        id: "Tambahkan tegangan tabel pada suhu referensi ke tegangan terukur, lalu cari suhu dari tegangan total itu.",
+        en: "Add the reference temperature's table voltage to the measured voltage, then look up temperature from that total.",
+      },
+    ],
+    correctIndex: 3,
+    explanation: {
+      id: "Tegangan terukur merupakan tegangan tabel sambungan panas dikurangi tegangan tabel referensi. Untuk memulihkan tegangan panas terhadap 0°C, tambahkan kontribusi referensi. Menambahkan suhu setelah pencarian tabel tidak tepat secara umum karena hubungan suhu dengan tegangan tidak linear.",
+      en: "Measured voltage equals the hot-junction table voltage minus the reference-junction table voltage. Recover the hot-junction voltage relative to 0°C by adding the reference contribution. Adding temperatures after lookup is generally invalid because the relationship between temperature and voltage is nonlinear.",
+    },
+    optionExplanations: [
+      {
+        id: "Pengurangan sudah terjadi pada tegangan yang diukur. Menguranginya lagi membuat koreksi referensi salah arah.",
+        en: "The reference contribution was already subtracted in the measurement. Subtracting it again applies the correction in the wrong direction.",
+      },
+      {
+        id: "Cara ini menganggap tegangan hanya bergantung secara linear pada selisih suhu. Tabel nyata tidak mengikuti asumsi itu secara tepat.",
+        en: "This assumes voltage is a linear function of temperature difference. Real tables do not follow that assumption exactly.",
+      },
+      {
+        id: "Keluaran termokopel bergantung pada kedua sambungan. Suhu referensi diperlukan untuk membaca suhu panas.",
+        en: "Thermocouple output depends on both junctions. Reference temperature is needed to infer the hot-junction temperature.",
+      },
+      {
+        id: "Benar. Samakan acuan tegangan terlebih dahulu, baru gunakan tabel untuk mencari suhu.",
+        en: "Correct. Put the voltage on the same reference basis before using the table to find temperature.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-06",
+    topic: "position",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uts2-q3",
+    prompt: {
+      id: "Sebuah poros dapat bergeser saat daya mati. Setelah daya kembali, sistem harus membaca posisi dalam satu putaran tanpa menggerakkan poros untuk mencari acuan. Pilihan yang paling sesuai adalah…",
+      en: "A shaft may move while power is off. After power returns, the system must read its position within one revolution without moving it to find a reference. The most suitable choice is…",
+    },
+    options: [
+      {
+        id: "Encoder inkremental satu kanal, karena setiap pulsa adalah kode posisi unik.",
+        en: "A one-channel incremental encoder, because each pulse is a unique position code.",
+      },
+      {
+        id: "Encoder inkremental dengan indeks Z, karena indeks menunjukkan semua sudut saat poros diam.",
+        en: "An incremental encoder with index Z, because the index identifies every angle while stationary.",
+      },
+      {
+        id: "Encoder absolut single-turn, karena kode saat ini menunjukkan posisi dalam satu putaran.",
+        en: "A single-turn absolute encoder, because its current code identifies position within one revolution.",
+      },
+      {
+        id: "Encoder inkremental A/B tanpa penyimpanan posisi, karena dua kanal selalu memberi posisi absolut.",
+        en: "An A/B incremental encoder without position retention, because two channels always provide absolute position.",
       },
     ],
     correctIndex: 2,
     explanation: {
-      id: "Bagi deviasi maksimum dengan rentang keluaran 80 mV, lalu kalikan 100%. Penyebutnya bukan keluaran pada titik deviasi.",
-      en: "Divide maximum deviation by the 80 mV output span and multiply by 100%. The denominator is not the reading at the deviation point.",
+      id: "Encoder absolut single-turn memberi kode posisi saat dibaca, sehingga tidak perlu mengumpulkan pulsa gerak sejak acuan. A/B memberi arah dan perubahan posisi; indeks Z memberi satu tanda acuan, bukan kode untuk semua sudut. Kebutuhan soal hanya dalam satu putaran, sehingga belum memerlukan informasi jumlah putaran.",
+      en: "A single-turn absolute encoder supplies a position code at readout, without accumulating motion pulses from a reference. A/B provides direction and position change; index Z marks one reference rather than every angle. The requirement is only within one revolution, so turn-count information is not needed.",
     },
-    math: "\\%N_{\\max}=\\frac4{80}\\times100\\%=5\\%",
-    sourceQuestionId: "2023-uas-q5",
+    optionExplanations: [
+      {
+        id: "Pola satu kanal berulang. Tanpa hitungan dan posisi awal, pulsa tidak mengidentifikasi sektor secara unik.",
+        en: "A single-channel pattern repeats. Without a count and initial position, pulses do not uniquely identify the sector.",
+      },
+      {
+        id: "Indeks hanya aktif dekat satu posisi. Pada posisi lain saat diam, sistem belum mengetahui jaraknya dari indeks.",
+        en: "The index is active near one position. At another stationary position, the system does not know its distance from that index.",
+      },
+      {
+        id: "Benar. Kode unik per sektor memenuhi syarat membaca sudut dalam satu putaran tanpa gerak acuan.",
+        en: "Correct. A unique code per sector meets the requirement for reading single-turn angle without reference motion.",
+      },
+      {
+        id: "Dua kanal membedakan arah gerak, tetapi tidak memulihkan hitungan yang hilang saat daya mati.",
+        en: "Two channels distinguish motion direction but do not recover a count lost during power-off.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-07",
+    topic: "position",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uts2-q3",
+    prompt: {
+      id: "Pada probe level dengan dua elektroda tegak, bagian atas celah berisi udara dan bagian bawah berisi cairan. Kedua bagian terhubung ke pasangan elektroda yang sama. Mengapa kapasitansi kedua daerah dijumlahkan seperti kapasitor paralel?",
+      en: "A vertical two-electrode level probe has air in the upper gap and liquid in the lower gap. Both regions connect across the same pair of electrodes. Why do their capacitances add like parallel capacitors?",
+    },
+    options: [
+      {
+        id: "Kedua daerah mengalami tegangan yang sama, sementara muatan keduanya menambah muatan total.",
+        en: "Both regions have the same voltage, while their charges add to the total charge.",
+      },
+      {
+        id: "Cairan meniadakan semua kapasitansi pada daerah udara.",
+        en: "Because liquid eliminates all capacitance in the air region.",
+      },
+      {
+        id: "Arus harus melewati udara lalu cairan karena udara berada di atas cairan.",
+        en: "Because air is above liquid, current must pass through them sequentially.",
+      },
+      {
+        id: "Semua kapasitor dengan bahan dielektrik berbeda selalu tersusun paralel.",
+        en: "Because capacitors with different dielectric materials are always parallel.",
+      },
+    ],
+    correctIndex: 0,
+    explanation: {
+      id: "Susunan listrik ditentukan oleh elektroda dan arah medan, bukan semata urutan atas dan bawah. Kedua daerah memiliki beda tegangan yang sama dan menyumbang muatan ke terminal yang sama, sehingga kapasitansi menambah. Model seri baru sesuai jika lapisan tersusun berturut-turut sepanjang arah medan dengan pembagian tegangan.",
+      en: "Electrical arrangement follows the electrodes and field direction, not just top-to-bottom order. Both regions have the same potential difference and contribute charge to the same terminals, so capacitances add. A series model instead suits successive layers along the field direction with divided voltage.",
+    },
+    optionExplanations: [
+      {
+        id: "Benar. Kesamaan beda tegangan dan penjumlahan muatan menentukan model paralel.",
+        en: "Correct. Equal voltage and additive charge determine the parallel model.",
+      },
+      {
+        id: "Daerah udara tetap menyumbang kapasitansi selama masih berada dalam bagian elektroda aktif.",
+        en: "The air region still contributes capacitance while it remains within the active electrode region.",
+      },
+      {
+        id: "Posisi atas dan bawah tidak memaksa hubungan seri. Di sini medan melintasi celah antara elektroda pada tiap ketinggian.",
+        en: "Top-to-bottom position does not force a series connection. Here the field crosses the electrode gap at each height.",
+      },
+      {
+        id: "Bahan berbeda tidak menentukan hubungan rangkaian. Geometri dan sambungan elektroda yang menentukannya.",
+        en: "Different materials do not determine circuit arrangement. Geometry and electrode connections do.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-08",
+    topic: "dynamics",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uts2-q4",
+    prompt: {
+      id: "Vibrometer menghasilkan tegangan yang sebanding dengan kecepatan. Dua getaran sinus memiliki amplitudo percepatan yang sama, tetapi frekuensinya berbeda. Keduanya masih berada dalam rentang sensitivitas tetap alat. Mengapa getaran berfrekuensi lebih tinggi memberi tegangan lebih kecil?",
+      en: "A vibrometer produces voltage proportional to velocity. Two sinusoidal vibrations have equal acceleration amplitude but different frequencies, both within the constant-sensitivity range. Why does the higher-frequency vibration give less voltage?",
+    },
+    options: [
+      {
+        id: "Frekuensi mengubah satuan tegangan dari volt menjadi milivolt.",
+        en: "Frequency changes the voltage unit from volts to millivolts.",
+      },
+      {
+        id: "Percepatan yang sama harus menghasilkan kecepatan yang sama pada semua frekuensi.",
+        en: "Equal acceleration must produce equal velocity at all frequencies.",
+      },
+      {
+        id: "Untuk gerak sinus, percepatan yang sama pada frekuensi lebih tinggi memerlukan amplitudo kecepatan lebih kecil.",
+        en: "For sinusoidal motion, equal acceleration at higher frequency requires smaller velocity amplitude.",
+      },
+      {
+        id: "Sensitivitas alat pasti turun setiap kali frekuensi naik, walaupun soal menyatakan tetap.",
+        en: "Instrument sensitivity must fall with increasing frequency even though it is stated to be constant.",
+      },
+    ],
+    correctIndex: 2,
+    explanation: {
+      id: "Percepatan adalah laju perubahan kecepatan. Pada getaran lebih cepat, kecepatan yang lebih kecil dapat memberi amplitudo percepatan yang sama. Sensor membaca kecepatan dengan sensitivitas tetap, sehingga tegangannya ikut mengecil. Penyebabnya adalah besaran gerak yang masuk, bukan perubahan sensitivitas.",
+      en: "Acceleration is the rate of change of velocity. In a faster oscillation, a smaller velocity amplitude can produce the same acceleration amplitude. Since the sensor reads velocity with constant sensitivity, voltage decreases too. The cause is the input motion quantity rather than a sensitivity change.",
+    },
+    optionExplanations: [
+      {
+        id: "Volt dan milivolt hanya dua cara menuliskan tegangan yang sama. Perubahan satuan tidak menjelaskan perubahan fisik.",
+        en: "Volts and millivolts are alternative ways of expressing the same voltage. Unit conversion does not explain a physical change.",
+      },
+      {
+        id: "Hubungan percepatan dengan kecepatan juga bergantung pada frekuensi getaran sinus.",
+        en: "The relationship between acceleration and velocity also depends on sinusoidal frequency.",
+      },
+      {
+        id: "Benar. Sensor merespons kecepatan yang lebih kecil pada percepatan tetap dan frekuensi lebih besar.",
+        en: "Correct. At fixed acceleration and higher frequency, the sensor receives a smaller velocity amplitude.",
+      },
+      {
+        id: "Ini bertentangan dengan syarat sensitivitas tetap di dalam rentang kerja yang disebut.",
+        en: "This contradicts the stated constant-sensitivity condition within the working band.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-09",
+    topic: "statistics",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uas-q2",
+    prompt: {
+      id: "Tahanan beberapa strain gauge berkumpul rapat, sehingga simpangan baku sampelnya kecil. Nilai benar tersertifikasi untuk tiap unit belum tersedia. Kesimpulan apa yang didukung data tersebut?",
+      en: "Several strain-gauge resistances cluster closely, giving a small sample standard deviation. Certified true values for the units are unavailable. What conclusion do the data support?",
+    },
+    options: [
+      {
+        id: "Rata-rata tidak lagi diperlukan karena simpangan baku sudah memberi pusat data.",
+        en: "The mean is unnecessary because standard deviation already provides the centre.",
+      },
+      {
+        id: "Sebaran tahanan yang teramati kecil; bias terhadap nilai benar belum dapat dipastikan.",
+        en: "Observed resistance spread is small; bias relative to true values remains undetermined.",
+      },
+      {
+        id: "Semua hasil pasti dekat dengan nilai benar.",
+        en: "All results must be close to their true values.",
+      },
+      {
+        id: "Alat ukur pasti tidak memiliki galat karena pengulangan konsisten.",
+        en: "The measuring instrument must be error-free because results are consistent.",
+      },
+    ],
+    correctIndex: 1,
+    explanation: {
+      id: "Simpangan baku menggambarkan sebaran terhadap rata-rata, bukan jarak dari nilai benar. Sekumpulan hasil dapat berdekatan tetapi semuanya bergeser akibat bias. Data antarunit juga mencampur variasi produk dan pengukuran, sehingga tidak otomatis menjadi ukuran galat alat saja.",
+      en: "Standard deviation describes spread around the mean rather than distance from a true value. Results can cluster tightly while sharing a bias. Between-unit measurements also combine product variation and measurement effects, so they do not automatically isolate instrument error.",
+    },
+    optionExplanations: [
+      {
+        id: "Simpangan baku memberi ukuran sebaran. Rata-rata tetap diperlukan untuk menyatakan pusat data.",
+        en: "Standard deviation measures spread. The mean is still needed to state the data centre.",
+      },
+      {
+        id: "Benar. Sebaran dapat dinilai dari sampel; bias memerlukan acuan atau informasi tambahan.",
+        en: "Correct. The sample supports a spread assessment; bias requires a reference or additional information.",
+      },
+      {
+        id: "Kedekatan antarhasil tidak menjamin kedekatan terhadap nilai benar yang belum diketahui.",
+        en: "Closeness between results does not establish closeness to an unknown true value.",
+      },
+      {
+        id: "Bias yang sama pada semua pembacaan dapat tetap menghasilkan simpangan baku kecil.",
+        en: "A common bias in all readings can still produce a small standard deviation.",
+      },
+    ],
+  },
+  {
+    id: "concept-2023-10",
+    topic: "dynamics",
+    difficulty: "reasoning",
+    sourceQuestionId: "2023-uas-q4",
+    prompt: {
+      id: "Akselerometer massa dan pegas memakai LVDT untuk membaca simpangan relatif inti. Teknisi menghitung batas percepatan dari kekakuan pegas dan batas gerak inti dengan model kuasistatik, lalu menerapkannya pada semua frekuensi. Apa yang perlu diperbaiki?",
+      en: "A spring and mass accelerometer uses an LVDT to read relative core displacement. A technician calculates acceleration range from spring stiffness and core travel using a quasistatic model, then applies that range at every frequency. What needs correction?",
+    },
+    options: [
+      {
+        id: "Batas gerak tetap berlaku, tetapi hubungan percepatan dengan simpangan perlu memakai massa, pegas, redaman, dan frekuensi masukan.",
+        en: "The travel limit still applies, but acceleration-to-displacement response must include mass, stiffness, damping, and input frequency.",
+      },
+      {
+        id: "LVDT sebenarnya membaca percepatan absolut secara langsung, sehingga model mekanis tidak diperlukan.",
+        en: "The LVDT directly reads absolute acceleration, so no mechanical model is needed.",
+      },
+      {
+        id: "Cukup membalik tanda tegangan; sensitivitas amplitudo tidak pernah bergantung frekuensi.",
+        en: "Simply reverse voltage polarity; amplitude sensitivity never depends on frequency.",
+      },
+      {
+        id: "Batas gerak inti harus dianggap tidak berlaku pada getaran sinus.",
+        en: "Core-travel limits should be ignored for sinusoidal vibration.",
+      },
+    ],
+    correctIndex: 0,
+    explanation: {
+      id: "LVDT membaca simpangan relatif, sedangkan massa, pegas, dan peredam mengubah percepatan menjadi simpangan itu. Pada frekuensi rendah, model kuasistatik dapat berlaku. Pada frekuensi lain, respons dinamik mengubah simpangan untuk percepatan yang sama. Batas inti tetap, sehingga batas percepatan yang terkait dapat berubah.",
+      en: "The LVDT reads relative displacement, while the mass, spring, and damper system converts acceleration into that displacement. The quasistatic approximation can hold at low frequency. Elsewhere, dynamic response changes displacement for the same acceleration. The core limit stays fixed, so its corresponding acceleration limit can change.",
+    },
+    optionExplanations: [
+      {
+        id: "Benar. Model dinamik diperlukan untuk menghubungkan batas simpangan tetap dengan batas percepatan pada tiap frekuensi.",
+        en: "Correct. A dynamic model connects the fixed displacement limit with the acceleration limit at each frequency.",
+      },
+      {
+        id: "LVDT mengukur posisi inti terhadap rumah. Hubungan posisi itu dengan percepatan berasal dari model mekanis.",
+        en: "The LVDT measures core position relative to the housing. The mechanical model connects that position to acceleration.",
+      },
+      {
+        id: "Polaritas mengubah tanda, bukan menghapus ketergantungan amplitudo pada frekuensi.",
+        en: "Polarity changes sign; it does not remove frequency dependence of amplitude.",
+      },
+      {
+        id: "Batas gerak adalah batas fisik inti. Getaran sinus tetap dapat melampauinya.",
+        en: "Travel is a physical core limit. Sinusoidal motion can still exceed it.",
+      },
+    ],
   },
 ];

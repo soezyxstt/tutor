@@ -670,15 +670,23 @@ function ResistiveBridge({ spec, locale }: Props) {
     pstr(spec, "topology", "") === "side-excitation" ||
     pstr(spec, "mode", "") === "rtd-horizontal";
   const thermal = has(spec, "R0");
-  const R1 = pnum(spec, "R1", 100),
+  const sensorArm = pnum(spec, "variableArm", 4);
+  const sensorR1 = sensorArm === 1 && !thermal;
+  const R1source = pnum(spec, "R1", 100),
     R2 = pnum(spec, "R2", 100),
     R3 = pnum(spec, "R3", 100);
   const R0 = pnum(spec, "R0", 100),
     alpha = pnum(spec, "alpha", 0.00385);
   const [T, setT] = useState(pnum(spec, "T", 100)),
-    [R, setR] = useState(pnum(spec, "R4", 100)),
+    [R, setR] = useState(sensorR1 ? R1source : pnum(spec, "R4", 100)),
     [V, setV] = useState(pnum(spec, "V", 5));
-  const R4 = thermal ? R0 * (1 + alpha * T) : R;
+  const R1 = sensorR1 ? R : R1source;
+  const R4 = thermal
+    ? R0 * (1 + alpha * T)
+    : sensorR1
+      ? pnum(spec, "R4", 500)
+      : R;
+  const sensorCurrent = V / (R1 + R2);
   const output = side
     ? bridgeVoltage(V, R1, R4, R2, R3)
     : bridgeVoltage(V, R1, R2, R3, R4);
@@ -698,7 +706,26 @@ function ResistiveBridge({ spec, locale }: Props) {
             unit="Ω"
           />
         )}
+        {sensorR1 && (
+          <Metric
+            label={text(locale, "Arus sensor R₁", "Sensor R₁ current")}
+            value={num(sensorCurrent * 1000, locale, 4)}
+            unit="mA"
+          />
+        )}
       </div>
+      {sensorR1 && (
+        <p
+          className="visual-note"
+          data-model="bridge-sensor"
+          data-current={sensorCurrent}
+          data-power={sensorCurrent ** 2 * R1}
+          data-output={output}
+        >
+          {text(locale, "Daya sensor", "Sensor power")}:{" "}
+          {num(sensorCurrent ** 2 * R1 * 1000, locale, 4)} mW.
+        </p>
+      )}
       <div className="parameter-grid">
         {thermal ? (
           <Parameter
@@ -712,10 +739,13 @@ function ResistiveBridge({ spec, locale }: Props) {
           />
         ) : (
           <Parameter
-            label="R₄"
+            label={sensorR1 ? "R₁" : "R₄"}
             value={R}
-            min={Math.max(1, pnum(spec, "R4", 100) * 0.2)}
-            max={pnum(spec, "R4", 100) * 2}
+            min={Math.max(
+              1,
+              (sensorR1 ? R1source : pnum(spec, "R4", 100)) * 0.2,
+            )}
+            max={(sensorR1 ? R1source : pnum(spec, "R4", 100)) * 2}
             step={0.1}
             digits={2}
             onChange={setR}
@@ -945,8 +975,8 @@ function CalibrationData({ spec, locale }: Props) {
     series.push({
       name: text(
         locale,
-        "Model kuadrat 100–300°C",
-        "Quadratic model 100–300°C",
+        "Model kuadrat 100 sampai 300°C",
+        "Quadratic model 100 to 300°C",
       ),
       data: line(
         100,
@@ -972,7 +1002,11 @@ function CalibrationData({ spec, locale }: Props) {
         />
         <Metric
           label={text(locale, "Nonlinearitas maksimum", "Maximum nonlinearity")}
-          value={fit.fs ? num((100 * fit.max) / fit.fs, locale, 3) : "—"}
+          value={
+            fit.fs
+              ? num((100 * fit.max) / fit.fs, locale, 3)
+              : text(locale, "Belum ada", "Not available")
+          }
           unit="% f.s.d."
         />
       </div>
@@ -1145,7 +1179,7 @@ export function StatisticsVisual({ spec, locale }: Props) {
           "Stacked points have equal values. Outer lines show the mean ± one standard deviation; this does not assume a normal distribution.",
         )}
         {modified
-          ? ` ${text(locale, "Kamu sedang melihat data eksplorasi; pulihkan untuk kembali ke data soal.", "You are viewing exploratory data; restore it to return to the exam values.")}`
+          ? ` ${text(locale, "Anda sedang melihat data percobaan. Pulihkan visual untuk kembali ke data soal.", "You are viewing exploratory data; restore it to return to the exam values.")}`
           : ""}
         {!Array.isArray(spec.params?.values)
           ? ` ${text(locale, "Data awal hanya contoh.", "Initial data are illustrative.")}`

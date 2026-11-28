@@ -2223,3 +2223,129 @@ svg {
     display: none;
   }
 }
+.choice-reflection {
+  margin-top: 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid #c3a485;
+}
+.choice-reflection h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+.choice-reflection .rich-text {
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+.choice-reasons {
+  margin-top: 1.3rem;
+}
+.choice-reasons [data-slot="accordion-item"] {
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+.choice-reasons [data-slot="accordion-trigger"] {
+  font-size: 0.85rem;
+  padding: 0.9rem 0;
+  font-weight: 500;
+}
+.choice-reason {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  padding: 0.7rem 0;
+}
+.choice-reason > span {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.choice-reason > .correct {
+  color: #56753d;
+}
+.choice-reason .rich-text {
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.variance-shares {
+  margin: 0.8rem 0 1.4rem;
+  display: grid;
+  gap: 0.85rem;
+}
+.variance-share > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.78rem;
+}
+.variance-share strong {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.variance-track {
+  height: 4px;
+  margin-top: 0.4rem;
+  background: #e6e9e1;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.variance-track > span {
+  height: 100%;
+  display: block;
+  min-width: 0;
+}
+.measurement-chain {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin: 0.5rem 0 1.3rem;
+  padding: 0;
+  list-style: none;
+}
+.measurement-chain li {
+  border-bottom: 1px solid #b8c6aa;
+  padding: 0.6rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.measurement-chain span {
+  font-size: 0.7rem;
+  color: #6c7468;
+}
+.measurement-chain strong {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.measurement-chain small {
+  font-size: 0.65rem;
+  color: #6c7468;
+}
+@media (max-width: 480px) {
+  .measurement-chain {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.plot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+  padding: 0.35rem 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  color: #64705b;
+}
+.plot-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.archive-summary strong span {
+  font-size: 0.65em;
+  padding: 0 0.35em;
+  font-weight: 400;
+}
