@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tutor-starter",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "routes": [
+    {
+      "pattern": "starter.tutor.adihnursyam.com",
+      "custom_domain": true
+    }
+  ],
+  "services": [
+    { "binding": "TUTOR_CONFIG", "service": "tutor-catalog" }
+  ],
+  "vars": {
+    "TUTOR_CONFIG_URL": "https://tutor.adihnursyam.com/api/tutor-config",
+    "CF_AI_GATEWAY_ID": "tutor-ai-gateway",
+    "AI_GATEWAY_BYOK": "true",
+    "AI_MODEL": "google-ai-studio/gemini-2.5-flash",
+    "AI_FALLBACK_MODELS": "openai/gpt-4o-mini",
+    "AI_CACHE_TTL": "3600"
+  }
+  // Uncomment after creating R2 bucket `tutor-assets`:
+  // ,"r2_buckets": [
+  //   {
+  //     "binding": "MEDIA_BUCKET",
+  //     "bucket_name": "tutor-assets"
+  //   }
+  // ]
+}

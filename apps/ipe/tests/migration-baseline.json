@@ -1,0 +1,4702 @@
+{
+  "provenance": {
+    "repository": "soezyxstt/tutor",
+    "ref": "802aead07004425dce164dd704f5f6a964a142fa",
+    "reference": {
+      "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+      "name": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
+    },
+    "archiveUrl": "https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END"
+  },
+  "totals": {
+    "questions": 47,
+    "steps": 419,
+    "practice": 30,
+    "visuals": 90
+  },
+  "questions": [
+    {
+      "id": "2025-uts1-q1",
+      "topic": "calibration",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 1",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN/view",
+        "file": "2025-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "71e2a82c486a5d7d0c90c2e49d407e60a302344dfa0acbddf29a783cb608536b",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "310ee8e00975356b95fba803279638ecd0cc8c537b919d2853a624769a196b65",
+          "caption": {
+            "id": "afbdcc6ed0fe7fdea408b7162a2ee7cc9edbaf57f0156fe3fe5ce191d5401f1b",
+            "en": "7ec24d8a1b0e09e2a0919e555eacf468fec63f8038f62a3156de40a9e6e27514"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "22616dd5eacb5ef052fac586e774869b8d2dcad9ac4badf513482c2026ecab8f",
+          "statement": "94908a6dfb78fb060807086dc2a4c251ff0b5f757ce3dbd48b3fba2ce44c3739",
+          "given": [],
+          "assumptions": [
+            "48430b4357c0b0ce72915fc330951cd683686552ce55b7fe30d058cae1320f33",
+            "54846721b27bfc4e9626ea5bf76e09380bf86d8f4193421ad5e3462d26311f86",
+            "89403472e109f7078e0aaf1789220dee29facb8ab48d7bbc25566cc515494384"
+          ],
+          "finalAnswer": "5e1cb71b64c8d947e15fc1546baef5c004eb2fb7084da263c57e44e84e4ef7e9",
+          "stepsSha256": "a21509ca5bfa5608e3a395d5d011eeeab7c70fe721e59e6c9252236cd3826296"
+        },
+        "en": {
+          "title": "c095368a77fdd85319096e94e7b543b1930b326697804d1f3076130d34578d1c",
+          "statement": "58bc25bf22b6f11821f6daa0cb60e4f1f8cdc2350350df47c64b674a8bd3a320",
+          "given": [],
+          "assumptions": [
+            "e4618ea22cd1adc9701e70420ccdfa6ff798d1a24f373d11df6d7206d878434f",
+            "e0c5f16ec4e13f71cefbb5f598b0122228947d27ea07eadb9a15238d5dde9285",
+            "6478ca625c78d9720eabe6c4061c91e4b72ba2b2597a4091a73c7bf894c997fe"
+          ],
+          "finalAnswer": "870c9fa4978af457173f07b87428de23a5f060874fd3d954e70a3da6aaeea56d",
+          "stepsSha256": "4d8775ff9100b2285c281c2db2e51544976976d835959c8ab23ba2f2dc6def6a"
+        }
+      }
+    },
+    {
+      "id": "2025-uts1-q2",
+      "topic": "statistics",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 1",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN/view",
+        "file": "2025-uts1.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "4225b4509a71f2562afd30ead57d0670319fb161ace3f2671b06b7bf56dbf80a",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "uncertainty",
+          "data": "6c5add7bfdaac2a2cad4260ae4e35ef32e9e5c57d07646ee8bf7496103c60e92",
+          "caption": {
+            "id": "f32b7afbd49356060ac6008c0c4fbb17e8bb71767fdc364f4b96c2513a7b7bb9",
+            "en": "2f16fffaeff939d108a6778a934622711c28cf04a177aa1fb1ebfafefcca5786"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "c73688c1f884d06d04d7529125b12bfed7681a81c011e0b9bc2d6e476d536731",
+          "statement": "fa3568ba7baa205254e15df7d60e5dcccd2ea8d2f90020a325914da2f3bcc183",
+          "given": [],
+          "assumptions": [
+            "b2d46fb6282b15905b4feb5c1ce9f228570da1dbc981cf75dab05469cf7e132f",
+            "6009631b80e89497fbd2d4ff68e5afe37d75868e2e0586a3196f014b47b612ff",
+            "fd96f911041497891c9cf8d7e4b2fa931a90fb43e72ca199e2be66cafabd418a"
+          ],
+          "finalAnswer": "fe3803acdb21814b53a9532d049eadea0d2ddd06908792b31ea7217c18c6774c",
+          "stepsSha256": "55f8a1385d144c5a235dc29cf529c85dd7f0610f41412491dd540249cdb89eaf"
+        },
+        "en": {
+          "title": "07a5ca6d981779ea2d8af6a5d0666face80e3a8ff1d15201d1ab99001c190aa8",
+          "statement": "705b73bd4d675865fd1f2b2817bf67b4226dee4745a0d091ba5e0ca749e85138",
+          "given": [],
+          "assumptions": [
+            "f1a159324c9fe6e95ae409362815ace0a3ca09b46b1b1c7f95b4be5768e3bd39",
+            "b6d388e6e8faf08d871a4ea66f93e9be9131d599f641cee527ce9c1782063a2d",
+            "809105e47f08b1e5a8473846688dbee0fc3929e86d5de2be024c39192eb0eae1"
+          ],
+          "finalAnswer": "fea7050cc600f9877fda47a4cc9a5407c35d736cb6ffceddff67dbb9052cf79d",
+          "stepsSha256": "e013a242bf7222ffd94e7cde4daaf996762dc2619b3d11bc47bdc47c88e3988d"
+        }
+      }
+    },
+    {
+      "id": "2025-uts1-q3",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 1",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN/view",
+        "file": "2025-uts1.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "bc4c483da8d34a52653038310f7776e30ef3926f0df4256abe2fda0b62c73a5e",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "frequency",
+          "data": "80e269fa3f0617e981a4552854fd3bbd59710519799d1bbedd7cc86b05cb7fdb",
+          "caption": {
+            "id": "1f7a798e04231b819f36cc3ccc81f7b7f714d01178d463ac4110ee3324f247cc",
+            "en": "baf8e102a777890168fcca122049a640a185292f4f1be2c1d7f52bc6cfdebf18"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "9682559b8ec0f5877d3dbf845a65fb6d85945eba0a225a7d32b27c995b13c3ba",
+          "statement": "44b8d7f037d2a181f22f3f41f7b6d78a442bc210e8b5359e23bbe824b866d792",
+          "given": [],
+          "assumptions": [
+            "b3c0220f5be344f83deccd2174e8a2dfe991c042ab769ea1cba3f80878091d18",
+            "0a8aa574501429964fb9008a2b85bebbf660826d56fd0caeb70022becc7856cb",
+            "3ed6a59c49fbe4e3e08109c9a66e0abe20ecae8cb48bdcda1bce26795dfc725e"
+          ],
+          "finalAnswer": "b55be9aed9b8afb7b755d1ce538cfda111e6bdb7cf04f527290060404b9ef9ed",
+          "stepsSha256": "f32e581674bf73b59c9bc7d84ca5e6ba8084df82e931d91f9f71e0f5d7207564"
+        },
+        "en": {
+          "title": "dd45089f5e2c8913773dbee538b7f591d8f0d1f79f5ba5d34666f64a05e516ed",
+          "statement": "ae42a004d53dcfdbf049f73222649f0597361087c0d40d6e25cf4aaf402ddcd5",
+          "given": [],
+          "assumptions": [
+            "c02809ba4f098327d1c10de08cba48a20f0e80fa7b417f879a9fa48ce04c17e5",
+            "c5a8eaddbd6be4e159bd66bf9da3796f29e3aff50ee92bc9a19abc9df1365a8c",
+            "304e05c2c3b935c5dbbbd79c205d2cdbc41833da6e6ca60ac2c2dc532577fcd6"
+          ],
+          "finalAnswer": "60f9c60366e2fd4334c92808a2f4adb7ca00970b9f01faa57aa930785dc0977e",
+          "stepsSha256": "57adc3fe59ebab585d2040658601b3db73aec3da20280f8b954dccf9604e139d"
+        }
+      }
+    },
+    {
+      "id": "2025-uts1-q4",
+      "topic": "calibration",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 1",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN/view",
+        "file": "2025-uts1.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "1b403ac6f367f7cf19a939bf3c397da244c3c6149ccdb1ac272c62489ac00ed6",
+        "referencePages": []
+      },
+      "steps": 6,
+      "visuals": {
+        "primary": {
+          "kind": "hysteresis",
+          "data": "05d061d8bce1a989cc181447ce31eb4e35d2a2aeae3f6e0f60ea6aa141badc43",
+          "caption": {
+            "id": "f2e2e9b50cab719a2b9b98b21ac74cbbdad25b2c44f41d812c31f92393f36ffa",
+            "en": "c31008082440cc35fd5207312572870369edfc4193cae92105019d9779f0a096"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "9ae7c48514059c31ceb1ba560278cd612c59f6b4ceb811738c58cb1cc2c81caa",
+          "statement": "0cf9fa49d5835d6199634ba2c8a1806f05b6e726a16ae1d42cb8f9371e5c2e53",
+          "given": [],
+          "assumptions": [
+            "cae47836ef5454f3adc7329d063d96cd9efd19028135f2c237a81bac8a78c06c",
+            "9aab2a94ec96c1fd39e9ffdbf2b7db100557ce05c97ec336595bb127b80cbf20"
+          ],
+          "finalAnswer": "d30d5f7f06243e027facebaff306a0b6136f5b0f39de2e85914cc7d2fb78c3ad",
+          "stepsSha256": "5e6cd7967a7cea1ee26856b5cdf53d99955445a9dce9e6971c4a71fbe5b625bd"
+        },
+        "en": {
+          "title": "ae5ff082fa555ad11bbf7c4c36fc5135131d7c6f529174acc1bbb5c5e08d6c72",
+          "statement": "122843a29e504b9393eab1f4eb041ac241759ca5d5962298a5e9630b73a65bf2",
+          "given": [],
+          "assumptions": [
+            "20180bdc8766b5a522e948e6e4fc59881a23fd1dd6532672708cd43b5e89f610",
+            "aa982085f5d4ed87685f74330357ef349ed7e8d45b8c37ded55155950fed19bd"
+          ],
+          "finalAnswer": "75953e3d211e7f2126ebcd96744eb68aeb536597f35177ed156e7aae8f672825",
+          "stepsSha256": "acf51ebf5c63546219572a33b4c3e33c7ad8bf9fe50fbc44153e15e5311b570d"
+        }
+      }
+    },
+    {
+      "id": "2025-uts1-q5",
+      "topic": "signal",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 1",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN/view",
+        "file": "2025-uts1.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "aee809c0937adaf9a003b7d5d633b38e6b2dc382ea6e83c18aa83cf232f48012",
+        "referencePages": []
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "lowpass",
+          "data": "7c4f16512d7aaebbfe3a12f65e292a3dae8f504377ce6b397038d8b5c6aa50f3",
+          "caption": {
+            "id": "3863b889461b9a9bc03729050358ba22b009edfad93301e72d50515a38b5c1dd",
+            "en": "d39a53d6235ec4a02daf00f60cc88b095566db289429050b16f8cfbe4b4dcfa7"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "9b6fbd6baae037e2f14875c07871c3397cfb3396d93b05c6c2573eb66f774eba",
+          "statement": "5c59c66e9613e7dfe1a2d6820e71b3f9000d3691c4802316ce75fdbe9b4a2c66",
+          "given": [],
+          "assumptions": [
+            "4a72173fc9d62640ba98d64cc71f3caff5799e103009a6da3527834c27aa7c68",
+            "391e8dc3bf5b8ca477f7ad50388104d40f367463be323c588b67a887e324a99d"
+          ],
+          "finalAnswer": "cbe97d4c5677d3ea558d1de8231b569de830809835fae39dd3f5cc66a1d6b18b",
+          "stepsSha256": "7696211fd2a4c8175e842fa4a266a5529196538de395cdb34c60ded4bd6ec2b5"
+        },
+        "en": {
+          "title": "598fa88d165f42d7c82b4ef901505577bdee8cb61f2e7f09e3024e41a408b7a1",
+          "statement": "6887fb3f471deac588f5d0a15ea7a723207ea753ce9867ec93cbe17b9ae47f63",
+          "given": [],
+          "assumptions": [
+            "30d43de5243668d175372799d28eebb99da94436799d436194a3c6b113e0dbaf",
+            "fd326401a7d279de9649aa3d4ec89c3dda921d2c1c042ba67bf2f14092933547"
+          ],
+          "finalAnswer": "1ff6fcb634448f35d59bae4cd95fbfd01d88b8e2e323556dfad9bd0a682a8713",
+          "stepsSha256": "47c78b09cdf35a15aa0658757235bac7353a82301ba998bd948f660d810e3a5c"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q1",
+      "topic": "flow",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "7103169116b27605e9ea86a078042892eea5f398f84f01ffbb1df36433f80cfe",
+        "referencePages": [
+          7,
+          9,
+          10
+        ]
+      },
+      "steps": 11,
+      "visuals": {
+        "primary": {
+          "kind": "orifice",
+          "data": "bdd2876d7b0ba2b88d10ceb12f0fa11921470b82eb8b4360a3e042e12c8a3664",
+          "caption": {
+            "id": "f0b2dff982d1a1a21951718bed10f982dffe6cbab6dc11da30d5140c414ac234",
+            "en": "432c6bb9c461972f773b4cc5a4ed112f1872e17a819fbf1367077088183f8a39"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "66dbf46ce2ca5711e7a54b3d1be71208c52fa51f09c73f2c554dda4fd3923f2d",
+          "statement": "8cfadfee309be59ad1cb04621a2d610984aa95ac0dabbf667bbcc3eece9df1e4",
+          "given": [
+            "023e8477173685977cec3f0563037fbd71ff8befd64a6cc4ce2d1036a4d499c5",
+            "96acb306c289707092a2e3776125fadc43cc774292a46676ea4a5bb865aec0ce",
+            "dd9615362607d59d70156de9439a8151b039407d15a7b8d285ad2f6b105206f5"
+          ],
+          "assumptions": [
+            "4eb04cb8a505e85fb96461325ef2165c202f8907537723311218463571fd6e41",
+            "d2d96175a93250f66c56e3be0e2f22f147f523e3944070e4c432275e8a1ca61c"
+          ],
+          "finalAnswer": "18d7501b465983097b8152f324caff43e2f40a2cc202bd6667d3fba15d55f44b",
+          "stepsSha256": "837199c9249b4ae1c160e4a49b765888ac743098296f8f520b3b6a0c3881736e"
+        },
+        "en": {
+          "title": "fd0cc51932f96d2ad352b71614c21b1acc8078103627632417a354adb6ea6adf",
+          "statement": "b6b9f5a11f7c017b75efe2c8d4cdb3bdf49a430881d3f9aa8dbb6cd887d932ea",
+          "given": [
+            "f24152983f51db80d27a708b5af8150bab768b09e9a079ae17c9b90eaf370986",
+            "495ec8a0a363f6f2550cc1cbbf63cd30c9dc2ff8e035acde27efa36464dbcd35",
+            "43d3f549e39b2bbdd6b53a76590b59726028d0a7f991541ccba253b4a7ab4f65"
+          ],
+          "assumptions": [
+            "73eabc7bff4425b4a56bd7d3a72518d308d6306c7e9457c42c30d9b2f2abd745",
+            "cadddc909c8c0ed7e151c9bf7cefe9ec804ec17c8047c3e1c3c7b1bccca11cf4"
+          ],
+          "finalAnswer": "b6e7099e89829f5b593c3425f8f0b11993c971ac385d282fb3607b73085b4a8a",
+          "stepsSha256": "2fadb2c80c36c408f2ddd128b417d81e58537fdd448bd6d70ec93d48fca5719c"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q2",
+      "topic": "temperature",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          1,
+          2,
+          4
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "a8b57650d3a97ab4dd830558f9b039dbf8dbf366755d02f24d2ff3951d832107",
+        "referencePages": [
+          4,
+          5,
+          24,
+          25,
+          26
+        ]
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "thermocouple",
+          "data": "83a60aaf18472e92e42ca83fcc0739f3e447a5b26f200ee485e56c076e64093e",
+          "caption": {
+            "id": "4f6e9132228816e0f14d38b182d8ea67e9c33e93fe9cada07f3ba79e47a1dda1",
+            "en": "09647b2fb4ef404f831abb4175187cbabf9d1f5ff7bbe5137b930f0af95bc330"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "0f6bd779fa577b9a896c24b02bdfcb8222616d0509d67a930b593be55427635b",
+          "statement": "19024650763ad54f1d6e7c0ae599ec652ec5d78e03fd27725dc8f22efd242d16",
+          "given": [],
+          "assumptions": [
+            "fb018ae746c39c94c7e4024abf3cdce8fc63dd065669979a3868134d20323107"
+          ],
+          "finalAnswer": "8fe98172ef0b1767f220a8c9affcc5970e152ff3abfa02cf04b47950a0a616f1",
+          "stepsSha256": "039ed0e7f5d8284a91259a5705d4fa095c58973d6591e05f2a7bb5aa58b0c61d"
+        },
+        "en": {
+          "title": "27ea2453cec8b6930102c2a71fa2d3dbfe36e85b06e282266e31ac08eab12246",
+          "statement": "2779f08d8c5ac065d1ea2d6d644ff1150d3f9a858717b1173a69bf5c4156c66c",
+          "given": [],
+          "assumptions": [
+            "d2ca8f8a16ed2733a024db22a4ade4d44e247fb5bac6c1ce3639133eeede80a6"
+          ],
+          "finalAnswer": "19e380de823303eb3d8c51f111c56529e1466ca9d0dbd6c0c3edb94b9506a5e0",
+          "stepsSha256": "7bbd0716b73623218d5fa7d5f392094f56fce66097b43938b811e028b5e7c73c"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q3",
+      "topic": "position",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "4d91fe819d2bb53047bcae97f9f40f7ff788bed112d8f9e2f3433110250aa7ff",
+        "referencePages": [
+          16
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "ultrasonic",
+          "data": "cd850313c99da36068c23090f1f0ae84e66f2240f9f57acbdddb0611212c5edb",
+          "caption": {
+            "id": "dfc3b03acb0035058f5960951305d98ffae2632f7e1e058484f169dd246f68b1",
+            "en": "9fcdc4039bef5a440aec4fd843eaa5901852b02a013d901b4ad9d7749920703d"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "29f28a106c8227da3fe7575d6a8816c83d621fe5801ee2a77d21209d88a51529",
+          "statement": "a399c91b2ea55be64c5485c5d48215c768e89ba9430123b6fa18f96e005cb316",
+          "given": [],
+          "assumptions": [
+            "78176a23056bc79b1659e73ae9db07f843735f32fa378e9920a101b53dfbb0a2"
+          ],
+          "finalAnswer": "e9d493d33508b3edf1f5246a0d30bf6278eb0d34b7ca37bde38741f7505e360e",
+          "stepsSha256": "aa15ff37430844c6969eb2e44d108178da3d0c90417cd411cd01f776845e776e"
+        },
+        "en": {
+          "title": "6f14d4f15df9d5b2ab065cf5424dcd0cb83be748cc81d051d98c35b72d338182",
+          "statement": "ff5ede7797fafb998914d5c84556e0cde3d75f79d4542d74b9d8759c7fc7436a",
+          "given": [],
+          "assumptions": [
+            "8c2be5524eeec94df85e93374099894f43d66374f8ee54aa4ec5177fbf1ab599"
+          ],
+          "finalAnswer": "4181c49dbb0110874861ed0b654208189ce946e566399bc5bd445343ae3d72de",
+          "stepsSha256": "c9bfc04a720785c0693679d5d282b2fbdb85e5cb2d7d7ecad57bcaef82425bec"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q4",
+      "topic": "position",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "5b7fe05f217193ccc5fa3ab6101d36e9581a0e6dc90c1adb092190d16112a97a",
+        "referencePages": [
+          15,
+          16,
+          17,
+          20,
+          21,
+          23
+        ]
+      },
+      "steps": 12,
+      "visuals": {
+        "primary": {
+          "kind": "resolver",
+          "data": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "caption": {
+            "id": "01dc54ba4037dd692cd5b947f8df5e67f753a9cf35f8e8dcbe9e0b6c0bcbd9fa",
+            "en": "1cd314ee80454da55feda7d179e280a18499f45ff43d1ff3ebb8ae42ff22ca94"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 1,
+            "kind": "lvdt",
+            "data": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "caption": {
+              "id": "897ef4e90e0d3d26db22366ca49e4225e437a82187303b5a544a3678f391f8fc",
+              "en": "6f24baeb3da962f878b483a10480a4bfadd160f276303b3abe1a530a1ac23a3f"
+            }
+          },
+          {
+            "index": 3,
+            "kind": "resolver",
+            "data": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "caption": {
+              "id": "00d02f2171319b41bbba59f9f9548fedd482d04722b71beb559c028fb0700c40",
+              "en": "2949edbe1b3b0a8dd571d374c7a2837eb70dadd7590611f777a2f481ac43a25f"
+            }
+          },
+          {
+            "index": 6,
+            "kind": "strain",
+            "data": "7ed23a5c22477120ad31727c8d09bf6818bec8f831336fbaceacd5b9c379317d",
+            "caption": {
+              "id": "b326eb21f88e1dd5d9495981c56a915ff4907f6b9c0cba2b40d2a734018e7c0f",
+              "en": "8a85b1d51420af8ceb2e86422d9a2cfdf39f5602b4c79a9455684cc381897f89"
+            }
+          },
+          {
+            "index": 10,
+            "kind": "encoder",
+            "data": "2263a2f26ec80846cec198d3cf1862ab8b51270375a60f8163352fe11b71bdbd",
+            "caption": {
+              "id": "847d6e0646b8d67634e92eb3cf2c4c1876e84f5f0d87a4584b1a5b46805217f4",
+              "en": "9fc8cee201b229b76eeaabdbcb07763d36821fda8cb630d23d4b6172b3e34fde"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "5c23165fd6faf0cc323a7a3b08cc0c3bac012856593d35346e4db6e23540a565",
+          "statement": "f08ef3eaf965196baec2ec4dab71baee732d561f2446118d9843a008423fee27",
+          "given": [],
+          "assumptions": [
+            "d446b1a43e14dbf096296ab7102e2ae6e380321f13158d6e85095ecd371cf67f"
+          ],
+          "finalAnswer": "50b2739e09f4d0e2936b0cb6f9628ebff5ae658b49f5f2e65eadf9dbeb3faeee",
+          "stepsSha256": "9d812a079676a593d9f8ae41d43c32bba27350593166549d082d9232e77a797e"
+        },
+        "en": {
+          "title": "2a3570f8576bdc1ed37489122a5d008001f843e5816ed53c1bf2a89d20714843",
+          "statement": "3c7718f9499447a78fb34b3409b6e6a1a42595057d064d5afbf23a283d0c7810",
+          "given": [],
+          "assumptions": [
+            "4561883ec6fdef2a01ddea5c4b7bf7d8e2d838893c113e62d667e7e53f29fc27"
+          ],
+          "finalAnswer": "c914f549942a9ea29d49d6d2c03d3304eef620038c7db3575529fd97757c2406",
+          "stepsSha256": "e4f5c2beec310d2fe32ba450ff81c50ea656107a2b1e2b50afb6c569afc5edc7"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q5",
+      "topic": "temperature",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "ed3814a0840c157c3e6bf2fb68ceb482bd5e7e95323c2cb4963d0c3f71d432e2",
+        "referencePages": [
+          2,
+          3,
+          5
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "rtd",
+          "data": "adc8e757246ada9734b2b1aa17faac3bdd610154812700ea63d6273fbd94c004",
+          "caption": {
+            "id": "f3161b4aaf742cf7819e99155bcfd4288c38cd53167ebd05028d0e2c5b498b97",
+            "en": "c37c3c2acf73d368890bda334d35b9cc89147f82eb0bb8b1f5ca6b3258e292cb"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 2,
+            "kind": "bridge",
+            "data": "59904561d4e3cd0824d97d8483ae4bd2db0a0cd52b7a1b904250fd251d4a16e1",
+            "caption": {
+              "id": "27ecc58d283d88c48061cf1eabe20df1658c6b73d7b24a3b84027d400c6263de",
+              "en": "954aa8506f4726fcc58929ac3232308b06a50d0c5c83af94081a9fc11bd0f89d"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "f982340a2f96adf08e594e51e02632dae92a8919217263b60a43237144a677e6",
+          "statement": "3147a7bd6ce6b17190f1f7d01d84b760e5bda7981610d8bfbcd48ac66dd0ca8c",
+          "given": [],
+          "assumptions": [
+            "735d6a6f70cbc54cdb1af6af0b774d28db2438d0f5f947dc955a52e1bb38c1a1"
+          ],
+          "finalAnswer": "e56f19a7d722a99c8365ac11c0e08ae592dc135ea21ac2256d9b1df4e05ca7ae",
+          "stepsSha256": "b087c3d892e83013b2e4157b3c71208d27ab2de9e378cf4e9da91ca793e4d924"
+        },
+        "en": {
+          "title": "92dcac318e646646a3eb3a6fce008275b510cd8b48b8fafa13079fd3891ce8f8",
+          "statement": "6bca8e1de888722b787595cad9517b86dd211ae99c5632f0ecb3b01d9966faa3",
+          "given": [],
+          "assumptions": [
+            "9c646cb16c73a008cd5bfa6915ba2f089c67bfdda128f4ba801abdc6bab809ca"
+          ],
+          "finalAnswer": "a7ff8dec16098d28fe83cfc2dbbbdea85c371838f68e9c4e283fd9aa2088a1f8",
+          "stepsSha256": "949290b68998ecd52c7a07ad6af005e22dc2a5adc3d561199007428b20291274"
+        }
+      }
+    },
+    {
+      "id": "2025-uts2-q6",
+      "topic": "calibration",
+      "exam": {
+        "year": 2025,
+        "term": "UTS 2",
+        "number": 6
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1tRISSpQUyRHUlKDTYSP6EtmURv4h8GT0/view",
+        "file": "2025-uts2.pdf",
+        "pages": [
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "61715962726cc2543284d221bbbea5785baa134ec1c1cad4a498859666a687e9",
+        "referencePages": [
+          19
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "58d10784d09258f15c2fbb0be5616b3428db9fd4b6803c07d7c09aa121fe8f0e",
+          "caption": {
+            "id": "ffa20d92753950181f1691a1c484095cdb7a4f16bfe761167efd8c8b90140f4b",
+            "en": "0cc0babec89b20b81c01ed3b297ea978d3a7aec2f1e48991ce9d6a3969d06776"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "5115e44dfab2095c2d0e3f618daf4b4078e92d4505665c741d804ef303c07cb8",
+          "statement": "e6888fbffa34f260c647b0f14c705310e5f91f7db9f3d023b8153acc3aa7d4c9",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "cbccc5dd29ad68071a9342551c7422a16a5343a9918a3d94a5973dd370879ca0",
+          "stepsSha256": "f27c884589807697419e96a21fb8d32eccfea19cfca714cf084606d4276623d5"
+        },
+        "en": {
+          "title": "6ec800d8f52bad7881b29df446b3e0ee5c61ecd532846ab0d5c7e9dd79add0cf",
+          "statement": "b12035ce066246ba37ed5326e00c4992158ea952203ff58ab743e5ac2e605d23",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "c232ab66a3af22ea3f83ba071d4dbf8e1efa5d53b320d95e580637e8b9527d65",
+          "stepsSha256": "c9ec2ae47c30dbcb4d809ec919e3d29c6d1b4be3e38f1120c58db6827425a2ed"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q1",
+      "topic": "systems",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "982c2a822b064c0e30a91824436f1cef17ade63b25f357b79f2ed71c30488b34",
+        "referencePages": [
+          1,
+          2,
+          6,
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "system",
+          "data": "6140e1f380de58967bc4b9b7f3bae2d2653f0317922e9213e731d173f3990e6d",
+          "caption": {
+            "id": "2c9d66da7a8d2243ed0361be5b0d00c5841bf35d04a7adf8402d658d170ff980",
+            "en": "0c2c39c3c6d01eec8abf01bbba5552e3b5e227958940c9ca778bd864c43ea17d"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "31c52241088e6146cd6b51f1298167fe218cd12257d7efe40c165446c35670f4",
+          "statement": "5043be4203169117aa009675064089c42ac0383c83e78dfa14a4937bedd4ede9",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "dbc6e934f84b4f6b1ac9256f56776bbe384d3fbfb7297ef163061e95f06cda21",
+          "stepsSha256": "b34f5a7c4ea864f219a780aca6b88536e600dea007941516c1150f81e56569ff"
+        },
+        "en": {
+          "title": "32cb6e1236bc746a3b653cd7b98fe7a333353a1de6b4c79f4414609d0d913dbe",
+          "statement": "cfb46918c908995aad2af717b3cdd7f37b3bb04e3ab3dd42b2a13976fda6d2c2",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "c45110e9bfeb978f1a18be905c305ba51675c23d5d936c2e4ac2746c5572ba95",
+          "stepsSha256": "89e99469b37804591ab6810b8daa908485b8b0952db870cfaa3965ebfcec32d7"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q2",
+      "topic": "calibration",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          1,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "bd108446b064069cdd5694b5e1d79060d290be0c416c59200946bfc7050a2987",
+        "referencePages": []
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "ee2fe04408dde0ee7e3fad4a97c4902c59cd7caf94d366b1c9910e968200db9d",
+          "caption": {
+            "id": "2f229e8952fdd9fdba50274ef97c4dba356fcbbeb98fc952329ce1f24009abc9",
+            "en": "cbb9a573cfae7ede72efd214a6b5360de523056a55e214e35f14a2fb921f23a3"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "879be71979d1255180b61d5a9e07dc5ac47a8311c6070241b3c27a3be899dbd9",
+          "statement": "63f11f19cee5c22f1ddbb61a2d23c2a7b443075c194cf41040fb384c067013aa",
+          "given": [],
+          "assumptions": [
+            "340dc47113fbefb5c153f65d5e80af9036bd36ed5d077002ce938a49c9d7d518",
+            "134f1320288bacbfdad40585bde33743feefd53611f962390ed3e9dc627b31c7"
+          ],
+          "finalAnswer": "2e54f068c7d0f8e91b9bb533785b55b1d5201184de3440450127f882c30afa48",
+          "stepsSha256": "40304cfc623eefc71a9be789759c324584da006e56e3dfa8639379173908fbfb"
+        },
+        "en": {
+          "title": "5fbd39603db30a4fdbaa50a362ff33284436474e7ec20f3ee709e60ecb0930b2",
+          "statement": "f3e53a62c3e2a36c033934ba277412cc191bbd6d7420ef581eb8627f7087740b",
+          "given": [],
+          "assumptions": [
+            "18f51c1115ea0bc7266fd5f611293bc94614235bb057b5c0cbb87598d2952c1c",
+            "f77e022636f69ccd820b658e4f075a9fe8df4673d6ccf82a8486d4edc0530968"
+          ],
+          "finalAnswer": "58598a1edbae6bccc7bcdbfabaf34ba2320b54b7c6297e84b5cbeb2d7c08fb08",
+          "stepsSha256": "2b89f4e728d10f59b4a3c8e4115b9a0361a8221c47e2b819694f1f565fa808d1"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q3",
+      "topic": "position",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "4bb53c80e4b5aa07e45c545f369cfdec8fbf865f8c4f3ffdfcb4adebce5d5035",
+        "referencePages": [
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "encoder",
+          "data": "d4ab6ab0fa328fd7a77a8e511f802bcd5a2e5992e0247c0d9e08b1d15f8ab3b2",
+          "caption": {
+            "id": "b69a79be1760c8ea01ef0600cd908f883d9f98dc95ee9b418b68e72ad13c27a9",
+            "en": "0dcb0075b6fcfc2b94c5d4f77e9cb362a9b66039c69d4a2b51a7ba2cdb6469b1"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 2,
+            "kind": "encoder",
+            "data": "2263a2f26ec80846cec198d3cf1862ab8b51270375a60f8163352fe11b71bdbd",
+            "caption": {
+              "id": "a74c78a7ac91bfe8e1006e8695c8097c107a450e799da88ec600a6d8866040ae",
+              "en": "bd8535e1a22f91a45da479b623ca02b5b683fa32b4a8a93a05d876bb173cb224"
+            }
+          },
+          {
+            "index": 4,
+            "kind": "encoder",
+            "data": "d4ab6ab0fa328fd7a77a8e511f802bcd5a2e5992e0247c0d9e08b1d15f8ab3b2",
+            "caption": {
+              "id": "007b54fb23a8396b3df67fa60fcc6deba73d6737b7f274cece7dab1ed6e35935",
+              "en": "cab8226a8d6e1de9e86fcc6934f64bb9f9e844d4d73a64c38e9cb0221c35110f"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "resolver",
+            "data": "386b7d043750df4775c8abc75191f399b05efe475f904481f2f75bfd19d06a18",
+            "caption": {
+              "id": "3b5297c48e6b4d2f4f55ac72dca2dc0dc05eea00a8779a20b3aeb569f03d9dc0",
+              "en": "d438f604684f4eacec022017d80800ea0838a30206e69dd626540f8fe817c249"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "58db7cc5cb45566f479c67b877a64aaec903526ba588d5b53e2a3a7fe850d991",
+          "statement": "607767fc37803420c9aba68b2f4caf1f60bed8b657835c9dbc6494adf80d04e7",
+          "given": [],
+          "assumptions": [
+            "47a47a6692fefcdced2ca1471a0976f998a21f2b6d4e00b14fae577cc9c44203"
+          ],
+          "finalAnswer": "1c646937b135754f8375612a5e1f2d768ce7164bf236600730de846a4e821526",
+          "stepsSha256": "e5351cd458d0c12ae099b9bc99beabf5e045f312c12f17ee94bba77431503fc6"
+        },
+        "en": {
+          "title": "ef77a7d674425370a776476b4223802d31a1b2d9e70600142269b35d35496743",
+          "statement": "1950da97433cde48f046cfa906bae3c66cd2f1c5199f9cc63fc5321996d305aa",
+          "given": [],
+          "assumptions": [
+            "905071092e8fab4e92bd7666d13420958763990ddfc59830bb98085688c2e77a"
+          ],
+          "finalAnswer": "ec47818a0564cba5be6bf9718951985350c1cf9a54a605b14bd426cee913759d",
+          "stepsSha256": "b15625938532f1762bb8300149c65179727635fbf04697a8f5f74a3026fa3fab"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q4",
+      "topic": "temperature",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          2,
+          4
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "914536ab17983a357205cfb95da2932b30531eb42629aa492147f00e9811eb95",
+        "referencePages": [
+          4,
+          24,
+          25,
+          26
+        ]
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "thermocouple",
+          "data": "4ebe611de6aa0a4598e12bc477adb6e985e0914e33bec8a9cad1f024c574019a",
+          "caption": {
+            "id": "298f57f783c7ecff3373672cc374ed992c583e4a5d1d8edbfd265e1996b126f0",
+            "en": "c2bdbcda0852d3bdd07d4e6a7d9e4378cce0be9557acd0c764cd58101d1f5922"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "e9ac751043908656f8d5cef7831a9db1ea098321923819091e8b5c81b66762d0",
+          "statement": "f2f9b553932620534b14b019ca0cfa92f0c8ab13adabb888a8713c644e6e99ba",
+          "given": [],
+          "assumptions": [
+            "8d591668999281c059cf6c0eaca09d58d7f15382d12c556b2fce7393853266ae"
+          ],
+          "finalAnswer": "d7e7b7066e75d5bde9ea6576ae91dcefd4fef3293b9c47c853dbc6c376ba3108",
+          "stepsSha256": "e82cb54073dd74c1dcc683710fe14c8019eb24075bf05c4b0b538d4c95bb3159"
+        },
+        "en": {
+          "title": "c4e3d7118408191725ab8e3705538b96ec66cb7e58e5f744443fbb1033850e7b",
+          "statement": "d8a65b565772e0ae287a9e1136c9a50a42eeadfbb802ca874db536e193244c46",
+          "given": [],
+          "assumptions": [
+            "6779fb8cb4e439e696c4c5bac30489ee00c8363d93a6ebfd0ded3e019f23f777"
+          ],
+          "finalAnswer": "b568e11777fda70f9551352987aca3d52a05fcfbfdb71f30163018b0d875f1e1",
+          "stepsSha256": "2dee30e5b3a396aad9005c90ccf6dab477e1ca1bd55c33d14b8a6278e2621544"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q5",
+      "topic": "flow",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "8387a6708556b2115c5a5bb1423f9912863b9e984f03ceb4ecfe93642b024f43",
+        "referencePages": [
+          7,
+          9,
+          10
+        ]
+      },
+      "steps": 11,
+      "visuals": {
+        "primary": {
+          "kind": "orifice",
+          "data": "195b59ff032b9aa7b75a850bb1fb8d01fb42410f02ba9a4201c5269a86f27b3d",
+          "caption": {
+            "id": "b5d3315635e38697485af546ee336e2c3824f13f71a12988b3ea037b020e01c9",
+            "en": "ae49f17d76b920af067c935e93dc8b33c7142f83e0bda4d3251ca07d875aa46c"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "7c2370ca26a1eae288c4236ff5005923e28336c00e47a5673b3dcf7b5a5732d0",
+          "statement": "bd81d81bb696a799a248b4143c9580374e62639e54546093f18136176e446978",
+          "given": [],
+          "assumptions": [
+            "6fc56e27153ef3584d5da81872d61b072867cac9b25540f8f0d734737adf329f",
+            "eb2e056035ca45ee249d46137315aceef43fcb030782e2cd80c5315fd5968d92"
+          ],
+          "finalAnswer": "2737a4d8c10992fa7fa79be88db212c3a0b92805431ef0297c707a51b4bd6451",
+          "stepsSha256": "c1e030e330d13b665e20a5b3dde65b12c86247d4f2f9cfd4a4cf288021288cc1"
+        },
+        "en": {
+          "title": "59aabc5958ff0ef2be66d6a8543d4337d6f25dfc3c22543c8bd53db9dbfec1b4",
+          "statement": "5813f3aa0abbfd2c6b7e2ab3e1fcdf1650e319616b478e82d8715156de44839e",
+          "given": [],
+          "assumptions": [
+            "9dce797533a942fa098889c12bdb77ee0011b2996352cf1b5c77deb327bca9a0",
+            "66cb09e87e60310fe04971529caf686791495f8134dc4de446534dcafdb7b5e9"
+          ],
+          "finalAnswer": "78978c8f2b8472e4c31eb19c583fc6ce70af71c7b7e16e19abbae09295a4a4eb",
+          "stepsSha256": "562902504db05f02191ee45abea9bfb6f1e0c4b8ff24668d2e31d71c235c936e"
+        }
+      }
+    },
+    {
+      "id": "2025-uas-q6",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2025,
+        "term": "UAS",
+        "number": 6
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1B_rfO3mnIdOr2a_DUd_M8AkJnBR0nCk5/view",
+        "file": "2025-uas.pdf",
+        "pages": [
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "fffa1df65e5f33ac22d69c140274936bf5eef043f426c9a2a537fbedd6a78325",
+        "referencePages": [
+          18,
+          19
+        ]
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "accelerometer",
+          "data": "8ee20cd71c17ea3313c92bf2a12d9f3d39c8005e07d6278a694da24594f420bf",
+          "caption": {
+            "id": "f5466c9cfc1dc28a076f0034ca1631e1bbe378f93cef6af5d4aeae71287cd015",
+            "en": "5e792dcc16c50d25197675c4425537fd3cda9d198cccaedb9f50e643d7322bff"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "b4c7d06127e8872f46f6d8c7d3bd2fa2922e532283eaa327534e473dd204ea97",
+          "statement": "18a3226fce4947e4e467a7ec566d84b03fb2c385534392927bea57973a40dc97",
+          "given": [],
+          "assumptions": [
+            "9bb92742e3259c46c58587100f7f18b61897110f5722a2a4b8a8acc8157d3e8f"
+          ],
+          "finalAnswer": "de07763ebfc1f601516619c36a14cbf22f2010b56d1d9538f04adb338ad85e32",
+          "stepsSha256": "192ed6d061d633a6f65ad5328e46a126a283e4b2ccf18f5cc879f2e53ea3919b"
+        },
+        "en": {
+          "title": "695811155f536a928a9d0925bf64c7813c30385332e9668ce749f25457da5ca2",
+          "statement": "0ddb4053af8d9b4954b00969d175e784b3d209b11ef969f616d24cabec121156",
+          "given": [],
+          "assumptions": [
+            "dd32f82ae35fba4f5a24ca0766f41aa3502d42ce67935e161711ba28b0bc9fa2"
+          ],
+          "finalAnswer": "1e4bd87199d26a2ff6922bd819e12e3c18d948655d8aa007ebf451b786c6c13e",
+          "stepsSha256": "0252b7e65d092d7371c7fe07e5550ffeff9215ac7857140c326a26ffa29aff66"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q1",
+      "topic": "temperature",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "ef5619cdad41da26f71b6162967cb9768abe4df0daf5cacbeaf0c9ed6bae5623",
+        "referencePages": [
+          2,
+          4
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "thermistor",
+          "data": "dd42bd9b91c7253f054aa5db57761b99fc1fea2447fa4daf52b5889826e3341d",
+          "caption": {
+            "id": "35baa452c2dc99eb1d959fdb9fc7f996e26140e098f357640025df59bf9ed418",
+            "en": "757351fc4b48f8bd501c07e761837f7e58f58f5bc2ebcd878c5501600fe7f697"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "c02ee1a8d24302ce137849144dcde51bcb0f7a425b5d0a7741243961d63e7d9b",
+          "statement": "e3ffbe5ee24498ac68b062ea1fcc74825055237d16f1a6e485484ae5a0e6412a",
+          "given": [],
+          "assumptions": [
+            "9613075c672f0c29bed38c31108e88974ad56d1038c0e8a04ce8e505bf02f0db"
+          ],
+          "finalAnswer": "ec41e894b6a6635d1376a0cd3902851b1467ddd82f73d33a06b57b143021324d",
+          "stepsSha256": "4ba74f98fa7e65549961d52c58172ca86f12fbb04bac263fceb34c9fce0c7db2"
+        },
+        "en": {
+          "title": "97ce5f70b956207df79071975fe132625e985a5dac64f5309398e28e84f532dd",
+          "statement": "5f11de76b69e076c7d0f367ec5bcfea6956f06de086e14c1fd78940ae5f421d3",
+          "given": [],
+          "assumptions": [
+            "ccfe6f08315a4784a21f400822aa3954a8fec9ea63507a8bfcbe1f4bcb6c18db"
+          ],
+          "finalAnswer": "f6121c713a1100961fa8fe9e9a3b8c323d1a0eec30ba3f76aac9752f3b9d249b",
+          "stepsSha256": "9879041cc52e868c82afcb7dd31be938cfacfa3697b75a8b061007de90988749"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q2",
+      "topic": "calibration",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "13a8cb5a8e5a135afc4f06148d1d53c59957dd2e2ba54a8f3f1b552c63178ccb",
+        "referencePages": []
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "952cff7a3f8f2c5bc1414044fef6297ff0da5d1fdec274a0913fb498b05c76b4",
+          "caption": {
+            "id": "f76faceb55d8714cf17e13f4b701fa27344ba30bc1020e8d5679692af01e8a50",
+            "en": "6746eba1c52790fd2d1c21142cf9408a13ecd7d4c1a048414b842c4f8760ce85"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "eefdb77f83f6936c86664b721523df37ff6098f23dc6ce9a9b14efbcd0e94738",
+          "statement": "fd2ea8211fb893a2237b247e6c3b7f23083d563ba66ba5af7cf12d8d3e386f5f",
+          "given": [],
+          "assumptions": [
+            "83abc763522a945dcc34d77ba67b839de6cb1e49a0639ae88fccc63b0212ad24"
+          ],
+          "finalAnswer": "a5e56f86d4a453e61bc7d0b2c79e4bdcade13898d98144581911a3757374cf84",
+          "stepsSha256": "fb74502fe83e33fd8ed636cacce54a7713e17ed50d036e369357b73191981a0b"
+        },
+        "en": {
+          "title": "ae6812efb30fcd7c044a4c7995eb7bcb970ed7adfcffa74226a2f80e79414094",
+          "statement": "3c467242e87da6a8f5a012498e84160fe35d93218582015067c1bd79cd2a1c81",
+          "given": [],
+          "assumptions": [
+            "65a1da3f2f723036cb43d8b9393b54dcea466a3990aa5fb195d0f168af8cd0c6"
+          ],
+          "finalAnswer": "646bfec6a068921db86fb6c3b8d464cad8f6c6d709a54757da2a720d6268de68",
+          "stepsSha256": "7701bcab9d2df4f51e1858506f2739dae7de57224434a83fa516de291ec43b20"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q3",
+      "topic": "systems",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "aca9e2abb7526f8ef1f2fbcaf4e97112daebf8f75389bb645c7bd4ac0c81460f",
+        "referencePages": []
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "feedback",
+          "data": "8ff9a4dd9d68fe8f2b0a4b9011c88f41e31e16ea4a54f427c166504a44ab0fb9",
+          "caption": {
+            "id": "9c3bbf5812221e1280e1e03de4deb6dba5f094d69700eefa0d8a364150a10105",
+            "en": "758d6d363ad03f1b6801e94f646c1e320e45ea308f9e66e95fe2cc8f334b9413"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "482e1122928ad6cb4451684113c4e2f21a3ec8550ad301493e1f19aa8726e166",
+          "statement": "ce9c5cf3ceda0f3d80dae4de189e3e616eb924d980e32b6c7d5b248911ff02cb",
+          "given": [],
+          "assumptions": [
+            "c8d7ba5104429fb3080fb9c6e015b891d17671e813dce07cfef631d92190923b"
+          ],
+          "finalAnswer": "9bffdd83942c3015f27697190c1c42b46b3c4e5762f765ce81d4df9125859f85",
+          "stepsSha256": "02ab14a0d8b62c29158f7886dfcf8f549a0789d3c23ad482e0bb829d7d85fa8a"
+        },
+        "en": {
+          "title": "2ae929fe13b178ada0930d4533ae1af4236bf12314e1b60c73e0615929de640a",
+          "statement": "f9b4dd9f2d88c61c7170cc801d216229194ec96723499117cf02988262cf4e42",
+          "given": [],
+          "assumptions": [
+            "e463f640c8c32759ea5fa3b1693e576756fa4d176bc8ac5d1277f16c91f56b0a"
+          ],
+          "finalAnswer": "e26c1ce20a3539714c1579cf2fdcfb9f535dbd6e3d023c9f1d9cc1c49078e6a9",
+          "stepsSha256": "6ef1843a7087373f3fa7dc9f61f65ad1a6ffb8a5b4e8fb58028255492be20556"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q4",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "8f12f580546920a86cc64501f555379ee8f07957f9c399f11e78c8f3a94a5eb8",
+        "referencePages": []
+      },
+      "steps": 11,
+      "visuals": {
+        "primary": {
+          "kind": "thermal-cycle",
+          "data": "f747fb6e0e7e9d5840d518d936c892b799e636eb22f8c3c9537ff07c3d9c4afb",
+          "caption": {
+            "id": "be8a461619592e04606bdb8109b0477f48f4c746155dc7367d33357d340ed3e6",
+            "en": "3128797deec535179e9d9b3c32ee22f92a15a1167ddec52ecb4aaca1722aecaa"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "2f6517ac4fd54ac2245484670e5f3f02c7987a5c6d06154e8c0a1adfc3863040",
+          "statement": "437ae98f93bd76029b0ad12093186acaeb849f3eb818e8b93099b5517b9c6ebc",
+          "given": [],
+          "assumptions": [
+            "8637229772dd94b8975e35dfc074220b126f72bd928fa4a7fa8a660ca79af405",
+            "fcc02a92ad0ff9ba705fe9903179ccc144be5f717bf1cb9490ca65f37042da97"
+          ],
+          "finalAnswer": "ac4aa0726e3e92e01b3a895ac02e97eaf7b3535c898b262ba2b540f11027d094",
+          "stepsSha256": "0e2ba5ebcdb3faee82e306c9bebc847b2e5106b678892c0d69a2376f239a3f9a"
+        },
+        "en": {
+          "title": "50140a80da145e0829a6a4090f86800202086a217a1b9bbd7f73ebc722d49206",
+          "statement": "ff216c658b157d8fe74dd03dbbd9df672011888eaf4e8f6167755a0a1cdb3d21",
+          "given": [],
+          "assumptions": [
+            "a9e951466256d59e20a78895bffa5cdfa878fcc407e64ac3c9dcb358e18ef9b6",
+            "76fb38d490b33f66ea98559aceec7528f25dc3247737ab1c55255c40aa8799ad"
+          ],
+          "finalAnswer": "8f6b1e8e180b03bbe7343bf22ddd3af0110d7464e410986f84aa4b3dad4ce3ca",
+          "stepsSha256": "7c9bd7cb1f95dd0f28c95dc90f79cc50104b483d2d9c08c2feaca335b0760d77"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q5",
+      "topic": "calibration",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "e881fe9754b6d5f52386e0ec5f9b9346d06b3ff7aac23a378582cc5b40b437c5",
+        "referencePages": []
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "c314393eb599aab7fdc929ff4a3099dfe8cbb8bba44950ad367f9d9da764c2f5",
+          "caption": {
+            "id": "2ed4697a58aefeb792a5083daa8ba7cb9da6eab53932d087896febbf3d0d22bb",
+            "en": "af65ac0fddeed44f18a55baadd140a8141482fd4ba479fe64aa77fb2c9abfc0c"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "62f93a3c13fb1b6473cbd5d75c4d2ebb9218b077f260d40072adfef479896e73",
+          "statement": "ad3428ac1a0ab0587aa124abd3332c5da25c28edcae38307e7c11289a087eb3b",
+          "given": [],
+          "assumptions": [
+            "7b1c83f1883f93da34d32956b334d00477bdf8b6c1f2249e6ba277a4ddfb8e0d"
+          ],
+          "finalAnswer": "e3b1f92772292f7ef7d14e44f58bd0492aeee3ebfb5afce6739ddc2b12e3e8e8",
+          "stepsSha256": "660f3cfc296754e3442fdbe7d3bcc77f395382e1bb14e968fe3c43a693ad15a6"
+        },
+        "en": {
+          "title": "6460692e674a06d42b1d9d791450ba364db66c0e359a1962f64610a901c3644c",
+          "statement": "63b90d4e212aaa754dcbca370e661754eb521cda058d30aeef8a900aac4c29c8",
+          "given": [],
+          "assumptions": [
+            "fa03dd502b4aea801eb0a27db8758fd82e25fd8873c4b3c021352342dc09acb5"
+          ],
+          "finalAnswer": "8f1199ed52ca672ced3189bb2ce13e91a32ea6b9125e36d0576336d2cd36f62c",
+          "stepsSha256": "7014c41d052d7e9b352eadb607b23747c315bc914b314192c263e7f0f0385c28"
+        }
+      }
+    },
+    {
+      "id": "2024-uts1-q6",
+      "topic": "statistics",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 1",
+        "number": 6
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_/view",
+        "file": "2024-uts1.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "c8bb94fa595bb20740fb6eac03809e7094be996a897cfa6118fe565df9d177b4",
+        "referencePages": []
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "uncertainty",
+          "data": "01755080cdb0c1bb95fd8f51e4fd29fe82aef69bf6b2ed9059c90094c33ed9b7",
+          "caption": {
+            "id": "dd734419ccd172b5b7c07346c81904de7be3fe044f40f046ba85de4108ada01c",
+            "en": "cfae6cd8f5985962f4140cfa992f6e9817ae2266aa7c44decfe215071fc5b2b4"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "bbfc6b58f1eba21e2c65a3f235b235570d2bbe1d10e6c98483e3270264073ea4",
+          "statement": "ab6b7f6795d883e6e76ee810fbe823741322d933d4dae52315e06747828678f6",
+          "given": [],
+          "assumptions": [
+            "0927b46f844b47070ba5810031aacd911023595dbf4a522fe6a945567d93478a"
+          ],
+          "finalAnswer": "3e8c651e8ab12153d1749b86f474f4d13eb6abe6be4196fd03cc1a17e8513c41",
+          "stepsSha256": "4991218d9be9a02615a4c1599aa7f87e46e070f378ee1433c62fffb3595fc0e4"
+        },
+        "en": {
+          "title": "e51925354868a2292ce286bedfc2261f9a21bb15a4fbf8fa02519b85f997c00e",
+          "statement": "53ba399a28df2b656984fe5a8eec4b758014d3efe6ba100d09c1d6311d6f058e",
+          "given": [],
+          "assumptions": [
+            "7a9d8970b16bcdb7f459a4b42ea9a6563504c6fb67d066b05a5d1a4d1eaa6899"
+          ],
+          "finalAnswer": "2265271c51d18d59f2fbcf5a301cd7ecde1e33c7710cb58a8567c31712700483",
+          "stepsSha256": "e8189888c6d9342eadc9d3484a360562527162f2c870d2829d6c794edb315b0a"
+        }
+      }
+    },
+    {
+      "id": "2024-uts2-q1",
+      "topic": "temperature",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 2",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1sB0GcdD36cf5MQ-G5BtzZUJSWgA4Zsv3/view",
+        "file": "2024-uts2.pdf",
+        "pages": [
+          1,
+          4
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "cf856ed90a9b537ec657a5753de112387da703a4ca42e4db1beae7141725f527",
+        "referencePages": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "thermocouple",
+          "data": "ee46d43ffdce8e504ef5ddd45e01e6054796fa6362b10bdd783c4fe3243ada41",
+          "caption": {
+            "id": "5eccfbd1a90b2c1163566360cb1d1cd7c313536087395c866958d03da4e56685",
+            "en": "abb6ea4c0859853188d7225d82539e34bc4a421b9a64be095549fc851482e75e"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 0,
+            "kind": "rtd",
+            "data": "6c05e434425cb9cee8bd6df435b11eb7b2ecd5b04471634269a406ddc21665d3",
+            "caption": {
+              "id": "0ac0c5283756a5e22bd268ea84e6d63f1079a082717083ef028d4431c10b3143",
+              "en": "4d93898ce043b85fd66763424063481bb16c25b83c4938cf2da519cf32b02f1e"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "fad9fe117eae30d50f12e2809f5c0c3937bf654389569d207f2fb7d7090382bd",
+          "statement": "f9fcad355644089f544b7ac23b4dc0ff13df0e744a2a626f0c1ed340703b9820",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "659a7eccdf4fb0e6274de1255774ef6b82a6ff2f67edc068c838b60cb35eda32",
+          "stepsSha256": "d1f98430af70f80f819d861dc242777905b5b9bad5b8a54ebcc1389e5c85f9eb"
+        },
+        "en": {
+          "title": "485ad6336a18e14dda23ca580e2d9287cd2ed9f65fecaa4cd164d8148721c131",
+          "statement": "54a1f7c1d69a2b876baf53bdca3982dce48c2ebcc851ff18bcf4ae2fa6fae5af",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "37c0e4944209171c57b835e73989b83e691eac75f31a34f1c5e0cc25ce3a3819",
+          "stepsSha256": "3e343e6e263c97df69df6445d7f0f51247b8d76c30069bac5c3982df0b6e859d"
+        }
+      }
+    },
+    {
+      "id": "2024-uts2-q2",
+      "topic": "systems",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 2",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1sB0GcdD36cf5MQ-G5BtzZUJSWgA4Zsv3/view",
+        "file": "2024-uts2.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "ca5e1474370e6c0ba2ab5079693391d7c22f1c20ba17e8686807e70f4e9b9a06",
+        "referencePages": [
+          1,
+          2,
+          9,
+          10,
+          16
+        ]
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "resolver",
+          "data": "d13e6801e278bcc7bb4a6db72b8b6c6595250af03bb0c7fb40a945f9a678b778",
+          "caption": {
+            "id": "c7e07adc204f7fc8d4985811a7bde40a43d56d2a29b7de197d57497242e9c743",
+            "en": "8859b2d4aeb2735606f0f4b39ac0f3b88d02d75beaee767222789818a6d5ffda"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 0,
+            "kind": "orifice",
+            "data": "e50d2d9010230b3b526527607bbafbeb60211142c2eae2f3c6dce389befb1ac3",
+            "caption": {
+              "id": "1954411093e3c123b008ae0e5e637668c1fa795964a2e92eafb1c0143e67a414",
+              "en": "7486dab66786ec6ccdd26f7a227bdb1cfde5af0160f7ac5433c321a7f1f4269b"
+            }
+          },
+          {
+            "index": 1,
+            "kind": "orifice",
+            "data": "e50d2d9010230b3b526527607bbafbeb60211142c2eae2f3c6dce389befb1ac3",
+            "caption": {
+              "id": "1954411093e3c123b008ae0e5e637668c1fa795964a2e92eafb1c0143e67a414",
+              "en": "7486dab66786ec6ccdd26f7a227bdb1cfde5af0160f7ac5433c321a7f1f4269b"
+            }
+          },
+          {
+            "index": 4,
+            "kind": "resolver",
+            "data": "d13e6801e278bcc7bb4a6db72b8b6c6595250af03bb0c7fb40a945f9a678b778",
+            "caption": {
+              "id": "866a5681e55658a137b15563a8b02562a8f0b888f5fccda6a8e7376673a47bb6",
+              "en": "ab60e62939b87363f0a516b601562741c2a2a2cfe60078e8c49e4a3866b3a404"
+            }
+          },
+          {
+            "index": 5,
+            "kind": "resolver",
+            "data": "d13e6801e278bcc7bb4a6db72b8b6c6595250af03bb0c7fb40a945f9a678b778",
+            "caption": {
+              "id": "866a5681e55658a137b15563a8b02562a8f0b888f5fccda6a8e7376673a47bb6",
+              "en": "ab60e62939b87363f0a516b601562741c2a2a2cfe60078e8c49e4a3866b3a404"
+            }
+          },
+          {
+            "index": 6,
+            "kind": "system",
+            "data": "fb329e26efca3d6efdb813d3da0bc78ed6906012b74c3416c77f7c5b775c2587",
+            "caption": {
+              "id": "8c52e599f34f7149374e35a8cfeb12a87a0e153db1c8ea513e19613483d29074",
+              "en": "c08f46a4cf0f37fc8ef08380a4900c2bf99424e938b719a988c833368eb155f3"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "system",
+            "data": "fb329e26efca3d6efdb813d3da0bc78ed6906012b74c3416c77f7c5b775c2587",
+            "caption": {
+              "id": "8c52e599f34f7149374e35a8cfeb12a87a0e153db1c8ea513e19613483d29074",
+              "en": "c08f46a4cf0f37fc8ef08380a4900c2bf99424e938b719a988c833368eb155f3"
+            }
+          },
+          {
+            "index": 8,
+            "kind": "system",
+            "data": "c0ff5926e857e7367b38fb762555226dd96787a4d43d270739fb4a1944c529f7",
+            "caption": {
+              "id": "d834770cf4686d28a1a6e6e48f53533e8fd9493f19338d7c96fc2f525fc45cc9",
+              "en": "2f9030926949947b6a27b02849d01bdd73aaf1f4ec9c3533a04262d600676521"
+            }
+          },
+          {
+            "index": 9,
+            "kind": "system",
+            "data": "c0ff5926e857e7367b38fb762555226dd96787a4d43d270739fb4a1944c529f7",
+            "caption": {
+              "id": "d834770cf4686d28a1a6e6e48f53533e8fd9493f19338d7c96fc2f525fc45cc9",
+              "en": "2f9030926949947b6a27b02849d01bdd73aaf1f4ec9c3533a04262d600676521"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "a70eef410c1ecebe0ff444544d3cc8cbf677d153edee73caa7a913c7bea5e74a",
+          "statement": "072091c6360eaf40a356dd38f91f25c312bf320590432d7f63f038582f296524",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "ed2afa9b6504809796ca0be11430439ef1dd36c015a081b1e2df251068e8144e",
+          "stepsSha256": "805408360d11fc52a0f033df47cd713d664c8f0d4d033d96a7825ca35be73edb"
+        },
+        "en": {
+          "title": "983dcaab4719d0abc3bb16841413241ba9ecc8be910665a53e45e4d1b1bf1257",
+          "statement": "e07a1d92c3ed8f74ea7dda1e83a018e2c08a20f32f359d91a05e414c1fc0bb08",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "f048c321daf330261fd8a0adeedaab8f41c5e328b526c13aa9dbcb3a88020952",
+          "stepsSha256": "4642f501bbff32ec72a9d751c8b2b7ced09c3129de53166500595e82f63ec054"
+        }
+      }
+    },
+    {
+      "id": "2024-uts2-q3",
+      "topic": "flow",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 2",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1sB0GcdD36cf5MQ-G5BtzZUJSWgA4Zsv3/view",
+        "file": "2024-uts2.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "80a39c0f55545f3cfd542048853e3f5a9e2b89ae44ea2b82e4535516640a4973",
+        "referencePages": [
+          11
+        ]
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "pitot",
+          "data": "fd9a640176bb1c845692f763db056e3658fab64db174c04a58feb60e1798ef46",
+          "caption": {
+            "id": "e8187ae9ac949a977f1fe44a5e8c6211efe79740609a1b34b4af1a5ad1ee1d2e",
+            "en": "d18697289e28a2072fa93ae41b2aba9003e33955cb01430047919c06e68b44d2"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "b8094a749c55d195f2b49620154b39caac327e8c29778dd202c5905d9b328fd5",
+          "statement": "3ab6573cf7f1eeef441eafe8e4fd8d37de7a29d250e6aa0492ff5856a27104e3",
+          "given": [],
+          "assumptions": [
+            "17ee6e40705363b41e28dfb2f3a326b5e47a395f3c0483b9253e4c1df676ae1f",
+            "c99c805e211892a3148d6def143cba84db4766f9fd948f6377c228c54baafa21"
+          ],
+          "finalAnswer": "59129ea40f3ca3695771a5f7e4fa7f4e98fca76a3c7f816c909248bf763848a1",
+          "stepsSha256": "e7a880d30f355f842baa9106682bd848e82b0231ea043cc6469c2400e60770ea"
+        },
+        "en": {
+          "title": "4d6a1c464b7d0a0935b386d9221f45c6db1279dad769a69fdf17fc63f1fa187c",
+          "statement": "90064d64ba1e456158577bf655f4ad7e0f15355cd8fdc717d84018c0c3eee7ac",
+          "given": [],
+          "assumptions": [
+            "1d66517b6feca23cdd2a58f40ec96b1c3ddc6dcd65f05596e4d322c29a2aa21d",
+            "be84e7b4341aca3bcfc723122100edf976d78bf745dd1082f4653aeece2fb096"
+          ],
+          "finalAnswer": "4e71af26a197d28f784da3ab058294d1042d4dd1821868c2441e61db014e29d1",
+          "stepsSha256": "7a6ae3bd60a37b528ebaca16a76ef81cfb6a7a2d383e9c0c73be81ae4230f5a3"
+        }
+      }
+    },
+    {
+      "id": "2024-uts2-q4",
+      "topic": "calibration",
+      "exam": {
+        "year": 2024,
+        "term": "UTS 2",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1sB0GcdD36cf5MQ-G5BtzZUJSWgA4Zsv3/view",
+        "file": "2024-uts2.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "4fe842d632c5d1bdf4d29a66c316098195e13c9cc06648a0ee35e676bcdae722",
+        "referencePages": [
+          4,
+          5,
+          6
+        ]
+      },
+      "steps": 11,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "e1a403819cbdda214833e2e18b010495405d631d8d87bf2769dfe81be391191b",
+          "caption": {
+            "id": "640961491386c4ebefccc82be84288a8dcd305704e899769b84ea1d831c3f17f",
+            "en": "40d015dad39ec25385adb1c267f69e14ba4409add31a5b33b02fd10929b42fe1"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "8edc2f18c4f59eee7f7bd350682f83c73752e066bf5a3a871294ff970d8993f4",
+          "statement": "a37546a99e0c45690dbb36d37244675712d3b1a508eb48901407075ecad31d09",
+          "given": [],
+          "assumptions": [
+            "5d0c4c21bd29656a7edcd5babd37bfb4b4cade58bac87ece2875cb956015c2ce"
+          ],
+          "finalAnswer": "8902b5b5e5b2c719757ae6c8e3d2ba87ee523c84bd5c89475f86596cd2d94fd8",
+          "stepsSha256": "29fc83b3130fbbbd97aab31e5349dcf714f24b183a2c2c15e30c94a71e650d7d"
+        },
+        "en": {
+          "title": "631df9cbdce54ef32c6c0f173485251be0859762d91fdd293480a3332f6a0f33",
+          "statement": "6c0e21d2e5c4f1442f28ff420e9eeebed75144ae19da1a8bc1c1e8f00b127aa8",
+          "given": [],
+          "assumptions": [
+            "668e38cfffc8dcf48b8830e4f95c29c962247dfed98f6c56fc2b50c2ebc68b92"
+          ],
+          "finalAnswer": "cb02561879e01ddc55ee79fdff0cb82e1806a061e677091fd840aa56408b7707",
+          "stepsSha256": "03f7f6efd8e7a2bb4db948232f9a3142ce9dc96a51967548e18be92a7079979f"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q1",
+      "topic": "calibration",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "cb5cd4b9a9d7c7ca13a8f2e016c044031bd7ff6f5dc5444cba4f54dfa2719c06",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "c81cfa65fc3ba0a1e8e669b467a1f2cce5239455ce6c441187552a6f6c2dbb8e",
+          "caption": {
+            "id": "44db0cf5b4e5e4bec48e40e984900be26a1fb9c482151c5f49feacea7a36e072",
+            "en": "728017d66394900c9c2822b7ed90412f59713ab5819c33b5f1bd81b19c76780f"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "ba63b5c19022877bcfc4871290ec156295093134d442b6e248855817b1675659",
+          "statement": "009fd800be576c63cc0d9d6b1746a0ac5e4fc87cfa235834f0a83bb286b18fef",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5",
+            "77cbce20e56ffdbc3b17adb0e8534e615e7bc3740e4a5a207852c7a624944f67"
+          ],
+          "finalAnswer": "37c0757877e602a43c1979afb0245f2b1c13870626bea323c8db89bcac0f84e8",
+          "stepsSha256": "5e4c070426a2a82da1d24f32b2bb5d947b508f7b175555a249cc4b3e42f6b290"
+        },
+        "en": {
+          "title": "476127bfcf17d2203b5f8dff855db2436331ae1939f8b3d3da5568e36ea74deb",
+          "statement": "fef684d91666ac9a29b6142734e0508d2b95e2290e00595e2f6ccc134bcc1517",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16",
+            "06a54aabfec4604ab3769dbde5fbeefb773d0305d284896609375addf12a0e96"
+          ],
+          "finalAnswer": "7f72320ddb29e115ca803e437823b2d7dbb0ac85a2cadbd4a40c87e92eed911e",
+          "stepsSha256": "514500c1fab3123066b37fbfbb66d9a2aeb7d090dd4ed6c6f82941b9b73071dd"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q2",
+      "topic": "temperature",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "2bd2f164ddd7ace4a88f818681f764a40011cf3c46456db1e4331f04163f6d1a",
+        "referencePages": [
+          2,
+          3
+        ]
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "bridge",
+          "data": "5c206f14ee97105b5f03d805c385e9b7f83afeaeec167b72690e7086affdd377",
+          "caption": {
+            "id": "f14a800b6892bc446836a44bdae4a255f0e2830272b82ca809fea00e94bd5d89",
+            "en": "4b1535e9c7c5a22e3731da65786310cd5bc83a1a23cf96ae3dd8d4026b5e1018"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "f982340a2f96adf08e594e51e02632dae92a8919217263b60a43237144a677e6",
+          "statement": "cf76ce65ec24e9f5b3c62f41b03c8541942050620bec5e5785b42869373b98dc",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5",
+            "3866010e20c8a1dd6f1e27e85e816431b3cab0f204f6c04ccc34c3a4eb4c6cef"
+          ],
+          "finalAnswer": "6bbf84a3133a1b58a110b78134fe2bf55a39f772733cc1c977c6d3c0f45d57b3",
+          "stepsSha256": "ccccb612f418a316cce394e12462d634e59042944fa1e88e96e661f32b700500"
+        },
+        "en": {
+          "title": "d22d5567a9e59058a8d0a30c7e1f0bda53da5145cd59f96c8af05a4c6c887286",
+          "statement": "957c7b2c70275647eb6398d2b89caca9e3e26dc67fb4b7fb9e5cc9d3fab3d209",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16",
+            "8a3bb41aff7cf339d183aaab52005700289afe93615aab80ee51c7c089ed8e09"
+          ],
+          "finalAnswer": "fcfa8bce4e83dc2e6d95cd24fd9dae39b52a0bf72fbe733703b01facbb16fb56",
+          "stepsSha256": "47059bfd2da075148c16e0fb226b80032613c1907f1323d229cfcb407c120241"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q3",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "7541d932516f049af1ebcc73ff020283edbc2e2b041a13ffdb0cca37c66a35cd",
+        "referencePages": []
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "dynamics",
+          "data": "e9a23d5be4f958bba8614c422cef04457db76c7648c4636c09d2ac95e4724914",
+          "caption": {
+            "id": "0b7f33b7b50b88898f5c5481a2a6b00a295898ce2f060b555000aaa722783028",
+            "en": "37dab1641a4a70be0f41eb195713d1f3e906bf4df7ded5f725d8571c5dd72d45"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "3e4458822407858f676f1b9be85bd615e2d491d916e5359bcf7ca2903db49de6",
+          "statement": "ad30ae7b6381b755f1247ba715ffeb7e13667d027044c83cc7d325db36b3207e",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5",
+            "b46cd99239fcd037250e68cd43314bb89b10a7dcde5d181d3c46957e483c2a07"
+          ],
+          "finalAnswer": "45a1f4e1d13b6633760dc755413df9c52559d8b96a40535ea7df5437df9885ac",
+          "stepsSha256": "ff539b0511b091158b92129930a09148b44b23abc27ca3ecabaae166e16ba4ee"
+        },
+        "en": {
+          "title": "52099447a262f742896246ef780e784a4ed3bc712653d13caa42e2cc64002d28",
+          "statement": "949451fd6a5bae6c5002f7c8e6aa1989aa20525b4ea54980d3ec3f0aca7b3d7b",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16",
+            "535acc6f59b27c973231bd3c0930ce7d7d85d6234378c39b4fd884aed67157b8"
+          ],
+          "finalAnswer": "1c19434ac7faefceb2e5e65058d246fc6f37ee8c03628c982dda06a378727040",
+          "stepsSha256": "33053c5855244a566d38f9753ab3013fb741dec8c1893b1c8e994e35e7736fd0"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q4",
+      "topic": "flow",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "cbda803f20c76c07fe98775c9e3c58db738f6243be07ea445580fce20b7bf6fc",
+        "referencePages": [
+          9,
+          10
+        ]
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "orifice",
+          "data": "85b678a4ad497088aff43d58fcaadbf7890c2709c8f729bfae0052922b5cc2ea",
+          "caption": {
+            "id": "439c6584bdfee70525710cb99aa1b30bafd053038dd92f6d1b56b48feab26ae2",
+            "en": "751313110529c256450ab3e213cfd87ad9d8cd053bdc5031d1a9fa939388ff33"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "c26d7209447eb490168cfadeb1d72127bfbc6ee2bc764a273e7703a1874f2831",
+          "statement": "07d47939f0b4f28e4623fcab271cc33d8be64227fb236318af954c3057f19f4f",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5",
+            "07f39545f2e4bd0abf7f9f4940e79a16cb388b3864bbbdce2625dadb214f45a2",
+            "7a2d9e455d2b2cf710674b07ae021c029bdc22a258cff7b0c54ecde345a0c281"
+          ],
+          "finalAnswer": "76cdac8df48f23aa6b7182c628bab40e2365aff96101d40cd9aa90866410db6c",
+          "stepsSha256": "f34a4246aac94a32540c20a13237defa7acb7cded5ed49189f2570ac5f84de40"
+        },
+        "en": {
+          "title": "fc676b44366717f88e3b10352e56c2dd456c89a8110f734b7b61adb7afe7ed81",
+          "statement": "1c17165dcdd73c073fffca56e504be33c0787c13c4409d1435e9c06bda22ee0b",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16",
+            "4367a6c9af642ca814738dbae299ef394a055d73cfb8f7d76fe9f290e15349ec",
+            "03ae148f02431f5909db5c26e6e4189fecace6ce7c58c3c20f9daaab90454d46"
+          ],
+          "finalAnswer": "d413d1e0aec94a6d1ad68507b5e49bb8a87f9fffa6f349523c5889e5ac67389c",
+          "stepsSha256": "d7dbfb3a97a23a58e8a1bb3b3d53590b9e88a598a67907d445b6427ec2d09dfd"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q5",
+      "topic": "systems",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "98eded9131532c18d9c278828f03d91d9ab5bdad9a255259293601b06bcc5793",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "system",
+          "data": "6288c37953316528158e31e16ba5fa070821f01fcdc87d44d0633b9bbfe411df",
+          "caption": {
+            "id": "83e307592940158f8d9924411ca877628bae200a6c7e0b4d26a93596eb406423",
+            "en": "bc51472927f4748693d24c95be77a8f1bede9d0c2f5d09db68f8774b1a82ad3d"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "3878d23bc7cc96e50bffe48eebaed75a08397a438ef5242d5f2e1f587329e6d5",
+          "statement": "348a44f58f1eb0bbef6b264a87e96bc6f1cf82e59852835c272b4dc9fc030859",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5",
+            "33bdf3370bae6ab282f51e2e8103e6774af67ee9c2380bd6f45c8f3819ecad76"
+          ],
+          "finalAnswer": "119f6ad00987ea400759aa4540c9d2622ffc405746429af01764462f0fea3c0e",
+          "stepsSha256": "8af03a6e79504c1ff8a52b1ce1c49fada69280a13dc4476f5bbe11c127a36204"
+        },
+        "en": {
+          "title": "02935a4f2f919c59649c5304d249b02adf64ae299e2ce95b98e8bedf06a8a4a8",
+          "statement": "4023d55c4f747316509f678932483c04a2759e3ee582b27e43ae43ab0051d521",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16",
+            "3467b5b4585c991df78f146c8787bd00788b788f17d357cd49f3a2c84527297b"
+          ],
+          "finalAnswer": "c0eb9b3ccbf7d870cfd1a212097aa7a0b78489d6bb487018d779f6876fe84a93",
+          "stepsSha256": "281583f6ec33148e055915aa1881f828f5998aa68edc580cfc97dc0517149c9f"
+        }
+      }
+    },
+    {
+      "id": "2024-uas-q6",
+      "topic": "position",
+      "exam": {
+        "year": 2024,
+        "term": "UAS",
+        "number": 6
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1Je4tNBBjAyJ5AefzK95kFZW5Bb0wweCX/view",
+        "file": "2024-uas.pdf",
+        "pages": [
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "bb6c2b7c0d0161bb36c39c74f7cfc122a187b8a265ba025b08b0247b17156aa7",
+        "referencePages": [
+          15,
+          16,
+          17
+        ]
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "lvdt",
+          "data": "71ac27fa105d474f0ac071b631166ac99d368dde2353b5df5a42714c3b6e8551",
+          "caption": {
+            "id": "2904630650698d62c7f213b2edb3fed4acc5a9c4db1ad68fb1191b37bab3f5c5",
+            "en": "0402c6c0dd7c5d9a39ef880bde28d5f5892b89fc211bbaae9e6ccc2efa77b920"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 0,
+            "kind": "lvdt",
+            "data": "71ac27fa105d474f0ac071b631166ac99d368dde2353b5df5a42714c3b6e8551",
+            "caption": {
+              "id": "c64f5d9948a5073a97d37f0e53629081440af965562980366f13149e22301f59",
+              "en": "5a5b0c2f45606a51653b3a009ae91fe8688245002aba848fc7504b4428f768a0"
+            }
+          },
+          {
+            "index": 1,
+            "kind": "lvdt",
+            "data": "71ac27fa105d474f0ac071b631166ac99d368dde2353b5df5a42714c3b6e8551",
+            "caption": {
+              "id": "c64f5d9948a5073a97d37f0e53629081440af965562980366f13149e22301f59",
+              "en": "5a5b0c2f45606a51653b3a009ae91fe8688245002aba848fc7504b4428f768a0"
+            }
+          },
+          {
+            "index": 2,
+            "kind": "lvdt",
+            "data": "71ac27fa105d474f0ac071b631166ac99d368dde2353b5df5a42714c3b6e8551",
+            "caption": {
+              "id": "c64f5d9948a5073a97d37f0e53629081440af965562980366f13149e22301f59",
+              "en": "5a5b0c2f45606a51653b3a009ae91fe8688245002aba848fc7504b4428f768a0"
+            }
+          },
+          {
+            "index": 3,
+            "kind": "lvdt",
+            "data": "71ac27fa105d474f0ac071b631166ac99d368dde2353b5df5a42714c3b6e8551",
+            "caption": {
+              "id": "c64f5d9948a5073a97d37f0e53629081440af965562980366f13149e22301f59",
+              "en": "5a5b0c2f45606a51653b3a009ae91fe8688245002aba848fc7504b4428f768a0"
+            }
+          },
+          {
+            "index": 4,
+            "kind": "encoder",
+            "data": "b5386014d067d3e70de41fa07d5e83f7e45bc313a421a6f2777596392ea8b50e",
+            "caption": {
+              "id": "4252768e0732878f9c87dcd15dd8aed179ac928899b9165c78e947da679d7d5b",
+              "en": "3acd8d1b80df24cb19e4f1c45e877f9dcbd5a6792645cc64872d2c2c50618c22"
+            }
+          },
+          {
+            "index": 5,
+            "kind": "encoder",
+            "data": "b5386014d067d3e70de41fa07d5e83f7e45bc313a421a6f2777596392ea8b50e",
+            "caption": {
+              "id": "4252768e0732878f9c87dcd15dd8aed179ac928899b9165c78e947da679d7d5b",
+              "en": "3acd8d1b80df24cb19e4f1c45e877f9dcbd5a6792645cc64872d2c2c50618c22"
+            }
+          },
+          {
+            "index": 6,
+            "kind": "encoder",
+            "data": "3ff12a46973ef0ae6d40254624a8083c4b79f45ff62b4f0462eb02a81b4d378a",
+            "caption": {
+              "id": "833acaee803b8045ee80d9b2553b140da97039acffb202975b38a4fee2046bb4",
+              "en": "76f878d05db23caa80c58747fbbca1d9085c5f126a6b6e223aac39b36d77250e"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "encoder",
+            "data": "3ff12a46973ef0ae6d40254624a8083c4b79f45ff62b4f0462eb02a81b4d378a",
+            "caption": {
+              "id": "833acaee803b8045ee80d9b2553b140da97039acffb202975b38a4fee2046bb4",
+              "en": "76f878d05db23caa80c58747fbbca1d9085c5f126a6b6e223aac39b36d77250e"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "930b014242813091330e7273a8a013faecb4e2ac4455d0561711fa4704a69411",
+          "statement": "7c50a5a612cf9d4650f32759e4e7ef52f9fae04d5b2a939d43662f241156eb70",
+          "given": [],
+          "assumptions": [
+            "0890e3b0c0003cd87b5433a59be350df7bf9cf3ddd55bb6788315b761b3ba8a5"
+          ],
+          "finalAnswer": "d1c50fae7e2984b49a11906529945165d65d3d8c8ec5b739fa0232bd210df0e7",
+          "stepsSha256": "e8eb430015b7d4f5433c21e06b4a3fdb3471c49e6bf11cfe2f28c4ee0afc815d"
+        },
+        "en": {
+          "title": "82595a338c07f5a59393ec9c9dd4253e38fb8ea4b522da3cd769b05c5a8366d0",
+          "statement": "6c11d87484b60cf23ea44b14cdfbf80e4521ed820896546ea46bbfa540995f63",
+          "given": [],
+          "assumptions": [
+            "b73ea1e8bf9d80ea0d62e3c2566e5551418df3f01a9cde76f497042b07547b16"
+          ],
+          "finalAnswer": "40678e081be605fc3cf92f26c6ac1947b11105ce4baad32229fb1545b77a48f4",
+          "stepsSha256": "6d0c3b8ea1e124acec50db267c990c23739f16976f7325e625ad6e7f6671c428"
+        }
+      }
+    },
+    {
+      "id": "2023-uts1-q1",
+      "topic": "systems",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 1",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo/view",
+        "file": "2023-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "3114348465a05f54fc7d0a989522460c13d2319ff32688627034afcf08f4e499",
+        "referencePages": []
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "system",
+          "data": "6140e1f380de58967bc4b9b7f3bae2d2653f0317922e9213e731d173f3990e6d",
+          "caption": {
+            "id": "9863f19c8147c8cc4a43a4e1b4f3c6a27c164bfd52eefeaa831dfa6e945ad30c",
+            "en": "b83b4b80f4fb5954535506b7d7c48bbb24ebdb29b2f9303ed3ffd884196d05c6"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "3c8233b698cad3089c8debc6090e27141a2ee9bdffa8d551f565cc1919918455",
+          "statement": "63fe5b2f05bed5235110cdd04f36e2c2a1bcfb471ff4926fbf141a4e7a6dd475",
+          "given": [],
+          "assumptions": [
+            "bba7302ff96d8da0bb6326e2139008eb643012367aaea73602b2b87d007d7105",
+            "c97f7ef52f0d67062dffd664199d845f5c5c45c2538d483bd3fd8a8f2a8b1ceb"
+          ],
+          "finalAnswer": "8a83bfd7e1d83730770202f1fb6233244e85963eb32c535a7a9ba379bddb1636",
+          "stepsSha256": "78a73c94fcb5aca6773f6bcf079397e78bb9fe7bf59b2b6013c5ff4d7dea8eb8"
+        },
+        "en": {
+          "title": "32cb6e1236bc746a3b653cd7b98fe7a333353a1de6b4c79f4414609d0d913dbe",
+          "statement": "2e8a2bff646bdd4250ddbefe2f150c16855599d81ff151e29481c1292341cbf2",
+          "given": [],
+          "assumptions": [
+            "8e6526646cdb42f5b4dcd944e14b3454b79830647c4a76c2c6d32a70f44dcee4",
+            "8f0938294449a26d6092ad58b07f687dc1c445fcefa1982fdb9243e94fea7ad7"
+          ],
+          "finalAnswer": "dd60a4300558fce828b8dd977f480f0329d2ba24701c4dad3f2e758fd541ed5a",
+          "stepsSha256": "5ba2831f4cd67891380e82835284674c40155790c524dff8057bb35fbf7b8743"
+        }
+      }
+    },
+    {
+      "id": "2023-uts1-q2",
+      "topic": "calibration",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 1",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo/view",
+        "file": "2023-uts1.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "394b809f339eef271309e7a16ff599233b9153ae9bf0fbf82c8508962f145d18",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "af6b0eddf1b07e949527a0df1547c25f7db2686fc033d12fb5ce7df4dbfe6299",
+          "caption": {
+            "id": "b1781d592103996eb372a2376625959d96ac42161b3bdef66d0c1ae8a569c0c2",
+            "en": "ef23e1a454ad2a3f978ca2d2de1d9a14ab292af0c3206ece0953d0c6f92a69ff"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "dc10778863661d11a23f9ca7710242294f595c1f7ba4b55441da8354171a3ef2",
+          "statement": "fcf68636465e6b8f9543b1de778de190639f2d0d5dbbca9e68d35e3c78aa268c",
+          "given": [],
+          "assumptions": [
+            "3249038df8027947e519894aa88b6ddec77e132c00ddeb9f860067ad57dac276",
+            "c22dd8e8b77bb768594cfdf32af691d05f14369dbba4ceb0bb98d63eb8a60509"
+          ],
+          "finalAnswer": "15d3223e10a9d3cbdc9737e20b803f579ca3ce198186031d1ef7b6417cc921de",
+          "stepsSha256": "36661ae9597f1600e7e9731067b571ffa058f7292e8ee5e2b873588958d67756"
+        },
+        "en": {
+          "title": "9f730104f452254de0043882a8c4f1c352bcd602aa8f72f67734baac4c977f60",
+          "statement": "f02b8cba19814f6c58a03f51b162f84f9ddbd5c862e8ffcd00f3c04e7cefa08e",
+          "given": [],
+          "assumptions": [
+            "c7a6699b72bf6b4b431f63f916406e849ee0ed9bc09971ec959c62d1ad1d845e",
+            "5205cc8c2719bb7067b961d85db4fe6204a85ebddaed2385e2a9fabaed54ffaf"
+          ],
+          "finalAnswer": "782b1cddd12d32795af83e3f954f14e42b9c0235c3dbe0c515249a8808ab6ef3",
+          "stepsSha256": "4bcedbfa62c2b77ead27666a4fce17e80d82fedbb9376cd222405669fa5b18e9"
+        }
+      }
+    },
+    {
+      "id": "2023-uts1-q3",
+      "topic": "statistics",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 1",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo/view",
+        "file": "2023-uts1.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "7f34a70afeaa7589ced71b48b112fab1856e4001ec5101c914498b977fdf85fb",
+        "referencePages": []
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "uncertainty",
+          "data": "2ea9d17c51645ce97bec7cf36f3674323f3878f5b8bc4510277d1cc87c2acd29",
+          "caption": {
+            "id": "060746d9ab904be376dafbc056f7d9250879f6ab1b280a0985a18ac68ffc0cc9",
+            "en": "b50084c9a3a6396eb939206b05cf1f989596f5e7b49cb2656a8dc41f20fcd738"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "5182b2d55ce6d22ce8f7fda636e0da18351ed3e61f7ff4fefbbcb74b8aba4a8b",
+          "statement": "61d4b606316fa849cbbefc629e5ad88b86d992800935a29540692a2a7c0396c1",
+          "given": [],
+          "assumptions": [
+            "eb973e18d9d799308bf62f6c985571ffb863d10edb187ed74a3b5777f61434c7"
+          ],
+          "finalAnswer": "95e9adaff686f4fd53d243f156df693c50cc90708afe1211f6f559e794b0d8e2",
+          "stepsSha256": "c01a2e745ef64cfcd82c432b41fbf65e5e2aa91d0834fab278fde3f9c2dfbed4"
+        },
+        "en": {
+          "title": "0597ebfe6cb526b640997dadd27057c8546a5d60bb68df13946c31a55c2055a2",
+          "statement": "1b5d10107447e7c5e3f43804b46960340613c779508daf2fd0f1ee2a20d7087b",
+          "given": [],
+          "assumptions": [
+            "01f82ad479fbdff59651e624d1c5561cd3603fba7e9412109c3f55f1cb5426e7"
+          ],
+          "finalAnswer": "fa4708e5a189be029a7ca3d0e797f6b7bf62ae0aaa8cbef3e5ff92963ff024af",
+          "stepsSha256": "6ffae1a7c39355900c3d118ec25dc15317c7fb2a495fd001aa71d16153226be6"
+        }
+      }
+    },
+    {
+      "id": "2023-uts1-q4",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 1",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo/view",
+        "file": "2023-uts1.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "18bcef5a458583639e322f8c431b0c722cff52c6826212f9cb4fdc88a12434d6",
+        "referencePages": []
+      },
+      "steps": 12,
+      "visuals": {
+        "primary": {
+          "kind": "dynamics",
+          "data": "a0d50cca773647349829d498911db5510004f8ae585317b02c440e3485e29414",
+          "caption": {
+            "id": "44be3a442dcf3d92bd68e65b602cc0e4a694e7565ad6e4fe5775dbc55941c84a",
+            "en": "a7df575cef8c7104eb2fe0adba73ea9e931cd69916bcc3a27d61e4e0b73f1d21"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 1,
+            "kind": "dynamics",
+            "data": "a0d50cca773647349829d498911db5510004f8ae585317b02c440e3485e29414",
+            "caption": {
+              "id": "44be3a442dcf3d92bd68e65b602cc0e4a694e7565ad6e4fe5775dbc55941c84a",
+              "en": "a7df575cef8c7104eb2fe0adba73ea9e931cd69916bcc3a27d61e4e0b73f1d21"
+            }
+          },
+          {
+            "index": 6,
+            "kind": "frequency",
+            "data": "0f8ebf703fac2dc4eade1b224d873effb3ba284f5d8547526709850ba8d6d267",
+            "caption": {
+              "id": "5c6c74717f3044213bddea5de6aa085b91de0b1aa5d359e859532966966c41d7",
+              "en": "a92b87d7f4f2142d71fa265ebc3d24176e5a2742a97d33b9b8aa4b6d80546fc9"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "e050a626b7c631b96349f752c91672183ef9abb009d9877a7beb7fb0b34e007c",
+          "statement": "3c118afc185d1352f236e65027223f9d00abad8b6d49e88eaaf16d9e1f5f4f4e",
+          "given": [],
+          "assumptions": [
+            "9161467f58801dc73d628796d4a46cd2b628070db9dabd0316293c0661a360d0",
+            "ec6ab1a6dfc5c44c6727400dc8bafeafd499042db1cbd316f94e56eb4b95deff"
+          ],
+          "finalAnswer": "4f26ae36e1559c0cf64bcf06396f1b1c50d7781f76b371151054ceaf518d1b0c",
+          "stepsSha256": "4099871bcbf4736cea8beb69292b50a9bf944ee61fbb59e0e85a758c5020402e"
+        },
+        "en": {
+          "title": "2495126d3079de0add0b73f30fc8ea92706b0f52d18ec08f9ba3c9534ed398ff",
+          "statement": "fb3853dff71225edf612486dd40b26e0e155ba170b02d99bb78a4cc753362bf7",
+          "given": [],
+          "assumptions": [
+            "7ad8a272fb2b98e0ab3e433e7d1127d2b6949c5245c46d2fdef8578dd56dd911",
+            "7cf2674c42b5ebbbca4c3c63e8b4b2a65ba42a9e4f45e6f4ee280e8a81a19d11"
+          ],
+          "finalAnswer": "b5cbaa577e4cc1e1ada8a419b190cc57e055d469d0065515e20f54c13c8fe8b6",
+          "stepsSha256": "cb2b76b58eeb541f7a947963b04067c86c34ba36d4d5ff3114708162de958930"
+        }
+      }
+    },
+    {
+      "id": "2023-uts1-q5",
+      "topic": "signal",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 1",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo/view",
+        "file": "2023-uts1.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "7c28ea92bffc913ab1d6346f293beab27a573ad52794a285b216a12103849588",
+        "referencePages": []
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "bridge",
+          "data": "76ae0510694b5b31198d0dffdb02477884d79b494207b2aeb3a392ee6a7e2f26",
+          "caption": {
+            "id": "3c152b32025af340aa0dd457a06a014d31ac46c36e2b569b50472035c7d494ca",
+            "en": "8ee6b68e795562fbff193188477cce00f4bee9c2685dd4797b4c06a053c1efdf"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 1,
+            "kind": "bridge",
+            "data": "76ae0510694b5b31198d0dffdb02477884d79b494207b2aeb3a392ee6a7e2f26",
+            "caption": {
+              "id": "3c152b32025af340aa0dd457a06a014d31ac46c36e2b569b50472035c7d494ca",
+              "en": "8ee6b68e795562fbff193188477cce00f4bee9c2685dd4797b4c06a053c1efdf"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "1b58f82990d6eaded77011678ac53f37d1023a17d073d7c6091aaab1288243fe",
+          "statement": "a31070fe5f585ca35ffd0efc6c79ec04e0b800ab174e2eb1e0a8a4d3df0b3269",
+          "given": [],
+          "assumptions": [
+            "b39b2c625698bfc5036b9c2cb76218c2f79be5007d9cbd072789aa1b7a4f53c3",
+            "17f20ff904a29d0afdd61cfb42b6c82cc2a9c853f143cf1a5fc93322e402bc64",
+            "2e782c9c43c63981436620bcdc5f94e8ef1c48be21446fd22dbc5c70dac049b8"
+          ],
+          "finalAnswer": "2e0270748c9ff54ed7156a97130a75e66b99db9e8108bcdac07a30a89e44c6e8",
+          "stepsSha256": "fcff13faa9f9fec204e60ed0eb5c1474b6187e6da6f29752e4d2e27836f54a8f"
+        },
+        "en": {
+          "title": "2fe788f4c606d7c2b25988bb959351bb077a3d0d3a0bb8ed66747c28c828796b",
+          "statement": "608695b6f3810ab0903393d2614433d5aa224f5d12639bdc1e91e33c4a49b270",
+          "given": [],
+          "assumptions": [
+            "a77cfd9d6a88186c9e8bb385e745e716054ea79569ae0fdbcee4074c5d79ad51",
+            "698e7a0462fd3ef5dd953cfcfcb9469dd3586a061e1ec27984e537648889521a",
+            "504befb3a73f9d748b15ca3f17833d5c618a2bc424ee2911b1c435c730ffbae3"
+          ],
+          "finalAnswer": "a2dd8985c9b7f4a10f6bd5d33e32dbfc6f47dd685d4d5a7712e02087cb2a7cf0",
+          "stepsSha256": "83884d5049e3e12ab5091abaa0d73f22c52989388b86da901a993e9abdb8d9e2"
+        }
+      }
+    },
+    {
+      "id": "2023-uts2-q1",
+      "topic": "flow",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 2",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1W1pKt1ZgIU5T5oLpV7nOYfv4ofcNyMe7/view",
+        "file": "2023-uts2.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "a435c4abdc744b8fe363d85fcc9a81e55289647c0e58872be5df4b1296c35c18",
+        "referencePages": [
+          7,
+          9,
+          10,
+          12
+        ]
+      },
+      "steps": 11,
+      "visuals": {
+        "primary": {
+          "kind": "orifice",
+          "data": "caaee0529964acf2c50cb1bbe0ba5e694c25e5810f527c5395f57bd002a0b1c2",
+          "caption": {
+            "id": "1a1588862751189747442d252c39c868b1966afe022ac7a34e61ebec6161cbd7",
+            "en": "6b6f5e8bb367dd090b419191c0145176a4073d9a2699ee21f486dedff4897e4f"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "c5ff5183a6b38a6653f08c1ec9ec1825a339efb1adde9588e6addc7ccded3895",
+          "statement": "349e69c6306cd653971750ab044d4bee698bc88dcbd6bbb4d1b132906ad32bd9",
+          "given": [
+            "5a689ab2a6e5ef15122d156cb0e474d06e1ad03a30fab806c681931bd5ebcaf1",
+            "91bec84e16d5ce0af71a7579b689d87f4533487b4e093212d7e3e801a7df8849",
+            "cacd1aa674eb44e1b956172d9e87c7fad0d0c44b19402cc7b20c5522002a6411"
+          ],
+          "assumptions": [
+            "ee9a60e912e6a5671a0857fdf48cd99cf4a9b313337c1cdf7602a1ef8dc16ce6",
+            "c940e46f8ba9d0b980a01119454944ffe131cae1338a2a6ca7e23012084056f3"
+          ],
+          "finalAnswer": "61f81ad69ceeadc1469d8485622fef42bb9db0604c2911f607314bbeca9ff20b",
+          "stepsSha256": "d1b576bce3d606b1e436bca08405812654270ecb5aba4ef56c1deff4f1af3bf1"
+        },
+        "en": {
+          "title": "3fbdcbf6f5acc4b485a738c0f3907332c1de2c71e6a3d4b63ad28b2466aea434",
+          "statement": "01a918689c5d7c0997fb31ceddb5df1aecf3ea1c9d6b35f41f626870d819b271",
+          "given": [
+            "0881ed1ac97081596dd13ad10fe1b7f6bb89670a990b1c9914f3fcb37b3e5d6d",
+            "7947ecaa6bdc5e4859ef551ccdda60c3d80f3a156573d9c997efda9d082b3ab1",
+            "edba513fb41bb62d95ca023eb6034a4df8ec69158ab739a7a7b975c9f0110c60"
+          ],
+          "assumptions": [
+            "90d784656704c8b73b92c6614b634c4dfa9c635db68f56d3761b38f367f5602d",
+            "712c9d4e793bdcd68778a3e921b6182762771ffc22a2c51dbe76e541b42817a5"
+          ],
+          "finalAnswer": "e592efba5a346aef3fad58e80a2f23025d5cdc7824493582341c27831060f9df",
+          "stepsSha256": "edc81d9f737e892246964b334b97e598047d685ecbae8b3f06353836fb068740"
+        }
+      }
+    },
+    {
+      "id": "2023-uts2-q2",
+      "topic": "temperature",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 2",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1W1pKt1ZgIU5T5oLpV7nOYfv4ofcNyMe7/view",
+        "file": "2023-uts2.pdf",
+        "pages": [
+          1,
+          4
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "6eddc88aec7dcc890f54072488ae0e858b0fcaa0a03c08ffe54a8cd83a8635d2",
+        "referencePages": [
+          2,
+          3,
+          4,
+          24,
+          25
+        ]
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "thermocouple",
+          "data": "67ca16068800ab14894e31ada8e7894c74fcaf2d82a2dda46b622b8ce6ea2295",
+          "caption": {
+            "id": "14d15e27f23d39903601fec36e92a57dd8656959eee2f777ad3d24c5d071beba",
+            "en": "660f95533c970e37e22ab37e47332cd9338437edd817e506d7e7a4af4009414c"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 3,
+            "kind": "rtd",
+            "data": "c017d60e5d904cf7a09dad5fb5c0589eab8d2879a660b6cd89a4df0ae7a9b843",
+            "caption": {
+              "id": "e02794ffb97131c3325d7d0ba7bb3f7c24e57b7b99809469e127dc3e377c8527",
+              "en": "b958ed3fd9451fab7c94063e8577811b29bde0aa9d22620092f5a1dcf1684e1e"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "rtd",
+            "data": "c017d60e5d904cf7a09dad5fb5c0589eab8d2879a660b6cd89a4df0ae7a9b843",
+            "caption": {
+              "id": "826a1a164ba88b9a85e6e12c35c14dae6edf7f115333b6074fca60b3cc4e3f0a",
+              "en": "d431a81e16e69367d3754b050b633d9f4b300f6a0297c8c1fc6aca94bcb91082"
+            }
+          },
+          {
+            "index": 8,
+            "kind": "rtd",
+            "data": "c017d60e5d904cf7a09dad5fb5c0589eab8d2879a660b6cd89a4df0ae7a9b843",
+            "caption": {
+              "id": "275220ec1e5bd4b9020654737794a62171fe921cfae12523055982a4070784d6",
+              "en": "ad81bfdc7a5f541e025368448d7a7ddb9f4cebcd92ac439252ccb302fcdd7c35"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "3afe4c03619ec4a2ae47c0d25b0c74b12409b1d78bca40dd021dcb5041f0aaa5",
+          "statement": "a83c30b02744aa1afed86a40d36e4af5027fc68d8f0d70b56ce9a69a83e27a30",
+          "given": [],
+          "assumptions": [
+            "e67a0abec0cba02a54825fa99119d4fb20d0e1685971bc3f292a215eeda655ec"
+          ],
+          "finalAnswer": "94a42ee40012584d65b91a1fe27f734bdf5f289ef0647c7585a12e5cf17899a2",
+          "stepsSha256": "eebc020b9a897b41bf7ea84f1a8bcdfb9bda52dc9bfad1c0db90b7c71f43eb7d"
+        },
+        "en": {
+          "title": "f83e1bb3674be00a41ea66ac6ec05abde5cb233c51724ab5264f3d1083690809",
+          "statement": "a9162abeb9a5fbab75208acb52dd7dce166b65b6e46017f7a95e1091efb2e2b6",
+          "given": [],
+          "assumptions": [
+            "75226b6503418e35da913b08cfd7469e40603fb8c7b92c4d84113ce7168ac22b"
+          ],
+          "finalAnswer": "7ea82e4557d318eb96bd43fea932c3bf959d6edc7301f539b262949baedf4fab",
+          "stepsSha256": "927f5a08b245a680e4547c30122fc34d5aae3c1fa34ac9f981a74c7b5b32ead3"
+        }
+      }
+    },
+    {
+      "id": "2023-uts2-q3",
+      "topic": "position",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 2",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1W1pKt1ZgIU5T5oLpV7nOYfv4ofcNyMe7/view",
+        "file": "2023-uts2.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "c08d22390a1a39bdc880a1bb163494fb8f29ce7c54daa06fa45225ffe527212e",
+        "referencePages": [
+          14,
+          15,
+          16,
+          17,
+          21,
+          22,
+          23
+        ]
+      },
+      "steps": 12,
+      "visuals": {
+        "primary": {
+          "kind": "encoder",
+          "data": "b1fe48480353a6979d46a4083cc65cfc854184a49c9f255a1242cdc1894954cb",
+          "caption": {
+            "id": "2f078fe3fbbb4b2430d037805f38b66785fc6b12b569c1fefd6706083078e6ce",
+            "en": "fed4da3a92dc122cb0f067a79003cbbdf0623a1af9754d3dc20b5b3669d733c5"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 2,
+            "kind": "capacitive",
+            "data": "59268789b4806d12e3b1104760fb0d16d6cdffafbed482b4877d9456bf5d8016",
+            "caption": {
+              "id": "8503bd46ce74414cbcb86d49c36f0db4968fec378d676a8eb290680d5f5f4dc3",
+              "en": "65faa7539186808427b13a5aefa3191411f71ead7b2b8f9749b0c348c609ede2"
+            }
+          },
+          {
+            "index": 6,
+            "kind": "capacitive",
+            "data": "59268789b4806d12e3b1104760fb0d16d6cdffafbed482b4877d9456bf5d8016",
+            "caption": {
+              "id": "4202d2175deca7c25e9d2d611715f7f9ee28be634354a698342f184b53c5bd60",
+              "en": "eb42d5332943a81e786f3fdc46b0ecfb95f12068f800896e7c39f159f0f2cc36"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "bridge",
+            "data": "208fa998e1c7cf8d7f9bbdf517752686390746c0de898de8ba44320f7484e95f",
+            "caption": {
+              "id": "6ea157e44e0615aa2babefd36cc3e9dd9e252f81856c2cb470bab22ed5c93bdf",
+              "en": "5aecdb04a7651ae79de59d1f3a0afdb1349025ed7eddbe694d0cfeeabd70ad9f"
+            }
+          },
+          {
+            "index": 9,
+            "kind": "lvdt",
+            "data": "19101a8a2996dd45c9bd045f23129faf2099a1023b102e2402723e18b57f2391",
+            "caption": {
+              "id": "b2d4faf3643762cc67cd14130588f090a630888559b506fcac8e731913621194",
+              "en": "a99038012d393b6a996f55e48e4e8098523dddba48d481a9cd2320d275a0663a"
+            }
+          },
+          {
+            "index": 10,
+            "kind": "lvdt",
+            "data": "e3e08387ac0944fbbd62471367f7ca2ccbf5bb369132f32f86cb8bde005607c4",
+            "caption": {
+              "id": "fda31fc4876e20252a6214d272451f4a68210d3918410a7f963c312deffcbe83",
+              "en": "2231b9711087ab1230f01d25f74dd8f3c98a6765423e9ab10a22bcd326e50b5f"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "4de02e93df1f221b6205ae93cd847fa1642055554d675e74ff36c35f39aa8547",
+          "statement": "ada231d1f3fbc4579860614ae1388a433404698d3de78ef03614d2a35566ef66",
+          "given": [],
+          "assumptions": [
+            "580b55e4130e3c7d21240b42aa9c803b0aad541b6ef8c2612fac27c597045ab2",
+            "18ec4d8e263987e704714cf4b44ac9214a1f0359a968a702dd187100eb224042"
+          ],
+          "finalAnswer": "10810f17058186123fd8d357c5795ac5cbb1e60d5cbdd21c25f9b38158ffe795",
+          "stepsSha256": "966405577c614b6968182e28e7b463c690dd6f623c483992b775dabe7527e982"
+        },
+        "en": {
+          "title": "5201f92ef5f5122d4cf0656b81fce9923f366fa0e44127f7ba8fe0222aedb0b3",
+          "statement": "87881c28d5952832242d8460dfda6989c1b986ee6fdbbb3f96692cfdbdba7aad",
+          "given": [],
+          "assumptions": [
+            "7e6d87a68b5fb76d326718b24d05ed28d6ccfa28c12aaf6cf649758a0e0e70d3",
+            "614a37d19ea4b171e9bfca3012a9a8285bfd0fc633d7eea89227d276fefd388b"
+          ],
+          "finalAnswer": "090c04071944a2bec54e5c6120c28ceeb718f0522d783b45cacd2bacadaa14f9",
+          "stepsSha256": "8f9eec636e613978d323dc19ce0ac5c3c3293a09b056f3d0626506296457c1d4"
+        }
+      }
+    },
+    {
+      "id": "2023-uts2-q4",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2023,
+        "term": "UTS 2",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1W1pKt1ZgIU5T5oLpV7nOYfv4ofcNyMe7/view",
+        "file": "2023-uts2.pdf",
+        "pages": [
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "19dc4641752562bf62874c13be90a72187203334213db8ad05ac276156c9c488",
+        "referencePages": [
+          17,
+          18,
+          19
+        ]
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "doppler",
+          "data": "e15156f3e1c705210be2eb0a6118f4e978c9fee90f9f8ac9c71f900c33bf3428",
+          "caption": {
+            "id": "91f70ce9c2e91cd75cb8ecc5dbb47c60d6a9df486e12318cc388edce68968ec1",
+            "en": "d6c333b0ba12b6162c8a1081e3b56fa0e04efee12127ba60162ae0fe7ba1125d"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 6,
+            "kind": "vibrometer",
+            "data": "a2166a2e6434158401a4303eb80aba25d6f87a4d4ce587b4e7603669c4fd477f",
+            "caption": {
+              "id": "13449c4edddd7ad9868c3f7dd1d5aaed22ffceb25ac70cd028946d942bc6a907",
+              "en": "d9e534557509c7b30468c5cfb8490211ae4d4f0d572bfeb0a9fc62360613a452"
+            }
+          },
+          {
+            "index": 8,
+            "kind": "vibrometer",
+            "data": "a2166a2e6434158401a4303eb80aba25d6f87a4d4ce587b4e7603669c4fd477f",
+            "caption": {
+              "id": "41548b983ba89d6210329e0bda12dce9e77121dadd74e9c0388649a6734cf77d",
+              "en": "d9c20f126681927149e1374eb98df63a64f5c69c295d1bce158852f9b6d9c944"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "1aaef722bc6dd232de599dfea89c7787a0422672d865651a34d0b51054735676",
+          "statement": "534d6b06cadf401a13a5cd9bf1a90bc747d9b5e36c738a2bb7990913c2e759ea",
+          "given": [],
+          "assumptions": [
+            "eed718e9ca7785a4873fee5c6c78c6aeb8c21c306182d3a52cf81c87c477d796"
+          ],
+          "finalAnswer": "8e9f568724edd8fcf27cc08a538ab657128dff14fb0b4f1db697db1deb05df33",
+          "stepsSha256": "b49d85ef2a7a716c0dfe370d3c90a4fd5c9cd4a6f667bce48ab3d76997dc5388"
+        },
+        "en": {
+          "title": "20b3c68f21dedbe9e35316fef7c00f8b77b296aeae1d35a8357e9a4c5ae3c24c",
+          "statement": "c9c1096e9601a741237f4e2fa23cece6ca49094438ecd905ae4cf93ececeb1b3",
+          "given": [],
+          "assumptions": [
+            "2eaa02dad00dec06538d88b2eac887a2aecffd23accd371fef7b0b2e870c144e"
+          ],
+          "finalAnswer": "f3e4f2b1fab6641282c5ec0ac9accd2c5a5be8968789bd542809babab3f2d799",
+          "stepsSha256": "dab9cece7aea4be1819ca8a9a3f425bcf80e6a3ae40d81356f650960ae4251f0"
+        }
+      }
+    },
+    {
+      "id": "2023-uas-q1",
+      "topic": "flow",
+      "exam": {
+        "year": 2023,
+        "term": "UAS",
+        "number": 1
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UbBcAh4T1v4DDmAMg4kIQAG0qp22bAQI/view",
+        "file": "2023-uas.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "ad629b2d99b8357fee8702534637f7cb741029b945f331d7d310507c6bfba361",
+        "referencePages": [
+          8,
+          9,
+          10
+        ]
+      },
+      "steps": 10,
+      "visuals": {
+        "primary": {
+          "kind": "venturi",
+          "data": "ac06a34763970e0e5b1caec50bbb616803cea5ee0c1a26330df125a292682c0f",
+          "caption": {
+            "id": "57cbfb372167b5b78c1ae1cd6df873d08ccd1c21af337fa645f5581171156fb8",
+            "en": "43595fde31bcca29145ef38aa14d83097d473296e82256f086608fab61458c71"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "29330d70f020e7bf977ea487680851d4a0bbf4caa56229e0c4f2af5e816d9534",
+          "statement": "0b887aaec574a4656fbb0b74d119ea32bf089e3049498ee124c878e1f3eed86e",
+          "given": [],
+          "assumptions": [
+            "f4a1545ae665c9e3ccad890376c1e489a39111cea3451379e54d4de86cb3a9c8"
+          ],
+          "finalAnswer": "ee3cb4b6e0b4fabac2485897e658d9a9ce67a9e93ed8cc6381837595c3666e25",
+          "stepsSha256": "fb80a4bf6a5ab3429d49f08b49752fe6b47a3f12dd5117fdb57ebe605b38d5f3"
+        },
+        "en": {
+          "title": "cd4d59552316ca94a524857f8e4a75a37c6a2c5ea6a65297c562bfbe28cf5d9a",
+          "statement": "2e3685ba0d632af94efce001f62c4096e8de2c960d3715976b67605f227cb2bb",
+          "given": [],
+          "assumptions": [
+            "32772124571e4498cd38c13e331b77c6f124deeddb5601a02eceda1308d4ff36"
+          ],
+          "finalAnswer": "d8655261907becf21ddb3581bf93b6d05374c49835828f4e2185e395d12a014d",
+          "stepsSha256": "67e9a73360eaa3b0178c7a1b92a839106e297676543bf1ce2315c0f2a24cec68"
+        }
+      }
+    },
+    {
+      "id": "2023-uas-q2",
+      "topic": "statistics",
+      "exam": {
+        "year": 2023,
+        "term": "UAS",
+        "number": 2
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UbBcAh4T1v4DDmAMg4kIQAG0qp22bAQI/view",
+        "file": "2023-uas.pdf",
+        "pages": [
+          1
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "861a0c38dbbfff8eadd42910990072f4ae82221500dbd2c61d2ef0f50d537f6a",
+        "referencePages": []
+      },
+      "steps": 7,
+      "visuals": {
+        "primary": {
+          "kind": "statistics",
+          "data": "4c9d2ecbe940f99545b2843c486a5bded61de1e44594c2313e4fe12f74f2ad06",
+          "caption": {
+            "id": "3ee2227b3313b24680deeb6ee5783b8b6f281cc23d6a9fa2bf002da4f1775574",
+            "en": "b2d36af699cdf6b704a4d5252175f81211a3fe2d678d50b64b95cc92a0c020cb"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "296bdba067e79751a5a77004137f0a5370c41d34525c48a44885a8e01b39da52",
+          "statement": "d5b39e5809f76bbb8a5a0bbdc1cce66031b77af149a806a90a3e577827acdccc",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "1e5533aa741d4e3fbe82f2191577ae7f44ca262584442cb366f830f19e707566",
+          "stepsSha256": "884037b568c81a801a5a495c127fe2d242e8eb7e62922289a296f7501b2c2824"
+        },
+        "en": {
+          "title": "8c1db16fcbea0d92ca7da4bf4a9890f3fe1fabcddd3b0bc531a3fe96744de628",
+          "statement": "108d9a8ab7df2cf38658223b808798adba9108d9d7a7e73748011a135495c180",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "f92e6b776346b4e3d5cd544242f81f2ce142da03e3108cbdd5d6bfd06e8ff4ec",
+          "stepsSha256": "fee66fea3a467ba0b8a4482f83dd3c1ee8a1c3cf1f50a7c69762feffed6d0723"
+        }
+      }
+    },
+    {
+      "id": "2023-uas-q3",
+      "topic": "dynamics",
+      "exam": {
+        "year": 2023,
+        "term": "UAS",
+        "number": 3
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UbBcAh4T1v4DDmAMg4kIQAG0qp22bAQI/view",
+        "file": "2023-uas.pdf",
+        "pages": [
+          1,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "b8f626a17a72b4d3fac98b6f0fe57ee5909411a6d904c49726de9ffe6395f09d",
+        "referencePages": [
+          2,
+          3
+        ]
+      },
+      "steps": 8,
+      "visuals": {
+        "primary": {
+          "kind": "rtd",
+          "data": "176bf81013cf071eb034f9012f1dee11a8d90028ae3fadf8bfc86be313de3875",
+          "caption": {
+            "id": "48339c2ab1b5d820b3763a8f46bc4f2d00440d55bb942fc645bfa0263afbbfa7",
+            "en": "63e623baf4db84624e4c89bebe504ab1b7e5cbb6c698863faea21ec09ef88b66"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "814707eac88874a20115175b4097060319cf67f5baa358393f98786cb034fd2d",
+          "statement": "242cfd7eaa81d702c5f9fcaa274683c57b0d3f61b623ae3f5cd77cc1d0a47264",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "ad5f9b1b394fc63a58ec299ce8a82376bf8b2e4fc20c9ac9a6a35e5acd85adb5",
+          "stepsSha256": "6699b1ef5bcac379bebb9a04a7d4f29777774dba04625cea0e00b0327a466353"
+        },
+        "en": {
+          "title": "5071feb551ca5f24462ea3f33cb007e8ff41b1c890d135059e5201af3189f25b",
+          "statement": "eabadc38da829558ff512387d1d27eef78c8d13f8d9992756755e2b4b3b5587d",
+          "given": [],
+          "assumptions": [],
+          "finalAnswer": "5b506316045dda12a8ccdb5deaf87895ce22ca56ccb9002e2702c0539b411cb1",
+          "stepsSha256": "8d804691cb805e0bbb3a93c01743ea38d3853946fa4e02214c20d4cd1e8a0a7c"
+        }
+      }
+    },
+    {
+      "id": "2023-uas-q4",
+      "topic": "position",
+      "exam": {
+        "year": 2023,
+        "term": "UAS",
+        "number": 4
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UbBcAh4T1v4DDmAMg4kIQAG0qp22bAQI/view",
+        "file": "2023-uas.pdf",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "9773e2540221664399ba73788bfbd454d6e9034152bb223ee0979715ab9ba36c",
+        "referencePages": [
+          15,
+          16,
+          18,
+          23
+        ]
+      },
+      "steps": 13,
+      "visuals": {
+        "primary": {
+          "kind": "resolver",
+          "data": "6b942a4e9bab8067ba87ad73e269fbb3ab3867260ce2e013e39d67532e738de5",
+          "caption": {
+            "id": "739d05e64212bef55acbcca446b42a94e9cf6ff0e0e511dc9636236c3891db42",
+            "en": "0ef35f786708a7fc85c894c4247cdf3b5deb3fde33becf98a465420fd4c1273b"
+          }
+        },
+        "extra": [],
+        "steps": [
+          {
+            "index": 2,
+            "kind": "lvdt",
+            "data": "19101a8a2996dd45c9bd045f23129faf2099a1023b102e2402723e18b57f2391",
+            "caption": {
+              "id": "b5196ea3f22916bffc3ed505e34d52b24125a5d4f8d289cd4f11b4a938fa6ca5",
+              "en": "57554ef98e687c5ece85f585eaf7772d6457d25002324dbbc88471de2db10ce1"
+            }
+          },
+          {
+            "index": 5,
+            "kind": "accelerometer",
+            "data": "7a1def7cf9b8400f880c08eb6a36441370815c409d37c36533a5f8f41c7b7e3b",
+            "caption": {
+              "id": "a9e0a4b0f90a5bf342d17ade643c9052614c62ad6a57725b72c778991ea186ca",
+              "en": "4de1db76caa253911b1cf19e84b996f9c45a82d6e8b76b994e55afbc31cc2d92"
+            }
+          },
+          {
+            "index": 7,
+            "kind": "accelerometer",
+            "data": "7a1def7cf9b8400f880c08eb6a36441370815c409d37c36533a5f8f41c7b7e3b",
+            "caption": {
+              "id": "1bc5df7df4c68403011c4e2d0c7a8d770e67e8d80a5e885932a133075029ff1e",
+              "en": "32646cc89e34de3005edcd60d21633208e3c783d84f75dc76e384706c6f1a492"
+            }
+          },
+          {
+            "index": 9,
+            "kind": "accelerometer",
+            "data": "6e4346e23b95d07b1b4de45aa3c7ff3e02b4b9bd8f784e32114da89f3fb73618",
+            "caption": {
+              "id": "86afc3114f1b94e7e6eebc8bc882b57c3b73f1bf110526ed751540ab107e5c59",
+              "en": "6b39931db080c9fbb6ebf7fc32877d36d57786198a49349e83ad1db3a7721692"
+            }
+          },
+          {
+            "index": 11,
+            "kind": "accelerometer",
+            "data": "33b9b61e5aaa703060ee8b6b1125fb898f01692a4734cbe49a20844f43c318a7",
+            "caption": {
+              "id": "ba1c6bde86b542b321dd83dff4102c45ae91f9892f3a5ab4d71ed35092b0c722",
+              "en": "c9873ee4e1c1c1e806b985ef747a224f5db7957617e2377611f9da755b47df14"
+            }
+          }
+        ]
+      },
+      "locales": {
+        "id": {
+          "title": "a925b1b3ab873e2e442eb118eb0cd3965f084eee9618057fd718c8283d1c62f6",
+          "statement": "5b590569699e2e97fb95a22a6741e01991e25252a22691572614400b2dc65e81",
+          "given": [],
+          "assumptions": [
+            "abfdef80535af12ef273ab2278f092092d9f6b8b7d94ca1b3433ee18f2ea9166",
+            "7dc2f090432a63f217d2e25ba3221c09a6c1f4c1245fcf1a192019a212588244"
+          ],
+          "finalAnswer": "1ebe2a91837473a4e649cd54a2121af273a356ef7112588d039bba62c29b9aaa",
+          "stepsSha256": "d0438210070f1b1e8dc60bb5396328401ab271f7629fd793bba3e8936b291d78"
+        },
+        "en": {
+          "title": "cafde00228d88cceb6e533d1ed577699a2efc0876f6b7a5beb81afb9b1eee225",
+          "statement": "b3b8b80961dfffb60b2c869a6ec07d555cd11df2fb702c3a2e36f32c8902cc48",
+          "given": [],
+          "assumptions": [
+            "5d8b382da9f70da0f04f983c421bdc316f63cbc78d72254ce372171feda2505c",
+            "42ee7d7f05861318fd9040b92ea9d5e43b9111677ddd3352db07e337f5bc7795"
+          ],
+          "finalAnswer": "fa1ee201495674675be46873d581eeb013648151475c26552f69c2eb052f57de",
+          "stepsSha256": "ebd9c825582a106450ee17396f0c6500a40594ad30123655529ed9cd922d0c5f"
+        }
+      }
+    },
+    {
+      "id": "2023-uas-q5",
+      "topic": "calibration",
+      "exam": {
+        "year": 2023,
+        "term": "UAS",
+        "number": 5
+      },
+      "source": {
+        "url": "https://drive.google.com/file/d/1UbBcAh4T1v4DDmAMg4kIQAG0qp22bAQI/view",
+        "file": "2023-uas.pdf",
+        "pages": [
+          2
+        ],
+        "originalLanguage": "en",
+        "originalSha256": "509319e720f4cfc2e53ede420b0cda8aa9f530617c9aa1d99ed0a1cb5ab9cd35",
+        "referencePages": []
+      },
+      "steps": 9,
+      "visuals": {
+        "primary": {
+          "kind": "calibration",
+          "data": "9f62ac09f487cd0a59fb3ffec44955b96d3d10c7b6311be700dc552df77426ed",
+          "caption": {
+            "id": "33d6ff943625e2d95fd45b446588440b8921700990abf5100ab6de97780f7bc7",
+            "en": "b7f5cacfca62c5beb26029a1abb868bca57ed759c259d35c84a2fb2bacf36607"
+          }
+        },
+        "extra": [],
+        "steps": []
+      },
+      "locales": {
+        "id": {
+          "title": "5387a54ee1e5c4520214b8e2c2847ca30ef8708edd2305515e4cd066a7afb458",
+          "statement": "aefc25164e7bda106c0367f34c9e4f2898312b34d225f6a0fde05ac4f69b0bb5",
+          "given": [],
+          "assumptions": [
+            "4fe4e203b843ae1a8c6655a6791a8dfa6892a6e33de18c1a05936781593230a9"
+          ],
+          "finalAnswer": "04229afa8f8d352af2aefc9e3631b8fe11e943cc650dbba03860aaed16ceec52",
+          "stepsSha256": "1f3a1152c8ff2df9a5c696c038de323c958b45a3ae3f16fabe0ad7ac35f5e18a"
+        },
+        "en": {
+          "title": "be6d39fddf4882bb0b37bbff7a6412347316dbe1b46814d9e3ada0e1548fbde3",
+          "statement": "7520a800cf447580fb4724b3a13d74f2c0f5cd8485abeb9a07472f258d296221",
+          "given": [],
+          "assumptions": [
+            "1d92b7f772468043e365b92fe2cc6c1f59a13f56be05124142a288e96ec0c35c"
+          ],
+          "finalAnswer": "35a9dd244c298152cb8cfbe5fa6b06adfa0fb6762a91a78b40d25375ab994274",
+          "stepsSha256": "e81137dfef06559a67a10899581d6559abb86c4f69cb90a6fdc1432d23d7feb7"
+        }
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "concept-2023-01",
+      "topic": "systems",
+      "correctIndex": 2,
+      "sourceQuestionId": "2023-uts1-q1",
+      "locales": {
+        "id": {
+          "prompt": "9a09519c5918b8d78262d79d652af2b97d8becd1665a3d553ad4c90de64b95eb",
+          "explanation": "3058b18305fdf0fc006c26607b5fc637041ea9a39e63c1bdb70f4e0912f3a1cf",
+          "options": [
+            {
+              "label": "887965aaf6d64708e59cb7099ba322376b792c76962c316201d780824527424f",
+              "feedback": "b0a15cc73044e63b556569a4aacd69914ee12add29c3fdb5b8f649f5fb10e991"
+            },
+            {
+              "label": "3f519556aa26760c8aaef042d15d021402dbc9caba1f8c2f786ccc4458ab9f22",
+              "feedback": "0d08d0ac6126f913dd067d578732cf04bd4ee86cea34b9df2e33cd6128af025f"
+            },
+            {
+              "label": "a92f35969511b30f68e06a38b90f346231785634187ba958e87e0770ed0d6757",
+              "feedback": "e93f32c0f1fa39e83101b8e185285b345de9f147ed0ea93a7e80a55768c912fe"
+            },
+            {
+              "label": "23ad703a9a5b1fa2a76909aa073c1b535c05e16149c3b52c79abea70fcdbf454",
+              "feedback": "3989e597be20ac3b74d413d1e7c9f9a54bdc066f96ac9588fbd291a29bea18c7"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "9ccd65dfff4f02943b74e8991328bde05a51603a405875722211ee957614ef8a",
+          "explanation": "34909980623b98bb42aa097c998e6f2bc05d93157bcf09fe1abab5a93090b6cb",
+          "options": [
+            {
+              "label": "1320c1ab2d9bb6e818e2cd81dc45f375748ffee2bdc2ff92a4908bff0aa367a5",
+              "feedback": "a823c14967b906aa2acd192f59436abc7936fabe1864ce2acfa90cc1a96d3bc3"
+            },
+            {
+              "label": "bd38ae8b3eb5fa9ea4a65656645db9db0fb55db19c80f1d64dba900396db35c7",
+              "feedback": "361af50ee0f712d252b447d4ae3cca92fd0332545e7eab6b6e465b208173e739"
+            },
+            {
+              "label": "bb7b639eddaa14354157d601c9e62ddf7a0384b2b990e42b458efe76061ca2f1",
+              "feedback": "315cfb5d33a24c611184d42b2ffbee7d11cb0148bea7888d0d8827cafe9c7396"
+            },
+            {
+              "label": "69de0b700778fe5323011901b5e689cf25f1a9b069b6b2721d1d69b187a7b836",
+              "feedback": "310e348d58bd8ffdcd957bb4bf71970e7ac89e7119d072cb3a19bfac5ca8982c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-02",
+      "topic": "calibration",
+      "correctIndex": 0,
+      "sourceQuestionId": "2023-uts1-q2",
+      "locales": {
+        "id": {
+          "prompt": "cc82b74034aca52a341419b75f93f475ceb407d95bc36ab23df9377b3701978a",
+          "explanation": "79abd4899fcac5f9662d19b4d2cd30a7796aca51dd87409ced30194813919ccc",
+          "options": [
+            {
+              "label": "a66a7fac543da2b29c638b4c1161d430755d1172654f767739b87d75e2da0a9d",
+              "feedback": "7aafe79145ca8d257d238167f76ae0b6e61efe51809039a9d9f9e95fb2b2a21e"
+            },
+            {
+              "label": "ca73c84c8edc592ed5a7137a7420baf0a35a0d7f3dc8532b8225b41bc7958c3b",
+              "feedback": "eac2af8d0556ba5ec3faa66e1ad0e269327c4f7bebc84eda362a96ce26a0aff1"
+            },
+            {
+              "label": "79f893eacb2711e547b553c6c24d1cf1f71a54deb026f88805d86c93eff6578f",
+              "feedback": "200587ea98530fa84c9957df533c9e02ffe6fa182da89c77340d0e92c700a38f"
+            },
+            {
+              "label": "96e1c14d411f5211e853547421ca156e14b78be7464fe0fcdbc9d0b7d236c905",
+              "feedback": "ed9c45677dda3e5e7db1b18dd228768489981c803cc64db41c06890a4c26c125"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "b6a208135a25a1c36103a240d3d553e02a9e491e823c9b5e80c7a6b88435db67",
+          "explanation": "4feece1c68e595b4603e76b124dd04e1534302a9ed37717c8d32ca95c263c957",
+          "options": [
+            {
+              "label": "130f9e7b26cda30882c512fd8bcbb425a5ba50f94a9ea3b23094933a9c3403d2",
+              "feedback": "e5b73e05a886415c54d16c01112893f802b61d71e77537b14ed33cf78ed27aa2"
+            },
+            {
+              "label": "f103fd41be9fd42d64d3daa84ab0b284c8e01b8701f84854cc69f3fca770aed4",
+              "feedback": "e03b29cbf8084c0f89dc864f901e9646e8cb1039ddd5b8cb3a32fd7be36622b1"
+            },
+            {
+              "label": "dac2f1adf1aad91db41d1c71a021f47b5e48c876ab7135a3d7f204eed893f5ec",
+              "feedback": "0a82d1ae430003429f7488ddcd9cf45579a08ac819cfa28455db64c736b566fc"
+            },
+            {
+              "label": "c11ba7898620d2bd7a30e3a4298df55574041285364d1805d647d3b48921229e",
+              "feedback": "20798115b8f847c4d4d2bc04296552f586bfac36c6444da7224752b2c692f61f"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-03",
+      "topic": "dynamics",
+      "correctIndex": 3,
+      "sourceQuestionId": "2023-uts1-q4",
+      "locales": {
+        "id": {
+          "prompt": "486443501e6fb1a2c903e043a7f4f7c8543a97d7303a014b0141e8684ce0b6e9",
+          "explanation": "47fa4997f8949f97b35ce294cdbcf094725cfcf33b33c253704b0dd3f489d7be",
+          "options": [
+            {
+              "label": "973af66babfe63e78218b348dabf4810e6e93fd5756cd984c478658d66f56b6b",
+              "feedback": "f37298523157f42963eead13a9521c3111fdcc1402b04b4f41da286cbf2145c6"
+            },
+            {
+              "label": "ee3d092479c41f38d96deec01ea9d4806c3b445d024abecbc5c751184059918a",
+              "feedback": "4714548795793a2421448debe496ab99d5115b703291f12a15c096c1fb32c3be"
+            },
+            {
+              "label": "54f6c60947c6ded9f7240458f8ef232905ca1191531ad05d6a297c46ea2e430d",
+              "feedback": "42e70ca56e6c40594553f34ba1a562357256133cc00b0566d7413dfd32909730"
+            },
+            {
+              "label": "8646dd98bfd4922f41ac1558563e504b55b2a4c5beb678896d8945e2f3b67783",
+              "feedback": "aefa1ade208118739accec621e6eff84e94d6b17960a4e09ce8c2aa1920089b3"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "7b760a74b1d502ba92e6b41715be3aeeda8937ed17f5b13f98fb6f077ef13a5b",
+          "explanation": "5622cb8e1b0271251ca9a405711bb810c86c0330ee6e00413569f6d0e9ccb54f",
+          "options": [
+            {
+              "label": "15ef78ba99f0d2681232cb8a8dae599ed7ae8ae92ef035a7244b451ceb92fa04",
+              "feedback": "06c628c95b84fa175ca09a71b08af39a2ee5a50fd881e96347a5e318a9165032"
+            },
+            {
+              "label": "1d247af98514ac3a3ad7e348474536c527c4446fb2ce4251b54e10995ba1e764",
+              "feedback": "841d0d1fb0fd3175abbf4254f1bfc48b495632c300f9c954b776191fbcf117b8"
+            },
+            {
+              "label": "75554b5c60d94c194f0513b2289d1dc7349c6d0b93861cac810d5f7032dc1f0c",
+              "feedback": "df70519f0a1587f0c7f5d7fd72974bb9e6b9869c2bbc47970669a8f3dec3915e"
+            },
+            {
+              "label": "4eee91fb03101b9adc5ab7028a056cfbc57803599639b5f10ad785c20ee4631b",
+              "feedback": "83783ca46fc513ff5806a946841623bc3bdc6e9bd72be34156be14cd9d68b913"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-04",
+      "topic": "flow",
+      "correctIndex": 1,
+      "sourceQuestionId": "2023-uas-q1",
+      "locales": {
+        "id": {
+          "prompt": "a97ba99e958ea5b8779b7e08d19e7e767dd409a453a6a07bb0cc8d16de81073b",
+          "explanation": "369fcbe8529c4162f2a38a152c0baccdddfa9d78ded88d4a13c252596cbc3ac7",
+          "options": [
+            {
+              "label": "241459367290a61d5dc4ba7807532c1814ab2b3469eb6292d4b8c28b1b85530c",
+              "feedback": "a6c354fab4a61108313b452eb7d8db1937441b6b71d10f84d02a4c77d2233290"
+            },
+            {
+              "label": "c30fcbca3f1347f655352cca886705bf74b73e9b8bf485b75271d3e1d1168e8f",
+              "feedback": "47f8a78cebf676d7cfcf67ff54944784f1aafca9810d1faa822ddb1751fd03b5"
+            },
+            {
+              "label": "cb13e3b111c2f6fabf9ad672e4099c7fa52b50f517c12c4fbb0954fddd821492",
+              "feedback": "25a818fc024b007e19846bdbcbd3c162b2b7de26f99ce694b12d33aa0c5c6a7b"
+            },
+            {
+              "label": "c7d13190a20ce86039bd8d48d720a77bd38d05ddb23d3dec0939e4652aafb195",
+              "feedback": "d20582db3b982b82222a24be0a9aa8ec5026c27c4d80f83e6e628359abf742ad"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "6d36b86b1f5fe04af911f69683a3615cc6c72f5e4eed1d0d24a1f3a849a5dba1",
+          "explanation": "80d7236d6a213d7c7af441771c154616299da36a80f793285aa62b882f097483",
+          "options": [
+            {
+              "label": "f6fc3e4f33ecaf64701be4a1440867d805e0df652f54c5c771d96ea61442f821",
+              "feedback": "b9573e0c31bce70cdb3ead1ac69633d41eafd44b03a036a2610f9173d3edebcd"
+            },
+            {
+              "label": "b5dedb18e3614866e59e13d292b3e2c898eed7ceb360ecddcc83210d5cb89f59",
+              "feedback": "94566a5ee408ac09047ec565f932ea5e262f5164cc7fbc789126f6667943bb91"
+            },
+            {
+              "label": "a291b3ddf2b46265b1b0fdd13ce07fee895a7af3d2d0fee55b1c0c796b5a8c48",
+              "feedback": "461bf3a2148eaabf18d9fbdde0004a05000693053779ef2d3f9482ac4c212ef2"
+            },
+            {
+              "label": "d4ca4bb28fdbcdc4f6279081e1b47517a046bd0a9a68ebf8775137103904e9b4",
+              "feedback": "9f19cfe4a4299a1af6147f48b5a1f0cee48b721da08ff2bd994ac1cc30cc10b1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-05",
+      "topic": "temperature",
+      "correctIndex": 3,
+      "sourceQuestionId": "2023-uts2-q2",
+      "locales": {
+        "id": {
+          "prompt": "698931a6ad2de7260918caab222a4409ca9ec9219c2310083c3e742c7d754ac1",
+          "explanation": "8bdd2982564ba85e0661ac5046cc95ea3c6d44e86646c1c412c85737e55f7a7e",
+          "options": [
+            {
+              "label": "58f4604803fcffc01d1bd95073ad2b297eec31b6b373eacf36e2559473de17a2",
+              "feedback": "3fe330caae39c648fc5aaea6f58d09b2f9f65f3160295d60ea11e876fa089f35"
+            },
+            {
+              "label": "7399811f79ed4e88f4ce720b48ad24b032e7715c8e46e91640fca58c7e12acf7",
+              "feedback": "ed2098fabd75d6f57485849bb50ad7272f9f580559beebd948b8d989dfb04f0f"
+            },
+            {
+              "label": "6d2a956bd7fbcc55a4ed00180508a090facdb7563dfb814603877fe620fb11d9",
+              "feedback": "9be33ae86bf71281125c2be5aef84178bf5fadc6715d678ca59a3ffd4c55e320"
+            },
+            {
+              "label": "0b0bbb234a07c7646a116c742329ddc49bbf93b3a6f70524574ab8bb37b3cc4d",
+              "feedback": "c55a47c2795efa356c10cf16820cdc1dab89383172966b630c59e956cd61f3c8"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "8e3ecec7773a21ef8940743a6f2bc224409092d133e0fc796f9711151115e84c",
+          "explanation": "56820505391d8de9e1368f73968750972441301ffb6a3d18bb27d3f7a3946a29",
+          "options": [
+            {
+              "label": "78c775c926e3caaa6137abd573b70959bc59feeac57a5d6e42ae78315d26b178",
+              "feedback": "2df06ce64affe9396458c61bd1c004944fb1cbb8887e520600028d080d6d0446"
+            },
+            {
+              "label": "e8f6aae64cef3266347b8f03c6f85f0beda1c680701373971bd990c62ab50ae6",
+              "feedback": "829733be0b5cc66dac5e4102c148c2a8c522ff0164bcf499f187164317ce0d12"
+            },
+            {
+              "label": "da8027ce3d70c6ead1fd14ee82f70f683613f7d81c091fae9b56e62f7c753fc0",
+              "feedback": "d9981b577658009e8c5e81bd083af08e22e7017a85f9a54110f8627de5a75d66"
+            },
+            {
+              "label": "8147265c9285a9b5a7596c26e079b2c1accef521596153bf4eaafcf1f7b90b06",
+              "feedback": "3d98534c2e9f5d00ea6abd4d891abf78db7d05ddc8d212d419708194f3831525"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-06",
+      "topic": "position",
+      "correctIndex": 2,
+      "sourceQuestionId": "2023-uts2-q3",
+      "locales": {
+        "id": {
+          "prompt": "43892843dc8dd41c9a767940016e1062b2f43a6ea528b259d72cf68c1fccae6d",
+          "explanation": "05f80430057ebc0e76adca8d734ecfb1d93650789e62d24a36eb80fac4d365d0",
+          "options": [
+            {
+              "label": "4e3429bb0175def601a4e92c970a376c42970f27a115c3d4fee33a06d4690496",
+              "feedback": "f42bf25588c19c39f6283b4fbf73a2229c3fc39a9f835fbe6b74d458524969b3"
+            },
+            {
+              "label": "680209a7efec788e2a2e2df2de9d3784140db4d9e28c9254cbb155e6479c654f",
+              "feedback": "6bef8ffc0aa855a2e001194303dae702a33e3e3b7b7b02bcc38fc4f074292d78"
+            },
+            {
+              "label": "61faebba513f78ef778c0bc3f760bfa715627f89f3546a3b664c236c4d1c2b0f",
+              "feedback": "b4062e52e72d0fdaaedd010c99d9ecdf40e21cb5966cb6c7120d685641dce222"
+            },
+            {
+              "label": "745277b41c74d30285ee9aaece0ebde53052ea90767487c8a2d16d244386e47e",
+              "feedback": "07f12c41947fb3ef9dbca5720c7aae0291fe0c9f020afc4b8d1a2234142f5347"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "af9ec44d773b08d13e7348d9ff6bb961a6b47b87cceba9ad40476efec6721568",
+          "explanation": "ce9dd5c24b384277a8d2eef431deecf1c79e5592805b391a5c515bd3055bc2ef",
+          "options": [
+            {
+              "label": "891e674c4cc179fd3c021c5e95787ed93ca3530ab95b594009c4b7b4628c9c16",
+              "feedback": "aea6b9fd5b9896b8a9c9432e9146a41d475ebc26e0876f3ce5323a11cc8e56c1"
+            },
+            {
+              "label": "19846625ad78b280751f334599bc7305ef789d397129d9f58c37ba58d5cf084f",
+              "feedback": "bf1fcf095b4fd069c52135c14581f4e776c4665da7d4357fc57799797c6dd1ab"
+            },
+            {
+              "label": "3adb3661c8d1e4d927db9678e81f0ff71556115f0ccdc871554bd02a7087d388",
+              "feedback": "5c8e111b04295ebcd6bc2ecde66919783f097769ae8b89e257decdada26d0a3e"
+            },
+            {
+              "label": "90aedf35542d25c8777477810aeed5545c2b740fb253696eb7b1f0b66e7e4736",
+              "feedback": "6f0f06d7954bed60bfe62ea4067d016cdd2c7aea65c492ba16477c82488fe313"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-07",
+      "topic": "position",
+      "correctIndex": 0,
+      "sourceQuestionId": "2023-uts2-q3",
+      "locales": {
+        "id": {
+          "prompt": "5763598345806210602cdf3f06d165cef528f1aaef8affb1f9cb67960d5a4349",
+          "explanation": "e14556f38c7c3949bb69c283078dc9c3184e85fa84e00e4d643595e5170e3b39",
+          "options": [
+            {
+              "label": "bda894782aecd7554434fd0f6ca4b8d67253a6bf9312f96997aff8eceaddd34e",
+              "feedback": "7717e53ee47afe59772364f29f14fafcb100e7bd86d30d4da2f01a6398b1b0b7"
+            },
+            {
+              "label": "4a0fccecf53f5628bae0a1a98c2b14b179830182b6b32c0004080af27c33985a",
+              "feedback": "39aa3352723ddd5beb37c41a7cd5d47a402217c8da18ecd7855d57a52aea4d04"
+            },
+            {
+              "label": "29a0f6437aadacc6e74cb6bd081135ed25f2d6cbde3540d40c6c4207404b35de",
+              "feedback": "fced4b3195734d6a2ede5fad0004f1a9d1a920adf0fb3f939cc555f18079ad2c"
+            },
+            {
+              "label": "f2f42b0ea3910eede0cf964a4de5b41059476181bfca7ee2d4eae62de4d00c20",
+              "feedback": "4942e2c8cf9993c770e8b5569f081e819af07014b4652fd945b87e0403bb63f9"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "810adf859457f1d18a8dc4a19bf4b908b9e7e61f6581622524c2ae5161a7ffe6",
+          "explanation": "ae61172758b6c77638991f9b57af85a7fda192ee2ec8cdeeb156442c9965dfa0",
+          "options": [
+            {
+              "label": "a99f2b5f8d0afdcc1eb32d17f4691317c30c0904fa3f12e961487135fe1a2b9d",
+              "feedback": "00867180bcfeef6d228a9764568f39a2989a881700534346dcf3c956b9fa76c3"
+            },
+            {
+              "label": "f5de1611474e2e2c7d0898a8e60ff565144b88bb6d5a93dcd1d6672c38d075d8",
+              "feedback": "b5f42c83279556f796816f8bef96de82bcd8cc9b2c47532b23bcd5a4a7148dc6"
+            },
+            {
+              "label": "6baefb9645a8e8545a300ce79cd7a7a82ffdf6d0a0cf461fbf32b1555f0e62e1",
+              "feedback": "4760f965a889b9e28bd20630d2f7b898f4b5fe401e8a87560bbed17ceabbd56f"
+            },
+            {
+              "label": "d77280ecafb77ec99b64eca3f4a56ed24c3e0ad6128246c49b83d900fc6394f0",
+              "feedback": "b9524f28aa2111395ba5e9aa2dfb1a9c09fe2d7eedd50007516e175995e9c2b5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-08",
+      "topic": "dynamics",
+      "correctIndex": 2,
+      "sourceQuestionId": "2023-uts2-q4",
+      "locales": {
+        "id": {
+          "prompt": "fa07ef35e61ee2916a7d038be6100334ec6fabb0d71e3a0fae99c386afde5732",
+          "explanation": "f7984896637fa199a10be8ac2d8e48b247392708f0baee715157126f6c95a04b",
+          "options": [
+            {
+              "label": "bdf6b08d62e379646bc9bc8a950402acc89676536645ee0cbb55a65e23ee6e5c",
+              "feedback": "fdade29fbdd4862b5fa3ca5c64c065f7fa81f30ceb488603d270a7c330a43d5d"
+            },
+            {
+              "label": "b4f6aa60ce8feba78265b48ffb632ce5f29b5356fa48825e9f392accdb4f78d1",
+              "feedback": "80b0e33c322e2c6e523407ea9928da1e11fe0062983bc9877d1c862626996cf7"
+            },
+            {
+              "label": "a906a902255b124221911c451044229b7fa28903f921268abf282ab76a92ab2b",
+              "feedback": "c160744aa8979079e6f4f93a862b28fe942ba82b3bfe974e1e281ed1f1febeb8"
+            },
+            {
+              "label": "7b3cdae258cc4e0d674e1f6287bb14f60376a957ee889a3f2f12a56e56c576dd",
+              "feedback": "e37024c466aee68eb29e4d6091c9ba81a1db6c372129918e8bed445f13192bb7"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "4fbf562c437e01657390457ad3af2277dbf1d29ed02de72111edb7b666ebfc7f",
+          "explanation": "e91e09e4ee583d8caf0c1aa2b681ab911e2655bfe3f81b1cae8307d2032d2227",
+          "options": [
+            {
+              "label": "7bc1643deb094411fa092ea39098362410b0566f81f1e0264d7b73f7caab1329",
+              "feedback": "cacba55599cfe848d1e91fb5b7027660541616213f132e1438d18e8b0cfca18c"
+            },
+            {
+              "label": "dd176e86d7a7c7642a81fa9a9ce4547cc3d8e615e7a6f6910b57cd3cd2c01486",
+              "feedback": "0a382d8cb11df5e6e28f1590768115e9217683563ce51eda40d33ed966a3a418"
+            },
+            {
+              "label": "9669aa36d0ac14fe91e7ed6b2d143d7db9b335242acf3067ebcc0335694649df",
+              "feedback": "4c1e688b10c364c20266db3205031334ec7e4e532e0556ad8d27ab65efd51e6a"
+            },
+            {
+              "label": "90b4adb1ee244df67623d240c81aca9108419159bd269d2c5e0bf0637985f322",
+              "feedback": "90d02dd5c792fe39dcf7134cea047f9af9b4676e1b6cff590ba1d3e7cdcc0fc3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-09",
+      "topic": "statistics",
+      "correctIndex": 1,
+      "sourceQuestionId": "2023-uas-q2",
+      "locales": {
+        "id": {
+          "prompt": "5c1135588909913eadef14abbdc53ffcaa257bb7c44ad232f75e4e08776c718f",
+          "explanation": "4bf73955fc20e1377b530c732a47e2c6c8d18b2638b2def6bcef128e16c8f13b",
+          "options": [
+            {
+              "label": "b3f2cbf2958e197007ca8466fe963a8582a13a5d9a60140d5e1c61393583e362",
+              "feedback": "6e48e69d6e75d8047bc56394ca1410ad5f652f7d86c9d6d07af2c757000a964f"
+            },
+            {
+              "label": "58c035d3cc6eebd9a40850561decaf43ec7ad7651e37ef208a284bc96d08970a",
+              "feedback": "2898da818c5109cd49ecea01c593b024cebc9c0ef9a1e5fd785adb4156d05e45"
+            },
+            {
+              "label": "59cc9f6bb4fb5ff6eed53b027565e6d240fcf2a15ff12174a41e66c573014eec",
+              "feedback": "e9b41d757e4d5a5a786e03f54768eb4cc2c0b4390c1e3b5db8f397364cf6c84d"
+            },
+            {
+              "label": "0a9e906bbc433e6cc40732911f01eb43c80dba6ca2be4da86ea53c76e7ee73ca",
+              "feedback": "69b252b0c95db5a55bcc76ed0f7839de6e232851d8fac6406f9b8ae43bfefa5c"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "3030e911ede098a463062272b3e1adbd1979fe36ace4b771946adf46ca69e66e",
+          "explanation": "162b33e1556e15732c0e3ba823ccdcd07e7d63a441943618f983384ba6c5115d",
+          "options": [
+            {
+              "label": "f5686a58e8db969dc51f280433e38192a133b5e3a2b77fabeefe07a29519e787",
+              "feedback": "f8486c160174cc2ed228bbc4943cd6a7ddf1fa0a0e3d87331c23db5ec017437e"
+            },
+            {
+              "label": "89013aee3fc108e2d06f8435ac2376aef440d42613cc5c88e62088f9ebc77a87",
+              "feedback": "537ad806ade7273bc5b70302caab9ff1e8c23085a52a37d9565c056c8b3e3462"
+            },
+            {
+              "label": "78c4470f7d7bd36421b2f3b4d67dd8c4e350d1a96db724192fe9f65841abbbf5",
+              "feedback": "9203bce4bcffa941f3a6cd4db80526874c6ca2b91f7569a5e329f662d62fc1a1"
+            },
+            {
+              "label": "62431748175935bb0826f66c39d29ae9062bde3ae9a657e49c93b2f845aa8a19",
+              "feedback": "8e2a14c21afe56255dc1b2936189d72197b4017a23cee4a10d04a0e93494f0f9"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2023-10",
+      "topic": "dynamics",
+      "correctIndex": 0,
+      "sourceQuestionId": "2023-uas-q4",
+      "locales": {
+        "id": {
+          "prompt": "6100714780a0bd839642fbcf4fe5392cf98fd64e70e288fc8b750109e7ce0bcf",
+          "explanation": "2a0a4b47ff6b5bf9f39c863b10d8d832d57a65de2bfed2e396034e8161b286ba",
+          "options": [
+            {
+              "label": "7b72dbbaeb2beac9d7b4d324826694f9c6a0d3c347f4aacbf8dc04fb361760cf",
+              "feedback": "639e833c0cc87e0fb0b7af23a89aa0ad9225268c6c6b5436b2916fc8d9486b1d"
+            },
+            {
+              "label": "9b413955e4d162d25b37f419e32bdd7699548fe394e7363a6b7360f2f26fb486",
+              "feedback": "5ff1484c6f2ac0aa6d66a93e61e0e88f05165a6a6ba85b878140df2efcde6e63"
+            },
+            {
+              "label": "b67333c0e20f310f0c76f5c09a6bb2f39700899de4c23be3e94d1ed7a10bc381",
+              "feedback": "99b7bb2f81f2928ad763ff029c140b2b9142c08ab33b7d606de6a0d1f673b7c9"
+            },
+            {
+              "label": "cbc216a4e395492dbc2bca0ee150cc2b124df208a413a57216e64c2150224aa1",
+              "feedback": "6bf3f4eac094811c53e568309746d477e06096ae3cfb93a5381a27d95a201a07"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "af3e8a22e728b7d15b12242757e17208ce7a46d7f62d5c949ceb308d3e1c7799",
+          "explanation": "e895c01c51a0ec37b5970dd420e2b929077642c2d7596fcce4cde457f7f764cd",
+          "options": [
+            {
+              "label": "2cfad382c2c68ce259a5d0fabfeaf05eb7f4b8480f63b90d30b4b874323f2e5d",
+              "feedback": "70e28819b2d380d61039229c6dc317f4a147d56c001d4a1617d0fc2626eba427"
+            },
+            {
+              "label": "0f2989a5634e8c09d19c102cb654db53b7805c32fa496dd33f56a7a01ef0ab23",
+              "feedback": "a5170b6499d7616db0e9c6c28dfdf99b54377aa87f1bde57e348d61f383b7289"
+            },
+            {
+              "label": "dda4ce615aac36e69aafd6513425a4453488dea424aae86ccca665a0c9e14ce1",
+              "feedback": "ba975213e6d76312a92b963df017cbece29179171c36237b6e94549919698d84"
+            },
+            {
+              "label": "62dc63fe236d2bfbb6fa2ba0d5f8f898a0daa3d17a93ebc34c476f5eb2c3def3",
+              "feedback": "c207980b6edd2237fe670a2211733c54e108188f99439db69350e2c533862618"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-01",
+      "topic": "temperature",
+      "correctIndex": 0,
+      "sourceQuestionId": "2024-uts2-q1",
+      "locales": {
+        "id": {
+          "prompt": "efdd86b9fe57a5807c7e7bb7c4cceef776c7a703cfc360b491ec683ec1cdd7b5",
+          "explanation": "1170068e19876255be17668fb101221ff4808e9a7481b9d3c0ea28db25b95da6",
+          "options": [
+            {
+              "label": "b43f9c2d9ce074a3ca4382f1b184b4e456fbec4729724ccf2b7be38a55bde476",
+              "feedback": "f468a2edf4341e08254fb91ce43fc7d12e327d05d8f97926e7e31fe0bb21a2af"
+            },
+            {
+              "label": "7bb468dca606d36cfe9f4894b95e9390433a22e5be6815645c7c86967eadea02",
+              "feedback": "bea7336118516becaf4a5eabab35f0c4b2ed36ae987b1964b9281cfc3139bbee"
+            },
+            {
+              "label": "6c03cb853e541aa0ad57df25cb668e9116af5e420ab2d9ac148a10363f74dc4f",
+              "feedback": "90e0096b085983cb63317e6dd9c5583dd9cc3296f09742e51c2e0800e273719b"
+            },
+            {
+              "label": "f60e59ee803cad53661ceec92de83a4d12f79ff5338aacd7be961e62ad8ab713",
+              "feedback": "adf31e6a36d053c2b0e5e32114a29588471bdd9a32897c854331bcd5ffd62878"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "12320f7be5e42e68dcb983338bea26e904d676b131082bb737b7c38aec434cd9",
+          "explanation": "248b2a1e3a53d3bd7b6a39c247ee48db5f07388372f1298027dba53bd7d56e31",
+          "options": [
+            {
+              "label": "2b6549fed8ee1de2d5392820af68a2a165dc881f4e2591fbe2cb6ac03bc18840",
+              "feedback": "3963e9c03499a231feb750ce5f869a6b0f82b9ab161943df19364436a5d37856"
+            },
+            {
+              "label": "f8c6c605e2577d968a2a1d7ba53cbd90bca9d0b05de09c3565e8977e55847b6c",
+              "feedback": "daad4e6662284224ac97c20014a7577e1ccf502ef0c7cf5d76a312c2137d20fd"
+            },
+            {
+              "label": "78b9562293fb1c322483aa717948328792b469c4af2b96449479d41b17805c1a",
+              "feedback": "ba3094c91da239445ecf0ddcb3b83a9ca6d4af2bd4c8e865b500c27b3e08c4ca"
+            },
+            {
+              "label": "603472c5094329d853f9746c1134182c0dba8beef35a7fa7608dcb940ffaf245",
+              "feedback": "98d9456099d37823a2bec42cae87e83fffef0f8ef2fa78dfee9670a1771a7a5e"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-02",
+      "topic": "temperature",
+      "correctIndex": 2,
+      "sourceQuestionId": "2024-uts1-q1",
+      "locales": {
+        "id": {
+          "prompt": "89ae3d59a4d5fe1ff22c396a4b0bfb197aeb1f63b0b124cc329972d18acc1768",
+          "explanation": "7eefc02a7f806b4c927c8db645668ab94db99de4ffe57f5089289bca517b296c",
+          "options": [
+            {
+              "label": "ea83d3daabb580fec6a8f1311f00f46b6b1153806078154bbb1abc2c26c16463",
+              "feedback": "ab8a5992a9057b00412880d28e473706fb321432d3a45eded695e002c48b6e0f"
+            },
+            {
+              "label": "89c6bf5eed8f459a5b98d39adb7c3df3bc3d69af2cca9a00aea9a86a679d5dce",
+              "feedback": "2e3dfc1653ba046c62c77766a62a7d8c0e30abbd74b04d52cbbb87eb319fbb72"
+            },
+            {
+              "label": "457556799d7245aee7a36f77fd041156c4b7c9a4099e9f40d46dd3b84336a78c",
+              "feedback": "4dbff4d110cb5f7a9ec025ae98bccfe8aba4c67d5e42860cbdef66b4733163b3"
+            },
+            {
+              "label": "5d71caa5f6649f5682ca9e80239b4a7afb63a868f4e1dd9d9473e454ab1436e2",
+              "feedback": "437344dc3a84021c8d32f46456785a2d65555d54edb1508a7428b73e0b126de2"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "eebd0a0d9e5a8d6d48ec73b5f8a69765becf521fd6c016fbfe456e2b0704e73f",
+          "explanation": "7b01b63c402d23ffd58b542492126e3ba1299f3dc47e4c94c17a919bb3ab91e8",
+          "options": [
+            {
+              "label": "fab504a5f6dccfb966290ed690f6bce440be095432b46ba5e785839c83f62fe9",
+              "feedback": "acc10fabe2aa8cce41f6d493fcd8ae2688c62f8be56aeb4d8e7448767e25f79a"
+            },
+            {
+              "label": "a12653b7a419954e1f7b2ed00c2461508efcd8ec981bda61264fae36b186cf5c",
+              "feedback": "f81e3f24a001fd8215d7a4d9139fa49aecad2b88a7f40470a1b70fc1c7f194ec"
+            },
+            {
+              "label": "ca1a8cd15d688ac855cb9cadafbe17200a75b73260d38d90691e279d53a3a5df",
+              "feedback": "ece1fed64ae73501ae8c7bc217420404832d0dc1e99eb1dd0740923f6a548830"
+            },
+            {
+              "label": "a80f64cfa5323a26eeaadf1e319dd8e063d01759191586e367397ae06c71a89d",
+              "feedback": "1e445ac60b5c3b25c4f18012533b1c4a5454fc7c7903acaeee2a8938f6db1572"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-03",
+      "topic": "flow",
+      "correctIndex": 1,
+      "sourceQuestionId": "2024-uts2-q3",
+      "locales": {
+        "id": {
+          "prompt": "77c57993d47efa0fcc6d6554e41ce46cd0674f6b60ab60021fa3f5fce8516143",
+          "explanation": "5530562231596557c46cde0e5c79ca733ebca3f7321dd08de30b2c8f4e401ad0",
+          "options": [
+            {
+              "label": "1050fff71f9d5113cd32af5de336ec5c5d6ef714c0dad3dc16b8da3e5cf9d53d",
+              "feedback": "8b59fe622c14e74eecf5693d39ee0e80ba6fef3d4cd0accb3f7727c61df98d64"
+            },
+            {
+              "label": "92516068ca59b24c64e13e2655e993812637e1597a56145c9fe41b8fe89f40f4",
+              "feedback": "6e113ad3e8e8dd7b34de092b3e53cb164f7898081ad03503a0c5a9f505730319"
+            },
+            {
+              "label": "cb2db21adb4d95ae32945618a02fcbcfcca34fa4ec2ee8ac00812d6b72c321b8",
+              "feedback": "25ad4efb6d9a3ffc03974b0c37134eae06194910efc2d2137c1d73e1a70d2991"
+            },
+            {
+              "label": "8b2d67b15bb48ab63013c94734de41782686b6898a823d67d21d7bc27820e58a",
+              "feedback": "c8a5169cb0a6e5b906040fc9e3bf074bdca90ca5d3b129f0b959cca947498bcc"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "5bfcf01627e3504a40fd3c7d3ca4d3d3164a988d17b03d6cdd8595d6ea4c1528",
+          "explanation": "eaafad716c0f5216faac7d33909d9019861955bc67e1d41ff22720cc091707b6",
+          "options": [
+            {
+              "label": "4b6f291615192d4ddd03052bca77f7410dcfe1dbd7b1074fd4974e69f80a9246",
+              "feedback": "dcc2d701dc960ffafb4a44d52f381ee680c9d72dd716b75f47f06e52c9c07e2b"
+            },
+            {
+              "label": "18f2c287fb32345238955592141c7543144ff02e3dd6d9a316613aea0fc90446",
+              "feedback": "1b6c8994350ed7200902bb39729673f3cbfefffd55bf26c84e6f550f8ad4d6ce"
+            },
+            {
+              "label": "3efbb2a928e8d8b991d088c8f191a614f2bc48b7116624b82cc815fb0ee05c2e",
+              "feedback": "287a9e3cf322f87564580cc202f9a794a787b76cd0c41c118c846eb7526ed83f"
+            },
+            {
+              "label": "f7df22b6a9ea2d99e3d678ccc572cad1bbf204d15ed8e82116af930892cef1d5",
+              "feedback": "906e8d6068edd34129c64ed68d305874c73c5c1c8b0192699294e7f712801fb6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-04",
+      "topic": "systems",
+      "correctIndex": 1,
+      "sourceQuestionId": "2024-uts1-q3",
+      "locales": {
+        "id": {
+          "prompt": "9637b5240c0e1d999337248bf300757825e55a3ee3957d91a10197133b6c6cc8",
+          "explanation": "d580e110f73ef05eb22a7bb35713e2104acd6adb290a3969093d7610eab1ba95",
+          "options": [
+            {
+              "label": "02c511ddfad1d9a49f38154a83f1af5e246873badc2248877bcd2550fd8ee575",
+              "feedback": "95ae312ddfa2a3c1dd81e580885d97b4a55c95463aaa09537f82c0ccafa43f25"
+            },
+            {
+              "label": "08882e7f45c4ef46c287a04153ba262318152ae9e4917dcbfee128c359e2b36e",
+              "feedback": "4c01357d0fdc64d28c8dfadeff6ac054e284038953dda94e355b5b52b540438b"
+            },
+            {
+              "label": "8ed7ed03ae3253cb66292c3fcfce91011a640f8c38264bc39e0ad651bd1d1e88",
+              "feedback": "bfda5ed32528c37399a2edddfc9edab97fb3f8aa667201328518a72a9431b586"
+            },
+            {
+              "label": "477dc74f1a45662ec433840fac3a54d17a8cc64c6f38d68b79d028542808cea2",
+              "feedback": "a55246baf8d3fdb90ff33dabace47f05a791423d2a2f283557218b9d027a733c"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "f0aff018163d8f7fb48f95c01462d80b3fc2e6e7dba0033c0fea0b883a0fdf88",
+          "explanation": "0861aae17547efc60f2a8b02c62d6b7d690487a1aa232672770ec8d7b761b0ee",
+          "options": [
+            {
+              "label": "91e3698b74cd18daa83668a37261adfcfc4a47cdc4e69b05a4d8e090a19a33cb",
+              "feedback": "c660fefb7f35b4f1c7fdc1c0a20f83b91e29d6332ecad2ef8d2f85f3fe586f1d"
+            },
+            {
+              "label": "dc0de64a85deb1e5abd9a4a8d48456fb9c224f022c5d2fd9a05d7da914d6b8a9",
+              "feedback": "c3ea938dcacf66aace0719da8e1f6004aa95256a3e326db9a71da51f35d40240"
+            },
+            {
+              "label": "e52c1d5c4d54d1868a399456063e6e50a81100a04c8a674c278ca582c226ca1a",
+              "feedback": "7101b32eb32738bf6b18a6f44872fc755b8f573a1fea93580c3df37a4c8319e5"
+            },
+            {
+              "label": "2aba52d4f3a0c58c5855ce3a19430051077d6c47b467e8a4b02c518a000ebac3",
+              "feedback": "4c8c86dc5ccb80af979ede929743b3e4eccf1f47203e6553f52d33a5a000e2a3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-05",
+      "topic": "flow",
+      "correctIndex": 2,
+      "sourceQuestionId": "2024-uas-q4",
+      "locales": {
+        "id": {
+          "prompt": "8c54f169b9749a95de99615756c3acfd01f2b9c87fc0b67ffc31a0776cc22a31",
+          "explanation": "80ab2c8eca72c22621c81f113ff99b8bfb5facd69f74f8ae1935521cdd7a30c9",
+          "options": [
+            {
+              "label": "48f0aa56d7cff778fb26215ac68e8d12ec818a0e6b694829c04d188fa375a5b4",
+              "feedback": "81b726b7cd1b6ece141153f1648de0809c8c63df958d52e5bf29e4ea41021fcc"
+            },
+            {
+              "label": "a48110ca7297124eee72f278d9982d48c8c97e34791f397650822bf2c1189709",
+              "feedback": "4076948510eddcd7ddb7138970a82a81e3e485c85a1b390b24c19ab025e08f41"
+            },
+            {
+              "label": "4e01a5980eb98808712030621b6bfed793d8087e74842d9eb7ea50f56e2ef2a5",
+              "feedback": "f884c9c5617eac58583e7dd815b0d9bb8cf4de2e3ecf5caabb1f322edd75efbb"
+            },
+            {
+              "label": "a38be907ff1a33eddcaaf8f6288a95e27d53be3347ee4be7ca0aaf74f4858ed1",
+              "feedback": "f6c4a3353bf93a37d7a51d5f9300e2dbec81d91baf0ef0eef5adeea1e78507a8"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "ecb425d495c3f25e06e0484c66e042686f59aeea78a9895b816f8497019a4f38",
+          "explanation": "c0d62b28dfac520a01c8e473dcc84e596b274a76820a1bf31f61b27cf9a4bcef",
+          "options": [
+            {
+              "label": "2bed9bb0a19faf63ba1618b088ef0e12db7d2f3c298d715acbc9ec7abb5e4a78",
+              "feedback": "f015f3796c7bd4c0f36d80037e2816e7fc1c8dc8f1d5d774b3428a8725e7af59"
+            },
+            {
+              "label": "e1db557aefe1f83cf6a6dc290b028ae741df1759e1d121a32ae6c880606fab4f",
+              "feedback": "9fb9dd831a162011b790e02bf3fcf9efbf3f1075a87f8253f8aa104e9a838497"
+            },
+            {
+              "label": "59b3c691cea5bc79a2d6ae2dd7eb2ab3f3f9be3dbb87c3ef402104b66c331071",
+              "feedback": "5b1c35f3b1f44cb04452f2396b81d0c09ca756e92eb08064c944f52f7b60e178"
+            },
+            {
+              "label": "21708c6d19e5b9a0884586b8fb5a7848aa3d7b4bd77783be820b26c83a22f3a8",
+              "feedback": "5f1fe8698d67d3f76fbb5b55942e372189faeef04f6811650374df9b80d81c94"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-06",
+      "topic": "calibration",
+      "correctIndex": 1,
+      "sourceQuestionId": "2024-uas-q1",
+      "locales": {
+        "id": {
+          "prompt": "2e9da5af5868812d4f4803b9086a4fbb769b460a90b57c20075fc6d9f86fee70",
+          "explanation": "070ee3ff961ca1a02544f3fabd6ad4d2bc29865587a30c3fe4cf3052243d9f4f",
+          "options": [
+            {
+              "label": "5d48cd818a2b55e050c0fd904922746952234c179d5de1c6070a3e2c980b74b6",
+              "feedback": "fcce8265a2fa919be22bf14553510084924333b04aef319abe7228845be61a9a"
+            },
+            {
+              "label": "f464ad136f9ca6e8dc263d9b62b45c36433f4c9f0f341d8021288147e5fe2b2c",
+              "feedback": "13c3f1121b487716a4a1ccd3e9dd9bed0fd29a1e5d1b958e34ae9285d3f5b839"
+            },
+            {
+              "label": "9a545064649d8e9567a5ebc8e3701c0aea7b504d0242ef19271bb6b78aaaedd6",
+              "feedback": "4cbc60d3a3be267bfc22c645f3be5c3138cae3b49fb2b0ca76b74da39b49ebb4"
+            },
+            {
+              "label": "cc11ea74eeb35ce1bfafc8f509ba38f8400a0dc518a4e0935d7ea555b48ff573",
+              "feedback": "c1f679a0f392b9fe5cc3eec9248e2d827c75742a415fcc2a474ac0c6224dfcda"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "5926e8cf306b6fd6132ec5a0fd9ae2c8a7b7a58ac00a852363d56b6bddde8b51",
+          "explanation": "dee266eb808ec1988c883e857523c5fe8329dd2356df1a5d51053990db5d0d02",
+          "options": [
+            {
+              "label": "2141abcd2959aa4fbcb11604eb1555799475ee54c506294fa12d1f21401b2229",
+              "feedback": "ca57d45ceabef52e8e94a788b550efcaee2f125b710361d5bea718c2d9d69f37"
+            },
+            {
+              "label": "b07fa188402d8fafad2495fc7e3bd1b475adfbffa49749dad76937fdf155435a",
+              "feedback": "90d492b123feb6fafee50bdfff2393f7d93491d17438f953fa04fe54f8ab7e6b"
+            },
+            {
+              "label": "7d34b6f06de98ebda9cb7a14c1cc773d31af5a7110f1b4bd6d1428205f34571b",
+              "feedback": "8ffbc3d1df9e4add569d3b12a6591390d7bb2857a27135e08612f2e5d849d066"
+            },
+            {
+              "label": "3ffee3a70f5a946aaa93d5dd3792813807e475fb476f500b7a23acfb59d5537d",
+              "feedback": "9c1c1955806ebddda3f85919b524975cdab875de78dafd16b61f1f013107ba1d"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-07",
+      "topic": "signal",
+      "correctIndex": 0,
+      "sourceQuestionId": "2024-uas-q2",
+      "locales": {
+        "id": {
+          "prompt": "1597d917c5916ff9abe5e38b7de1257cf6fff6a5ad4ae4fd5aee30f3873e2aaa",
+          "explanation": "e94e10611ee4b020a3c78d73adbc03ea0f06d2195078cb0a51442e4159ece5a8",
+          "options": [
+            {
+              "label": "cd424c483f4b949db5cdf15bf13e042fe2501d236d0a2319abe0a6495c8f05d1",
+              "feedback": "672dc9f1b5bcab9b1e769ea6997f8b91b3ff04420928279dc543879b55588f73"
+            },
+            {
+              "label": "232e17f89624618dd3a3405fd3bf07e8d7ee297b9049ff00a103103ed3a694c7",
+              "feedback": "6ae97073435d28df4fc329992e773aa922c36ba822b9741d650238c9d3e4e159"
+            },
+            {
+              "label": "8520cb56105ecdf24118f570a6879cc90116f8d6d819e9421558ab2dd81d44f8",
+              "feedback": "057012958739a62be26af5719ed7356a2f17dee0611ff83453c3050216fdc23c"
+            },
+            {
+              "label": "5cd1080c9498d9ba0ff4b15a3b8f54f46663d2bd2c1921dca4636245ccd5369b",
+              "feedback": "5391e6b311261c800c9760ce315f12a29791f935fc0aba51dff9eac665801b93"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "3e599392e95466939e0bb3ac55b43cb4c0a5c050da370c0cc1fdcea72baff412",
+          "explanation": "41a571da94cee783842d9056ac6802ee3342990425f05f5be4e907b3fa6cddc0",
+          "options": [
+            {
+              "label": "f0abe3537a6c83bf19528bcc746a582a361b0811f1fbae908ae63d3725f84076",
+              "feedback": "80e5fd4deb96062ac4b978ffec8910d96ac82665adf5f3b485562aa6ec526351"
+            },
+            {
+              "label": "f6df6f381768c2d596756e5098e779cd0ddc406d3a08bca8015d34f9b3a53e81",
+              "feedback": "bca061ef419d2aa8db3045f8c455c38f5f558288743dd4aa47307101181553fa"
+            },
+            {
+              "label": "238b7a4fa7eb14acdf795770e6e3f3d5672f46fd3b8812fc9db9c4aac63558b1",
+              "feedback": "169130e7eeed4a9ece9b14f5f4bc375b634ffca1e243dd33f8a17990b9345a73"
+            },
+            {
+              "label": "8a4b9eea3448240af0f2645d41bcb438b8a2e56571dde235f9a3e2dc623f4cc9",
+              "feedback": "7474e1399607c778c62e1dbc92d25b99200fe8cdff9a09d17473ba2a638a78ee"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-08",
+      "topic": "dynamics",
+      "correctIndex": 3,
+      "sourceQuestionId": "2024-uts1-q4",
+      "locales": {
+        "id": {
+          "prompt": "7f9e7722a879735912446c3e91e8007ecd8f3221aaa042e557561ff7038baf31",
+          "explanation": "c5202888a8dd090ac7b0e3df33c1cc7b4e56f32d08c556ebb5743ca83f704228",
+          "options": [
+            {
+              "label": "1f368badc9e5338fedcbd708764fb76c4f61e5aa11baa99c7a55aec5c01332db",
+              "feedback": "40b85780260509405dac2f4e790f902d3649ae4ff8f9d70f23f20d6accca142d"
+            },
+            {
+              "label": "4f6d72fa852cb1b7898717146b10147fc016c644e5f5a8d957fe0fddcdef100b",
+              "feedback": "efc8f703d9dafa9fceb819bcc23d3570a8cc3e6f476c54c520d7100dda57c323"
+            },
+            {
+              "label": "6fc25aaa11e98e9c3c07e77ad1a2323c6b1b2f7ff41d13cbf9fb856719c7abad",
+              "feedback": "a552aba5e7085fb1c08a6b313f2e3dd758d3ae00033db42bef18ec520dd75141"
+            },
+            {
+              "label": "15cd90d16a120f3c267b78a4a79e24b54863be893d5702fdac65e8e06da8d5df",
+              "feedback": "0ad5345a4030ef7a604aa1a6f70ea68bb3db899917b7aea6a0cce2be7586e343"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "c4d51d5185f012db2f70e9bdddcb006eb1e4b596279e517ab9a3b5628b1ec77a",
+          "explanation": "9a66db522a84568ee89f1e3e412e972d52b7b7bf05c8682dcef44744ec186eff",
+          "options": [
+            {
+              "label": "374259b8296a43ce324b41b0320202cc3f95a068c62677e7a1b5919049fec090",
+              "feedback": "9453f48e47584955316946378c148022b3129dc9a616899f5df1bad02e0ef621"
+            },
+            {
+              "label": "1b4c4fa26b622ebeec7092220f43c0073fcbf21da9930d08e027441fd783d1c2",
+              "feedback": "597776974d7cf65dff36c22a6a306e3fff76f9e8996e594c32928a4571468104"
+            },
+            {
+              "label": "94ffc2848d9fd3c2ff1407e030ea6a9194222df2e00a0bc3c376b7c3f91c97c1",
+              "feedback": "8299b4d31689201e0fb9cfe5de6db342853e05e829af12ebbd8b59487311fe24"
+            },
+            {
+              "label": "6f1fea7a31b61f61ad43c147eaa40a7da869c61bdf4c1f4c53d5f02e92ad19e2",
+              "feedback": "c90f8e3f4a0e384e0f756ddf45b5c236ddb551aa5620f8ec8e3f1ccee146869b"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-09",
+      "topic": "statistics",
+      "correctIndex": 3,
+      "sourceQuestionId": "2024-uas-q5",
+      "locales": {
+        "id": {
+          "prompt": "5d606d1e7c1904451fce00c1f6a2e8c936781d13e5d2eb926ee19830dc594d1d",
+          "explanation": "490df6d2c6f47eb15ce51047660f420a795bd96376ed5ea0c8a3e2ceb0d28dde",
+          "options": [
+            {
+              "label": "b01a0d0e33db479136bf7f185d99bedfd6730fa16d02ec949cfe1c144954dfbb",
+              "feedback": "9914d86603df5d5260558bdf63c70322795010ffb48d889e641bd624d269a221"
+            },
+            {
+              "label": "16ecacc53ad9c2a2200b3e303b77081377a1139b9f69275af0151483794bcf2a",
+              "feedback": "6bb8be68be022d274fdf8c9dd805b965cc6984c3ef15d23e697a213ebccdc62a"
+            },
+            {
+              "label": "ff67ae486cc56c69a0666e5cd31ba506bb9c25d27b15be6125a7db65821c71c0",
+              "feedback": "d5eccd0c12e33b9d4f23661fb487a5884d4c315ad77ac32d70c03874b3604f2a"
+            },
+            {
+              "label": "65866ef1f620f3e2a0e90b0e69322a357de329e07a0edb115ab243a7cfefac0a",
+              "feedback": "00d0a03ebeaabe6a158e10642ea18f86dc04fbef222596ad59873b7082c0b437"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "54fd76890ee2a7aed4f0ee7ffff88f606944fb7a8bd2ef8d1174b40f1a18ea82",
+          "explanation": "06e51015ceb7b831e6a8cf53bd70779e4dc0a998e39aaa85e2b3ae2bd6178921",
+          "options": [
+            {
+              "label": "95b9cb6f1bf6a6a476921fcf0d694eff60767ffd8911852cf41d7143a4c381e2",
+              "feedback": "16dda2a5812809ced7cc2d285edac0e553314f9c64779109ed8c777aac4b9a45"
+            },
+            {
+              "label": "0968dea36e7b8acb1ca31f78bf928ffbbb06ea68d0baaf0ccef8f1f1e5f2477c",
+              "feedback": "b52935eb5c38289454cf0f3c438f829438cc91f6f9cbe2b9cf7aea7d07efa357"
+            },
+            {
+              "label": "e77efd2517e0027b8bc8c1ce981dbb516a3781638085e0d2ded3362d87e432d6",
+              "feedback": "b8c5f72294a8475e20afcf111c64744e0acff8503c863fa085d830dc0bfc7fde"
+            },
+            {
+              "label": "7aeb59a3f2b1fd22623307e5f1a6c2cea69a859d11119e9d79e53b639bc293d3",
+              "feedback": "8cbe45e27d328917baf0f173c7df004b7fe170e68ac2e9f66233981ee1d98036"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2024-10",
+      "topic": "position",
+      "correctIndex": 0,
+      "sourceQuestionId": "2024-uas-q6",
+      "locales": {
+        "id": {
+          "prompt": "3c0d5a95792caef0711320094af46ac2357b8908e82b5142705c65383b8f18a8",
+          "explanation": "dc356356ef9ea12d995e757048006f23495c7d6d530e87f5591700a98e9ccc40",
+          "options": [
+            {
+              "label": "c6076fd977ffcaa56110ca125032574f5ca259d3e2dcfb5e389774d253a2efc7",
+              "feedback": "d97dd69db21f4c84594e58050448edda26e77f27f2e29a35a65df2bc6f487149"
+            },
+            {
+              "label": "8d0ba1784dcc9943e143e24641679b7a6b970859ac642743081c273818a17191",
+              "feedback": "8e487c1612aee9aea10dea5d2dba04c077684ccd77460474cc553b594fbf14c6"
+            },
+            {
+              "label": "78f0e3c82f612a9e6a77e95c9f29debdd2d76c25e7c9bc6901c4a0158b07d432",
+              "feedback": "347fa3dc07cafeb13b4d0aa9db6294015c88e9945414f4de48b65c41d0c497be"
+            },
+            {
+              "label": "3fad8aff43e97b947dfdb67f2b4ff2847e6166497ed77e4bfc06795e91be23a8",
+              "feedback": "82d553814bac6ab7d1be01cd910a7003a3cbd792d2dfba90f113e6f0c91b5ca9"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "6c895020b33df641500c792f48cb0bce93a5b733838293d4588b12215c4b0f6e",
+          "explanation": "c50c4f353c1e3887524913e30685bea089e6562e37b2bb022be3cf1969def183",
+          "options": [
+            {
+              "label": "bda39588d686f9556e532a9edaf3f649ab489dabfca15dfd1b5496488b35b110",
+              "feedback": "528e1ef214f30a31e729e9bd0b7ff8c0912f32e9d97bd70d99b1ab365bbca9a2"
+            },
+            {
+              "label": "112557fd8de495db496c6e35d034498645ddc510b1d289622ec566ee2af508c6",
+              "feedback": "b17c612528c4d607dffb9fd5f84f099fff65fe1555eb3a24220c07963c69ea24"
+            },
+            {
+              "label": "375f3cc3440aa0f3e78ab168eb03483858ca391d020c0e2c70b2f699bb3f42e8",
+              "feedback": "f882b3743b6d0d163848dd6724e8f3e20b68efae96995e24c8899cf5213f26e5"
+            },
+            {
+              "label": "5d722707bf4468720d63631d4cdc91678fe43463ad9bde42491331ebb5e7ce12",
+              "feedback": "9d9b54697287ec74ce5c65eaea802fffea7364d42b76acfda5162c836ffabd1c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-01",
+      "topic": "statistics",
+      "correctIndex": 2,
+      "sourceQuestionId": "2025-uts1-q2",
+      "locales": {
+        "id": {
+          "prompt": "4edad9dbb454ce1fbb2f662a8c28c08b55094b2b04c5323cbd692a69296ca814",
+          "explanation": "c77ddd8b7e5aa24f96f8cee821e23ecb387702efdcc807d6ff24611aad75e2ae",
+          "options": [
+            {
+              "label": "5d322b65b67fb0b5dd7abcfcc9cda2cff9ff325f6c269d4d8d2fa81c7b9c1f6a",
+              "feedback": "c9b887f880641f9e6e9c3bb2acb6a740e5d37e4d251ab60e937cd55a190227eb"
+            },
+            {
+              "label": "d61662e3dfc836a44038d37d963148c94e5c6ba7854a910c3406209d98ffbb60",
+              "feedback": "371d17b1e48a1083dd6e1f35759c5b0384b5e4e6dc3d5903c40feb29b40f4398"
+            },
+            {
+              "label": "3d5c6eb088979529373ee765d41ac398408b7e521259465d62753380a4c45811",
+              "feedback": "89687725e194ea712b38a58c0858a6a55d8733f5f1a5fea5767fd81d1dd0e8f8"
+            },
+            {
+              "label": "86f673ef3b89fced97b1a8f00aab412eae3c54e8b5eb686904149d227d692dd0",
+              "feedback": "219e6be6612d43a77e80831564271297aad17becae0fdb4ef7bbeb98384f529a"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "773ed199be5dfb2144ad22358ef76fe0a732fa5f9e72ed6669b0ca49b119d131",
+          "explanation": "5c59ef13fda2bc69c50c55b55fa0915b7b12a24a366842563ccc28210f5510ba",
+          "options": [
+            {
+              "label": "69fa540ffd762882e9a45a912002f2fdb09871f643fda3c2fbf936ff7e3b6d55",
+              "feedback": "22eb44c045b4442c6b6513eb924e1564a74a5bc78be3c7dd88be20422ee81892"
+            },
+            {
+              "label": "edf34b372349e71708354282fb4d36091e4f025bafee6e4c3aa03a8152b63507",
+              "feedback": "cc50c0c5a84d25601aa14af6a6cd565760c430e30b8294e2fe1f95eb6908c999"
+            },
+            {
+              "label": "17c875e3f93a1e1816185d36ce21248ba8a8960545953745d6723164be704810",
+              "feedback": "ec81d3c9fce8c506d91fce22707f12bd2864b7562966317bff31f80d5c1f639b"
+            },
+            {
+              "label": "7e0e74824a00f22b0a05b26acb5188ff0fcff0e3d7c225abb2efbb446f3e5512",
+              "feedback": "bc9d4a5e6c971bbea2983a29bf5401c09e2ab13d2cf29526a692023b46cd79c1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-02",
+      "topic": "temperature",
+      "correctIndex": 3,
+      "sourceQuestionId": "2025-uts2-q2",
+      "locales": {
+        "id": {
+          "prompt": "c18dbd2950cca284e1c4f92cca9a6912e42453afa042e352354dca8a4ec61cb0",
+          "explanation": "698b4b7d2ffe23800df34faecff2f938298f54213dc4ed98f6065c69de171064",
+          "options": [
+            {
+              "label": "6cfe8f7c0382883752031050ade57875cde0113fabb8cfe3e246463ecba2c321",
+              "feedback": "5cd80331143df7074e3dc413f06e0b4fde3180afd5f682cc9e844b8a2adadcdb"
+            },
+            {
+              "label": "16893a0f589f3293eefc609394c314fc3767a350b706999bd0d47fc6bc07522d",
+              "feedback": "f6cf67b630a76d288f0f8ff84919583755bfa27ccc6b7a4d40519812d004f755"
+            },
+            {
+              "label": "66b396cd0c26d6b4b59ff21a1554af8a7d319a91e94be1c4c0242499e935c653",
+              "feedback": "fa81cbd6e8c05ab9a302ccc14ea3773ec8bee71013bc37a276ac74a7091d2e64"
+            },
+            {
+              "label": "76945153d4dd3adb6e881c07a26705401d9f547b16d528e54a9500c01d4ccf45",
+              "feedback": "d0db337629ae3fb7d66a8cdf56cdd39d1c11970239206e9971e9147aa03fe1c4"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "74b9ef25a54a9d20eceb732c11f0458309f357dfc5c7dc17c0b03769eb7b4709",
+          "explanation": "bdf7e76ddf6bc44739e06a01f44f42b82ebf22fd1959539220e1ed79f4342535",
+          "options": [
+            {
+              "label": "07890dc763877af0ed0f8e5b0b5ca5bb1f48d1708b6a2298de6ba3a54fcb1255",
+              "feedback": "9b269cd0552c34c03df03bb6bd5fcf4c06bb92513ca4b90f940dfcc8283bd9ff"
+            },
+            {
+              "label": "7f83b2c88eb63e731c67d16e44459994783f94e37803bedc8683bd7eeaabc273",
+              "feedback": "e9b90cb4daf9b26f59aa11999310c8087c54de97494b994f59cc37b007382672"
+            },
+            {
+              "label": "6f83d8562addc881f570e519ac34d7bbb28f329370aa8a967d54ef2cccd98ffa",
+              "feedback": "4ce1bfbf7c18bd0c0fa928755df03159045f00cf7cddf15d1bfdc23103b52a6b"
+            },
+            {
+              "label": "ef9b108d055cce1e99a220b502aac36a9b1651b842c983ca23cbec6b39417622",
+              "feedback": "435f212a2f7e9ed14b9a73f445479d2e5ec314ed5a1ec0965de1fac3384f6fd2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-03",
+      "topic": "dynamics",
+      "correctIndex": 0,
+      "sourceQuestionId": "2025-uts1-q3",
+      "locales": {
+        "id": {
+          "prompt": "b8073844dc248c270c4c6def2287dad1725b500a66ae1e133ebc626d35c889c1",
+          "explanation": "1a219257d0b590bd1b866bbb0b417c9602a49dd770ef89599ce5025f1f698982",
+          "options": [
+            {
+              "label": "6d81e16e39519ec209b411340c26fbe01fec2ef48bbf4212061fc51bede172bd",
+              "feedback": "cff2ca9eb92bea9fa6e13b5c46d3979b3df95cf404822361bfd5fdf26d48756a"
+            },
+            {
+              "label": "bf6b9146154a8868556d13b7555a5f36d8d7376bbc96e0c1b1a12dbb0415701a",
+              "feedback": "63c58cffc2ca8b88f653d4f8d154a65ad1f47064383ecce45629edb76c006c5f"
+            },
+            {
+              "label": "c1c833b3b2a36dc48a5fcf04e9b9077441e09743c4a8090110dae70ccdd6835a",
+              "feedback": "e022f9e155e24d7f119009f668dcbbbfecaa4f6b5c27752483bf7e952581982d"
+            },
+            {
+              "label": "e6273ebbae7380e48410f5956268add130a9ba50e8df399e9849bf8408006ffc",
+              "feedback": "6b182fefb8678d5bebc6b4f003537ec2f9d91bb69d325a9a30a5ef5d5ead7898"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "d0bfca4597c88c26f4d8309a6fa73a07435eeb3e90217fe2ee8e6cfadbb10d82",
+          "explanation": "d3b9dfb48479ab8c0b0f8426cd91b3adac13193a6d2704a15109209a1abb3df5",
+          "options": [
+            {
+              "label": "05eac04999c0f8bfc3934ae1b824f5b074d8f14c15a1396452c86ab5de1a2fb1",
+              "feedback": "a278b6b6f412c61a56bf03673611598b6d1197cf3d09286677ff36b39cc08215"
+            },
+            {
+              "label": "c9e206f5ff27fccd8fb37d9989aa2953bb869ab9fa9d001067e35e5b7e140fff",
+              "feedback": "9166d144cf1c58986d92157aa2492f82cf8d4bc9ae267c01c37cef909f3659d9"
+            },
+            {
+              "label": "2d43df3ee1adc4ce73244e7f7773122e82ce331a23cdb8b3c7c3ce5f5b481109",
+              "feedback": "ec575ee442ba406f13f57d2ea8bbed61eed212cf14b68ba9d4c9dc4309bc266c"
+            },
+            {
+              "label": "ec43faea6d086be67b9c559d446bc69a1229c001e0fa156c70b1a5f4356f1303",
+              "feedback": "96d90572e4fead9434e939fb743b81912f4676d194e7eacc519a956124d22bf1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-04",
+      "topic": "strain",
+      "correctIndex": 2,
+      "sourceQuestionId": "2025-uts2-q4",
+      "locales": {
+        "id": {
+          "prompt": "06c3fa019028fd2ae22e728d97b61193b494a0884a8e730edbe21357d7460a51",
+          "explanation": "13f4639d7517237487e27ec301f8d854f1f9bc6ea3e706f9ba49e356d1d42bd8",
+          "options": [
+            {
+              "label": "8a480bac2a3edc586ef35ef48bd0d987e3b597b890a9303d8994b579e9079524",
+              "feedback": "faddd7f203b5c5d20218008d34d3b6bf9d484c85f1f5ad97d0090f2cb4ae394b"
+            },
+            {
+              "label": "c0aa953977eb8ec5c5d5a9feafd16a0f68383a1dcc3351d53f72ff97e99253d5",
+              "feedback": "b05eb318f0462fc1bbdee5ba80286116afcaaa18d62f6f61deb3248793b19fbc"
+            },
+            {
+              "label": "50a77397e2766029346e997f2d7a5ecd0b22e1b8a4e535327f6c53d27c71d2fe",
+              "feedback": "e53ee0fc67a209fb13ebb4383b3e4daa4a0db63187d2ae9022d8f42254fcf8cd"
+            },
+            {
+              "label": "bd2cd3af4b9b7f00f68a110ac892c41ac5b9ed818e405dac5b7089d880cb7a8d",
+              "feedback": "b78324d973bbae7ab5425e607c9104cf834cb2214e5def23eeea7cd3440f3f21"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "69803c64ed641fbcde73697416c07e47a39b09dce56c9c099c04ff08b92cf64e",
+          "explanation": "0aaabcd7c82c3b99a7b2b16090884d474a4f7cf708369a2c09d333fc1ae92b64",
+          "options": [
+            {
+              "label": "45d98e321417a139add04c5d2a2b9fd3fa5c33646efb6017cb201a82c8c491ce",
+              "feedback": "5bb7660a720cb5150e62fe038c401f9b6b15eba81c8ee5921fefac5adc5fbca0"
+            },
+            {
+              "label": "03c5f184597ede37d55d5ff6ea19710161cd7fcc40017cfff40dad3e1573fa19",
+              "feedback": "180224bd4cdb80358f1637ee5cf3b42f9a1fc413f8d1f455bfa1b977c7c4bd25"
+            },
+            {
+              "label": "bad5cadd9d6aa53a224d5ba2b20cf30099814c0c615da521a859c140ad214011",
+              "feedback": "6b2164556d26de912b1feb60c093e17232299a770795b8e7c4c5daf8df30ac29"
+            },
+            {
+              "label": "bd7dbb01ba3edac8208f0a2d779543eab68a35c684b1b55a1e01f10b64a4bc41",
+              "feedback": "40af2e8393bbcbfdf39b9b1b20cb68c29102300a7ec8dc4a0ed7424c77339e49"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-05",
+      "topic": "signal",
+      "correctIndex": 1,
+      "sourceQuestionId": "2025-uts1-q5",
+      "locales": {
+        "id": {
+          "prompt": "325eecd3d361524a42928c0f65158b88d4202ae0c4743fdec2e5d7b3cad94e25",
+          "explanation": "1821bbb619a2c2a00368eb8c42b200257812fbee722f4fe87e2244cbc0717eb0",
+          "options": [
+            {
+              "label": "f46ef1e6a83e12eba340491b942d3759c5a55c0beec0773eaeb349a62542cb2b",
+              "feedback": "cc22d3df6ce832d908d46632568bfaf9a00970c5219256db96f4c37d5aca4408"
+            },
+            {
+              "label": "73e0730ea6c24933dbec188a2a8abf0e4f1a3d3b099cfebb2117f190606b0912",
+              "feedback": "d6a5314a376f3855664101893449eeef87c62ea9f20ed824fb34003d684e2891"
+            },
+            {
+              "label": "5dfd2b19db83df9efef3730f6ec95ff02cdc3f2f87bc60c6dd156862c5fe82ba",
+              "feedback": "64e425b8c20d37b867b5f700fc8aad76f35ede0e033b63fe6881fda904a5bfc2"
+            },
+            {
+              "label": "a8766731d0a3f24c83ad2c26ec2a539e009e7f78293eeb4e5ad50fa3b5fb017a",
+              "feedback": "edbdff0150f8df3f9328796cc960e69cc4e5da50bbf2b92ade0fe8eac79ccc2c"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "62cb578ac1529a908ae4e5e097291a4e666c65283355c16a072c888ca34b739f",
+          "explanation": "ad2c7bee5f997e4b535add6fa529abf2363362a7c4ab97e16f0a56b69aee6ad2",
+          "options": [
+            {
+              "label": "7bd13077938ab13c39343aa6c7863c22fc74833cdbf925f08c5906a0f6a538fc",
+              "feedback": "dbe3b07a0ddbe74c5ca39cd4d1c1d5fe2d82f1edececf25efc0f600ad2ce1d4a"
+            },
+            {
+              "label": "cc7bc4a404cce850dd05310c3f64d6f1bdec1f8c759b7b52558356827a719878",
+              "feedback": "983a2683c9ec04f4cbf44e779292fa8dc07150992735584a0f16b0a90f3e71bd"
+            },
+            {
+              "label": "4b1fc5591e8a8d8bfd16345509ce786207a86326bc617484c3cc8705c735eb2e",
+              "feedback": "727ef28aa3a6258625d6945336eb3c303931d616d379c687a5df7c77a504104b"
+            },
+            {
+              "label": "c14e1c2f73f0ca350f7d99a379f5faead6596c67a2f747381230664e3a407aa6",
+              "feedback": "bc5f00a01dcbfced869df79faae2ac2175dae402c8b51624c824f2f44a4c2b55"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-06",
+      "topic": "calibration",
+      "correctIndex": 1,
+      "sourceQuestionId": "2025-uts2-q6",
+      "locales": {
+        "id": {
+          "prompt": "d57eec4c473b47b5da1a3341f9fc60be37eeb2b36aeea190fa4b7a571740772e",
+          "explanation": "8f3a58cd40f4eba35d86f84882bad545b856db841036cb25bfd473674cd8f063",
+          "options": [
+            {
+              "label": "32d3f32cafaa421c62023a784c677396c092d7bc74c301f151181453d139883e",
+              "feedback": "9785fd0326e354529b64040502105cdc24fbcf5f74ff27dbadb95e0f8d594c3e"
+            },
+            {
+              "label": "7e43e7de775dc5e1783908806631c1af31028bb01bb88bffb295e117bd6d98ba",
+              "feedback": "9cd8a3bffc2138530d8fd1f9f5214e153a16fc07de57df08a06827e806874aa1"
+            },
+            {
+              "label": "88993c2d0139de363d4c5bdd3bbdfb4979bd9bf209a2f4f54cab944b2cbc7df2",
+              "feedback": "5f15c2acad6814a1efabccac24a41f070de5f9f4b0ee90420b410e623ffccc46"
+            },
+            {
+              "label": "2c7f3892300c6f0e19bde286023994133a687cbfdede0ec0e7af78122c5ef17a",
+              "feedback": "a784d7baba316b54979faa217e9a275f968a072b8adf19b3ae94e23ffe7d5f03"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "acb2e76fc3d791a6bbcb12f3f489395449009ddb147df88fca68ad648ad96827",
+          "explanation": "8bd184880d3d0bcae626523d549590b0f3e207f1cf6ca873af819760918f5e03",
+          "options": [
+            {
+              "label": "1d95310b415a3a5c0f9bedbddfb01c4e4e4d07f1eccfa588f19f5a0973a68590",
+              "feedback": "b79ad1033de75fff657894ea5a5b9700e1ce88a41ccad8f7feb8711a4a326ee9"
+            },
+            {
+              "label": "1b661efeed5474dc6b71a43cb70d5231dc9f6d62ad0ca5bfd7c1267fc6635c6a",
+              "feedback": "da96e4b224e4842c813f893c334cd593cbcde83ab1b4d845dab812cf810af323"
+            },
+            {
+              "label": "52c3a81fcd503d334309bef09eb414d91e01eabe827b545c81685d72b93f8ac5",
+              "feedback": "70da19eaebe81f1e8f1c57f24eae391f2ce1bde5ed2ac2797176fd3d71bc39a2"
+            },
+            {
+              "label": "1dcf9c684c22ea8bdcee25a99cfbb0b6dab2c335f34b700e0ebb87f998765469",
+              "feedback": "c4c0515da49cc719c23e2b47a2b802b091af9c1fae8e521b527acab51b4b0a9d"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-07",
+      "topic": "calibration",
+      "correctIndex": 3,
+      "sourceQuestionId": "2025-uts1-q4",
+      "locales": {
+        "id": {
+          "prompt": "2d0854d0ea4bd2746c4affb195f644fa2d645b14eb3583666cbafdecb5e210cc",
+          "explanation": "5681ccec4e92bb13eca23d32c91e128612a085f6ba3d51ae9602c3575f52960a",
+          "options": [
+            {
+              "label": "8386abf205b421dfe68137394ac8b7a18c851caad06e8f5ef9eb15246700852a",
+              "feedback": "12b4c1d07c59c96076c342f8df5ff7fd26fa016a67c34a9679a648dc9c1ea5fb"
+            },
+            {
+              "label": "5d63f0cd23e9234fbbf6ecaf2992b661152ddbfe5fed6c6ee7eb07330e30760b",
+              "feedback": "a219dcfbb37a585192610baf56f9b2bbe6793eb814051568ddceb13766bff160"
+            },
+            {
+              "label": "5f04ab053213ab2843e321bff5c140f4de0fa15c624db4ff80c77770ee4053b8",
+              "feedback": "4aaebb55c871c9bd7f155f19853cd0060f650dd572ec5c278a60680b974dd5d6"
+            },
+            {
+              "label": "d2e3805a3dde51fa2245a09312b48d599be23d67efd39025503c4510f86b5ac3",
+              "feedback": "8a68cb132a816f8f2a7f8b6bbfb00acbdf837088904bb5eb68db4e2bd9d69b30"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "281c8a9c9bf3f62e631b8b7944d00d4b7e9c601bc89fcc4584e874801968bd99",
+          "explanation": "c5d9158e2c3cb1713b735b983310b1f9871cab0e678d852efcba87a2dd999851",
+          "options": [
+            {
+              "label": "0b47aa68a643a7bc78c159fb0b2e7cfdf67650bf5041e555dcf82ed9d3b17c93",
+              "feedback": "2e71f28ce77e07f67a83a5794826a813561e1f4a57eac82c293aead641869531"
+            },
+            {
+              "label": "76c4ca5ed30747054154fe6dfe3c5d54e6b446427e9f0fc4a3db1bb6c41f4768",
+              "feedback": "c880e345af850811bdca7daf6cd322598aab38b8ceaa1b166315d14f77dfb4c1"
+            },
+            {
+              "label": "003fb4a485e70a93312d4040b1174b20d1eb75accb005bced3a8a427d769b993",
+              "feedback": "17d926293bba1b3f68f047e45aad990a2d081278a26ab2f9f21936cf62817f2f"
+            },
+            {
+              "label": "6035897ce8c3189c52bc61b20b3a21826f22d71b0dfe4cbb727a4173e6608cc1",
+              "feedback": "87c86b6d960ed3e8b4a34e16b1549b3b36dc3bf1aa112afbc2f8824e7763b5aa"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-08",
+      "topic": "position",
+      "correctIndex": 0,
+      "sourceQuestionId": "2025-uas-q3",
+      "locales": {
+        "id": {
+          "prompt": "1275c33a81f499bab390f0358b365d26cccef91d699cdeb8277439f789a3b7af",
+          "explanation": "1820e90e18eab8311bf319793d5306a690b424d0f1a2cdd87618e14d0534bbeb",
+          "options": [
+            {
+              "label": "7c0907ec0e3d7140d1ae79d6a41dad11eb4d099d50c0b70a2dbab624c0d78bc2",
+              "feedback": "4f242da68df9e3493c79ad6a4e0f794f8dc25da9aa50ea0e200429f84dabc456"
+            },
+            {
+              "label": "033956db4ce834f0037126d58c2e5b026b8d30a40e82090e597d0e1566b6442d",
+              "feedback": "e4531c98080c84b3b8ae1fa47ae086c4197868bfb4c201515868596a0bc0bbe8"
+            },
+            {
+              "label": "c40aadb8e320fb996bd2453a45712d806b780f56385ebce8e6add4b84a47b988",
+              "feedback": "ed947098cce931cd14457fbc9d865d9238102a672d6041cfa72367f2250a433d"
+            },
+            {
+              "label": "58024accba59fce3ec8557c1bc64544e725c4200c3fd97706baae5456420fe3e",
+              "feedback": "5d0fd024447f787055e6bd3bcd9b9bd4932e5a776dc6436b4e6dc3897894c747"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "7060d7f9ca2c9299c713f31b511551e5d59e7128169282869c443d51187fe20e",
+          "explanation": "e44d847fc8eb0b7a600cf77e423a962adb9a3f345b1ce8023cd65103c2a692ee",
+          "options": [
+            {
+              "label": "337bb458a51b4fb03a2e66573d60f24fad7c7bf41b6d04f95b11a9ec1a1daf51",
+              "feedback": "af422a801332e404c4f03cc6d55e5cba3928833e4c6c4c8010771161f273a433"
+            },
+            {
+              "label": "ca2c3ea0ee3aff413bb0a23d8e218f9dac2009c3b04af447a14aa280d9d2b0d1",
+              "feedback": "c5fe399d25075845deaafa53215a6c1726425ca65ee931b1034ad037fc7c6af4"
+            },
+            {
+              "label": "fa4265de62d2b599b6e0ea7b30fabaf6f9c3e765c5b7ed66be86591bb7305484",
+              "feedback": "c7f3edc3314221bb00ab8ea7131e9c1e41cb498e805af62c630ae33e67527137"
+            },
+            {
+              "label": "4b2b7700bec08f5b02a5fee993977da41bb6370c650f917ce476995ee456d15b",
+              "feedback": "0bd09e75de483b8f36c3186bf53609fc63ecd980ceb1ea092bbe474abf182c80"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-09",
+      "topic": "flow",
+      "correctIndex": 2,
+      "sourceQuestionId": "2025-uas-q5",
+      "locales": {
+        "id": {
+          "prompt": "6ae500489c27525000b6f5a063e7b30587f7b8dbb0326d572e23d4b072815006",
+          "explanation": "eaa4a79c4f4638232e3e2a33f85631fb79ab47f04be97dbd8f65c5fcc5e9a4e1",
+          "options": [
+            {
+              "label": "e348612a9b4b3a9b092ef7b39cc5cbc1664e2a7994444e4d731204eb0b5b5a9f",
+              "feedback": "fc747c4c75a4a965f17eae9ba1d68f6c06438390e948406ee6fa30c1c54931c0"
+            },
+            {
+              "label": "fb989035787916226db29739fbaacc0f2b5e3e8b91fb3463ce53189fcab105a4",
+              "feedback": "9bfb7b443b223dba431f823c318f9dd254bd6cd6a32af0eb6971666c7843f912"
+            },
+            {
+              "label": "b44d332560e8fd118ba7006fb1d381df99223181fb50577d5b2393f8a3979c81",
+              "feedback": "a9da82c25fd71d7ecc80a4393d5bcd39ef9c7db877bfece1e7bf56d36b0d745a"
+            },
+            {
+              "label": "c244de811ae2be6d4a1941bb4fee45a0b42f8393a5b67cea037877c2f4e5c9f2",
+              "feedback": "b0527e2959b5a73f452ea9fa6af6545ad6c0354612523ba3b3c36a05edf04cab"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "d6b5e3db027effa6ad91a711e2079c27938f283208100421e1c15768cd04c069",
+          "explanation": "1d2b5693f4f5eea46763ab602dd7d3b3681761f50dd9c028232f791af9c6dede",
+          "options": [
+            {
+              "label": "0bcbb55621fd3ddae58ea8619358b4418733254764dd1a45c609840d7257c572",
+              "feedback": "309ac2aa1666f167fba9936a2c9eeb0e52e62ef106beb6cfac74d340ef5943bb"
+            },
+            {
+              "label": "6b5839c326bddf467362c8a3ceadc1222db790454b6a546513345fac8c5addd9",
+              "feedback": "ba797f9a92854904725af79786742c9e77244fd1566a40ad00545a09c5b0be97"
+            },
+            {
+              "label": "7b37f171bec03234bb6b10f73ef6ff1057ddd6e94923a48bd0f453913a659ad3",
+              "feedback": "19f54359a22e781f4e02fbe39bfc7c93c4c1e10e8304c6f6719b79eed4394d21"
+            },
+            {
+              "label": "600e027b16e349bd1e70c94bc2273b6640e5817fd4e8512684af062cf3377649",
+              "feedback": "154a9a91e395635bdc2915675a36e3511d80f72bc5408d0c37811d8796f74741"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-2025-10",
+      "topic": "dynamics",
+      "correctIndex": 1,
+      "sourceQuestionId": "2025-uas-q6",
+      "locales": {
+        "id": {
+          "prompt": "d377c9c4e8345245f5d4c320ee56ba218fd9a79e20ec56c606abbd6eb9599230",
+          "explanation": "30dc9c4c2e2e4ab59e9d0e818c1995331518580261d3d76a9b3ad036e59dacb1",
+          "options": [
+            {
+              "label": "e2325875222efd551d23ba359115c4ad0190546c38e534bb7f61746b8b88be0b",
+              "feedback": "d7865ac439e54840e5c71e5b87350b3151d5f974e767a3f4129f75b326dd3345"
+            },
+            {
+              "label": "efd60accf2cfd693af74e1646c03fecef70fb569d006caee2a0ae47c7ca9a4b1",
+              "feedback": "87249a38e836c096f0aa31a69faf6fae8e43e1d13f3a36800b82cba8847b1a66"
+            },
+            {
+              "label": "c233e414da9dc7b6531f685d7240b20a3523f3109821d2dec6fe6ba0d59e7a8d",
+              "feedback": "6813b267018fc8a440f788d972e32f225d89e9679bd3fce117187aac9797a0e2"
+            },
+            {
+              "label": "bc6a3e351a40bccbde81e114e95697855123fa219c0bfc5702c82a28fb0c4068",
+              "feedback": "b6aceee5e0805b20b4cc88b184ed2cad38a06ca4612b2ad02ac2b3fb8d4dab1a"
+            }
+          ]
+        },
+        "en": {
+          "prompt": "f7cb10e3edb7fdea9df7b49d33418cb19fd12ffde26d0f5a40deff49f1470f5c",
+          "explanation": "20bd774c506b04af0399c289a2de74c21f8dadd0d2ae5f85dc8e9ab291f646fe",
+          "options": [
+            {
+              "label": "00c5a84b63bfe4caf3a5e90b8d042c42f4f38dd34fa4ae70405952971806ec46",
+              "feedback": "36b2c36e5803ec4d3aa1f0c175348cb999a60eac86aaffa4ab37cd84c6c71fa3"
+            },
+            {
+              "label": "5be8255b95d935bc29d26db8ce580ac061e4cbc66fca4ba12e29fbf86d3f749e",
+              "feedback": "20ac8aba698aac6950528bb6e7847362c9bf69463b4169214391e4e82b34046b"
+            },
+            {
+              "label": "381242495fdbbb8b21ec422b4dca8f3543ab78b612821b928cb672cfd6421863",
+              "feedback": "73204b0405f3d470af6261766cd5c7740ad0c7e778ac72df45c899fc5020bad5"
+            },
+            {
+              "label": "d40524237bdb656db7737c4a00c32db57fbd4c07ef6d553d3c2a1f6bd22c762f",
+              "feedback": "e9d62a5af1890fcad6fe8a4ec0688852a2769283fba677b5f0f7b84eb46b3fe6"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

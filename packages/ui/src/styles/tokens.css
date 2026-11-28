@@ -1,0 +1,469 @@
+/* @tutor/ui Design Tokens & Editorial Reading System */
+
+:root {
+  --background: #f7f8fa;
+  --foreground: #17283b;
+  --surface-subtle: #eef2f6;
+  --muted: #e3e9f1;
+  --muted-foreground: #46586d;
+  --border: #c3cdd9;
+  --input: #718196;
+  --popover: #ffffff;
+  --popover-foreground: #17283b;
+
+  /* A quiet reading surface with distinct, high-contrast blue controls. */
+  --primary: #1d4e89;
+  --primary-hover: #163d6c;
+  --primary-foreground: #ffffff;
+  --secondary: #e7edf5;
+  --secondary-foreground: #24364b;
+  --accent: #1d4e89;
+  --accent-foreground: #ffffff;
+
+  /* Semantic learning states */
+  --success: #176440;
+  --success-foreground: #ffffff;
+  --warning: #7a4608;
+  --warning-foreground: #ffffff;
+  --destructive: #9e2637;
+  --destructive-foreground: #ffffff;
+
+  --ring: #1d4e89;
+  --radius: 0.375rem;
+
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.dark {
+  /* Neutral matte surfaces; reserve color for controls and learning states. */
+  --background: #121212;
+  --foreground: #e8e8e8;
+  --surface-subtle: #1c1c1c;
+  --muted: #282828;
+  --muted-foreground: #b8b8b8;
+  --border: #484848;
+  --input: #858585;
+  --popover: #1c1c1c;
+  --popover-foreground: #e8e8e8;
+
+  --primary: #a8bfdc;
+  --primary-hover: #c4d3e6;
+  --primary-foreground: #141414;
+  --secondary: #282828;
+  --secondary-foreground: #e8e8e8;
+  --accent: #d4d4d4;
+  --accent-foreground: #141414;
+
+  --success: #80d0a0;
+  --success-foreground: #141414;
+  --warning: #f1c275;
+  --warning-foreground: #141414;
+  --destructive: #f49aab;
+  --destructive-foreground: #141414;
+
+  --ring: #b8b8b8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--primary) 18%, transparent);
+    color: var(--foreground);
+  }
+}
+
+/* Smooth Radix UI keyframe animations (zero layout jump) */
+@keyframes tutor-accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes tutor-accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes tutor-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tutor-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes tutor-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tutor-pop-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.98);
+  }
+}
+
+@keyframes tutor-sheet-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes tutor-sheet-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes tutor-sheet-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes tutor-sheet-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.tutor-accordion-content[data-state='open'] {
+  animation: tutor-accordion-down 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tutor-accordion-content[data-state='closed'] {
+  animation: tutor-accordion-up 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tutor-overlay[data-state='open'] {
+  animation: tutor-fade-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tutor-overlay[data-state='closed'] {
+  animation: tutor-fade-out 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tutor-popover[data-state='open'] {
+  animation: tutor-pop-in 170ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tutor-popover[data-state='closed'] {
+  animation: tutor-pop-out 130ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tutor-sheet-left[data-state='open'] {
+  animation: tutor-sheet-in-left 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tutor-sheet-left[data-state='closed'] {
+  animation: tutor-sheet-out-left 190ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tutor-sheet-right[data-state='open'] {
+  animation: tutor-sheet-in-right 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tutor-sheet-right[data-state='closed'] {
+  animation: tutor-sheet-out-right 190ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tutor-accordion-content,
+  .tutor-overlay,
+  .tutor-popover,
+  .tutor-sheet-left,
+  .tutor-sheet-right {
+    animation: none !important;
+  }
+}
+
+/* Reading typography tailored for math & engineering solutions */
+@layer components {
+.tutor-prose {
+  font-size: 0.96875rem; /* 15.5px */
+  line-height: 1.85;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  /* Do not reset color: use the parent surface or an explicit utility class. */
+}
+
+/* Text-size utilities also set line-height on the wrapper. Keep the reading
+   rhythm on text elements, without changing KaTeX's internal line boxes. */
+.tutor-prose :is(p, li, blockquote, th, td) {
+  line-height: 1.85;
+}
+
+.tutor-prose p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.tutor-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.tutor-prose h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: inherit;
+}
+
+.tutor-prose h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: inherit;
+}
+
+.tutor-prose ul,
+.tutor-prose ol {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+
+.tutor-prose ul {
+  list-style-type: disc;
+}
+
+.tutor-prose ol {
+  list-style-type: decimal;
+}
+
+.tutor-prose li {
+  margin-bottom: 0.5em;
+}
+
+.tutor-prose strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.tutor-prose code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background-color: var(--surface-subtle);
+  color: var(--foreground);
+  padding: 0.125rem 0.35rem;
+  border-radius: 0.25rem;
+}
+
+.tutor-prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  background-color: var(--surface-subtle);
+  color: var(--foreground);
+  padding: 0.875rem 1rem;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.tutor-prose blockquote {
+  border-left: 2px solid var(--primary);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted-foreground);
+}
+
+.tutor-prose table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.25rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tutor-prose thead,
+.tutor-prose tbody {
+  display: table;
+  width: 100%;
+}
+
+.tutor-prose th,
+.tutor-prose td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tutor-prose th {
+  font-weight: 600;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+}
+
+/* KaTeX's vendor stylesheet is unlayered. Keep these scoped overrides at the
+   same cascade level so its font shorthand and display margins cannot win. */
+/* Reserve real line-box height for fractions, roots, and scripts in prose.
+   KaTeX can still wrap at its own expression boundaries inside this box. */
+:is(.tutor-prose, .tutor-math) .katex:not(.katex-display > .katex) {
+  display: inline-block;
+  max-width: 100%;
+  padding-block: 0.2em;
+  vertical-align: baseline;
+  white-space: normal;
+}
+
+.tutor-math-display {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Scroll wide equations locally and leave room for glyphs above/below the
+   baseline. A max-content child keeps centered overflow reachable on the left. */
+:is(.tutor-prose, .tutor-math-display) .katex-display {
+  max-width: 100%;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.65em 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tutor-math-display > .katex-display {
+  margin-block: 0;
+}
+
+.tutor-derivation-expression > .katex-display > .katex {
+  text-align: left;
+}
+
+:is(.tutor-prose, .tutor-math-display) .katex-display > .katex {
+  width: max-content;
+  min-width: 100%;
+}
+
+:is(.tutor-prose, .tutor-math) .katex {
+  font-size: 1.04em;
+  overflow-wrap: normal;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Subtle custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 25%, transparent);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--muted-foreground) 45%, transparent);
+}
