@@ -80,13 +80,13 @@ export function TutorShell({
   const handleSelectItem = (item: LessonItem) => {
     onSelectItem(item);
     setMobileOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0 });
   };
 
   const handleSelectShowcase = () => {
     onSelectShowcase?.();
     setMobileOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0 });
   };
 
   return (
