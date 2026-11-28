@@ -137,10 +137,12 @@ export function AiToolInvocationView({
                       className="text-xs"
                     />
                   </dt>
-                  <dd className="text-muted-foreground">{sym.meaning}</dd>
+                  <dd className="text-muted-foreground">
+                    <MathMarkdown content={sym.meaning} className="text-xs leading-relaxed" />
+                  </dd>
                   {sym.unit && (
                     <dd className="font-mono text-[11px] text-muted-foreground">
-                      {sym.unit}
+                      <MathMarkdown content={sym.unit} className="text-[11px] leading-snug" />
                     </dd>
                   )}
                 </div>

@@ -2,6 +2,7 @@ import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, 
 import type { Locale, VisualSpec } from './types';
 import { num } from '../lib/i18n';
 import { useSimulation } from './context';
+import { createTimePositionSync } from './time-position';
 export const pnum = (s: VisualSpec, key: string, fallback: number) => typeof s.params?.[key] === 'number' ? s.params[key] as number : fallback;
 export const pstr = (s: VisualSpec, key: string, fallback: string) => typeof s.params?.[key] === 'string' ? s.params[key] as string : fallback;
 export const parr = (s: VisualSpec, key: string, fallback: number[]) => Array.isArray(s.params?.[key]) ? s.params[key] as number[] : fallback;
@@ -10,9 +11,14 @@ export const parr = (s: VisualSpec, key: string, fallback: number[]) => Array.is
 export function useClock(end = 10, speed = 1) {
   const { playing, resetSignal, params, setPlaying, setParam } = useSimulation();
   const clock = useMemo(() => ({ t: 0, snapshot: 0, listeners: new Set<() => void>(), ended: false }), []);
-  const config = useRef({ end, speed, playing });
-  config.current = { end, speed, playing };
-  const publish = useCallback(() => { clock.snapshot = clock.t; clock.listeners.forEach(fn => fn()); }, [clock]);
+  const positionSync = useMemo(createTimePositionSync, []);
+  const config = useRef({ end, speed, playing, setParam });
+  config.current = { end, speed, playing, setParam };
+  const publish = useCallback((syncPosition = true) => {
+    clock.snapshot = clock.t;
+    if (syncPosition) positionSync.publish(clock.t, config.current.end, position => config.current.setParam?.('time', position));
+    clock.listeners.forEach(fn => fn());
+  }, [clock, positionSync]);
   const subscribe = useCallback((fn: () => void) => { clock.listeners.add(fn); return () => { clock.listeners.delete(fn); }; }, [clock]);
   const t = useSyncExternalStore(subscribe, () => clock.snapshot, () => 0);
   const seek = useCallback((value: number | ((old: number) => number)) => {
@@ -21,22 +27,27 @@ export function useClock(end = 10, speed = 1) {
     publish();
   }, [clock, publish]);
   const reset = useCallback(() => { seek(0); }, [seek]);
-  const previousSeek = useRef<number | undefined>(undefined);
-  useEffect(() => { reset(); previousSeek.current = undefined; }, [resetSignal, reset]);
-  // Seeking is a student action. Keep the cursor still so its reading can be inspected.
   useEffect(() => {
-    if (params.time !== undefined && params.time !== previousSeek.current) { seek((params.time / 100) * config.current.end); setPlaying?.(false); }
-    previousSeek.current = params.time;
-  }, [params.time, seek, setPlaying]);
+    // Let the shared cursor restore a saved position on mount/StrictMode replay.
+    // The stage already resets its shared parameters when resetSignal changes.
+    clock.t = 0;
+    clock.ended = false;
+    positionSync.forget();
+    publish(false);
+  }, [resetSignal, clock, positionSync, publish]);
+  // Only an external seek pauses playback. Our own 10 Hz telemetry is an echo.
+  useEffect(() => {
+    const target = positionSync.receive(params.time, config.current.end);
+    if (target !== undefined) { seek(target); setPlaying?.(false); }
+  }, [params.time, seek, setPlaying, positionSync]);
   const physicsKey = JSON.stringify(Object.entries(params).filter(([key]) => key !== 'time'));
   const previousPhysics = useRef(physicsKey);
   useEffect(() => {
     if (previousPhysics.current !== physicsKey) {
       reset();
-      setParam?.('time', 0);
     }
     previousPhysics.current = physicsKey;
-  }, [physicsKey, reset, setParam]);
+  }, [physicsKey, reset]);
   useEffect(() => {
     if (playing && clock.ended) { clock.t = 0; clock.ended = false; publish(); }
   }, [playing, clock, publish]);

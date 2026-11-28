@@ -1,10 +1,35 @@
 import { resolveColor, useThemeRevision } from "./theme";
-import { Component, Suspense, useRef, type ReactNode } from "react";
+import { Component, Suspense, useRef, useState, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Line, Html } from "@react-three/drei";
 import type { OrbitControls as OrbitType } from "three-stdlib";
 import type { Locale } from "./types";
 import { text, num } from "../lib/i18n";
+
+export function supportsWebGL2() {
+  if (typeof document === "undefined") return false;
+  let context: WebGL2RenderingContext | null = null;
+  try {
+    // Three requires WebGL2. Keep unsupported browsers out of Canvas's nested
+    // renderer entirely, including its failed initialization/teardown path.
+    context = document.createElement("canvas").getContext("webgl2", {
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance",
+    });
+    return context !== null;
+  } catch {
+    return false;
+  } finally {
+    // This detached probe must not consume a context needed by the real scene.
+    try {
+      context?.getExtension("WEBGL_lose_context")?.loseContext();
+    } catch {
+      // Context-release extensions are optional; detection is still valid.
+    }
+  }
+}
+
 function WebGLFallback({ locale }: { locale: Locale }) {
   return (
     <div
@@ -361,6 +386,7 @@ export default function Spatial({
   locale: Locale;
 }) {
   useThemeRevision();
+  const [webGLAvailable] = useState(supportsWebGL2);
   const background = resolveColor("var(--surface-subtle)");
   const controls = useRef<OrbitType>(null);
   const positions = 2 ** bits,
@@ -451,48 +477,52 @@ export default function Spatial({
         }
       }}
     >
-      <CanvasBoundary locale={locale}>
-        <Canvas
-          fallback={<WebGLFallback locale={locale} />}
-          camera={{
-            position: kind === "resolver" ? [2.4, 1.7, 7.7] : [3.4, 2.5, 5.8],
-            fov: 39,
-          }}
-          dpr={[1, 1.7]}
-          frameloop="demand"
-        >
-          <color attach="background" args={[background]} />
-          <ambientLight intensity={1.6} />
-          <directionalLight position={[3, 5, 4]} intensity={2.2} />
-          <Suspense fallback={null}>
-            {kind === "orifice" || kind === "venturi" ? (
-              <Flow
-                beta={beta}
-                jetBeta={jetBeta}
-                venturi={kind === "venturi"}
-              />
-            ) : kind === "lvdt" ? (
-              <Lvdt x={value} />
-            ) : kind === "resolver" ? (
-              <Resolver angle={value} locale={locale} />
-            ) : kind === "encoder" ? (
-              <Encoder angle={value} marks={marks} />
-            ) : null}
-          </Suspense>
-          <OrbitControls
-            ref={controls}
-            enablePan={false}
-            minDistance={3}
-            maxDistance={10}
-          />
-        </Canvas>
-        <span
-          className="spatial-caption"
-          style={{ right: 5, background: "color-mix(in srgb, var(--surface-subtle) 90%, transparent)", lineHeight: 1.45 }}
-        >
-          {captions[kind]}
-        </span>
-      </CanvasBoundary>
+      {webGLAvailable ? (
+        <CanvasBoundary locale={locale}>
+          <Canvas
+            fallback={<WebGLFallback locale={locale} />}
+            camera={{
+              position: kind === "resolver" ? [2.4, 1.7, 7.7] : [3.4, 2.5, 5.8],
+              fov: 39,
+            }}
+            dpr={[1, 1.7]}
+            frameloop="demand"
+          >
+            <color attach="background" args={[background]} />
+            <ambientLight intensity={1.6} />
+            <directionalLight position={[3, 5, 4]} intensity={2.2} />
+            <Suspense fallback={null}>
+              {kind === "orifice" || kind === "venturi" ? (
+                <Flow
+                  beta={beta}
+                  jetBeta={jetBeta}
+                  venturi={kind === "venturi"}
+                />
+              ) : kind === "lvdt" ? (
+                <Lvdt x={value} />
+              ) : kind === "resolver" ? (
+                <Resolver angle={value} locale={locale} />
+              ) : kind === "encoder" ? (
+                <Encoder angle={value} marks={marks} />
+              ) : null}
+            </Suspense>
+            <OrbitControls
+              ref={controls}
+              enablePan={false}
+              minDistance={3}
+              maxDistance={10}
+            />
+          </Canvas>
+          <span
+            className="spatial-caption"
+            style={{ right: 5, background: "color-mix(in srgb, var(--surface-subtle) 90%, transparent)", lineHeight: 1.45 }}
+          >
+            {captions[kind]}
+          </span>
+        </CanvasBoundary>
+      ) : (
+        <WebGLFallback locale={locale} />
+      )}
     </div>
   );
 }

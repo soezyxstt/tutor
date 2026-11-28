@@ -102,6 +102,24 @@ indices and preserves each call's continuation signature for later turns.
 stream lifetime, and tool-conversation handling. These changes apply to the
 shared Worker, including IPE problem and simulation tutor requests.
 
+## Simulation state and readable outputs
+
+Thermocouple context names the selected J/K/T type, current junction temperatures,
+and calculated voltage. It distinguishes the forward simulation from the separate
+inverse problem with a fixed source voltage. The visual and tutor use the same
+model calculation.
+
+The playback clock updates the shared time-position control at 10 Hz. It marks
+its own updates before writing them, so they do not trigger another seek or pause.
+Manual and AI seeks still pause at the selected position; completion reports 100%,
+and restart/reset reports 0%.
+
+The shared Markdown renderer converts bare Celsius notation in ordinary prose
+to `°C`. Formula meanings and units use that renderer too. Parsed equations, code,
+source strings, and link destinations remain intact. Spatial visuals check WebGL2
+before mounting the 3D renderer and release the probe context. Unsupported
+devices receive the translated fallback directly and can return to 2D.
+
 ## Run and verify
 
 ```sh

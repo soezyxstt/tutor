@@ -9,6 +9,8 @@ import { PracticeView } from '../../../packages/core/src/content/practice-view';
 import { DecisionCheck } from '../../../packages/core/src/content/decision-check';
 import { FadedPractice } from '../../../packages/core/src/content/faded-practice';
 import { useTutorStore } from '../../../packages/core/src/store/tutor-store';
+import { MathMarkdown } from '../../../packages/core/src/content/math-markdown';
+import { AiToolInvocationView } from '../../../packages/core/src/ai/ui-sdk/tool-renderers';
 
 const question: PracticeQuestion = {
   id: 'model-choice', prompt: 'Which sensor model matches a slowly changing input?',
@@ -99,4 +101,51 @@ test('the same decision control serves micro-theory and guided tasks with target
   assert.ok(selected.includes(question.options[1].feedback!));
   assert.ok(selected.includes(question.explanation));
   assert.ok(selected.includes('role="status"'));
+});
+
+test('AI formula units, symbol meanings, and pitfall prose display bare Celsius notation as readable text', () => {
+  const formula = render(createElement(AiToolInvocationView, { invocation: {
+    toolName: 'showFormulaBreakdown', args: {
+      title: 'Cold-junction correction', latex: String.raw`E(T,T_{\mathrm{ref}})=E(T,0)-E(T_{\mathrm{ref}},0)`,
+      symbols: [{ symbol: 'T', meaning: String.raw`Temperature relative to **0^\circ\mathrm{C}**.`, unit: String.raw`^\circ\mathrm{C}` }],
+    },
+  } }));
+  assert.ok(formula.includes('<strong>0°C</strong>'));
+  assert.ok(formula.includes('<p>°C</p>'));
+  assert.ok(!formula.includes(String.raw`\circ`), 'Bare unit macros must not reach the visible tool text');
+  const warning = render(createElement(AiToolInvocationView, { invocation: {
+    toolName: 'showPitfallWarning', args: {
+      title: 'Reference temperature', misconception: 'The two conditions have the same result.',
+      correction: String.raw`Use the 0^\circ\mathrm{C} reference curve, then raise the reference to 25^{\circ}\mathrm{C}.`,
+    },
+  } }));
+  assert.ok(warning.includes('Use the 0°C reference curve, then raise the reference to 25°C.'));
+});
+
+test('Celsius normalization preserves real math and inline, fenced, and indented code', () => {
+  const unit = String.raw`^\circ\mathrm{C}`;
+  const content = [
+    `Bare: 0${unit}.`,
+    `Math: $0${unit}$.`,
+    `$$\nT=25${unit}\n$$`,
+    `Inline: \`0${unit}\`.`,
+    `\`\`\`tex\n0${unit}\n\`\`\``,
+    `    0${unit}`,
+    String.raw`Keep x^2 and \alpha as written.`,
+  ].join('\n\n');
+  const html = render(createElement(MathMarkdown, { content }));
+  assert.ok(html.includes('Bare: 0°C.'));
+  assert.ok(html.includes(`<annotation encoding="application/x-tex">0${unit}</annotation>`));
+  assert.ok(html.includes(`<annotation encoding="application/x-tex">T=25${unit}</annotation>`));
+  assert.ok(html.includes(`<code>0${unit}</code>`));
+  assert.ok(html.includes(`<code class="language-tex">0${unit}\n</code>`));
+  assert.ok(html.includes(`<pre><code>0${unit}\n</code></pre>`));
+  assert.ok(html.includes(String.raw`Keep x^2 and \alpha as written.`));
+
+  const mathUnit = render(createElement(AiToolInvocationView, { invocation: {
+    toolName: 'showFormulaBreakdown', args: {
+      title: 'A delimited unit', latex: 'T=25', symbols: [{ symbol: 'T', meaning: 'Temperature', unit: `$${unit}$` }],
+    },
+  } }));
+  assert.ok(mathUnit.includes(`<annotation encoding="application/x-tex">${unit}</annotation>`), 'Already-delimited unit math uses KaTeX');
 });
