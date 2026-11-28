@@ -26,6 +26,15 @@ import {
   VibrometerVisual,
 } from "./dynamics";
 import { SystemVisual, SignalVisual } from "./systems";
+import {
+  FeedbackVisual,
+  FrequencyVisual,
+  HysteresisVisual,
+  LowPassVisual,
+  ThermalCycleVisual,
+  ThermistorVisual,
+  UncertaintyVisual,
+} from "./measurement";
 class VisualBoundary extends Component<
   { children: ReactNode; locale: Locale; dimension: string },
   { error: boolean }
@@ -65,6 +74,20 @@ function Renderer({
 }) {
   const props = { spec, locale, dimension };
   switch (spec.kind) {
+    case "frequency":
+      return <FrequencyVisual {...props} />;
+    case "thermistor":
+      return <ThermistorVisual {...props} />;
+    case "thermal-cycle":
+      return <ThermalCycleVisual {...props} />;
+    case "uncertainty":
+      return <UncertaintyVisual {...props} />;
+    case "hysteresis":
+      return <HysteresisVisual {...props} />;
+    case "feedback":
+      return <FeedbackVisual {...props} />;
+    case "lowpass":
+      return <LowPassVisual {...props} />;
     case "orifice":
     case "venturi":
       return <FlowVisual {...props} />;

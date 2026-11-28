@@ -1,5 +1,6 @@
 export type Locale = "id" | "en";
 export type Localized = { id: string; en: string };
+export type Exam = "uts1" | "uts2" | "uas";
 export type Topic =
   | "flow"
   | "temperature"
@@ -45,6 +46,13 @@ export interface VisualSpec {
     | "dynamics"
     | "potentiometer"
     | "rtd"
+    | "frequency"
+    | "uncertainty"
+    | "hysteresis"
+    | "lowpass"
+    | "thermal-cycle"
+    | "thermistor"
+    | "feedback"
     | "none";
   params?: Record<string, number | string | number[]>;
   caption: Localized;
@@ -52,7 +60,7 @@ export interface VisualSpec {
 export interface ExamQuestion {
   id: string;
   year: number;
-  exam: "uts2" | "uas";
+  exam: Exam;
   number: number;
   title: Localized;
   topic: Topic;
@@ -77,6 +85,7 @@ export interface PracticeQuestion {
   options: Localized[];
   correctIndex: number;
   explanation: Localized;
+  optionExplanations: Localized[];
   math?: string;
   sourceQuestionId?: string;
 }

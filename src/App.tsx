@@ -11,8 +11,8 @@ import {
   PanelLeftOpen,
 } from "lucide-react";
 import { MotionConfig } from "motion/react";
-import { questions, reference, archiveUrl } from "@/content";
-import type { Locale } from "@/content/types";
+import { questions, practice, reference, archiveUrl } from "@/content";
+import type { Exam, Locale } from "@/content/types";
 import { usePersisted } from "@/hooks/use-persisted";
 import { text, examName } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,7 @@ export default function App() {
     [],
   );
   const [progress, setProgress] = usePersisted<Record<string, number>>(
-    "ipe:steps:v1",
+    "ipe:steps:expanded:v2",
     {},
   );
   const initialId = window.location.hash.startsWith("#soal/")
@@ -89,7 +89,7 @@ export default function App() {
       (!onlySaved || bookmarks.includes(item.id)),
   );
   const searchResults = questions.filter((item) =>
-    `${item.title.id} ${item.title.en} ${item.year} ${item.topic}`
+    `${item.title.id} ${item.title.en} ${item.year} ${item.topic} ${examName(item.exam, "id")} ${examName(item.exam, "en")}`
       .toLowerCase()
       .includes(search.toLowerCase()),
   );
@@ -106,7 +106,7 @@ export default function App() {
     window.history.replaceState(null, "", `#soal/${id}`);
     window.scrollTo({ top: 0, behavior: "instant" });
   }
-  function filter(nextYear: string, nextExam: "uts2" | "uas") {
+  function filter(nextYear: string, nextExam: Exam) {
     setYear(nextYear);
     setExam(nextExam);
     setSearch("");
@@ -176,10 +176,11 @@ export default function App() {
       </div>
       <Tabs
         value={exam}
-        onValueChange={(v) => filter(year, v as "uts2" | "uas")}
+        onValueChange={(v) => filter(year, v as Exam)}
         className="exam-tabs"
       >
         <TabsList variant="line">
+          <TabsTrigger value="uts1">{examName("uts1", locale)}</TabsTrigger>
           <TabsTrigger value="uts2">{examName("uts2", locale)}</TabsTrigger>
           <TabsTrigger value="uas">{examName("uas", locale)}</TabsTrigger>
         </TabsList>
@@ -290,7 +291,7 @@ export default function App() {
               <TabsTrigger value="practice">
                 <Check />
                 {text(locale, "Latihan", "Practice")}
-                <span className="nav-count">30</span>
+                <span className="nav-count">{practice.length}</span>
               </TabsTrigger>
             </TabsList>
             <div className="header-tools">
@@ -345,10 +346,15 @@ export default function App() {
               </div>
               <div className="archive-summary">
                 <strong>
-                  2023<span>–</span>2025
+                  2023<span>{text(locale, " sampai ", " to ")}</span>2025
                 </strong>
                 <p>
-                  {questions.length} {text(locale, "soal", "questions")} · 6{" "}
+                  {questions.length} {text(locale, "soal", "questions")} ·{" "}
+                  {
+                    new Set(
+                      questions.map((item) => `${item.year}-${item.exam}`),
+                    ).size
+                  }{" "}
                   {text(locale, "ujian", "exams")}
                 </p>
               </div>
@@ -423,7 +429,13 @@ export default function App() {
                 <SheetTitle>
                   {text(locale, "Pilih soal", "Choose a question")}
                 </SheetTitle>
-                <SheetDescription>UTS 2 & UAS · 2023–2025</SheetDescription>
+                <SheetDescription>
+                  {text(
+                    locale,
+                    "UTS 1, UTS 2 & UAS · 2023 sampai 2025",
+                    "Midterms 1, 2 & finals · 2023 to 2025",
+                  )}
+                </SheetDescription>
               </SheetHeader>
               {sidebar}
             </SheetContent>
@@ -506,13 +518,26 @@ export default function App() {
                   <a href={archiveUrl} target="_blank" rel="noreferrer">
                     {text(
                       locale,
-                      "Arsip enam ujian 2023–2025",
-                      "Six exam papers, 2023–2025",
+                      "Arsip sembilan ujian 2023 sampai 2025",
+                      "Nine exam papers, 2023 to 2025",
                     )}
                     <ExternalLink size={15} />
                   </a>
                   <a href={reference.url} target="_blank" rel="noreferrer">
                     {reference.name}
+                    <ExternalLink size={15} />
+                  </a>
+                  <a
+                    href="https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-law-propagation-uncertainty"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    NIST ·{" "}
+                    {text(
+                      locale,
+                      "Propagasi ketidakpastian",
+                      "Propagation of uncertainty",
+                    )}
                     <ExternalLink size={15} />
                   </a>
                   <a
@@ -541,6 +566,13 @@ export default function App() {
                   <p>
                     {text(
                       locale,
+                      "Materi Bagian 3 terutama membahas sensor. Untuk UTS 1, pembahasan memakai data dan model pada naskah; rujukan NIST mendukung bagian ketidakpastian.",
+                      "Part 3 mainly covers sensors. Midterm 1 solutions use each paper’s data and models, with NIST guidance for uncertainty.",
+                    )}
+                  </p>
+                  <p>
+                    {text(
+                      locale,
                       "Tahun mengikuti nama folder arsip. Tanggal ujian pada naskah bisa masuk tahun berikutnya.",
                       "Years follow archive folders. A paper’s printed examination date may fall in the following year.",
                     )}
@@ -562,8 +594,8 @@ export default function App() {
                   <p>
                     {text(
                       locale,
-                      "30 soal latihan merupakan soal baru untuk belajar mandiri, bukan salinan soal ujian. Kemajuan hanya tersimpan di peramban ini.",
-                      "The 30 practice questions are original study exercises, not copied examination questions. Progress is stored only in this browser.",
+                      "30 soal latihan baru menekankan konsep, alasan memilih cara, dan arti hasil ukur. Tiap pilihan memiliki penjelasan. Kemajuan tersimpan di peramban ini.",
+                      "The 30 original practice questions focus on concepts, choosing methods, and interpreting measurements. Every option has an explanation. Progress is stored in this browser.",
                     )}
                   </p>
                 </div>

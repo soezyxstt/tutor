@@ -16,10 +16,34 @@ import {
   stats,
   thermocoupleEMF,
 } from "../src/lib/models";
+import {
+  coefficientUncertainty,
+  frequencyResponse,
+  halfPowerFrequency,
+  negativeFeedback,
+  thermalCycle,
+  thermistorModel,
+  uncertaintyChain,
+} from "../src/lib/measurement";
 import { seismicState } from "../src/components/visuals/dynamics";
 
-// Page counts and question totals were checked against the six original scans.
+// Page counts and question totals were checked against the nine original scans.
 const sources = {
+  "2023-uts1": {
+    drive: "1eDoUueNZiaNhQdGI8BYpkTX8k4ltkSGo",
+    pages: 3,
+    questions: 5,
+  },
+  "2024-uts1": {
+    drive: "1pk9fnP4PEFeyhe6XWGgcr4KcEgtoKHz_",
+    pages: 3,
+    questions: 6,
+  },
+  "2025-uts1": {
+    drive: "1UGFG8A-0z3kaQUNx1FzbVe0ej3It86jN",
+    pages: 2,
+    questions: 5,
+  },
   "2023-uts2": {
     drive: "1W1pKt1ZgIU5T5oLpV7nOYfv4ofcNyMe7",
     pages: 4,
@@ -84,6 +108,13 @@ const visualKinds = new Set([
   "dynamics",
   "potentiometer",
   "rtd",
+  "frequency",
+  "uncertainty",
+  "hysteresis",
+  "lowpass",
+  "thermal-cycle",
+  "thermistor",
+  "feedback",
   "none",
 ]);
 const errors: string[] = [];
@@ -221,8 +252,8 @@ function inspectTextAndMath(value: unknown, path: string, key = "") {
 }
 
 check(
-  questions.length === 31,
-  `Expected 31 exam questions; found ${questions.length}`,
+  questions.length === 47,
+  `Expected 47 exam questions; found ${questions.length}`,
 );
 check(
   practice.length === 30,
@@ -338,6 +369,13 @@ for (const q of practice) {
   localized(q.explanation, `${path}.explanation`);
   check(q.options.length === 4, `${path}: expected exactly four options`);
   q.options.forEach((option, i) => localized(option, `${path}.options[${i}]`));
+  check(
+    q.optionExplanations?.length === q.options.length,
+    `${path}: every choice needs an explanation`,
+  );
+  q.optionExplanations?.forEach((explanation, i) =>
+    localized(explanation, `${path}.optionExplanations[${i}]`),
+  );
   for (const locale of ["id", "en"] as const) {
     check(
       new Set(q.options.map((o) => o[locale].trim().replace(/\s+/g, " ")))
@@ -463,7 +501,7 @@ oracle("Second-order gain: limiting values and 5% boundary", () => {
   near(
     magnitude(0.5, 1 / Math.SQRT2),
     0.9701425001453319,
-    "Practice half-natural-frequency gain",
+    "Half-natural-frequency normalized gain",
   );
   near(
     magnitude(0.7199987397121151, 0.65),
@@ -494,7 +532,7 @@ oracle("Bridge: exact divider, zero balance, and reversed polarity", () => {
   near(
     bridgeVoltage(4, 100, 110, 100, 100),
     0.0952380952380953,
-    "Practice exact bridge voltage",
+    "Exact unbalanced bridge voltage",
   );
 });
 oracle("Endpoint calibration: retain offset and use output span", () => {
@@ -627,6 +665,124 @@ oracle("Seismic accelerometer: physical force balance and DC response", () => {
     }
   }
 });
+
+oracle(
+  "UTS1: frequency limits, thermal continuity, and uncertainty sources",
+  () => {
+    const force = frequencyResponse(2, 600, 1, 1000, 0.7);
+    near(
+      force.magnitude,
+      0.9469425238482128,
+      "2025 UTS1 force amplitude ratio",
+    );
+    near(force.phase, -52.69605172201657, "2025 UTS1 force phase", 1e-5);
+    near(
+      halfPowerFrequency(2, 1, 1000, 0.7),
+      1010.0494938387916,
+      "2025 UTS1 bandwidth",
+      1e-6,
+    );
+    near(
+      frequencyResponse(1, 1 / (2 * Math.PI * 7), 7, 1, 1).magnitude,
+      Math.SQRT1_2,
+      "First-order half-power limit",
+    );
+    const heat = thermalCycle(10, 20, 100, 60, 10, 50);
+    near(heat.output, 70.56964470628461, "2024 UTS1 temperature after 10s");
+    near(
+      thermalCycle(60 - 1e-7, 20, 100, 60, 10, 50).output,
+      thermalCycle(60, 20, 100, 60, 10, 50).output,
+      "Sensor reading continuous at environment switch",
+      1e-6,
+    );
+    near(
+      thermalCycle(60, 20, 100, 60, 10, 50).input,
+      20,
+      "Environment switches immediately",
+    );
+    near(
+      thermalCycle(60, 20, 100, 60, 10, 50).error,
+      79.8016998258667,
+      "Reading error jumps with changed reference",
+    );
+    const chain = uncertaintyChain(
+      5000,
+      [0.001, 0.05, 1000, 15],
+      [0.08, 0.001, 0.5, 5],
+    );
+    near(chain.mean, 3750, "2025 UTS1 misadjusted recorder mean");
+    near(chain.bias, -1250, "2025 UTS1 misadjusted recorder bias");
+    near(
+      chain.sd,
+      36.08439182435161,
+      "2025 UTS1 propagated standard deviation",
+      1e-5,
+    );
+    near(
+      chain.contributions[0],
+      1200,
+      "Sensor error amplified by all later stages",
+    );
+    const linear = coefficientUncertainty(
+      100,
+      [-0.001, 0.02],
+      [0.00015, 0.001],
+    );
+    near(linear.mean, 1.999, "2023 UTS1 mean");
+    near(linear.sd, 0.10000011249993673, "2023 UTS1 standard deviation");
+    const polynomial = coefficientUncertainty(
+      120,
+      [1.2, 0.018, 0.00024],
+      [0.01, 0.001, 0],
+    );
+    near(polynomial.mean, 6.816, "2024 UTS1 polynomial mean");
+    near(
+      polynomial.sd,
+      Math.sqrt(0.0145),
+      "2024 UTS1 polynomial standard deviation",
+    );
+    near(
+      polynomial.contributions[2],
+      0,
+      "Exact coefficient contributes no variance",
+    );
+    near(
+      thermistorModel(0, 273.15, 9000, 373.15, 500).resistance,
+      9000,
+      "NTC ice calibration",
+    );
+    near(
+      thermistorModel(100, 273.15, 9000, 373.15, 500).resistance,
+      500,
+      "NTC steam calibration",
+    );
+    check(
+      thermistorModel(25, 273.15, 9000, 373.15, 500).slope < 0,
+      "NTC slope must be negative",
+    );
+    near(
+      negativeFeedback(50, 10, 10, 1).output,
+      500 / 101,
+      "2024 UTS1 feedback output at1V",
+    );
+    near(
+      negativeFeedback(50, 10, 10, 1.5).output,
+      750 / 151,
+      "2024 UTS1 feedback output at1.5V",
+    );
+    near(
+      bridgeVoltage(10, 675, 500, 500, 500),
+      -35 / 47,
+      "2023 UTS1 bridge polarity",
+    );
+    near(
+      (10 / 1175) ** 2 * 675,
+      0.0488909008601177,
+      "2023 UTS1 sensor power",
+      1e-8,
+    );
+  },
+);
 
 if (errors.length > 0) {
   console.error(

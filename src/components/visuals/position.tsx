@@ -1373,7 +1373,7 @@ function Doppler({ spec, locale }: Props) {
         {text(
           locale,
           `Sumber bergerak, penerima diam, c = ${num(c, locale)} m/s. θ = 0° mendekat; θ = 180° menjauh. Ini suara langsung, bukan pantulan radar.`,
-          `Moving source, stationary receiver, c = ${num(c, locale)} m/s. θ = 0° approaches; θ = 180° recedes. This is direct sound, not a radar echo.`,
+          `Moving source, stationary receiver, c = ${num(c, locale)} m/s. θ = 0° approaches; θ = 180° recedes. Sound travels directly from source to receiver.`,
         )}
       </p>
     </>
