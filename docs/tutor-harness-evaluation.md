@@ -113,6 +113,14 @@ This time it chose `snapshot`, `act`, and `snapshot` for the generated visual. T
 
 The time slider now uses a fixed 0.01 s step, matching its displayed precision. The regression uses a two-second simulation and requires an accepted value of exactly 0.25 s. The expected illustrative voltage contributions at that time are 100 mV from the main axis and 10 mV from the cross axis, for 110 mV total. These are values of the declared nominal example, not an out-of-band calibration of the physical sensor.
 
+## Browser retest with the configured provider
+
+After deploying commit `5d1b9b7` to the isolated PR preview, a fresh conversation repeated the sinusoidal-simulation request and the exact amplitude/time follow-up. The browser showed cross-axis amplitude **2 g** and time **0.25 s**, with a **Play** button confirming the paused state. Main-axis amplitude remained **1 g**, frequency **1 Hz**, phase **0 rad**, and sensitivities **100 and 5 mV/g**. The authored course simulation stayed at **25,000 Hz**. The generated readouts showed **100, 10, and 110 mV**, matching the final answer.
+
+The same browser session selected the two source paragraphs with a mouse drag. The four-action toolbar appeared. Opening the custom question kept both paragraphs and exactly one `$5/100=0.05$` formula in the quote. The generated answer contained no KaTeX rendering errors.
+
+This live test still produced excessive repeated prose and praise after a control request. Its normalized position/voltage diagram was also less direct than a time-versus-voltage comparison. The final prompt revision therefore gives visual tasks an explicit response contract: at most 50 words and two sentences after a control change; for a new visual, a 45-word description and at most 70 words in three sentences afterward. An explicit request for a detailed explanation or derivation can override these limits. It also prefers shared time/output axes for signal comparisons and reserves feedback for work the reader actually submitted.
+
 ## Changes prompted by the trials
 
 - The prompt and tool descriptions now distinguish the attached course simulation from visuals created in the conversation. Generated visual changes use `snapshot`, `query`, and `act`, matched by the visual's title and actual component references.
