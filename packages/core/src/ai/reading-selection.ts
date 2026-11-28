@@ -1,5 +1,20 @@
 export const MAX_SELECTION_CHARACTERS = 8_000;
 
+export type SelectionPromptAction = 'steps' | 'visualize' | 'simplify';
+
+export function selectionPrompt(action: SelectionPromptAction, text: string, locale: 'id' | 'en'): string {
+  const instructions = locale === 'id' ? {
+    steps: 'Jelaskan bagian ini per langkah. Hubungkan tiap langkah agar saya paham alasan dan urutannya. Pertahankan makna, simbol, nilai, dan satuan.',
+    visualize: 'Buat visualisasi interaktif untuk menjelaskan bagian ini. Pilih grafik atau simulasi yang sesuai, lalu jelaskan satu hal yang bisa saya ubah untuk memahaminya. Pertahankan nilai dan satuan dari teks. Nyatakan asumsi jika Anda memakai contoh.',
+    simplify: 'Tulis ulang bagian ini dengan bahasa yang lebih mudah saya pahami. Jelaskan istilah yang perlu. Pertahankan makna, simbol, nilai, dan satuan.',
+  } : {
+    steps: 'Explain this excerpt step by step. Connect each step so I can follow its purpose and order. Preserve the meaning, symbols, values, and units.',
+    visualize: 'Create an interactive visualization to explain this excerpt. Choose a suitable graph or simulation, then explain one thing I can change to understand it. Preserve the values and units from the text. State any assumptions you use for an example.',
+    simplify: 'Rewrite this excerpt in language that is easier to understand. Explain any terms I need. Preserve the meaning, symbols, values, and units.',
+  };
+  return `${instructions[action]}\n\n${locale === 'id' ? 'Teks yang saya pilih:' : 'My selected text:'}\n"${text}"`;
+}
+
 const EXCLUDED_CONTENT = 'input, textarea, select, [contenteditable=""], [contenteditable="true"], [data-inline-ai], [data-ai-selection-toolbar]';
 
 function parentElement(node: Node): Element | null {
@@ -43,6 +58,7 @@ export function readReadingSelection(
 export function selectionToolbarPosition(
   rects: Iterable<Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right' | 'width' | 'height'>>,
   viewport: { width: number; height: number; top?: number; left?: number },
+  toolbar: { width: number; height: number } = { width: 168, height: 36 },
 ) {
   const viewportTop = viewport.top ?? 0;
   const viewportLeft = viewport.left ?? 0;
@@ -51,8 +67,9 @@ export function selectionToolbarPosition(
     && rect.right > viewportLeft && rect.left < viewportLeft + viewport.width);
   if (!visible) return null;
 
+  const halfWidth = Math.min(toolbar.width, Math.max(0, viewport.width - 24)) / 2;
   return {
-    top: Math.max(viewportTop + 60, visible.top - 44),
-    left: Math.max(viewportLeft + 96, Math.min(viewportLeft + viewport.width - 96, (visible.left + visible.right) / 2)),
+    top: Math.max(viewportTop + 60, visible.top - toolbar.height - 8),
+    left: Math.max(viewportLeft + 12 + halfWidth, Math.min(viewportLeft + viewport.width - 12 - halfWidth, (visible.left + visible.right) / 2)),
   };
 }

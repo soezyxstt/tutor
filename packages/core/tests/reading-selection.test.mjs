@@ -84,3 +84,16 @@ test('toolbar placement follows a visible selection line and stays inside the vi
   assert.deepEqual(selectionToolbarPosition(rects, { width: 390, height: 844 }), { top: 106, left: 294 });
   assert.equal(selectionToolbarPosition(rects.slice(0, 1), { width: 390, height: 844 }), null);
 });
+
+test('the wider preset toolbar fits at either desktop viewport edge', () => {
+  const width = 640;
+  const viewport = { width: 1024, height: 800 };
+  for (const edge of [0, 990]) {
+    const result = selectionToolbarPosition([
+      { top: 180, bottom: 200, left: edge, right: edge + 20, width: 20, height: 20 },
+    ], viewport, { width, height: 52 });
+    assert.ok(result.left - width / 2 >= 12);
+    assert.ok(result.left + width / 2 <= viewport.width - 12);
+    assert.equal(result.top, 120);
+  }
+});
