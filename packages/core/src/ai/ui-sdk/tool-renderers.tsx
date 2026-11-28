@@ -199,7 +199,7 @@ export function AiToolInvocationView({
               <thead>
                 <tr className="border-b border-border text-[11px] text-muted-foreground uppercase">
                   {invocation.args.columns.map((col, idx) => (
-                    <th key={idx} className="py-1.5 pr-3 font-semibold">
+                    <th key={idx} className="min-w-[10rem] py-2.5 pr-4 font-semibold">
                       {col}
                     </th>
                   ))}
@@ -211,7 +211,7 @@ export function AiToolInvocationView({
                     {row.map((cell, cIdx) => (
                       <td
                         key={cIdx}
-                        className="py-1.5 pr-3 align-top text-foreground"
+                        className="min-w-[10rem] py-2.5 pr-4 align-top text-foreground"
                       >
                         <MathMarkdown
                           content={cell}

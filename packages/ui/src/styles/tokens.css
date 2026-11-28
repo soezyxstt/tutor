@@ -275,7 +275,7 @@
   line-height: 1.85;
   min-width: 0;
   max-width: 100%;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   /* Do not reset color: use the parent surface or an explicit utility class. */
 }
 
