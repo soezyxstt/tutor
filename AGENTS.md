@@ -25,6 +25,7 @@ Baca skill yang relevan di `.agents/skills/` sebelum mengeksekusi tugas:
 | Skill | Lokasi | Kapan Digunakan |
 | --- | --- | --- |
 | **new-course-pipeline** | `.agents/skills/new-course-pipeline/SKILL.md` | Membuat mata kuliah baru dari nol, setup domain `<slug>.tutor.adihnursyam.com`, Cloudflare Workers & GitHub Actions, serta memperbarui `COURSES.md`. |
+| **pedagogical-structure** | `.agents/skills/pedagogical-structure/SKILL.md` | Standar struktur pedagogis 4 fase (Exam Hook → Micro-Theory + Decision Check → Worked Example + Rationale → Faded Practice 3 tingkat), Socratic/Rubric AI, dan verifikasi 5 lapis. |
 | **author-course-content** | `.agents/skills/author-course-content/SKILL.md` | Mengubah referensi/soal/PDF/URL menjadi `MaterialItem`, `PracticeItem`, dan `ProblemItem` (dengan KaTeX, step-by-step, dan metadata `exam` lintas bab). |
 | **build-course-simulation** | `.agents/skills/build-course-simulation/SKILL.md` | Membuat visualisasi/simulasi interaktif *lazy-loaded* (RK4 Canvas, Mafs, ECharts, R3F/Rapier) yang terhubung ke slider & AI tool `updateSimulationParams`. |
 
@@ -46,19 +47,21 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
    - Jika mata kuliah **sudah ada** → langsung edit di `apps/<slug>/src/content/`.
 2. **Analisis Sumber Referensi**: Ekstrak konsep inti (untuk `kind: 'material'`), soal cek pemahaman (untuk `kind: 'practice'`), dan soal ujian/tutorial lengkap (untuk `kind: 'problem'`).
 3. **Susun Konten**:
+   - Ikuti struktur 4 fase & anti-wall-of-text pada skill `pedagogical-structure`, serta gaya bahasa dari `bahasa-ajar` & `instructional-language`.
    - Kelompokkan berdasarkan **Bab / Modul** di `course.modules`.
    - Untuk soal ujian (UTS/UAS/Kuis), **wajib** isi field `exam: { term, year, number }` agar otomatis muncul di tab **`Per Ujian`** pada sidebar meski soal ujian mencakup lintas bab.
-   - Pecah pembahasan menjadi langkah-langkah logis (`steps[]`) yang ringkas, runtut, dengan rumus KaTeX (`$...$` inline, `$$...$$` blok), petunjuk (`hint`), `finalAnswer`, dan `takeaway`.
+   - Pecah pembahasan menjadi langkah-langkah atomik (`steps[]`) dengan KaTeX, `checkpoint` 1-klik, `rationale` (*"Kenapa pakai cara ini?"*), petunjuk (`hint`), `finalAnswer`, dan `takeaway`.
 4. **Tambah Simulasi Interaktif (Bila Relevan)**:
    - Jika materi/soal sangat terbantu oleh grafik dinamis, solver numerik, atau visualisasi 3D, buat komponen terpisah dan daftarkan secara *lazy-loaded* via `registerSimulation(type, () => import('./...'))` sebelum render `<TutorApp />`.
 5. **Perbarui `COURSES.md`**:
    - Pastikan jumlah modul, daftar ujian, dan status deployment di `COURSES.md` selalu mutakhir.
 6. **Verifikasi Wajib Sebelum Selesai**:
    ```bash
+   pnpm validate
    pnpm typecheck
    pnpm build
    ```
-   Pastikan tidak ada error TypeScript, tidak ada broken LaTeX, dan chunk simulasi berat terpisah (*lazy-loaded*).
+   Pastikan lulus validasi skema/pedagogi (`pnpm validate`), tidak ada error TypeScript, tidak ada broken LaTeX, dan chunk simulasi berat terpisah (*lazy-loaded*).
 7. **Deployment (Cloudflare Workers via GitHub Actions)**:
    - Setiap app di `apps/<slug>` memiliki `wrangler.jsonc` dengan custom domain `<slug>.tutor.adihnursyam.com` dan workflow `.github/workflows/deploy-<slug>.yml` yang menggunakan GitHub Secrets:
      - `CF_ACCOUNT_ID`

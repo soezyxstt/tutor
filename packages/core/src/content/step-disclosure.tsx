@@ -34,11 +34,16 @@ export function StepDisclosure({
   const [showAll, setShowAll] = React.useState(false);
   const [openHints, setOpenHints] = React.useState<Record<string, boolean>>({});
 
+  const [openRationales, setOpenRationales] = React.useState<Record<string, boolean>>({});
+  const [checkpointPicks, setCheckpointPicks] = React.useState<Record<string, string>>({});
+
   // Reset to step 0 when switching problems
   React.useEffect(() => {
     setActiveIndex(0);
     setShowAll(false);
     setOpenHints({});
+    setOpenRationales({});
+    setCheckpointPicks({});
   }, [itemKey]);
 
   const safeIndex = Math.min(activeIndex, Math.max(0, steps.length - 1));
@@ -48,6 +53,8 @@ export function StepDisclosure({
 
   const renderStepBody = (step: SolutionStep, index: number) => {
     const hintOpen = autoShowHints || !!openHints[step.id];
+    const rationaleOpen = !!openRationales[step.id];
+    const pickedOpt = checkpointPicks[step.id];
     const stepAnchor = `${itemKey}:step:${step.id}`;
 
     return (
@@ -91,6 +98,46 @@ export function StepDisclosure({
           </div>
         </div>
 
+        {/* Optional 1-click self-explanation checkpoint */}
+        {step.checkpoint && (
+          <div className="space-y-2 border-l-2 border-border pl-3.5 text-[13.5px]">
+            <div className="text-xs font-medium text-muted-foreground">
+              {step.checkpoint.prompt}
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {step.checkpoint.options.map((opt) => {
+                const selected = pickedOpt === opt.id;
+                const isRight = opt.id === step.checkpoint?.correctOptionId;
+                return (
+                  <Button
+                    key={opt.id}
+                    size="xs"
+                    variant={selected ? 'default' : 'outline'}
+                    onClick={() =>
+                      setCheckpointPicks((prev) => ({ ...prev, [step.id]: opt.id }))
+                    }
+                    className={cn(
+                      selected && !isRight && 'bg-destructive text-primary-foreground hover:bg-destructive/90'
+                    )}
+                  >
+                    {opt.label}
+                  </Button>
+                );
+              })}
+            </div>
+            <CollapsibleMotion open={!!pickedOpt}>
+              {pickedOpt && (
+                <div className="pt-1 text-xs text-muted-foreground">
+                  {step.checkpoint.options.find((o) => o.id === pickedOpt)?.feedback ??
+                    (pickedOpt === step.checkpoint.correctOptionId
+                      ? 'Keputusan tepat — lanjut amati penurunan di bawah.'
+                      : 'Coba bandingkan asumsi ini dengan penurunan di bawah.')}
+                </div>
+              )}
+            </CollapsibleMotion>
+          </div>
+        )}
+
         {step.hint && (
           <CollapsibleMotion open={hintOpen}>
             <div className="border-l-2 border-primary/40 pl-3 text-[13px] text-muted-foreground">
@@ -101,6 +148,60 @@ export function StepDisclosure({
         )}
 
         <MathMarkdown content={step.content} />
+
+        {/* Optional collapsible Rationale drawer ("Kenapa cara ini?") */}
+        {step.rationale && (
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() =>
+                setOpenRationales((prev) => ({
+                  ...prev,
+                  [step.id]: !prev[step.id],
+                }))
+              }
+              aria-expanded={rationaleOpen}
+              className="inline-flex cursor-pointer items-center gap-1 text-xs font-medium text-primary transition-colors hover:underline"
+            >
+              <ChevronRight
+                className={cn(
+                  'size-3.5 transition-transform duration-200',
+                  rationaleOpen && 'rotate-90'
+                )}
+              />
+              <span>Kenapa pakai cara ini?</span>
+            </button>
+            <CollapsibleMotion open={rationaleOpen}>
+              <div className="mt-2 space-y-2 border-l-2 border-primary/40 pl-3.5 text-[13px] text-muted-foreground">
+                <div>
+                  <span className="font-medium text-foreground">Alasan metode: </span>
+                  <MathMarkdown
+                    content={step.rationale.whyThisMethod}
+                    className="inline text-[13px] text-muted-foreground"
+                  />
+                </div>
+                {step.rationale.whyNotAlternative && (
+                  <div>
+                    <span className="font-medium text-foreground">Kenapa bukan alternatif: </span>
+                    <MathMarkdown
+                      content={step.rationale.whyNotAlternative}
+                      className="inline text-[13px] text-muted-foreground"
+                    />
+                  </div>
+                )}
+                {step.rationale.commonPitfall && (
+                  <div>
+                    <span className="font-medium text-warning">Jebakan umum: </span>
+                    <MathMarkdown
+                      content={step.rationale.commonPitfall}
+                      className="inline text-[13px] text-muted-foreground"
+                    />
+                  </div>
+                )}
+              </div>
+            </CollapsibleMotion>
+          </div>
+        )}
 
         <InlineAiThread
           anchorId={stepAnchor}

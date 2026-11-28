@@ -165,6 +165,31 @@ Karena $\\dot{x}^2 \\ge 0$, energi tidak pernah bertambah tanpa gaya penggerak e
               title: 'Susun persamaan diferensial gerak',
               summary: 'Terapkan Hukum II Newton untuk gaya pegas dan gaya redam.',
               hint: 'Kedua gaya pemulih (−kx) dan redaman (−cv) berlawanan arah dengan simpangan dan kecepatan.',
+              checkpoint: {
+                prompt: 'Sebelum melihat penurunan, ke mana arah gaya redam saat balok bergerak ke bawah (+v)?',
+                options: [
+                  {
+                    id: 'up',
+                    label: 'Ke atas (−cẋ)',
+                    feedback: 'Benar — redaman viskos selalu melawan arah gerak sesaat.',
+                  },
+                  {
+                    id: 'down',
+                    label: 'Ke bawah (+cẋ)',
+                    misconceptionTag: 'damping-sign-flip',
+                    feedback: 'Jika searah kecepatan, gaya justru mempercepat balok tanpa batas (energi bertambah).',
+                  },
+                ],
+                correctOptionId: 'up',
+              },
+              rationale: {
+                whyThisMethod:
+                  'Bentuk kanonik $\\ddot{x} + 2\\zeta\\omega_n\\dot{x} + \\omega_n^2 x = 0$ langsung memisahkan frekuensi alami dan rasio redaman tanpa perlu menghafal akar kuadrat baru setiap soal.',
+                whyNotAlternative:
+                  'Pendekatan kekekalan energi mekanik tidak bisa dipakai langsung karena gaya redam viskos bersifat non-konservatif.',
+                commonPitfall:
+                  'Salah tanda saat memindahkan $-kx - c\\dot{x}$ ke ruas kiri (menulis $m\\ddot{x} - c\\dot{x} + kx = 0$).',
+              },
               content:
                 'Dengan mengambil arah simpangan positif ke bawah dari posisi setimbang, jumlah gaya yang bekerja pada massa adalah gaya pegas $-kx$ dan gaya redaman viskos $-c\\dot{x}$:\n\n$$m\\ddot{x} = -kx - c\\dot{x} \\quad \\Longrightarrow \\quad m\\ddot{x} + c\\dot{x} + kx = 0$$\n\nBagi kedua ruas dengan $m$ untuk memperoleh bentuk kanonik:\n\n$$\\ddot{x} + 2\\zeta\\omega_n\\dot{x} + \\omega_n^2 x = 0$$',
             },

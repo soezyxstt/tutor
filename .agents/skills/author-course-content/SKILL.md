@@ -6,7 +6,9 @@ description: Guidelines and schema for authoring high-quality Materi (MaterialIt
 
 Gunakan skill ini saat mengubah materi kuliah, diktat, slide, atau naskah soal ujian (PDF, gambar, URL, teks) menjadi konten terstruktur di `apps/<slug>/src/content/`.
 
-> **Prasyarat Gaya Bahasa & Pedagogi:** Sebelum menulis narasi materi, langkah pembahasan, atau petunjuk, muat/ikuti versi terbaru dari skill **`bahasa-ajar`** dan **`instructional-language`** dari repo **`soezyxstt/agent-skills`** (jangan menyalin/menduplikasi isinya ke repo ini agar selalu *up to date*).
+> **Prasyarat Struktur, Gaya Bahasa & Pedagogi:**
+> - Ikuti **`.agents/skills/pedagogical-structure/SKILL.md`** untuk struktur 4 fase (Exam Hook → Micro-Theory + Decision Check → Worked Example + `checkpoint` & `rationale` → Faded Practice 3 tingkat) dan verifikasi 5 lapis (`pnpm validate`).
+> - Muat/ikuti versi terbaru dari skill **`bahasa-ajar`** dan **`instructional-language`** dari repo **`soezyxstt/agent-skills`** untuk gaya bahasa pengajaran.
 
 ## 1. Struktur File Konten yang Disarankan
 Untuk mata kuliah kecil (≤ 10 item), cukup di `apps/<slug>/src/content/course.ts`.

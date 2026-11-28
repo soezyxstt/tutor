@@ -20,18 +20,53 @@ export interface SimulationSpec {
   params: SimulationParamDef[];
 }
 
+export interface StepCheckpoint {
+  prompt: string;
+  options: {
+    id: string;
+    label: string;
+    feedback?: string;
+    misconceptionTag?: string;
+  }[];
+  correctOptionId: string;
+}
+
+export interface StepRationale {
+  whyThisMethod: string;
+  whyNotAlternative?: string;
+  commonPitfall?: string;
+}
+
 export interface SolutionStep {
   id: string;
   title: string;
   summary?: string;
   content: string;
   hint?: string;
+  /** Optional 1-click self-explanation check before/alongside the step */
+  checkpoint?: StepCheckpoint;
+  /** Optional collapsible "Kenapa cara ini?" drawer separating What from Why */
+  rationale?: StepRationale;
 }
 
 export interface MaterialDerivation {
   id: string;
   title: string;
   content: string;
+}
+
+export interface ExamHook {
+  prompt: string;
+  targetOutcome: string;
+}
+
+export interface MicroTheoryUnit {
+  id: string;
+  title: string;
+  intuition: string;
+  formal: string;
+  validityBounds?: string;
+  decisionCheck?: PracticeQuestion;
 }
 
 export interface MaterialItem {
@@ -41,7 +76,11 @@ export interface MaterialItem {
   title: string;
   estimatedMinutes?: number;
   tags?: string[];
+  /** Phase 1: Problem-first exam hook framing why the theory matters */
+  examHook?: ExamHook;
   body: string;
+  /** Phase 2: Chunked micro-theory units (<= 180 words) with analytical decision checks */
+  microUnits?: MicroTheoryUnit[];
   keyFormula?: {
     label: string;
     latex: string;
@@ -55,6 +94,10 @@ export interface MaterialItem {
 export interface PracticeOption {
   id: string;
   label: string;
+  /** Optional targeted feedback when student picks this specific option */
+  feedback?: string;
+  /** Optional misconception identifier for analytical distractors */
+  misconceptionTag?: string;
 }
 
 export interface PracticeQuestion {
@@ -66,6 +109,36 @@ export interface PracticeQuestion {
   explanation: string;
 }
 
+export interface GuidedPracticeTask {
+  id: string;
+  mode: 'spot-the-error' | 'complete-the-bridge';
+  title: string;
+  prompt: string;
+  /** Flawed solution or partial skeleton */
+  workSample: string;
+  question: PracticeQuestion;
+}
+
+export interface RubricCriterion {
+  id: string;
+  label: string;
+  weight: number; // Must sum to 100 across criteria
+  fullCredit: string;
+  commonPartialError?: string;
+}
+
+export interface EssayPracticeTask {
+  id: string;
+  title: string;
+  prompt: string;
+  /** Guided thinking blocks (e.g. ['Asumsi & Model', 'Strategi', 'Eksekusi', 'Kesimpulan']) */
+  sections?: string[];
+  /** Exact 3-tier progressive hints: [konsep, langkah pembuka, kerangka alur] */
+  hints: [string, string, string];
+  rubric: RubricCriterion[];
+  verifiedOutline: string;
+}
+
 export interface PracticeItem {
   id: string;
   kind: 'practice';
@@ -75,7 +148,12 @@ export interface PracticeItem {
   estimatedMinutes?: number;
   tags?: string[];
   intro?: string;
+  /** Tier 1: Analytical Micro-MCQ */
   questions: PracticeQuestion[];
+  /** Tier 2: Guided / Partial Essay (Spot-the-Error, Complete-the-Bridge) */
+  guidedTasks?: GuidedPracticeTask[];
+  /** Tier 3: Full Exam Essay with 3-tier hints & 100%-weight rubric */
+  essayTasks?: EssayPracticeTask[];
   simulation?: SimulationSpec;
 }
 

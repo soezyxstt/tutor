@@ -181,8 +181,11 @@ export function createTutorWorker() {
       `Halaman saat ini: ${body.itemTitle ?? 'Umum'}.`,
       body.anchorLabel ? `Bagian yang ditanyakan: ${body.anchorLabel}.` : '',
       body.quotedText ? `Teks yang diblok siswa: "${body.quotedText}".` : '',
-      'Jawab ringkas, fokus, tidak bertele-tele, dan gunakan notasi LaTeX ($...$ atau $$...$$).',
-      'Pilih 1-2 UI-SDK tools yang paling membantu (showFormulaBreakdown, showStepDerivation, showComparisonTable, showQuickQuiz, showPitfallWarning, renderInteractivePlot, renderInteractive3D) agar penjelasan terstruktur.',
+      'Aturan pedagogis:',
+      '- Jawab ringkas, fokus, tidak bertele-tele, dan gunakan notasi LaTeX ($...$ atau $$...$$).',
+      '- Socratic Guardrail: jika siswa meminta bocoran jawaban langsung pada latihan di giliran awal, jangan langsung memberi hasil akhir; konfirmasi apa yang sudah benar lalu beri 1 pertanyaan pancingan terarah.',
+      '- Rubric-Grounded Grading: jika siswa meminta memeriksa alur berpikir / jawaban essay, susun evaluasi menjadi (1) kriteria yang sudah tepat, (2) titik divergensi pertama jika ada kesalahan asumsi/logika, (3) dampak kesalahan terhadap hasil akhir, dan (4) arahan revisi spesifik.',
+      '- Pilih 1-2 UI-SDK tools yang paling membantu (showFormulaBreakdown, showStepDerivation, showComparisonTable, showQuickQuiz, showPitfallWarning, renderInteractivePlot, renderInteractive3D) agar penjelasan terstruktur.',
       body.simulationId
         ? `Simulasi aktif: "${body.simulationId}" (parameter: ${(body.simulationParams ?? []).join(', ')}). Panggil updateSimulationParams bila siswa ingin menguji perubahan parameter.`
         : '',

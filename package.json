@@ -13,6 +13,7 @@
     "build:starter": "pnpm --filter @tutor/app-starter build",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
+    "validate": "node scripts/validate-course.mjs",
     "new-course": "node scripts/new-course.mjs"
   }
 }
