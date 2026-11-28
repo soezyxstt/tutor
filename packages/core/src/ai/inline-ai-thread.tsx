@@ -11,6 +11,7 @@ import { useLanguage } from '../i18n/language-provider';
 import { learningContext } from './learning-context';
 import { useSimulationContextState } from '../simulation/simulation-registry';
 import { isTutorAgentTool, runTutorAgentTool, settleTutorUi, tutorUiContext } from './agent-runtime';
+import { updateAuthoredSimulationParams } from './authored-simulation-tool';
 
 export function InlineAiThread({
   anchorId,
@@ -41,7 +42,6 @@ export function InlineAiThread({
   const thread = useTutorStore((s) => s.inlineThreads[anchorId]);
   const closeInlineAi = useTutorStore((s) => s.closeInlineAi);
   const clearInlineDraft = useTutorStore((s) => s.clearInlineDraft);
-  const updateSimParams = useTutorStore((s) => s.updateSimParams);
   const revealStep = useTutorStore((s) => s.revealStep);
   const isOpen = !!thread?.open;
   const quotedText = thread?.quotedText;
@@ -81,16 +81,7 @@ export function InlineAiThread({
       if (!checked.ok) return checked;
       const invocation = checked.invocation;
       if (invocation.toolName === 'updateSimulationParams') {
-        if (!simulation || invocation.args.simulationId !== simulation.id) return { ok: false, error: 'That simulation is not active in this section. Use snapshot to find current controls.' };
-        const patch = invocation.args.params;
-        if (!Object.keys(patch).length) return { ok: false, error: 'No simulation parameters were supplied.' };
-        for (const [key, value] of Object.entries(patch)) {
-          const definition = simulation.params.find((parameter) => parameter.key === key);
-          if (!definition || value < definition.min || value > definition.max) return { ok: false, error: `Parameter ${key} is unknown or outside its allowed range.` };
-        }
-        const key = `${courseSlug}:${simulation.id}`;
-        updateSimParams(key, patch);
-        return { ok: true, simulationId: simulation.id, params: useTutorStore.getState().simParams[key] };
+        return updateAuthoredSimulationParams({ courseSlug, itemKey, simulation }, invocation.args, turn.current.signal);
       }
       if (invocation.toolName === 'revealSolutionStep') {
         if (stepCount === undefined || invocation.args.stepIndex >= stepCount) return { ok: false, error: 'That solution step is unavailable in this section.' };

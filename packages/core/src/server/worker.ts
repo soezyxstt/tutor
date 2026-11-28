@@ -185,7 +185,7 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
       ...tutorAgentTools,
       updateSimulationParams: tool({
         description:
-          'Ubah parameter simulasi interaktif di layar siswa secara langsung.',
+          'Ubah hanya parameter yang terdaftar pada simulasi bawaan materi, memakai ID simulasi dari konteks halaman. Untuk grafik atau animasi yang dibuat tutor, gunakan snapshot/query/act pada kontrolnya.',
         parameters: updateSimulationParamsSchema,
       }),
       revealSolutionStep: tool({

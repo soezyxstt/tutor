@@ -33,7 +33,7 @@ test('the tutor reads and drives only approved controls in its active lesson', a
     globalThis.setTimeout = originalTimeout;
     globalThis.setInterval = originalInterval;
   });
-  for (const name of ['window', 'document', 'navigator', 'Node', 'NodeFilter', 'Element', 'ShadowRoot', 'MutationObserver', 'Event', 'EventTarget', 'CustomEvent', 'KeyboardEvent', 'MouseEvent', 'PointerEvent', 'DOMRect', 'getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame', ...Object.getOwnPropertyNames(browser).filter((name) => /^(HTML|SVG).*Element$/.test(name))]) {
+  for (const name of ['window', 'document', 'navigator', 'localStorage', 'Node', 'NodeFilter', 'Element', 'ShadowRoot', 'MutationObserver', 'Event', 'EventTarget', 'CustomEvent', 'KeyboardEvent', 'MouseEvent', 'PointerEvent', 'DOMRect', 'getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame', ...Object.getOwnPropertyNames(browser).filter((name) => /^(HTML|SVG).*Element$/.test(name))]) {
     const value = name === 'window' ? browser : browser[name as keyof typeof browser];
     Object.defineProperty(globalThis, name, { value: typeof value === 'function' && ['getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame'].includes(name) ? value.bind(browser) : value, configurable: true, writable: true });
   }
@@ -197,6 +197,77 @@ test('the tutor reads and drives only approved controls in its active lesson', a
       assert.equal(found.length, 1);
       assert.equal((await act({ steps: [{ ref: found[0].ref, action: 'press' }] })).ok, true);
       assert.equal(presses, 1);
+    });
+
+    await t.test('a rejected course update returns real generated controls for a successful recovery', async () => {
+      const { ThemeProvider } = await import('@tutor/ui');
+      const { LanguageProvider } = await import('../src/i18n/language-provider');
+      const { AiToolInvocationView } = await import('../src/ai/ui-sdk/tool-renderers');
+      const { updateAuthoredSimulationParams } = await import('../src/ai/authored-simulation-tool');
+      const { useTutorStore } = await import('../src/store/tutor-store');
+      // The real renderer still mounts its controls without canvas support.
+      // Pixel rendering is independent of this routing and state regression.
+      browser.HTMLCanvasElement.prototype.getContext = () => null;
+      const simulation = {
+        id: 'course-frequency', type: 'frequency', title: 'Course frequency',
+        params: [
+          { key: 'frequency', label: 'Frequency', min: 0.1, max: 30_000, step: 0.1, defaultValue: 25_000 },
+          { key: 'damping', label: 'Damping', min: 0.1, max: 1, step: 0.1, defaultValue: 0.7 },
+        ],
+      };
+      const context = { courseSlug: 'course', itemKey: 'course:lesson-a', simulation };
+      const storeKey = 'course:course-frequency';
+      useTutorStore.getState().resetSimParams(storeKey, { frequency: 25_000 });
+      await React.act(async () => {
+        root.render(<ThemeProvider><LanguageProvider>
+          <section data-tutor-agent-scope="course:lesson-a">
+            {Array.from({ length: 110 }, (_, index) => <AgentButton key={index}>Lesson control {index}</AgentButton>)}
+            <AiToolInvocationView invocation={{ toolName: 'renderInteractiveSimulation', args: {
+              title: 'Cross-axis response', description: 'Illustrative response with an amplitude control.', duration: 2,
+              xDomain: [0, 1], yDomain: [-4, 4],
+              particles: [{ label: 'Response', xExpression: 't', yExpression: 'amplitude*sin(2*pi*t)', trail: true }],
+              sliders: [{ key: 'amplitude', label: 'Amplitude', unit: 'g', min: 0, max: 4, step: 0.1, defaultValue: 1 }],
+            } }} />
+          </section>
+          <section data-tutor-agent-scope="course:lesson-b">
+            <AgentSlider aria-label="Other lesson amplitude" defaultValue={[3]} min={0} max={4} />
+          </section>
+        </LanguageProvider></ThemeProvider>);
+      });
+      await React.act(async () => { await new Promise((resolve) => setTimeout(resolve, 25)); });
+      let recovery: any;
+      for (const input of [
+        { simulationId: 'generated-cross-axis', params: { amplitude: 2 } },
+        { simulationId: simulation.id, params: { frequency: 8_000, amplitude: 2 } },
+        { simulationId: simulation.id, params: { frequency: 50_000 } },
+      ]) {
+        const rejected = await updateAuthoredSimulationParams(context, input);
+        assert.equal(rejected.ok, false);
+        assert.ok('recovery' in rejected);
+        recovery = (rejected as any).recovery;
+        assert.match(recovery.instruction, /generated graph or animation/);
+        assert.deepEqual(recovery.controls.find((entry: any) => entry.label === 'Cross-axis response: Amplitude')?.value, [1]);
+        assert.ok(recovery.controls.every((entry: any) => entry.label !== 'Other lesson amplitude'));
+        assert.ok(recovery.controls.length <= 32 && JSON.stringify(recovery.controls).length < 6_100);
+        assert.deepEqual(useTutorStore.getState().simParams[storeKey], { frequency: 25_000 });
+      }
+      const amplitude = recovery.controls.find((entry: any) => entry.label === 'Cross-axis response: Amplitude');
+      const time = recovery.controls.find((entry: any) => entry.component === 'slider' && entry.ref !== amplitude.ref);
+      assert.ok(time, 'The recovery includes the generated time control as well as amplitude');
+      const changed = await act({ steps: [
+        { ref: amplitude.ref, action: 'setValue', args: [[2]] },
+        { ref: time.ref, action: 'setValue', args: [[0.25]] },
+      ] });
+      assert.equal(changed.ok, true, JSON.stringify(changed));
+      assert.deepEqual(changed.steps[0].current.value, [2]);
+      assert.deepEqual(changed.steps[1].current.value, [0.25]);
+      assert.deepEqual(useTutorStore.getState().simParams[storeKey], { frequency: 25_000 });
+      const accepted = await updateAuthoredSimulationParams(context, { simulationId: simulation.id, params: { frequency: 8_000 } });
+      assert.deepEqual(accepted, { ok: true, simulationId: simulation.id, params: { frequency: 8_000, damping: 0.7 } });
+      const controller = new AbortController();
+      controller.abort();
+      assert.equal((await updateAuthoredSimulationParams(context, { simulationId: simulation.id, params: { frequency: 9_000 } }, controller.signal)).ok, false);
+      assert.equal(useTutorStore.getState().simParams[storeKey].frequency, 8_000);
     });
   } finally {
     await React.act(async () => { root.unmount(); });

@@ -84,10 +84,14 @@ test('surfaces, vectors, quiz keys, and table dimensions require valid content',
 
 test('both tutor languages require render calls and honest UI action results', () => {
   for (const language of ['id', 'en'] as const) {
-    const prompt = buildTutorSystemPrompt({ language, uiContext: '{"snapshot":"visible controls"}' });
+    const prompt = buildTutorSystemPrompt({ language, simulationId: 'course-frequency', simulationParams: ['frequency'], uiContext: '{"snapshot":"visible controls"}' });
     assert.match(prompt, /renderInteractiveSimulation/);
     assert.match(prompt, /snapshot/);
     assert.match(prompt, /visible controls/);
+    assert.match(prompt, /course-frequency/);
+    assert.match(prompt, language === 'id' ? /Daftar parameternya bukan daftar seluruh kontrol/ : /parameter list is not a list of every control/);
+    assert.match(prompt, language === 'id' ? /periksa kontrol nyata dalam hasil galat/ : /inspect the actual controls returned in the error/);
+    assert.doesNotMatch(prompt, /Use updateSimulationParams when the reader wants to test a change|Gunakan updateSimulationParams saat pembaca ingin menguji perubahan parameter/);
     assert.match(prompt, language === 'id' ? /panggil alat yang sesuai pada giliran ini/ : /call the matching render or quiz tool in this turn/);
     assert.doesNotMatch(prompt, /[\u2013\u2014]/);
   }

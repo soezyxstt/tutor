@@ -65,7 +65,7 @@ test('selection presets send the chosen task and exact quote; a custom question 
       range.setEnd(secondNode, secondNode.textContent!.length);
       const selection = browser.getSelection()!;
       selection.removeAllRanges(); selection.addRange(range);
-      selected = selection.toString().trim();
+      selected = `${first}\n\n${second}`.trim();
       browser.document.dispatchEvent(new browser.Event('selectionchange'));
       await new Promise((resolve) => setTimeout(resolve, 90));
     });

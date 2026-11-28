@@ -206,11 +206,37 @@ function ValidatedToolInvocationView({ invocation }: { invocation: AiUiToolInvoc
 
     case 'showComparisonTable': {
       return (
-        <div className="my-2.5 space-y-1.5 border-y border-border/80 py-3">
+        <div className="my-2.5 min-w-0 space-y-1.5 border-y border-border/80 py-3">
           <div className="text-xs font-semibold text-primary">
             {invocation.args.title}
           </div>
-          <div className="overflow-x-auto">
+          <div className="min-w-0 sm:hidden">
+            <MathMarkdown
+              content={invocation.args.columns[0]}
+              className="text-[11px] font-medium text-muted-foreground"
+            />
+            <ol className="divide-y divide-border/60">
+              {invocation.args.rows.map((row, rIdx) => (
+                <li key={rIdx} className="min-w-0 space-y-2 py-3 last:pb-0">
+                  <MathMarkdown content={row[0]} className="text-[13px] font-semibold leading-snug" />
+                  <dl className="space-y-2">
+                    {row.slice(1).map((cell, cIdx) => (
+                      <div key={cIdx} className="min-w-0 space-y-0.5">
+                        <dt>
+                          <MathMarkdown content={invocation.args.columns[cIdx + 1] ?? ''}
+                            className="text-[11px] font-medium text-muted-foreground" />
+                        </dt>
+                        <dd className="min-w-0">
+                          <MathMarkdown content={cell} className="text-[13px] leading-relaxed" />
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full border-collapse text-left text-xs">
               <thead>
                 <tr className="border-b border-border text-[11px] text-muted-foreground uppercase">

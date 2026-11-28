@@ -9,6 +9,10 @@ import { formatNumeric, InteractiveParameterControls } from './interactive-contr
 import type { RenderInteractiveSimulationInput } from './tools';
 
 const COLOR_VARIABLES = { primary: '--primary', success: '--success', warning: '--warning', destructive: '--destructive' };
+const DEFAULT_COLORS = ['primary', 'success', 'warning', 'destructive'] as const;
+function seriesColor(color: keyof typeof COLOR_VARIABLES | undefined, index: number) {
+  return color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length];
+}
 
 /** Expression-based 2D simulation. Only the declared math language runs here.
  * Canvas and clock refs animate at frame rate; React publishes time at 4 Hz. */
@@ -86,7 +90,8 @@ export default function InteractiveSimulationBlock({ data }: { data: RenderInter
     const variables = { ...params, t: clock.current };
     compiled.particles.forEach((particle, index) => {
       const trail = paths[index];
-      context.strokeStyle = color(particle.color); context.lineWidth = 1.5; context.globalAlpha = 0.6;
+      const particleColor = color(seriesColor(particle.color, index));
+      context.strokeStyle = particleColor; context.lineWidth = 1.5; context.globalAlpha = 0.6;
       context.beginPath();
       let started = false;
       for (const point of trail) {
@@ -99,25 +104,23 @@ export default function InteractiveSimulationBlock({ data }: { data: RenderInter
       context.stroke(); context.globalAlpha = 1;
       const px = particle.x(variables); const py = particle.y(variables);
       if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-      context.fillStyle = color(particle.color);
+      context.fillStyle = particleColor;
       context.beginPath(); context.arc(x(px), y(py), 6, 0, 2 * Math.PI); context.fill();
-      context.fillStyle = foreground; context.textAlign = 'left'; context.textBaseline = 'bottom';
-      context.fillText(particle.label, Math.max(pad.left + 3, Math.min(x(px) + 9, width - pad.right - 90)), Math.max(pad.top + 14, y(py) - 7), 120);
     });
-    for (const vector of compiled.vectors) {
+    for (const [index, vector] of compiled.vectors.entries()) {
       const ox = vector.ox(variables); const oy = vector.oy(variables);
       const vx = vector.x(variables); const vy = vector.y(variables);
       if (![ox, oy, vx, vy].every(Number.isFinite)) continue;
       const sx = x(ox); const sy = y(oy); const ex = x(ox + vx); const ey = y(oy + vy);
       const angle = Math.atan2(ey - sy, ex - sx);
-      context.strokeStyle = color(vector.color); context.fillStyle = color(vector.color); context.lineWidth = 2;
+      const vectorColor = color(seriesColor(vector.color, data.particles.length + index));
+      context.strokeStyle = vectorColor; context.fillStyle = vectorColor; context.lineWidth = 2;
       context.beginPath(); context.moveTo(sx, sy); context.lineTo(ex, ey); context.stroke();
       if (Math.hypot(ex - sx, ey - sy) > 1) {
         context.beginPath(); context.moveTo(ex, ey);
         context.lineTo(ex - 8 * Math.cos(angle - 0.4), ey - 8 * Math.sin(angle - 0.4));
         context.lineTo(ex - 8 * Math.cos(angle + 0.4), ey - 8 * Math.sin(angle + 0.4)); context.closePath(); context.fill();
       }
-      context.fillText(vector.label, Math.max(pad.left + 3, Math.min(ex + 5, width - pad.right - 90)), Math.max(pad.top + 14, ey - 6), 120);
     }
     context.restore();
     compiled.readouts.forEach((readout, index) => {
@@ -174,9 +177,21 @@ export default function InteractiveSimulationBlock({ data }: { data: RenderInter
     </div>
     <MathMarkdown content={data.description} className="text-[13px] text-muted-foreground" />
     {unavailable ? <p role="status" className="text-sm text-destructive">{t('Peramban ini belum dapat menggambar simulasi.', 'This browser could not draw the simulation.')}</p> : <canvas ref={canvasRef} role="img" aria-label={`${data.title}. ${t('Kontrol waktu dan parameter berada di bawah gambar.', 'Time and parameter controls follow the image.')}`} className="block h-[230px] w-full rounded-sm sm:h-[260px]" />}
+    {/* Keep names in a wrapping text legend. Drawing them beside moving points
+        makes every label collide when signals share the same initial value. */}
+    <ul aria-label={t('Keterangan simulasi', 'Simulation legend')} className="flex min-w-0 flex-wrap gap-x-4 gap-y-1.5 text-[13px] text-muted-foreground">
+      {data.particles.map((particle, index) => <li key={`particle-${index}`} className="flex min-w-0 max-w-full items-start gap-1.5">
+        <span aria-hidden="true" className="mt-1 size-2.5 shrink-0 rounded-full" style={{ backgroundColor: `var(${COLOR_VARIABLES[seriesColor(particle.color, index)]})` }} />
+        <span className="min-w-0 break-words">{particle.label}</span>
+      </li>)}
+      {(data.vectors ?? []).map((vector, index) => <li key={`vector-${index}`} className="flex min-w-0 max-w-full items-start gap-1.5">
+        <svg aria-hidden="true" viewBox="0 0 16 12" className="mt-1 h-3 w-4 shrink-0" style={{ color: `var(${COLOR_VARIABLES[seriesColor(vector.color, data.particles.length + index)]})` }}><path d="M1 6h13m-4-4 4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <span className="min-w-0 break-words">{vector.label}</span>
+      </li>)}
+    </ul>
     <div className="flex min-w-0 items-center gap-3">
       <span className="shrink-0 font-mono text-xs tabular-nums">t = {displayTime.toFixed(2)} s</span>
-      <AgentSlider aria-label={t(`${data.title}: waktu`, `${data.title}: time`)} min={0} max={data.duration} step={Math.min(0.05, data.duration / 100)} value={[displayTime]} onValueChange={([next]) => { if (Number.isFinite(next)) { playingRef.current = false; setPlaying(false); clock.current = next; setDisplayTime(next); drawRef.current(); } }} className="min-w-0 flex-1" />
+      <AgentSlider aria-label={t(`${data.title}: waktu`, `${data.title}: time`)} min={0} max={data.duration} step={0.01} value={[displayTime]} onValueChange={([next]) => { if (Number.isFinite(next)) { playingRef.current = false; setPlaying(false); clock.current = next; setDisplayTime(next); drawRef.current(); } }} className="min-w-0 flex-1" />
     </div>
     {compiled.readouts.length > 0 && <dl className="flex flex-wrap gap-x-5 gap-y-2 text-[13px]">{compiled.readouts.map((readout, index) => {
       const value = readout.fn({ ...params, t: displayTime });

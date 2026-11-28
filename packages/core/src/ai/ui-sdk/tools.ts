@@ -12,10 +12,10 @@ import { compileMathExpression } from './safe-math';
 export const updateSimulationParamsSchema = z.object({
   simulationId: z
     .string()
-    .describe('ID simulasi yang sedang aktif pada soal atau materi'),
+    .describe('ID simulasi bawaan materi yang disebut dalam konteks halaman. Kontrol grafik atau animasi buatan tutor memakai snapshot/query/act.'),
   params: z
     .record(z.string(), z.number())
-    .describe('Pasangan key-value numerik parameter simulasi yang akan diubah'),
+    .describe('Hanya key parameter yang terdaftar pada simulasi bawaan materi. Untuk parameter atau waktu pada tampilan buatan tutor, gunakan act pada ref kontrolnya.'),
   reason: z
     .string()
     .optional()
