@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   Bookmark,
@@ -10,7 +10,6 @@ import {
   ChevronDown,
   ExternalLink,
   FileText,
-  List,
   Lightbulb,
 } from "lucide-react";
 import type { ExamQuestion, Locale, ContentTable } from "@/content/types";
@@ -135,7 +134,7 @@ export function Study({
   onNext,
   onStep,
   maxStep = 0,
-  onOpenList,
+  questionListControl,
 }: {
   q: ExamQuestion;
   locale: Locale;
@@ -146,7 +145,7 @@ export function Study({
   onNext: () => void;
   onStep: (s: number) => void;
   maxStep?: number;
-  onOpenList: () => void;
+  questionListControl: ReactNode;
 }) {
   const [step, setStep] = useState(0),
     [expanded, setExpanded] = useState(false),
@@ -178,15 +177,7 @@ export function Study({
   return (
     <article className="study-reader" aria-label={q.title[locale]}>
       <div className="question-meta">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mobile-list-button"
-          onClick={onOpenList}
-        >
-          <List />
-          {text(locale, "Daftar soal", "Questions")}
-        </Button>
+        {questionListControl}
         <span>
           {examName(q.exam, locale)} {q.year}
         </span>

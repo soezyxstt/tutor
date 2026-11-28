@@ -276,15 +276,16 @@ svg {
   flex-direction: column;
   position: sticky;
   top: 16px;
-  max-height: calc(100dvh - 32px);
+  height: min(680px, calc(100dvh - 32px));
   padding: 25px 20px 20px 0;
-  min-height: 560px;
+  min-height: 0;
 }
 .sidebar-filter {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 14px;
+  flex-shrink: 0;
 }
 .sidebar-filter .text-select {
   font-size: 17px !important;
@@ -296,18 +297,20 @@ svg {
 }
 .exam-tabs {
   gap: 0 !important;
+  flex-shrink: 0;
 }
 .exam-tabs [data-slot="tabs-list"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   width: 100%;
-  justify-content: flex-start;
-  gap: 17px;
+  gap: 2px;
   padding: 0;
 }
 .exam-tabs [data-slot="tabs-trigger"] {
-  flex: 0;
+  min-width: 0;
   font-size: 13px;
   height: 33px;
-  padding: 0 4px;
+  padding: 0 2px;
   border: 0;
 }
 .exam-tabs [data-slot="tabs-trigger"]:after {
@@ -318,7 +321,9 @@ svg {
 .question-list {
   padding-top: 23px;
   flex: 1;
+  min-height: 0;
   overflow: auto;
+  overscroll-behavior-y: contain;
   scrollbar-width: thin;
 }
 .list-count {
@@ -383,8 +388,9 @@ svg {
   padding: 0 7px;
 }
 .sidebar-bottom {
-  padding: 28px 6px 0;
-  margin-top: 25px;
+  padding: 16px 6px 0;
+  margin-top: 16px;
+  flex-shrink: 0;
 }
 .sidebar-bottom > div:first-child {
   display: flex;
@@ -416,33 +422,17 @@ svg {
   min-width: 0;
   padding: 29px 0 20px 36px;
 }
-.rail-toggle {
-  position: absolute;
-  left: 1px;
-  top: 26px;
-  transform: translateX(-50%);
-  background: var(--background);
-}
-.rail-toggle .icon-button {
-  height: 26px !important;
-  width: 26px !important;
-}
-.rail-toggle svg {
-  width: 13px !important;
-  height: 13px !important;
-}
-.rail-hidden {
+.study-layout.rail-hidden {
   grid-template-columns: minmax(0, 1fr);
 }
 .rail-hidden .desktop-sidebar {
   display: none;
 }
 .rail-hidden .main-content {
-  padding-left: 30px;
+  padding-left: 0;
 }
-.rail-hidden .rail-toggle {
-  left: 12px;
-  transform: none;
+.desktop-list-toggle[aria-expanded="true"] {
+  color: var(--foreground);
 }
 .question-meta {
   display: flex;
@@ -1482,16 +1472,22 @@ svg {
 .mobile-sidebar .sidebar-inner {
   position: static;
   padding: 12px 23px 24px;
+  height: auto;
   min-height: 0;
-  max-height: calc(100dvh - 120px);
   flex: 1;
+  overflow: hidden;
 }
 .mobile-sidebar {
   width: 300px !important;
+  max-width: calc(100vw - 32px);
+  height: 100dvh;
+  gap: 0;
+  overflow: hidden;
   background: #fafbf7;
 }
 .mobile-sidebar [data-slot="sheet-header"] {
-  padding: 25px 26px 10px;
+  padding: 25px 60px 10px 26px;
+  flex-shrink: 0;
 }
 .mobile-sidebar [data-slot="sheet-title"] {
   font-weight: 500;
@@ -1501,7 +1497,12 @@ svg {
   color: #6c7662;
 }
 .mobile-sidebar .sidebar-bottom {
-  margin-top: auto;
+  margin-top: 16px;
+}
+.sidebar-close {
+  position: absolute;
+  top: 17px;
+  right: 14px;
 }
 @media (min-width: 1548px) {
   .course-intro {
@@ -1514,9 +1515,6 @@ svg {
   }
 }
 @media (max-width: 1200px) {
-  .study-layout {
-    grid-template-columns: 190px minmax(0, 1fr);
-  }
   .sidebar-inner {
     padding-right: 15px;
   }
@@ -1552,9 +1550,6 @@ svg {
   .site-footer {
     width: calc(100% - 56px);
   }
-  .study-layout {
-    grid-template-columns: 170px minmax(0, 1fr);
-  }
   .explanation-grid {
     grid-template-columns: 1fr;
   }
@@ -1582,9 +1577,6 @@ svg {
   }
   .step-content h3 {
     font-size: 19px;
-  }
-  .sidebar-inner {
-    min-height: 560px;
   }
   .main-content {
     padding-left: 28px;
@@ -1704,12 +1696,12 @@ svg {
   .rail-hidden .main-content {
     padding: 19px 0 0;
   }
-  .rail-toggle {
+  .desktop-list-toggle {
     display: none;
   }
   .mobile-list-button {
     display: inline-flex !important;
-    height: 27px !important;
+    height: 34px !important;
     padding: 0 7px 0 0 !important;
     font-size: 12px !important;
     color: #6c7662 !important;
@@ -1717,7 +1709,8 @@ svg {
     gap: 5px !important;
   }
   .mobile-list-button svg {
-    width: 13px !important;
+    width: 16px !important;
+    height: 16px !important;
   }
   .question-meta {
     font-size: 12px;
@@ -2015,7 +2008,8 @@ svg {
   .visual-toolbar,
   .question-tools,
   .site-footer,
-  .rail-toggle {
+  .desktop-list-toggle,
+  .mobile-list-button {
     display: none !important;
   }
   .study-layout {
