@@ -1,6 +1,13 @@
 import { Hono } from 'hono';
-import { streamText, tool } from 'ai';
+import { convertToCoreMessages, streamText, tool } from 'ai';
+import type { Message } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
+import { registerAdminRoutes } from './admin-routes';
+import type { DurableNamespaceLike } from './admin-state';
+import { resolveTutorSettings } from './tutor-settings';
+import { createGatewayFetch } from './gateway-fetch';
+import { buildTutorSystemPrompt } from './teaching-prompt';
+export { TutorAdminState } from './admin-state';
 import {
   renderInteractive3DSchema,
   renderInteractivePlotSchema,
@@ -24,6 +31,14 @@ export interface R2BucketLike {
 }
 
 export interface TutorWorkerEnv {
+  /** Catalog admin credentials. Set only on the catalog Worker using secrets. */
+  ADMIN_USERNAME?: string;
+  ADMIN_PASSWORD?: string;
+  ADMIN_SESSION_SECRET?: string;
+  /** SQLite Durable Object binding on the catalog Worker only. */
+  TUTOR_ADMIN_STATE?: DurableNamespaceLike;
+  /** Trusted central config URL; set to "disabled" for isolated local tests. */
+  TUTOR_CONFIG_URL?: string;
   /** Cloudflare Account ID (injected at deploy time via --var or env) */
   CF_ACCOUNT_ID?: string;
   /** Cloudflare AI Gateway ID, e.g. "tutor-ai-gateway" */
@@ -61,23 +76,16 @@ function resolveGatewayCompatUrl(env: TutorWorkerEnv | undefined): string | unde
   return undefined;
 }
 
-function parseModelList(env: TutorWorkerEnv | undefined): string[] {
-  const primary = (env?.AI_MODEL || 'google-ai-studio/gemini-2.5-flash').trim();
-  const fallbacks = (env?.AI_FALLBACK_MODELS || '')
-    .split(',')
-    .map((m) => m.trim())
-    .filter(Boolean);
-  return Array.from(new Set([primary, ...fallbacks]));
-}
-
-export function createTutorWorker() {
+export function createTutorWorker(options: { admin?: boolean } = {}) {
   const app = new Hono<{ Bindings: TutorWorkerEnv }>();
+  if (options.admin) registerAdminRoutes(app);
 
-  app.get('/api/health', (c) => {
+  app.get('/api/health', async (c) => {
     const gatewayUrl = resolveGatewayCompatUrl(c.env);
     const useByok = c.env?.AI_GATEWAY_BYOK !== 'false' && !!c.env?.CF_AIG_TOKEN && !!gatewayUrl;
     const hasDirectKey = !!c.env?.OPENAI_API_KEY;
     const mode = useByok ? 'byok' : hasDirectKey ? 'direct' : 'unconfigured';
+    const settings = await resolveTutorSettings(c.env);
 
     return c.json({
       ok: true,
@@ -85,7 +93,8 @@ export function createTutorWorker() {
       ai: {
         mode,
         gatewayConfigured: !!gatewayUrl,
-        models: parseModelList(c.env),
+        models: [settings.primaryModel, ...settings.fallbackModels],
+        settingsSource: settings.source,
         cacheTtlSeconds: Number(c.env?.AI_CACHE_TTL || 3600),
       },
       r2MediaConfigured: !!c.env?.MEDIA_BUCKET,
@@ -134,7 +143,8 @@ export function createTutorWorker() {
     }
 
     const body = await c.req.json<{
-      messages?: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>;
+      messages?: Message[];
+      language?: 'id' | 'en';
       courseTitle?: string;
       courseCode?: string;
       itemTitle?: string;
@@ -142,12 +152,18 @@ export function createTutorWorker() {
       quotedText?: string;
       simulationId?: string;
       simulationParams?: string[];
-    }>();
+    }>().catch(() => null);
+    if (!body || !Array.isArray(body.messages) || body.messages.length > 100 || body.messages.some((message) => !message || !['user', 'assistant'].includes(message.role))) {
+      return c.json({ error: 'Invalid conversation.' }, 400);
+    }
+    const settings = await resolveTutorSettings(c.env);
+    const models = [settings.primaryModel, ...settings.fallbackModels];
 
     const cacheTtl = c.env?.AI_CACHE_TTL || '3600';
     const customHeaders: Record<string, string> = {};
     if (c.env?.CF_AIG_TOKEN) {
       customHeaders['cf-aig-authorization'] = `Bearer ${c.env.CF_AIG_TOKEN}`;
+      customHeaders['cf-aig-byok-alias'] = 'default';
     }
     if (gatewayUrl) {
       customHeaders['cf-aig-cache-ttl'] = cacheTtl;
@@ -157,41 +173,15 @@ export function createTutorWorker() {
       });
     }
 
-    // In BYOK mode, strip the dummy Authorization header so Cloudflare AI Gateway
-    // injects the stored provider key (Gemini, OpenAI, Muse AI) automatically.
-    const byokFetch: typeof fetch = async (input, init) => {
-      if (useByok && init?.headers) {
-        const headers = new Headers(init.headers);
-        headers.delete('authorization');
-        return fetch(input, { ...init, headers });
-      }
-      return fetch(input, init);
-    };
-
     const provider = createOpenAI({
       apiKey: directKey || 'cf-aig-byok',
       baseURL: gatewayUrl || undefined,
       headers: customHeaders,
-      fetch: useByok ? byokFetch : undefined,
+      fetch: createGatewayFetch({ models, byok: useByok, direct: !gatewayUrl }),
       compatibility: 'compatible',
     });
 
-    const systemPrompt = [
-      `Kamu adalah asisten tutor akademik inline untuk mata kuliah ${body.courseTitle ?? 'ini'} (${body.courseCode ?? ''}).`,
-      `Halaman saat ini: ${body.itemTitle ?? 'Umum'}.`,
-      body.anchorLabel ? `Bagian yang ditanyakan: ${body.anchorLabel}.` : '',
-      body.quotedText ? `Teks yang diblok siswa: "${body.quotedText}".` : '',
-      'Aturan pedagogis:',
-      '- Jawab ringkas, fokus, tidak bertele-tele, dan gunakan notasi LaTeX ($...$ atau $$...$$).',
-      '- Socratic Guardrail: jika siswa meminta bocoran jawaban langsung pada latihan di giliran awal, jangan langsung memberi hasil akhir; konfirmasi apa yang sudah benar lalu beri 1 pertanyaan pancingan terarah.',
-      '- Rubric-Grounded Grading: jika siswa meminta memeriksa alur berpikir / jawaban essay, susun evaluasi menjadi (1) kriteria yang sudah tepat, (2) titik divergensi pertama jika ada kesalahan asumsi/logika, (3) dampak kesalahan terhadap hasil akhir, dan (4) arahan revisi spesifik.',
-      '- Pilih 1-2 UI-SDK tools yang paling membantu (showFormulaBreakdown, showStepDerivation, showComparisonTable, showQuickQuiz, showPitfallWarning, renderInteractivePlot, renderInteractive3D) agar penjelasan terstruktur.',
-      body.simulationId
-        ? `Simulasi aktif: "${body.simulationId}" (parameter: ${(body.simulationParams ?? []).join(', ')}). Panggil updateSimulationParams bila siswa ingin menguji perubahan parameter.`
-        : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
+    const systemPrompt = buildTutorSystemPrompt(body);
 
     const tools = {
       updateSimulationParams: tool({
@@ -240,31 +230,23 @@ export function createTutorWorker() {
       }),
     };
 
-    const models = parseModelList(c.env);
-    let lastError: unknown;
-
-    for (const modelName of models) {
-      try {
+    try {
         const result = streamText({
-          model: provider(modelName),
+          model: provider(models[0]),
           system: systemPrompt,
-          messages: body.messages ?? [],
+          messages: convertToCoreMessages(body.messages),
           tools,
+          maxRetries: 0,
+          abortSignal: c.req.raw.signal,
         });
-        return result.toDataStreamResponse();
-      } catch (err) {
-        lastError = err;
-      }
+        return result.toDataStreamResponse({ getErrorMessage: () => body.language === 'en' ? 'The AI tutor could not answer. Please try again.' : 'Tutor AI belum bisa menjawab. Coba lagi.' });
+    } catch {
+      return c.json({ error: body.language === 'en' ? 'The AI tutor could not process this conversation.' : 'Tutor AI belum dapat memproses percakapan ini.' }, 400);
     }
-
-    return c.json(
-      {
-        error: 'Semua model AI gagal merespons melalui AI Gateway.',
-        detail: lastError instanceof Error ? lastError.message : String(lastError),
-      },
-      502
-    );
   });
+
+  // Unknown API routes must not return the SPA document with a misleading 200.
+  app.all('/api/*', (c) => c.json({ error: 'Not found' }, 404));
 
   app.all('*', async (c) => {
     if (c.env?.ASSETS) {

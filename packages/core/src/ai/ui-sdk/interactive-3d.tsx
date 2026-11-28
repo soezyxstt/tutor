@@ -1,3 +1,4 @@
+import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
 import { Button, Slider } from '@tutor/ui';
@@ -26,6 +27,7 @@ export default function Interactive3DBlock({
   const [angles, setAngles] = React.useState({ yaw: 0.68, pitch: 0.48 });
   const dragRef = React.useRef<{ x: number; y: number } | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const { t } = useLanguage();
 
   const surfaceFn = React.useMemo(
     () =>
@@ -207,10 +209,10 @@ export default function Interactive3DBlock({
     ctx.font = '500 10px ui-monospace, monospace';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.fillText('Seret untuk memutar 3D', 10, 10);
+    ctx.fillText(t('Seret untuk memutar 3D', 'Drag to rotate in 3D'), 10, 10);
 
     ctx.restore();
-  }, [angles, data.domain, data.mode, data.vectors, params, surfaceFn]);
+  }, [angles, data.domain, data.mode, data.vectors, params, surfaceFn, t]);
 
   return (
     <div className="my-2.5 space-y-2.5 border-y border-border/80 py-3">
@@ -219,7 +221,7 @@ export default function Interactive3DBlock({
         <Button
           variant="icon"
           size="icon-xs"
-          aria-label="Reset sudut pandang 3D"
+          aria-label={t('Reset sudut pandang 3D', 'Reset 3D view')}
           onClick={() => {
             setAngles({ yaw: 0.68, pitch: 0.48 });
             setParams(defaults);

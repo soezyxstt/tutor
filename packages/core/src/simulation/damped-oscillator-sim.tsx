@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 
 export interface SimulationRendererProps {
@@ -17,6 +18,7 @@ export default function DampedOscillatorSim({
   resetSignal,
 }: SimulationRendererProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const { t } = useLanguage();
   const stateRef = React.useRef({
     t: 0,
     x: params.x0 ?? 1.0,
@@ -281,7 +283,7 @@ export default function DampedOscillatorSim({
   return (
     <canvas
       ref={canvasRef}
-      aria-label="Simulasi osilator harmonik teredam"
+      aria-label={t('Simulasi osilator harmonik teredam', 'Damped harmonic oscillator simulation')}
       className="block h-[220px] w-full rounded-md"
     />
   );

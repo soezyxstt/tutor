@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -71,7 +71,10 @@ Example:
     throw new Error(`Directory apps/${slug} already exists.`);
   }
 
-  cpSync(starterDir, targetDir, { recursive: true });
+  cpSync(starterDir, targetDir, {
+    recursive: true,
+    filter: (source) => !['node_modules', 'dist', '.wrangler', '.dev.vars'].includes(basename(source)),
+  });
 
   // Update package.json
   const pkgPath = join(targetDir, 'package.json');
@@ -99,7 +102,7 @@ Example:
   const courseContent = readFileSync(coursePath, 'utf8')
     .replace("slug: 'starter'", `slug: '${slug}'`)
     .replace("code: 'MK1001'", `code: '${code}'`)
-    .replace("title: 'Nama Mata Kuliah'", `title: '${name}'`)
+    .replace("title: 'Nama Mata Kuliah'", `title: ${JSON.stringify(name)}`)
     .replace('starter.tutor.adihnursyam.com', domain);
   writeFileSync(coursePath, courseContent);
 
@@ -107,7 +110,7 @@ Example:
   const workflowDir = join(rootDir, '.github', 'workflows');
   mkdirSync(workflowDir, { recursive: true });
   const workflowPath = join(workflowDir, `deploy-${slug}.yml`);
-  const workflowYaml = `name: Deploy ${name}
+  const workflowYaml = `name: ${JSON.stringify(`Deploy ${name}`)}
 
 on:
   push:
@@ -152,7 +155,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build ${name}
+      - name: Validate and test
+        run: |
+          pnpm validate
+          pnpm typecheck
+          pnpm test
+
+      - name: Build course
         run: pnpm --filter @tutor/app-${slug} build
 
       - name: Deploy to Cloudflare Workers (${domain})
@@ -187,6 +196,7 @@ jobs:
   console.log(`  Domain   : https://${domain}`);
   console.log(`  Workflow : .github/workflows/deploy-${slug}.yml`);
   console.log(`  Indexed  : COURSES.md`);
+  console.log(`  Catalog  : draft (set course.catalog.status to 'published' after authoring)`);
   console.log(`\nNext steps:`);
   console.log(`  pnpm install`);
   console.log(`  pnpm --filter @tutor/app-${slug} dev`);

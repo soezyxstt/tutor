@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import { Bookmark, BotMessageSquare, CheckCircle2, Circle } from 'lucide-react';
 import { Badge, Button, Separator, cn } from '@tutor/ui';
 import type { ProblemItem } from '../types/course';
@@ -27,6 +28,7 @@ export function ProblemView({
   problem: ProblemItem;
 }) {
   const itemKey = `${courseSlug}:${problem.id}`;
+  const { t } = useLanguage();
   const statementAnchor = `${itemKey}:statement`;
   const simAnchor = `${itemKey}:simulation`;
 
@@ -44,9 +46,9 @@ export function ProblemView({
       <header className="space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-            <Badge variant="subtle">Pembahasan</Badge>
+            <Badge variant="subtle">{t("Pembahasan", "Solution")}</Badge>
             <span aria-hidden="true">·</span>
-            <Badge variant={diff.variant}>{diff.text}</Badge>
+            <Badge variant={diff.variant}>{t(diff.text, problem.difficulty === 'dasar' ? 'Basic' : problem.difficulty === 'menengah' ? 'Intermediate' : 'Advanced')}</Badge>
             {problem.source && (
               <>
                 <span aria-hidden="true">·</span>
@@ -56,7 +58,7 @@ export function ProblemView({
             {problem.estimatedMinutes && (
               <>
                 <span aria-hidden="true">·</span>
-                <span>{problem.estimatedMinutes} mnt</span>
+                <span>{problem.estimatedMinutes} {t('mnt', 'min')}</span>
               </>
             )}
           </div>
@@ -65,8 +67,8 @@ export function ProblemView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isBookmarked ? 'Hapus simpanan' : 'Simpan soal'}
-              title={isBookmarked ? 'Tersimpan' : 'Simpan soal'}
+              aria-label={isBookmarked ? t('Hapus simpanan', 'Remove bookmark') : t('Simpan soal', 'Save problem')}
+              title={isBookmarked ? t('Tersimpan', 'Saved') : t('Simpan soal', 'Save problem')}
               onClick={() => toggleBookmark(itemKey)}
               className={cn(isBookmarked && 'text-primary')}
             >
@@ -79,8 +81,8 @@ export function ProblemView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isCompleted ? 'Tandai belum selesai' : 'Tandai selesai'}
-              title={isCompleted ? 'Selesai dipelajari' : 'Tandai selesai'}
+              aria-label={isCompleted ? t('Tandai belum selesai', 'Mark incomplete') : t('Tandai selesai', 'Mark complete')}
+              title={isCompleted ? t('Selesai dipelajari', 'Completed') : t('Tandai selesai', 'Mark complete')}
               onClick={() => toggleComplete(itemKey)}
               className={cn(isCompleted && 'text-success')}
             >
@@ -96,12 +98,12 @@ export function ProblemView({
               size="sm"
               onClick={() =>
                 openInlineAi(statementAnchor, {
-                  draftPrompt: `Bantu saya memahami soal "${problem.title}" beserta simbol persamaannya.`,
+                  draftPrompt: t(`Bantu saya memahami soal "${problem.title}" beserta simbol persamaannya.`, `Help me understand "${problem.title}" and the symbols in its equations.`),
                 })
               }
             >
               <BotMessageSquare className="size-3.5 text-primary" />
-              <span>Tanya AI</span>
+              <span>{t("Tanya AI", "Ask AI")}</span>
             </Button>
           </div>
         </div>
@@ -115,7 +117,7 @@ export function ProblemView({
 
       {/* Problem statement — anchored for highlight & inline AI */}
       <section
-        aria-label="Pernyataan Soal"
+        aria-label={t("Pernyataan Soal", "Problem statement")}
         data-ai-anchor={statementAnchor}
         className="space-y-4"
       >
@@ -126,7 +128,7 @@ export function ProblemView({
             {problem.given && problem.given.length > 0 && (
               <div>
                 <div className="mb-1.5 text-xs font-semibold text-muted-foreground">
-                  Diketahui
+                  {t("Diketahui", "Known")}
                 </div>
                 <ul className="space-y-1 text-[14px]">
                   {problem.given.map((g, i) => (
@@ -145,7 +147,7 @@ export function ProblemView({
             {problem.asked && (
               <div>
                 <div className="mb-1.5 text-xs font-semibold text-muted-foreground">
-                  Ditanyakan
+                  {t("Ditanyakan", "Find")}
                 </div>
                 <MathMarkdown
                   content={problem.asked}
@@ -158,7 +160,7 @@ export function ProblemView({
 
         <InlineAiThread
           anchorId={statementAnchor}
-          anchorLabel="Pernyataan Soal"
+          anchorLabel={t("Pernyataan Soal", "Problem statement")}
           courseSlug={courseSlug}
           courseTitle={courseTitle}
           itemKey={itemKey}
@@ -171,7 +173,7 @@ export function ProblemView({
       {/* Optional Interactive Simulation + inline AI thread right below it */}
       {problem.simulation && (
         <section
-          aria-label="Simulasi Interaktif"
+          aria-label={t("Simulasi Interaktif", "Interactive simulation")}
           data-ai-anchor={simAnchor}
           className="mt-8"
         >
@@ -182,7 +184,7 @@ export function ProblemView({
           />
           <InlineAiThread
             anchorId={simAnchor}
-            anchorLabel="Simulasi Interaktif"
+            anchorLabel={t("Simulasi Interaktif", "Interactive simulation")}
             courseSlug={courseSlug}
             courseTitle={courseTitle}
             itemKey={itemKey}
@@ -205,12 +207,12 @@ export function ProblemView({
 
       {/* Final Answer */}
       <div className="mt-8 space-y-5" data-ai-anchor={statementAnchor}>
-        <Callout tone="answer" label="Jawaban Akhir">
+        <Callout tone="answer" label={t("Jawaban Akhir", "Final answer")}>
           <MathMarkdown content={problem.finalAnswer} />
         </Callout>
 
         {problem.takeaway && (
-          <Callout tone="tip" label="Catatan Penting">
+          <Callout tone="tip" label={t("Catatan Penting", "Key note")}>
             <MathMarkdown
               content={problem.takeaway}
               className="text-[14.5px] text-muted-foreground"
@@ -227,7 +229,7 @@ export function ProblemView({
           onClick={() => toggleComplete(itemKey)}
         >
           <CheckCircle2 className="size-3.5" />
-          <span>{isCompleted ? 'Sudah dipahami' : 'Tandai selesai'}</span>
+          <span>{isCompleted ? t('Sudah dipahami', 'Understood') : t('Tandai selesai', 'Mark complete')}</span>
         </Button>
       </div>
     </article>

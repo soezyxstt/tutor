@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import { BookOpen, FileCheck2, PenLine, Search } from 'lucide-react';
 import {
@@ -27,6 +28,7 @@ export function QuickSearchDialog({
   onSelectItem: (item: LessonItem) => void;
 }) {
   const [query, setQuery] = React.useState('');
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     if (!open) setQuery('');
@@ -57,9 +59,9 @@ export function QuickSearchDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="p-0">
-        <DialogTitle className="sr-only">Cari Materi, Latihan, atau Pembahasan</DialogTitle>
+        <DialogTitle className="sr-only">{t("Cari Materi, Latihan, atau Pembahasan", "Search lessons, practice, or solutions")}</DialogTitle>
         <DialogDescription className="sr-only">
-          Ketik kata kunci untuk berpindah cepat antar halaman di {course.title}.
+          {t('Cari halaman di', 'Search pages in')} {course.title}.
         </DialogDescription>
 
         <div className="flex items-center gap-2.5 border-b border-border px-4 py-3 pr-10">
@@ -69,7 +71,7 @@ export function QuickSearchDialog({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cari materi, latihan, atau pembahasan soal…"
+            placeholder={t("Cari materi, latihan, atau pembahasan soal…", "Search lessons, practice, or solutions…")}
             className="min-w-0 flex-1 border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
           />
         </div>
@@ -78,7 +80,7 @@ export function QuickSearchDialog({
           <div className="divide-y divide-border/60 p-2">
             {results.length === 0 ? (
               <div className="py-8 text-center text-xs text-muted-foreground">
-                Tidak ada hasil untuk &ldquo;{query}&rdquo;.
+                {t('Tidak ada hasil untuk', 'No results for')} &ldquo;{query}&rdquo;.
               </div>
             ) : (
               results.map(({ moduleLabel, item }) => {
@@ -106,7 +108,7 @@ export function QuickSearchDialog({
                       </div>
                     </div>
                     <span className="shrink-0 text-[11px] text-muted-foreground">
-                      {meta.label}
+                      {t(meta.label, item.kind === 'material' ? 'Lesson' : item.kind === 'practice' ? 'Practice' : 'Solution')}
                     </span>
                   </button>
                 );

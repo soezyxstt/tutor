@@ -1,3 +1,5 @@
+import { LanguageSwitcher } from '../i18n/language-switcher';
+import { useLanguage } from '../i18n/language-provider';
 import {
   Menu,
   PanelLeftClose,
@@ -30,6 +32,7 @@ export function TutorTopbar({
   onOpenSearch: () => void;
 }) {
   const sidebarCollapsed = useTutorStore((s) => s.sidebarCollapsed);
+  const { t } = useLanguage();
   const toggleSidebar = useTutorStore((s) => s.toggleSidebar);
   const fontSize = useTutorStore((s) => s.fontSize);
   const setFontSize = useTutorStore((s) => s.setFontSize);
@@ -44,7 +47,7 @@ export function TutorTopbar({
         <Button
           variant="icon"
           size="icon"
-          aria-label="Buka navigasi"
+          aria-label={t("Buka navigasi", "Open navigation")}
           onClick={onOpenMobileMenu}
           className="lg:hidden"
         >
@@ -54,8 +57,8 @@ export function TutorTopbar({
         <Button
           variant="icon"
           size="icon"
-          aria-label={sidebarCollapsed ? 'Buka sidebar' : 'Tutup sidebar'}
-          title={sidebarCollapsed ? 'Buka sidebar' : 'Tutup sidebar'}
+          aria-label={sidebarCollapsed ? t('Buka sidebar', 'Open sidebar') : t('Tutup sidebar', 'Close sidebar')}
+          title={sidebarCollapsed ? t('Buka sidebar', 'Open sidebar') : t('Tutup sidebar', 'Close sidebar')}
           onClick={toggleSidebar}
           className="hidden lg:inline-flex"
         >
@@ -67,7 +70,7 @@ export function TutorTopbar({
         </Button>
 
         <nav
-          aria-label="Lokasi halaman"
+          aria-label={t("Lokasi halaman", "Page location")}
           className="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground"
         >
           <span className="hidden truncate font-medium text-foreground sm:inline">
@@ -86,8 +89,8 @@ export function TutorTopbar({
         <Button
           variant="icon"
           size="icon"
-          aria-label="Cari materi atau soal"
-          title="Cari (Ctrl+K)"
+          aria-label={t("Cari materi atau soal", "Search lessons or problems")}
+          title={t("Cari (Ctrl+K)", "Search (Ctrl+K)")}
           onClick={onOpenSearch}
         >
           <Search className="size-4" />
@@ -98,19 +101,19 @@ export function TutorTopbar({
             <Button
               variant="icon"
               size="icon"
-              aria-label="Preferensi bacaan"
-              title="Preferensi bacaan"
+              aria-label={t("Preferensi bacaan", "Reading preferences")}
+              title={t("Preferensi bacaan", "Reading preferences")}
             >
               <SlidersHorizontal className="size-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent align="end" className="space-y-3">
-            <div className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
-              Preferensi Belajar
+            <div className="text-[11px] font-semibold text-muted-foreground">
+              {t("Preferensi Belajar", "Reading preferences")}
             </div>
 
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs text-foreground">Ukuran teks</span>
+              <span className="text-xs text-foreground">{t("Ukuran teks", "Text size")}</span>
               <ToggleGroup
                 type="single"
                 value={fontSize}
@@ -127,12 +130,12 @@ export function TutorTopbar({
             <Separator />
 
             <label className="flex cursor-pointer items-center justify-between gap-3">
-              <span className="text-xs text-foreground">Mode fokus</span>
+              <span className="text-xs text-foreground">{t("Mode fokus", "Focus mode")}</span>
               <Switch checked={focusMode} onCheckedChange={setFocusMode} />
             </label>
 
             <label className="flex cursor-pointer items-center justify-between gap-3">
-              <span className="text-xs text-foreground">Buka petunjuk otomatis</span>
+              <span className="text-xs text-foreground">{t("Buka petunjuk otomatis", "Show hints automatically")}</span>
               <Switch
                 checked={autoShowHints}
                 onCheckedChange={setAutoShowHints}
@@ -141,7 +144,8 @@ export function TutorTopbar({
           </PopoverContent>
         </Popover>
 
-        <ThemeToggle />
+        <LanguageSwitcher compact />
+        <ThemeToggle labels={{ toggle: t('Ubah tema', 'Change theme'), light: t('Terang', 'Light'), dark: t('Gelap', 'Dark'), system: t('Sistem', 'System') }} />
       </div>
     </header>
   );

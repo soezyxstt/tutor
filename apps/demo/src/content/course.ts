@@ -1,4 +1,5 @@
 import type { CourseConfig } from '@tutor/core';
+import { demoEnglish } from './course.en';
 
 export const demoCourse: CourseConfig = {
   slug: 'demo',
@@ -8,6 +9,8 @@ export const demoCourse: CourseConfig = {
   domain: 'demo.tutor.adihnursyam.com',
   semester: 'Semester 1',
   enableShowcase: true,
+  sourceLanguage: 'id',
+  translations: { en: demoEnglish },
   modules: [
     {
       id: 'mod-osilasi',

@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import { BotMessageSquare, Pause, Play, RotateCcw } from 'lucide-react';
 import { Button, Skeleton, Slider } from '@tutor/ui';
@@ -15,6 +16,7 @@ export function SimulationStage({
   aiAnchorId?: string;
 }) {
   const simKey = `${courseSlug}:${spec.id}`;
+  const { t } = useLanguage();
   const storedParams = useTutorStore((s) => s.simParams[simKey]);
   const setSimParam = useTutorStore((s) => s.setSimParam);
   const resetSimParams = useTutorStore((s) => s.resetSimParams);
@@ -49,8 +51,8 @@ export function SimulationStage({
           <Button
             variant="icon"
             size="icon-sm"
-            aria-label={playing ? 'Jeda simulasi' : 'Jalankan simulasi'}
-            title={playing ? 'Jeda' : 'Jalankan'}
+            aria-label={playing ? t('Jeda simulasi', 'Pause simulation') : t('Jalankan simulasi', 'Play simulation')}
+            title={playing ? t('Jeda', 'Pause') : t('Jalankan', 'Play')}
             onClick={() => setPlaying((p) => !p)}
           >
             {playing ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
@@ -58,8 +60,8 @@ export function SimulationStage({
           <Button
             variant="icon"
             size="icon-sm"
-            aria-label="Reset parameter simulasi"
-            title="Reset parameter"
+            aria-label={t("Reset parameter simulasi", "Reset simulation parameters")}
+            title={t("Reset parameter", "Reset parameters")}
             onClick={() => {
               resetSimParams(simKey, defaults);
               setResetSignal((n) => n + 1);
@@ -73,12 +75,12 @@ export function SimulationStage({
               size="xs"
               onClick={() =>
                 openInlineAi(aiAnchorId, {
-                  draftPrompt: `Apa yang terjadi pada simulasi "${spec.title}" jika redaman dinaikkan menjadi 2.5? Ubah parameternya langsung di simulasi dan jelaskan pengaruhnya.`,
+                  draftPrompt: t(`Bantu saya memahami pengaruh parameter pada simulasi "${spec.title}".`, `Help me understand how the parameters affect "${spec.title}".`),
                 })
               }
             >
               <BotMessageSquare className="size-3 text-primary" />
-              <span>Uji via AI</span>
+              <span>{t("Uji via AI", "Ask AI")}</span>
             </Button>
           )}
         </div>
@@ -103,7 +105,7 @@ export function SimulationStage({
           </React.Suspense>
         ) : (
           <div className="flex h-[180px] items-center justify-center bg-surface-subtle text-xs text-muted-foreground">
-            Simulasi &ldquo;{spec.type}&rdquo; belum terdaftar di registry.
+            {t('Simulasi ini belum tersedia.', 'This simulation is not available yet.')}
           </div>
         )}
       </div>

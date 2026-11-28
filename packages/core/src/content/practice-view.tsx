@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import {
   Bookmark,
@@ -42,6 +43,7 @@ export function PracticeView({
   practice: PracticeItem;
 }) {
   const itemKey = `${courseSlug}:${practice.id}`;
+  const { t } = useLanguage();
   const firstAnchor = `${itemKey}:q:${practice.questions[0]?.id ?? 'main'}`;
 
   const isCompleted = useTutorStore((s) => !!s.completedIds[itemKey]);
@@ -69,15 +71,15 @@ export function PracticeView({
       <header className="space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-            <Badge variant="primary">Latihan</Badge>
+            <Badge variant="primary">{t("Latihan", "Practice")}</Badge>
             <span aria-hidden="true">·</span>
-            <Badge variant={diff.variant}>{diff.text}</Badge>
+            <Badge variant={diff.variant}>{t(diff.text, practice.difficulty === 'dasar' ? 'Basic' : practice.difficulty === 'menengah' ? 'Intermediate' : 'Advanced')}</Badge>
             <span aria-hidden="true">·</span>
-            <span>{practice.questions.length} soal</span>
+            <span>{practice.questions.length} {t('soal', 'questions')}</span>
             {practice.estimatedMinutes && (
               <>
                 <span aria-hidden="true">·</span>
-                <span>{practice.estimatedMinutes} mnt</span>
+                <span>{practice.estimatedMinutes} {t('mnt', 'min')}</span>
               </>
             )}
           </div>
@@ -87,8 +89,8 @@ export function PracticeView({
               <Button
                 variant="icon"
                 size="icon"
-                aria-label="Ulangi latihan"
-                title="Ulangi latihan"
+                aria-label={t("Ulangi latihan", "Reset practice")}
+                title={t("Ulangi latihan", "Reset practice")}
                 onClick={() => resetPracticeAnswers(`${itemKey}:`)}
               >
                 <RotateCcw className="size-4" />
@@ -97,7 +99,7 @@ export function PracticeView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isBookmarked ? 'Hapus simpanan' : 'Simpan latihan'}
+              aria-label={isBookmarked ? t('Hapus simpanan', 'Remove bookmark') : t('Simpan latihan', 'Save practice')}
               onClick={() => toggleBookmark(itemKey)}
               className={cn(isBookmarked && 'text-primary')}
             >
@@ -109,7 +111,7 @@ export function PracticeView({
             <Button
               variant="icon"
               size="icon"
-              aria-label={isCompleted ? 'Tandai belum selesai' : 'Tandai selesai'}
+              aria-label={isCompleted ? t('Tandai belum selesai', 'Mark incomplete') : t('Tandai selesai', 'Mark complete')}
               onClick={() => toggleComplete(itemKey)}
               className={cn(isCompleted && 'text-success')}
             >
@@ -124,12 +126,12 @@ export function PracticeView({
               size="sm"
               onClick={() =>
                 openInlineAi(firstAnchor, {
-                  draftPrompt: `Buat kuis cek pemahaman tambahan untuk latihan "${practice.title}".`,
+                  draftPrompt: t(`Buat kuis cek pemahaman tambahan untuk latihan "${practice.title}".`, `Create a short concept check for "${practice.title}".`),
                 })
               }
             >
               <BotMessageSquare className="size-3.5 text-primary" />
-              <span>Tanya AI</span>
+              <span>{t("Tanya AI", "Ask AI")}</span>
             </Button>
           </div>
         </div>
@@ -148,7 +150,7 @@ export function PracticeView({
       )}
 
       {practice.simulation && (
-        <section aria-label="Simulasi Latihan" className="mb-8">
+        <section aria-label={t("Simulasi Latihan", "Practice simulation")} className="mb-8">
           <SimulationStage
             courseSlug={courseSlug}
             spec={practice.simulation}
@@ -175,7 +177,7 @@ export function PracticeView({
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1 space-y-1">
                   <div className="font-mono text-xs font-medium text-primary">
-                    Soal {String(index + 1).padStart(2, '0')}
+                    {t('Soal', 'Question')} {String(index + 1).padStart(2, '0')}
                   </div>
                   <MathMarkdown content={q.prompt} />
                 </div>
@@ -185,8 +187,8 @@ export function PracticeView({
                     <Button
                       variant="icon"
                       size="icon-sm"
-                      aria-label={`Petunjuk soal ${index + 1}`}
-                      title="Petunjuk"
+                      aria-label={t(`Petunjuk soal ${index + 1}`, `Hint for question ${index + 1}`)}
+                      title={t("Petunjuk", "Hint")}
                       onClick={() =>
                         setOpenHints((prev) => ({
                           ...prev,
@@ -201,11 +203,11 @@ export function PracticeView({
                   <Button
                     variant="icon"
                     size="icon-sm"
-                    aria-label={`Tanya AI soal ${index + 1}`}
-                    title="Tanya AI inline di soal ini"
+                    aria-label={t(`Tanya AI soal ${index + 1}`, `Ask AI about question ${index + 1}`)}
+                    title={t("Tanya AI inline di soal ini", "Ask AI about this question")}
                     onClick={() =>
                       openInlineAi(qAnchor, {
-                        draftPrompt: `Bantu saya memahami Soal ${index + 1} pada latihan "${practice.title}" beserta jebakan umumnya.`,
+                        draftPrompt: t(`Bantu saya memahami Soal ${index + 1} pada latihan "${practice.title}" beserta jebakan umumnya.`, `Help me understand question ${index + 1} in "${practice.title}" and common mistakes.`),
                       })
                     }
                   >
@@ -217,7 +219,7 @@ export function PracticeView({
               {q.hint && (
                 <CollapsibleMotion open={hintVisible}>
                   <div className="border-l-2 border-primary/40 pl-3 text-[13px] text-muted-foreground">
-                    <span className="font-medium text-foreground">Petunjuk: </span>
+                    <span className="font-medium text-foreground">{t("Petunjuk: ", "Hint: ")}</span>
                     {q.hint}
                   </div>
                 </CollapsibleMotion>
@@ -282,7 +284,7 @@ export function PracticeView({
                         isCorrect ? 'text-success' : 'text-destructive'
                       )}
                     >
-                      {isCorrect ? 'Jawaban tepat' : 'Perlu ditinjau ulang'}
+                      {isCorrect ? t('Jawaban tepat', 'Correct') : t('Perlu ditinjau ulang', 'Review your answer')}
                     </div>
                     <MathMarkdown
                       content={q.explanation}
@@ -294,7 +296,7 @@ export function PracticeView({
 
               <InlineAiThread
                 anchorId={qAnchor}
-                anchorLabel={`Soal ${String(index + 1).padStart(2, '0')}`}
+                anchorLabel={`${t('Soal', 'Question')} ${String(index + 1).padStart(2, '0')}`}
                 courseSlug={courseSlug}
                 courseTitle={courseTitle}
                 itemKey={itemKey}
@@ -308,8 +310,7 @@ export function PracticeView({
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
         <span className="font-mono text-xs text-muted-foreground">
-          Skor: {correctCount}/{practice.questions.length} benar ({answeredCount}{' '}
-          terjawab)
+          {t('Skor', 'Score')}: {correctCount}/{practice.questions.length} {t('benar', 'correct')} ({answeredCount} {t('terjawab', 'answered')})
         </span>
         <Button
           size="sm"
@@ -317,7 +318,7 @@ export function PracticeView({
           onClick={() => toggleComplete(itemKey)}
         >
           <CheckCircle2 className="size-3.5" />
-          <span>{isCompleted ? 'Latihan selesai' : 'Tandai selesai'}</span>
+          <span>{isCompleted ? t('Latihan selesai', 'Practice complete') : t('Tandai selesai', 'Mark complete')}</span>
         </Button>
       </div>
     </article>

@@ -10,6 +10,9 @@ Monorepo untuk platform pembahasan soal dan materi interaktif per mata kuliah de
 
 ## Struktur Workspace
 
+- `apps/catalog`: Katalog otomatis di `tutor.adihnursyam.com` dan halaman admin `/admin` untuk model tutor AI.
+- [Katalog, bahasa, dan admin](docs/catalog-and-admin.md): Cara menerbitkan mata kuliah, menambah terjemahan, dan mengatur model AI bersama.
+
 - `packages/ui` (`@tutor/ui`): Sistem desain, palet warna kontras belajar (terang & gelap), primitif Shadcn/Radix UI (select tanpa border, icon button tanpa border/bg, tombol ringkas), dan animasi `motion/react`.
 - `packages/core` (`@tutor/core`): Layout shell & sidebar collapsible, renderer Markdown + KaTeX, pembahasan bertahap (*progressive disclosure*), registry simulasi lazy-loaded (built-in RK4 Canvas solver, siap untuk R3F / Rapier / Mafs / ECharts), panel Tutor AI (Vercel AI SDK + *client-side tool calling*), state persisten Zustand, serta Cloudflare Worker AI handler (Hono + Cloudflare AI Gateway).
 - `apps/demo` (`@tutor/app-demo`): Aplikasi showcase (Mekanika & Getaran + katalog Komponen Core UI di `?view=components`).
@@ -20,8 +23,10 @@ Monorepo untuk platform pembahasan soal dan materi interaktif per mata kuliah de
 
 ```bash
 pnpm install
+pnpm dev:catalog       # Katalog dan halaman admin
 pnpm dev:demo          # Jalankan showcase lokal
 pnpm typecheck         # Typecheck seluruh workspace
+pnpm test              # Uji katalog, bahasa, autentikasi, dan setelan AI
 pnpm build             # Build seluruh apps
 pnpm new-course --slug perpan --name "Perpindahan Panas" --code MS3101
 ```

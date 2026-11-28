@@ -1,5 +1,8 @@
 export type {
   CourseConfig,
+  CourseTranslation,
+  LessonTranslation,
+  TextTranslation,
   CourseModule,
   DifficultyLevel,
   EssayPracticeTask,
@@ -79,3 +82,5 @@ export {
 export { AiToolInvocationView } from './ai/ui-sdk/tool-renderers';
 
 export { CoreShowcaseView } from './showcase/core-showcase-view';
+export * from './i18n';
+export { CatalogShell } from './catalog/catalog-shell';

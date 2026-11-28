@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import {
   BotMessageSquare,
@@ -28,6 +29,7 @@ export function StepDisclosure({
   simulation?: SimulationSpec;
 }) {
   const autoShowHints = useTutorStore((s) => s.autoShowHints);
+  const { t } = useLanguage();
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -69,8 +71,8 @@ export function StepDisclosure({
               <Button
                 variant="icon"
                 size="icon-sm"
-                aria-label={`Petunjuk langkah ${index + 1}`}
-                title="Petunjuk"
+                aria-label={t(`Petunjuk langkah ${index + 1}`, `Hint for step ${index + 1}`)}
+                title={t("Petunjuk", "Hint")}
                 onClick={() =>
                   setOpenHints((prev) => ({
                     ...prev,
@@ -85,11 +87,11 @@ export function StepDisclosure({
             <Button
               variant="icon"
               size="icon-sm"
-              aria-label={`Tanya AI tentang langkah ${index + 1}`}
-              title="Tanya AI inline di langkah ini"
+              aria-label={t(`Tanya AI tentang langkah ${index + 1}`, `Ask AI about step ${index + 1}`)}
+              title={t("Tanya AI inline di langkah ini", "Ask AI about this step")}
               onClick={() =>
                 openInlineAi(stepAnchor, {
-                  draftPrompt: `Jelaskan detail penurunan aljabar pada Langkah ${index + 1} (${step.title}) dan mengapa pendekatan ini dipakai.`,
+                  draftPrompt: t(`Jelaskan detail penurunan aljabar pada Langkah ${index + 1} (${step.title}) dan mengapa pendekatan ini dipakai.`, `Explain the algebra in step ${index + 1} (${step.title}) and why this method applies.`),
                 })
               }
             >
@@ -130,8 +132,8 @@ export function StepDisclosure({
                 <div className="pt-1 text-xs text-muted-foreground">
                   {step.checkpoint.options.find((o) => o.id === pickedOpt)?.feedback ??
                     (pickedOpt === step.checkpoint.correctOptionId
-                      ? 'Keputusan tepat — lanjut amati penurunan di bawah.'
-                      : 'Coba bandingkan asumsi ini dengan penurunan di bawah.')}
+                      ? t('Keputusan tepat. Lanjut amati penurunan di bawah.', 'Correct. Continue with the derivation below.')
+                      : t('Coba bandingkan asumsi ini dengan penurunan di bawah.', 'Compare this assumption with the derivation below.'))}
                 </div>
               )}
             </CollapsibleMotion>
@@ -141,7 +143,7 @@ export function StepDisclosure({
         {step.hint && (
           <CollapsibleMotion open={hintOpen}>
             <div className="border-l-2 border-primary/40 pl-3 text-[13px] text-muted-foreground">
-              <span className="font-medium text-foreground">Petunjuk: </span>
+              <span className="font-medium text-foreground">{t("Petunjuk: ", "Hint: ")}</span>
               {step.hint}
             </div>
           </CollapsibleMotion>
@@ -169,12 +171,12 @@ export function StepDisclosure({
                   rationaleOpen && 'rotate-90'
                 )}
               />
-              <span>Kenapa pakai cara ini?</span>
+              <span>{t("Kenapa pakai cara ini?", "Why this method?")}</span>
             </button>
             <CollapsibleMotion open={rationaleOpen}>
               <div className="mt-2 space-y-2 border-l-2 border-primary/40 pl-3.5 text-[13px] text-muted-foreground">
                 <div>
-                  <span className="font-medium text-foreground">Alasan metode: </span>
+                  <span className="font-medium text-foreground">{t("Alasan metode: ", "Why it works: ")}</span>
                   <MathMarkdown
                     content={step.rationale.whyThisMethod}
                     className="inline text-[13px] text-muted-foreground"
@@ -182,7 +184,7 @@ export function StepDisclosure({
                 </div>
                 {step.rationale.whyNotAlternative && (
                   <div>
-                    <span className="font-medium text-foreground">Kenapa bukan alternatif: </span>
+                    <span className="font-medium text-foreground">{t("Kenapa bukan alternatif: ", "Why not the alternative: ")}</span>
                     <MathMarkdown
                       content={step.rationale.whyNotAlternative}
                       className="inline text-[13px] text-muted-foreground"
@@ -191,7 +193,7 @@ export function StepDisclosure({
                 )}
                 {step.rationale.commonPitfall && (
                   <div>
-                    <span className="font-medium text-warning">Jebakan umum: </span>
+                    <span className="font-medium text-warning">{t('Jebakan umum: ', 'Common mistake: ')}</span>
                     <MathMarkdown
                       content={step.rationale.commonPitfall}
                       className="inline text-[13px] text-muted-foreground"
@@ -218,18 +220,18 @@ export function StepDisclosure({
   };
 
   return (
-    <section aria-label="Pembahasan" className="mt-8 space-y-5">
+    <section aria-label={t("Pembahasan", "Solution")} className="mt-8 space-y-5">
       {/* Header row: Pembahasan · Langkah 1 / N  |  Lihat semua langkah */}
       <div className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-baseline gap-2.5">
             <h2 className="text-sm font-semibold tracking-tight text-foreground">
-              Pembahasan
+              {t("Pembahasan", "Solution")}
             </h2>
             <span className="text-xs text-muted-foreground">
               {showAll
-                ? `${steps.length} langkah`
-                : `Langkah ${safeIndex + 1} / ${steps.length}`}
+                ? `${steps.length} ${t('langkah', 'steps')}`
+                : `${t('Langkah', 'Step')} ${safeIndex + 1} / ${steps.length}`}
             </span>
           </div>
 
@@ -238,7 +240,7 @@ export function StepDisclosure({
             variant="ghost"
             onClick={() => setShowAll((prev) => !prev)}
           >
-            {showAll ? 'Mode bertahap' : 'Lihat semua langkah'}
+            {showAll ? t('Mode bertahap', 'One step at a time') : t('Lihat semua langkah', 'Show all steps')}
           </Button>
         </div>
 
@@ -248,7 +250,7 @@ export function StepDisclosure({
             <div
               className="flex flex-wrap items-center gap-1.5"
               role="tablist"
-              aria-label="Pilih langkah"
+              aria-label={t("Pilih langkah", "Choose a step")}
             >
               {steps.map((step, idx) => {
                 const isActive = idx === safeIndex;
@@ -258,7 +260,7 @@ export function StepDisclosure({
                     type="button"
                     role="tab"
                     aria-selected={isActive}
-                    aria-label={`Langkah ${idx + 1}: ${step.title}`}
+                    aria-label={`${t('Langkah', 'Step')} ${idx + 1}: ${step.title}`}
                     onClick={() => setActiveIndex(idx)}
                     className={cn(
                       'relative inline-flex size-6 cursor-pointer items-center justify-center rounded-full font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
@@ -342,7 +344,7 @@ export function StepDisclosure({
                 onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
               >
                 <ChevronLeft className="size-3.5" />
-                <span>Sebelumnya</span>
+                <span>{t("Sebelumnya", "Previous")}</span>
               </Button>
 
               <span className="font-mono text-xs text-muted-foreground">
@@ -357,7 +359,7 @@ export function StepDisclosure({
                   setActiveIndex((i) => Math.min(steps.length - 1, i + 1))
                 }
               >
-                <span>Lanjut</span>
+                <span>{t("Lanjut", "Next")}</span>
                 <ChevronRight className="size-3.5" />
               </Button>
             </div>
