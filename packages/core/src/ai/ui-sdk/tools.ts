@@ -99,7 +99,10 @@ const uiSliderParamSchema = z.object({
 export const renderInteractivePlotSchema = z.object({
   title: z.string().describe('Judul grafik 2D interaktif'),
   xLabel: z.string().optional().describe('Label sumbu horizontal, misal t atau x'),
-  xDomain: z.tuple([z.number(), z.number()]).describe('Rentang [min, max] sumbu x'),
+  xDomain: z
+    .array(z.number())
+    .length(2)
+    .describe('Rentang [min, max] sumbu x, tepat 2 angka [min, max]'),
   curves: z
     .array(
       z.object({
@@ -118,7 +121,11 @@ export const renderInteractivePlotSchema = z.object({
 export const renderInteractive3DSchema = z.object({
   title: z.string().describe('Judul visualisasi 3D interaktif'),
   mode: z.enum(['surface', 'vectors']),
-  domain: z.tuple([z.number(), z.number()]).optional(),
+  domain: z
+    .array(z.number())
+    .length(2)
+    .optional()
+    .describe('Rentang [min, max] sumbu x dan y, tepat 2 angka [min, max]'),
   surfaceExpression: z
     .string()
     .optional()
