@@ -1,6 +1,7 @@
 import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import type { SimulationSpec } from '../types/course';
+import type { SimulationContextState } from './simulation-registry';
 
 export interface SimulationRendererProps {
   params: Record<string, number>;
@@ -10,6 +11,8 @@ export interface SimulationRendererProps {
   /** Use the shared store for direct manipulation instead of a second parameter state. */
   setParam?: (key: string, value: number) => void;
   setPlaying?: (playing: boolean) => void;
+  contextState?: SimulationContextState;
+  setContextState?: (patch: SimulationContextState) => void;
 }
 
 /**

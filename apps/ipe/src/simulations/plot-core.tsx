@@ -69,6 +69,9 @@ export function Plot({
         tooltip: {
           trigger: "axis",
           confine: true,
+          backgroundColor: resolveColor("var(--popover)"),
+          borderColor: resolveColor("var(--input)"),
+          textStyle: { color: resolveColor("var(--popover-foreground)") },
           valueFormatter: (v: number) =>
             new Intl.NumberFormat(locale === "id" ? "id-ID" : "en-US", {
               maximumFractionDigits: 4,

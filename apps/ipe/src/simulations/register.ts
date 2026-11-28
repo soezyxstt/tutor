@@ -1,11 +1,12 @@
 import { registerSimulation } from '@tutor/core';
 import { bindVisual } from './renderer';
+import { thermocoupleContext } from './thermocouple-context';
 /** The registry loads only the visual family needed by the current lesson. */
 export function registerIpeSimulations() {
   registerSimulation('ipe-orifice', () => import('./flow').then(m => ({ default: bindVisual(m.FlowVisual) })));
   registerSimulation('ipe-venturi', () => import('./flow').then(m => ({ default: bindVisual(m.FlowVisual) })));
   registerSimulation('ipe-pitot', () => import('./flow').then(m => ({ default: bindVisual(m.PitotVisual) })));
-  registerSimulation('ipe-thermocouple', () => import('./temperature').then(m => ({ default: bindVisual(m.ThermocoupleVisual) })));
+  registerSimulation('ipe-thermocouple', () => import('./temperature').then(m => ({ default: bindVisual(m.ThermocoupleVisual) })), thermocoupleContext);
   registerSimulation('ipe-rtd', () => import('./temperature').then(m => ({ default: bindVisual(m.RtdVisual) })));
   registerSimulation('ipe-bridge', () => import('./temperature').then(m => ({ default: bindVisual(m.BridgeVisual) })));
   registerSimulation('ipe-calibration', () => import('./temperature').then(m => ({ default: bindVisual(m.CalibrationVisual) })));

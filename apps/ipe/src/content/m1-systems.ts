@@ -9,20 +9,20 @@ export const module: CourseModule = {
       "id": "ipe-systems-material",
       "kind": "material",
       "slug": "ipe-systems-material",
-      "title": "Ikuti besaran dari sensor ke hasil ukur",
-      "estimatedMinutes": 6,
+      "title": "Ikuti fungsi, kalibrasi, dan umpan balik sistem ukur",
+      "estimatedMinutes": 14,
       "examHook": {
         "prompt": "Sebuah strain gauge berubah tahanan saat menerima gaya. Mengapa sistem masih memerlukan jembatan, pengolah data, dan layar?",
         "targetOutcome": "Anda dapat menjelaskan fungsi tiap tahap dan arah umpan balik."
       },
-      "body": "Mulai dari besaran yang ingin Anda ukur. Lalu, ikuti perubahan sinyal pada tiap tahap. Cara ini membantu Anda menjelaskan fungsi alat tanpa menghafal daftar namanya.\n\nSatu alat dapat menjalankan beberapa fungsi. Kita tetap menyebut fungsi yang sesuai dengan penggunaan pada soal.\n\n[Buka pembahasan bertahap: Peran elemen sistem pengukuran](?item=2025-uas-q1).",
+      "body": "Mulai dari besaran yang ingin Anda ukur. Ikuti bentuk dan satuan sinyal pada tiap tahap hingga hasil terbaca. Empat fungsi pada Bagian 1 memberi dasar untuk mengelompokkan komponen.\n\nBagian 2 lalu menghubungkan fungsi itu dengan galat sistem, model balik, dan umpan balik. Kita memeriksa syarat model sebelum memakai rumusnya.\n\n[Buka pembahasan bertahap: Peran elemen sistem pengukuran](?item=2025-uas-q1).",
       "microUnits": [
         {
           "id": "ipe-systems-principle",
-          "title": "Pilih model dari kondisi soal",
-          "intuition": "Gaya mengubah tahanan sensor. Jembatan lalu mengubah perubahan tahanan menjadi beda tegangan. Pengolah memakai hubungan kalibrasi untuk memperoleh nilai gaya. Layar menampilkan nilai tersebut. **Rantai ukur** (urutan tahap pembacaan) menghubungkan besaran fisik dengan hasil yang Anda baca.",
-          "formal": "Untuk model linear berurutan, keluaran satu tahap menjadi masukan tahap berikutnya:\n\n$$y=K_3K_2K_1x.$$\n\nDengan umpan balik negatif, bandingkan masukan dengan sinyal balik sebelum menerapkan penguatan maju.",
-          "validityBounds": "Perkalian penguatan berlaku untuk model linear tanpa pengaruh beban antartahap. Periksa satuan setiap penguatan. Pada umpan balik, periksa tanda penjumlahan dan kestabilan sistem.",
+          "title": "Kenali empat fungsi sistem ukur",
+          "intuition": "Gaya dapat mengubah regangan, lalu regangan mengubah tahanan strain gauge. Jembatan dan penguat menyiapkan sinyal listriknya. Komputer memakai kalibrasi untuk memperoleh gaya. Layar menampilkan hasil agar Anda dapat membacanya.",
+          "formal": "Bagian 1 halaman 2, 3, dan 7 membagi fungsi sebagai berikut.\n\n| Fungsi | Perubahan yang terjadi |\n| --- | --- |\n| Sensor | Besaran fisik menjadi respons sensor. |\n| Pengondisi | Respons sensor menjadi sinyal yang sesuai untuk tahap lanjut. |\n| Pengolah | Sinyal menjadi data atau nilai besaran ukur. |\n| Penampil | Hasil menjadi bentuk yang mudah dibaca. |\n\nDalam pembagian ini, ADC termasuk pengolah. Jembatan dan penguat termasuk pengondisi.",
+          "validityBounds": "Tentukan fungsi dari masukan dan keluarannya. Satu alat dapat memuat beberapa fungsi; kode digital dari ADC belum sama dengan tampilan hasil.",
           "decisionCheck": {
             "id": "ipe-systems-decision-question",
             "prompt": "Penguat menaikkan tegangan sensor sebelum masuk ke pengolah. Fungsi utama apa yang sedang dilakukan?",
@@ -48,18 +48,152 @@ export const module: CourseModule = {
             "correctOptionId": "ipe-systems-decision-question-option-1",
             "explanation": "Tentukan fungsi dari masukan dan keluarannya. Penguat menerima serta menghasilkan tegangan, sehingga berperan sebagai pengondisi sinyal."
           }
+        },
+        {
+          "id": "ipe-systems-series-gain",
+          "title": "Periksa penguatan satu sistem lengkap",
+          "intuition": "Penguatan tiap tahap membawa satuan. Sensor dapat mengubah tekanan menjadi tegangan, lalu pengolah mengubah tegangan kembali menjadi tekanan. Anda baru dapat mengurangkan hasil dan nilai acuan setelah keduanya memakai besaran serta satuan yang sama.",
+          "formal": "Untuk tahap linear tanpa bias, $O_i=K_iI_i$ dan $I_{i+1}=O_i$. Bagian 2 halaman 1 memberi bentuk sistem:\n\n$$O=\\left(\\prod_{i=1}^{n}K_i\\right)I,\\qquad E=O-I=\\left(\\prod_{i=1}^{n}K_i-1\\right)I.$$\n\nHasil kali penguatan satu membuat $E=0$ pada model ideal ini.",
+          "validityBounds": "Model ini mengabaikan beban antartahap, ketaklinieran, bias, dan gangguan lingkungan. Penguatan nominal satu saja belum membuktikan alat nyata bebas galat.",
+          "decisionCheck": {
+            "prompt": "Hasil kali penguatan nominal tiap tahap sama dengan satu. Apakah sistem nyata pasti bebas galat?",
+            "options": [
+              {
+                "id": "ipe-systems-series-gain-decision-option-1",
+                "label": "Belum. Bias, ketaklinieran, dan pengaruh lingkungan masih perlu diperiksa.",
+                "feedback": "Tepat. Hasil kali satu hanya memenuhi syarat penguatan pada model ideal."
+              },
+              {
+                "id": "ipe-systems-series-gain-decision-option-2",
+                "label": "Ya. Hasil kali satu menghilangkan semua galat setiap komponen.",
+                "feedback": "Syarat penguatan tidak menghapus suku bias atau gangguan yang model ideal abaikan.",
+                "misconceptionTag": "ipe-systems-series-gain-decision-choice-2"
+              },
+              {
+                "id": "ipe-systems-series-gain-decision-option-3",
+                "label": "Ya, asalkan semua penguatan ditulis tanpa satuan.",
+                "feedback": "Satuan membantu Anda memeriksa hubungan antartahap. Menghapusnya tidak mengubah galat.",
+                "misconceptionTag": "ipe-systems-series-gain-decision-choice-3"
+              }
+            ],
+            "explanation": "Periksa setiap asumsi model sebelum menyimpulkan galat nol. Penguatan, bias, dan gangguan memengaruhi hasil melalui suku yang berbeda.",
+            "id": "ipe-systems-series-gain-decision",
+            "correctOptionId": "ipe-systems-series-gain-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-systems-direct-inverse",
+          "title": "Bedakan model sensor dan model pembacaan",
+          "intuition": "Model langsung memperkirakan keluaran sensor dari masukan yang diketahui. Model balik memperoleh besaran ukur dari sinyal yang Anda baca. Komputer memakai langkah kedua saat mengubah tegangan menjadi suhu.",
+          "formal": "Contoh Bagian 2 halaman 5 memakai $V$ dalam mV dan $T$ dalam °C:\n\n$$V=10T+20 \\quad\\Longrightarrow\\quad T=\\frac{V-20}{10}=0{,}1V-2.$$\n\nKurangkan bias lebih dahulu, lalu bagi dengan sensitivitas. Cara ini memberi satuan suhu pada hasil.",
+          "validityBounds": "Gunakan koefisien dan rentang kalibrasi yang sesuai. Kurva yang tidak satu-ke-satu memerlukan batas operasi agar model balik memberi satu hasil.",
+          "decisionCheck": {
+            "prompt": "Sensor memakai $V=10T+20$ dengan $V$ dalam mV. Mengapa Anda belum memperoleh suhu dengan menghitung $V/10$ saja?",
+            "options": [
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-1",
+                "label": "Tegangan masih memuat bias 20 mV yang perlu dikurangi.",
+                "feedback": "Tepat. Kurangkan bias, lalu bagi hasilnya dengan sensitivitas."
+              },
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-2",
+                "label": "Model balik selalu memerlukan turunan terhadap waktu.",
+                "feedback": "Persamaan ini menyatakan kalibrasi statik. Anda tidak memerlukan turunan waktu untuk membalik garis.",
+                "misconceptionTag": "ipe-systems-direct-inverse-decision-choice-2"
+              },
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-3",
+                "label": "Pembagian sensitivitas hanya berlaku pada sensor tanpa catu.",
+                "feedback": "Model tersebut sudah menghubungkan suhu dan keluaran. Keberadaan catu tidak menghapus operasi pembagian.",
+                "misconceptionTag": "ipe-systems-direct-inverse-decision-choice-3"
+              }
+            ],
+            "explanation": "Dari $V=10T+20$, Anda memperoleh $V-20=10T$. Maka $T=(V-20)/10$ pada rentang kalibrasi yang berlaku.",
+            "id": "ipe-systems-direct-inverse-decision",
+            "correctOptionId": "ipe-systems-direct-inverse-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-systems-feedback",
+          "title": "Mulai umpan balik dari selisih gaya",
+          "intuition": "Gaya balik mengurangi gaya masuk pada sensor. Sensor merespons sisa gaya itu. Saat penguatan maju besar, sisa gaya menjadi kecil dan gaya balik mendekati gaya masuk.",
+          "formal": "Dengan penguatan sensor $K$, penguat $K_A$, dan elemen balik $K_F$, Bagian 2 halaman 4 dan 5 memberi:\n\n$$V_{\\mathrm{out}}=KK_A(F_{\\mathrm{in}}-K_FV_{\\mathrm{out}}),$$\n\n$$\\frac{V_{\\mathrm{out}}}{F_{\\mathrm{in}}}=\\frac{KK_A}{1+KK_AK_F}.$$\n\nUntuk $L=KK_AK_F\\gg1$, pendekatannya ialah $V_{\\mathrm{out}}\\approx F_{\\mathrm{in}}/K_F$.",
+          "validityBounds": "Umpan balik harus negatif, stabil, dan tidak jenuh. Jika lingkungan mengubah $K$ menjadi $K+K_MI_M$, periksa lagi syarat $(K+K_MI_M)K_AK_F\\gg1$. Penguatan berhingga tetap menyisakan galat.",
+          "decisionCheck": {
+            "prompt": "Suhu lingkungan mengubah penguatan sensor. Apa yang Anda periksa sebelum tetap memakai pendekatan penguatan besar?",
+            "options": [
+              {
+                "id": "ipe-systems-feedback-decision-option-1",
+                "label": "Penguatan lingkar yang baru masih cukup besar dan sistem tetap stabil serta tidak jenuh.",
+                "feedback": "Tepat. Syarat pendekatan harus berlaku setelah koefisien sensor berubah."
+              },
+              {
+                "id": "ipe-systems-feedback-decision-option-2",
+                "label": "Penguatan sensor bertambah, sehingga hasil selalu tepat sama dengan batas ideal.",
+                "feedback": "Penguatan berhingga tetap berbeda dari batas ideal. Stabilitas dan catu juga membatasi sistem.",
+                "misconceptionTag": "ipe-systems-feedback-decision-choice-2"
+              },
+              {
+                "id": "ipe-systems-feedback-decision-option-3",
+                "label": "Elemen balik tidak lagi perlu dihitung karena keluaran sudah diketahui.",
+                "feedback": "Elemen balik menentukan batas penguatan besar. Mengabaikannya mengubah model.",
+                "misconceptionTag": "ipe-systems-feedback-decision-choice-3"
+              }
+            ],
+            "explanation": "Ganti $K$ dengan $K+K_MI_M$ dalam rumus tepat. Setelah itu, periksa besar penguatan lingkar dan batas fisiknya.",
+            "id": "ipe-systems-feedback-decision",
+            "correctOptionId": "ipe-systems-feedback-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-systems-error-spread",
+          "title": "Pisahkan galat rata-rata dan sebaran",
+          "intuition": "Bias dapat menggeser rata-rata hasil meskipun pembacaan berulang rapat. Gangguan acak dapat menyebarkan hasil meskipun rata-ratanya benar. Bagian 2 halaman 2 dan 3 menghitung kedua hal ini secara terpisah.",
+          "formal": "Untuk nilai masuk acuan $I$ yang tetap:\n\n$$\\bar E=\\bar O-I,\\qquad \\sigma_E=\\sigma_O.$$\n\nUntuk tahap $Y=aX+b$, anggap $a$ dan $b$ tetap. Anda memperoleh $\\bar Y=a\\bar X+b$ dan $\\sigma_Y=|a|\\sigma_X$.",
+          "validityBounds": "Pisahkan nilai rata-rata, simpangan baku, dan batas galat. Penjumlahan varians tanpa suku kovarians memerlukan masukan yang tidak berkorelasi. Bentuk sebaran gabungan tidak otomatis normal.",
+          "decisionCheck": {
+            "prompt": "Pembacaan berulang rapat, tetapi rata-ratanya jauh dari nilai acuan. Pernyataan mana yang paling sesuai?",
+            "options": [
+              {
+                "id": "ipe-systems-error-spread-decision-option-1",
+                "label": "Sebaran kecil dapat tetap disertai bias rata-rata yang besar.",
+                "feedback": "Tepat. Sebaran dan letak rata-rata menjawab dua pertanyaan berbeda."
+              },
+              {
+                "id": "ipe-systems-error-spread-decision-option-2",
+                "label": "Sebaran kecil membuktikan galat rata-rata nol.",
+                "feedback": "Pembacaan dapat berkumpul rapat di sekitar nilai yang salah.",
+                "misconceptionTag": "ipe-systems-error-spread-decision-choice-2"
+              },
+              {
+                "id": "ipe-systems-error-spread-decision-option-3",
+                "label": "Bias rata-rata hanya ada jika pembacaan tersebar lebar.",
+                "feedback": "Pergeseran tetap dapat mengubah rata-rata tanpa memperlebar sebaran.",
+                "misconceptionTag": "ipe-systems-error-spread-decision-choice-3"
+              }
+            ],
+            "explanation": "Bandingkan rata-rata dengan acuan untuk mencari bias. Lalu, hitung simpangan pembacaan terhadap rata-ratanya untuk mencari sebaran.",
+            "id": "ipe-systems-error-spread-decision",
+            "correctOptionId": "ipe-systems-error-spread-decision-option-1"
+          }
         }
       ],
       "checkpoints": [
-        "Anda dapat menjelaskan fungsi tiap tahap dan arah umpan balik.",
-        "Urutan fungsi dan satuan sinyal menentukan model sistem ukur.",
-        "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+        "Anda dapat mengelompokkan komponen dari fungsi masukan dan keluarannya.",
+        "Anda dapat mengubah model sensor menjadi model pembacaan beserta satuannya.",
+        "Anda dapat menurunkan penyebut umpan balik dari tanda pengurangan gaya.",
+        "Anda dapat memisahkan bias rata-rata dari sebaran acak."
       ],
       "derivations": [
         {
           "id": "ipe-systems-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "[Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): halaman 2 dan 3 menetapkan empat fungsi; halaman 7 menunjukkan urutan timbangan; halaman 8 menunjukkan penguat.\n\n[Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): halaman 1 membahas galat sistem ideal. Halaman 2 dan 3 membahas rata-rata serta sebaran. Halaman 4 dan 5 membahas kompensasi, umpan balik, dan model balik.\n\n[Bagian 3 (2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view) memberi cara kerja sensor yang muncul pada soal. Rujukan tiap soal mencantumkan halaman yang dipakai. Nomor halaman menghitung halaman PDF dari 1.\n\n[Arsip ujian 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda."
+        },
+        {
+          "id": "ipe-systems-feedback-derivation",
+          "title": "Turunkan pendekatan penguatan besar",
+          "content": "Mulai dengan $V_{\\mathrm{out}}=KK_A(F_{\\mathrm{in}}-K_FV_{\\mathrm{out}})$. Pindahkan suku keluaran ke kiri:\n\n$$V_{\\mathrm{out}}+KK_AK_FV_{\\mathrm{out}}=KK_AF_{\\mathrm{in}}.$$\n\nFaktorkan keluaran, lalu bagi dengan $1+KK_AK_F$. Dengan $L=KK_AK_F$, hasilnya:\n\n$$V_{\\mathrm{out}}=\\frac{1}{K_F}\\frac{L}{1+L}F_{\\mathrm{in}}.$$\n\nFaktor $L/(1+L)$ mendekati satu saat $L\\gg1$. Selisih relatif terhadap batas penguatan besar ialah $1/(1+L)$ untuk $L>0$. Jadi, pendekatan ini tidak sama persis dengan hasil pada penguatan berhingga. Sumber: Bagian 2 halaman 4 dan 5."
         }
       ]
     },
@@ -77,19 +211,32 @@ export const module: CourseModule = {
         ],
         "original": "1. [10%] Elements of Measurement Systems\nPlease categorize the following elements into sensing elements, signal conditioning elements, signal processing elements, or data presentation elements.\na. Incremental encoder.\nb. LVDT\nc. Wheatstone bridge\nd. Inverting amplifier\ne. Low pass filter\nf. Analog to Digital Converter\ng. Strain gauge\nh. Resistance Temperature Dependence\ni. Current to voltage converter\nj. Capacitive proximity probe",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            1,
-            2,
-            6,
-            14,
-            15,
-            16,
-            17
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3,
+              7,
+              8
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (2022)",
+            "pages": [
+              1,
+              2,
+              3,
+              6,
+              14,
+              15,
+              16,
+              17
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UAS",
@@ -156,7 +303,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Perasa: a, b, g, h, j. Pengondisi: c, d, e, i. Pemroses: f, dengan konvensi pembagian fungsi di atas. Penyaji data: tidak ada pada daftar.",
-      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor.",
+      "sourceNotes": [
+        "Bagian 1 halaman 2, 3, dan 7 menetapkan empat fungsi yang dipakai di sini. Sumber secara tegas menempatkan ADC dan komputer pada pengolah sinyal, serta jembatan dan penguat pada pengondisi sinyal.",
+        "Bagian 3 halaman 1 membedakan sensor dan detektor. Bagian 3 menjelaskan RTD pada halaman 2 dan 3 serta strain gauge pada halaman 6. Anda dapat membaca LVDT dan sensor kapasitif pada halaman 15, lalu encoder pada halaman 16 dan 17. Pengelompokan filter mengikuti fungsi rangkaian dalam pembahasan."
+      ]
     },
     {
       "id": "2024-uts1-q3",
@@ -172,10 +323,23 @@ export const module: CourseModule = {
         ],
         "original": "3. [20%] Figure below shows a block diagram of a force transducer using negative feedback. The elastic sensor gives a displacement output for a force input; the displacement sensor gives a voltage output for a displacement input. \\(V_s\\) is the supply voltage for the displacement sensor. (a) Calculate the output voltage \\(V_o\\) when (i) \\(V_s=1.0\\ \\mathrm V,F=50\\ \\mathrm N\\), (ii) \\(V_s=1.5\\ \\mathrm V,F=50\\ \\mathrm N\\). (b) Comment on the practical significance of the variation of the supply voltage \\(V_s\\). Figure: input force F enters the positive summing input; balancing force enters the negative input. Forward blocks: elastic force sensor \\(10^{-4}\\), displacement sensor \\(100\\times V_s\\), amplifier \\(10^3\\). Output \\(V_o\\) returns through coil-and-magnet block 10 to the negative summing input.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              13
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              4,
+              5
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Blok dianggap linear, polaritas umpan balik mengikuti tanda minus pada gambar, dan penguat serta kumparan bekerja tanpa saturasi. Analisis membahas keadaan tunak."
@@ -287,7 +451,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Keluaran sekitar 4,95050 V pada catu 1,0 V dan 4,96689 V pada catu 1,5 V. Catu naik 50%, tetapi keluaran naik sekitar 0,331%; umpan balik negatif menekan kepekaan terhadap perubahan catu.\n\n$$\n\\boxed{V_o(1.0\\ \\mathrm V)=4.95050\\ \\mathrm V,\\qquad V_o(1.5\\ \\mathrm V)=4.96689\\ \\mathrm V}\n$$",
-      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor.",
+      "sourceNotes": [
+        "Bagian 2 halaman 4 dan 5 memberi diagram gaya balik negatif. Bentuk tepatnya ialah $V_{\\mathrm{out}}/F_{\\mathrm{in}}=KK_A/(1+KK_AK_F)$. Bentuk $1/K_F$ hanya pendekatan saat penguatan lingkar cukup besar.",
+        "Bagian 1 halaman 13 menjelaskan perubahan sensitivitas $K+K_MI_M$. Setelah perubahan itu, syarat pendekatan harus tetap berlaku pada $(K+K_MI_M)K_AK_F$. Batas stabil, linear, dan tidak jenuh pada pembahasan tetap diperlukan."
+      ]
     },
     {
       "id": "2024-uts2-q2",
@@ -304,17 +472,27 @@ export const module: CourseModule = {
         ],
         "original": "2. Conceptual Questions: Flowmeter, Resolver, Inductive and Optical Proximity\n(a) [5%] In a differential pressure flowmeter, why is the discharge coefficient (\\(C_d\\)) needed to determine the fluid flow?\n(b) [5%] There are three types of differential pressure flowmeters: orifice, nozzle, and venturi. Why is the orifice meter the most widely used in industry? Does the orifice have the highest discharge coefficient (\\(C_d\\))?\n(c) [5%] Please explain briefly the working principle of the following resolver.\n(d) [5%] Explain briefly how an inductive proximity works.\n(e) [5%] Explain briefly how an optical proximity works.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            1,
-            2,
-            9,
-            10,
-            16
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (2022)",
+            "pages": [
+              1,
+              2,
+              9,
+              10,
+              16
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UTS 2",
@@ -614,7 +792,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Cd mengoreksi debit ideal. Orifis unggul pada kesederhanaan dan biaya, bukan pada Cd tertinggi. Resolver membaca sudut; detektor induktif membaca kedekatan logam; detektor optik membaca perubahan cahaya.",
-      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor.",
+      "sourceNotes": [
+        "Bagian 1 halaman 2 dan 3 memberi dasar fungsi sensor. Bagian 3 halaman 1 dan 2 membedakan deteksi keberadaan dari pembacaan besar besaran, serta menunjukkan detektor induktif dan optik.",
+        "Bagian 3 halaman 9 dan 10 mendasari pengukuran aliran melalui beda tekanan. Halaman 16 menjelaskan resolver dan sensor pantulan. Sifat tiap alat perlu cocok dengan besaran dan objek yang diminta soal."
+      ]
     },
     {
       "id": "2024-uas-q5",
@@ -630,10 +812,25 @@ export const module: CourseModule = {
         ],
         "original": "5. [20%] Accuracy of Measurement System\nA pressure measurement system consists of a pressure sensor, deflection bridge, amplifier, and recorder, as shown in the following figure: Input → Pressure Sensor → Deflection Bridge → Amplifier → Recorder → Output.\nThe table gives linear sensitivities K and error bandwidths ±h:\nPressure sensor: \\(10^{-4}\\ \\Omega\\,\\mathrm{Pa}^{-1}\\), ±0.005 Ω.\nDeflection bridge: \\(4\\times10^{-2}\\ \\mathrm{mV}\\,\\Omega^{-1}\\), \\(\\pm5\\times10^{-4}\\ \\mathrm{mV}\\).\nAmplifier: \\(10^3\\ \\mathrm{mV}\\,\\mathrm{mV}^{-1}\\), ±0.5 mV.\nRecorder: \\(250\\ \\mathrm{Pa}\\,\\mathrm{mV}^{-1}\\), ±100 Pa.\n(a) [10%] Given that the recorder is incorrectly adjusted so that its sensitivity is 225 Pa mV⁻¹, calculate the mean error \\(\\bar E\\) for an input pressure of \\(5\\times10^3\\) Pa.\n(b) [10%] Calculate the standard deviation \\(\\sigma_E\\) of the error distribution function.\nSupplied relations: \\(\\bar O_i=K_i\\bar I_i\\), \\(\\sigma_{I_{i+1}}^2=\\sigma_{O_i}^2=K_i^2\\sigma_{I_i}^2+h_i^2/3\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              15,
+              17
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              1,
+              2,
+              3
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025.",
@@ -768,7 +965,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Rata-rata pembacaan 4500 Pa, galat rata-rata −500 Pa, dan simpangan baku galat sekitar 111,56 Pa untuk perekam aktual 225 Pa/mV.\n\n$$\n\\boxed{\\bar O=4500\\ \\mathrm{Pa},\\quad\\bar E=-500\\ \\mathrm{Pa},\\quad\\sigma_E\\approx111.56\\ \\mathrm{Pa}}\n$$",
-      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor.",
+      "sourceNotes": [
+        "Bagian 2 halaman 1 mendefinisikan galat sebagai hasil ukur dikurangi nilai acuan. Halaman 2 dan 3 memisahkan perambatan rata-rata serta simpangan baku melalui tiap tahap sistem.",
+        "Bagian 1 halaman 17 memberi penjumlahan varians dengan bobot kepekaan. Soal ini tetap memakai asumsi galat antaralat tidak berkorelasi dan sebaran seragam. Contoh sebaran normal pada slide tidak mengubah asumsi soal."
+      ]
     },
     {
       "id": "2023-uts1-q1",
@@ -784,10 +985,27 @@ export const module: CourseModule = {
         ],
         "original": "1. [10%] Elements of Measurement System\nClassify the following elements as sensing elements, signal conditioning elements, signal processing elements, or data presentation elements.\na. Strain gauge\nb. Thermocouple\nc. Wheatstone bridge\nd. Low Pass Filter\ne. Operational amplifier\nf. Current to voltage converter\ng. Frequency to voltage converter\nh. Accelerometer\ni. Microcontroller\nj. LCD",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3,
+              7,
+              8,
+              16
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (2022)",
+            "pages": [
+              6,
+              17
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Klasifikasi memakai peran utama dalam sistem ukur dasar. Perangkat terpadu dan filter digital dapat mencakup lebih dari satu fungsi.",
@@ -887,7 +1105,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Sensor: a, b, h. Pengondisi sinyal: c, d, e, f, g. Pengolah sinyal: i. Penyaji data: j. Low-pass filter diklasifikasikan sebagai pengondisi analog dalam konteks rantai ini. Untuk d dan g, jelaskan fungsi rangkaiannya karena batas pengondisi dan pengolah dapat berbeda menurut kerangka.",
-      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor."
+      "takeaway": "Jangan menyebut semua alat yang terhubung ke sensor sebagai sensor.",
+      "sourceNotes": [
+        "Bagian 1 halaman 2, 3, dan 7 menghubungkan jenis elemen dengan fungsinya. Halaman 8 menunjukkan penguat pembalik dan tak membalik; halaman 16 memberi contoh sensor percepatan.",
+        "Bagian 3 halaman 6 menjelaskan strain gauge. Halaman 17 menunjukkan konverter frekuensi-ke-tegangan setelah sensor kecepatan. Penempatan filter dan konverter tetap mengikuti fungsi listrik yang dijelaskan pada langkah soal."
+      ]
     },
     {
       "id": "ipe-systems-practice",
@@ -1044,19 +1266,19 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
   "title": "Measurement systems and feedback",
   "items": {
     "ipe-systems-material": {
-      "title": "Trace a quantity from the sensor to the reading",
+      "title": "Trace measurement functions, calibration, and feedback",
       "examHook": {
         "prompt": "A strain gauge changes resistance under force. Why does the system still need a bridge, a processor, and a display?",
         "targetOutcome": "You can explain each stage and the direction of feedback."
       },
-      "body": "Start with the quantity you want to measure. Then follow how the signal changes at each stage. This approach helps you explain an instrument without memorizing its name.\n\nOne device can perform several functions. We name the function that matches its use in the question.\n\n[Open the worked solution: Roles of measurement-system elements](?item=2025-uas-q1).",
+      "body": "Start with the quantity you want to measure. Follow the signal form and units at each stage until the result becomes readable. The four functions in Part 1 give you a basis for classifying components.\n\nPart 2 then connects those functions to system error, inverse models, and feedback. We check a model’s conditions before using its equation.\n\n[Open the worked solution: Roles of measurement-system elements](?item=2025-uas-q1).",
       "microUnits": [
         {
           "id": "ipe-systems-principle",
-          "title": "Choose a model from the stated conditions",
-          "intuition": "Force changes the sensor resistance. A bridge turns that resistance change into a voltage difference. A processor applies calibration to obtain force. A display shows that value. A **measurement chain** is the sequence of stages that connects a physical quantity to a readable result.",
-          "formal": "In a linear series model, each output becomes the next input:\n\n$$y=K_3K_2K_1x.$$\n\nWith negative feedback, compare the input with the feedback signal before applying the forward gain.",
-          "validityBounds": "Multiplying gains assumes a linear model without loading between stages. Check the units of every gain. For feedback, check the summing sign and system stability.",
+          "title": "Identify four measurement functions",
+          "intuition": "Force can change strain, which then changes a strain gauge resistance. A bridge and an amplifier prepare the electrical signal. A computer applies calibration to obtain force. A display makes the result readable to you.",
+          "formal": "Part 1, pages 2, 3, and 7, uses these functions.\n\n| Function | What changes |\n| --- | --- |\n| Sensing | A physical quantity becomes a sensor response. |\n| Conditioning | That response becomes a signal suited to the next stage. |\n| Processing | The signal becomes data or a measured quantity. |\n| Presentation | The result becomes readable to the user. |\n\nUnder this scheme, an ADC performs processing. A bridge and an amplifier perform conditioning.",
+          "validityBounds": "Identify a function from its input and output. One device may combine functions; an ADC code is not yet a displayed reading.",
           "decisionCheck": {
             "prompt": "An amplifier raises the sensor voltage before it reaches the processor. What main function does it perform?",
             "options": [
@@ -1078,18 +1300,136 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
             ],
             "explanation": "Identify the function from its input and output. The amplifier receives and produces voltage, so it performs signal conditioning."
           }
+        },
+        {
+          "id": "ipe-systems-series-gain",
+          "title": "Check the gain of the complete system",
+          "intuition": "Each stage gain carries units. A sensor may turn pressure into voltage, and a processor may turn voltage back into pressure. You can subtract the reading and the reference only when both use the same quantity and units.",
+          "formal": "For linear stages without offsets, $O_i=K_iI_i$ and $I_{i+1}=O_i$. Part 2, page 1, gives the complete system:\n\n$$O=\\left(\\prod_{i=1}^{n}K_i\\right)I,\\qquad E=O-I=\\left(\\prod_{i=1}^{n}K_i-1\\right)I.$$\n\nA gain product of one makes $E=0$ in this ideal model.",
+          "validityBounds": "This model omits loading, nonlinearity, offsets, and environmental changes. A nominal gain of one alone does not prove that a real instrument has no error.",
+          "decisionCheck": {
+            "prompt": "The nominal stage gains multiply to one. Can you conclude that the real system has no error?",
+            "options": [
+              {
+                "id": "ipe-systems-series-gain-decision-option-1",
+                "label": "Not yet. You still need to check offsets, nonlinearity, and environmental effects.",
+                "feedback": "Correct. A product of one satisfies only the gain condition in the ideal model."
+              },
+              {
+                "id": "ipe-systems-series-gain-decision-option-2",
+                "label": "Yes. A gain product of one removes every component error.",
+                "feedback": "That gain condition does not remove offsets or disturbances omitted by the ideal model."
+              },
+              {
+                "id": "ipe-systems-series-gain-decision-option-3",
+                "label": "Yes, as long as you write every gain without units.",
+                "feedback": "Units help you check the stage connections. Removing them does not change the error."
+              }
+            ],
+            "explanation": "Check every model assumption before concluding zero error. Gain, offsets, and disturbances affect the result through different terms."
+          }
+        },
+        {
+          "id": "ipe-systems-direct-inverse",
+          "title": "Distinguish sensor and readout models",
+          "intuition": "A direct model predicts sensor output from a known input. An inverse model recovers the measured quantity from the signal you read. A computer uses the second step when converting voltage to temperature.",
+          "formal": "The example on Part 2, page 5, uses $V$ in mV and $T$ in °C:\n\n$$V=10T+20 \\quad\\Longrightarrow\\quad T=\\frac{V-20}{10}=0.1V-2.$$\n\nSubtract the offset first, then divide by sensitivity. This order gives you a result in temperature units.",
+          "validityBounds": "Use calibration coefficients and a range that match the conditions you measured. A curve that is not one-to-one needs an operating restriction for its inverse to give a single result.",
+          "decisionCheck": {
+            "prompt": "A sensor uses $V=10T+20$ with $V$ in mV. Why does calculating $V/10$ alone not give you temperature?",
+            "options": [
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-1",
+                "label": "The voltage still includes a 20 mV offset that you must subtract.",
+                "feedback": "Correct. Subtract the offset, then divide the result by sensitivity."
+              },
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-2",
+                "label": "An inverse model always requires a time derivative.",
+                "feedback": "This equation is static calibration. You do not need a time derivative to invert the line."
+              },
+              {
+                "id": "ipe-systems-direct-inverse-decision-option-3",
+                "label": "Dividing by sensitivity works only for sensors without a supply.",
+                "feedback": "The model already relates temperature and output. A supply does not prevent you from dividing by sensitivity."
+              }
+            ],
+            "explanation": "From $V=10T+20$, you obtain $V-20=10T$. Thus $T=(V-20)/10$ within the applicable calibration range."
+          }
+        },
+        {
+          "id": "ipe-systems-feedback",
+          "title": "Start feedback from the force difference",
+          "intuition": "The feedback force subtracts from the input force at the sensor. The sensor responds to the remaining force. With high forward gain, this difference becomes small and feedback force approaches input force.",
+          "formal": "With sensor gain $K$, amplifier gain $K_A$, and feedback gain $K_F$, Part 2, pages 4 and 5, gives:\n\n$$V_{\\mathrm{out}}=KK_A(F_{\\mathrm{in}}-K_FV_{\\mathrm{out}}),$$\n\n$$\\frac{V_{\\mathrm{out}}}{F_{\\mathrm{in}}}=\\frac{KK_A}{1+KK_AK_F}.$$\n\nFor $L=KK_AK_F\\gg1$, the approximation is $V_{\\mathrm{out}}\\approx F_{\\mathrm{in}}/K_F$.",
+          "validityBounds": "Before you use this approximation, check that feedback stays negative, stable, and unsaturated. If the environment changes $K$ to $K+K_MI_M$, recheck $(K+K_MI_M)K_AK_F\\gg1$. Finite gain still leaves error.",
+          "decisionCheck": {
+            "prompt": "Ambient temperature changes sensor gain. What do you check before keeping the high-gain approximation?",
+            "options": [
+              {
+                "id": "ipe-systems-feedback-decision-option-1",
+                "label": "The new loop gain is still high enough, and the system remains stable and unsaturated.",
+                "feedback": "Correct. The approximation’s condition must hold after the sensor coefficient changes."
+              },
+              {
+                "id": "ipe-systems-feedback-decision-option-2",
+                "label": "Sensor gain increased, so the result always equals the ideal limit exactly.",
+                "feedback": "Finite gain still differs from the ideal limit. Stability and supply rails also limit the system."
+              },
+              {
+                "id": "ipe-systems-feedback-decision-option-3",
+                "label": "You can omit the feedback element because output is already known.",
+                "feedback": "The feedback element sets the high-gain limit. Omitting it changes your model."
+              }
+            ],
+            "explanation": "Replace $K$ with $K+K_MI_M$ in the exact expression. Then check the loop gain and physical limits."
+          }
+        },
+        {
+          "id": "ipe-systems-error-spread",
+          "title": "Separate mean error from spread",
+          "intuition": "A bias can shift the mean even when repeated readings are close together. Random disturbances can spread readings even when their mean is correct. Part 2, pages 2 and 3, computes these effects separately.",
+          "formal": "For a fixed reference input $I$:\n\n$$\\bar E=\\bar O-I,\\qquad \\sigma_E=\\sigma_O.$$\n\nIf the next stage uses $Y=aX+b$ with fixed $a$ and $b$, then $\\bar Y=a\\bar X+b$ and $\\sigma_Y=|a|\\sigma_X$.",
+          "validityBounds": "Keep the mean, standard deviation, and error bounds distinct. Adding variances without covariance terms requires uncorrelated inputs. The combined distribution is not automatically normal.",
+          "decisionCheck": {
+            "prompt": "Repeated readings are tightly grouped, but their mean is far from the reference. Which statement best fits your data?",
+            "options": [
+              {
+                "id": "ipe-systems-error-spread-decision-option-1",
+                "label": "Small spread can coexist with a large mean bias.",
+                "feedback": "Correct. Spread and mean location answer two different questions."
+              },
+              {
+                "id": "ipe-systems-error-spread-decision-option-2",
+                "label": "Small spread proves that the mean error is zero.",
+                "feedback": "Your readings can cluster tightly around the wrong value."
+              },
+              {
+                "id": "ipe-systems-error-spread-decision-option-3",
+                "label": "Mean bias exists only when readings have a wide spread.",
+                "feedback": "A constant shift can change the mean without widening the spread."
+              }
+            ],
+            "explanation": "Compare the mean with the reference to find bias. Then compare readings with their own mean to find spread."
+          }
         }
       ],
       "checkpoints": [
-        "You can explain each stage and the direction of feedback.",
-        "The order of functions and signal units determines the measurement model.",
-        "Do not classify every device connected to a sensor as a sensing element."
+        "You can classify a component from its input and output functions.",
+        "You can invert a sensor model and track its units.",
+        "You can derive the feedback denominator from the force subtraction.",
+        "You can separate mean bias from random spread."
       ],
       "derivations": [
         {
           "id": "ipe-systems-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "[Part 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): pages 2 and 3 define the four functions; page 7 shows a weighing system; page 8 shows amplifiers.\n\n[Part 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): page 1 covers ideal system error; pages 2 and 3 cover means and spread; pages 4 and 5 cover compensation, feedback, and inverse models.\n\n[Part 3 (2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view) describes the sensors used in the questions. Each problem lists the pages it uses. Page numbers count physical PDF pages from 1.\n\n[Exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ."
+        },
+        {
+          "id": "ipe-systems-feedback-derivation",
+          "title": "Derive the high-gain approximation",
+          "content": "Start with $V_{\\mathrm{out}}=KK_A(F_{\\mathrm{in}}-K_FV_{\\mathrm{out}})$. Move the output term to the left:\n\n$$V_{\\mathrm{out}}+KK_AK_FV_{\\mathrm{out}}=KK_AF_{\\mathrm{in}}.$$\n\nFactor the output, then divide by $1+KK_AK_F$. With $L=KK_AK_F$, this gives:\n\n$$V_{\\mathrm{out}}=\\frac{1}{K_F}\\frac{L}{1+L}F_{\\mathrm{in}}.$$\n\nThe factor $L/(1+L)$ approaches one when $L\\gg1$. Its relative difference from the high-gain limit is $1/(1+L)$ for $L>0$. The approximation therefore differs from the finite-gain result. Source: Part 2, pages 4 and 5."
         }
       ]
     },
@@ -1151,7 +1491,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Sensing: a, b, g, h, j. Conditioning: c, d, e, i. Processing: f, under the stated functional convention. Presentation: none in the list.",
-      "takeaway": "Do not classify every device connected to a sensor as a sensing element."
+      "takeaway": "Do not classify every device connected to a sensor as a sensing element.",
+      "sourceNotes": [
+        "Part 1, pages 2, 3, and 7, defines the four functions used here. It explicitly places ADCs and computers in signal processing, and bridges and amplifiers in signal conditioning.",
+        "Part 3, page 1, distinguishes sensors from detectors. Part 3 describes RTDs on pages 2 and 3, and strain gauges on page 6. You can read about LVDTs and capacitive sensors on page 15, then encoders on pages 16 and 17. The filter classification follows its circuit function in the solution."
+      ]
     },
     "2024-uts1-q3": {
       "title": "Force transducer with negative feedback",
@@ -1244,7 +1588,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Output is about 4.95050 V at a 1.0 V supply and 4.96689 V at 1.5 V. A 50% supply rise causes only about a 0.331% output rise; negative feedback reduces supply sensitivity.\n\n$$\n\\boxed{V_o(1.0\\ \\mathrm V)=4.95050\\ \\mathrm V,\\qquad V_o(1.5\\ \\mathrm V)=4.96689\\ \\mathrm V}\n$$",
-      "takeaway": "Do not classify every device connected to a sensor as a sensing element."
+      "takeaway": "Do not classify every device connected to a sensor as a sensing element.",
+      "sourceNotes": [
+        "Part 2, pages 4 and 5, gives the negative force-feedback diagram and the exact form $V_{\\mathrm{out}}/F_{\\mathrm{in}}=KK_A/(1+KK_AK_F)$. The form $1/K_F$ is only an approximation when loop gain is sufficiently high.",
+        "Part 1, page 13, explains the sensitivity change $K+K_MI_M$. After that change, the approximation must still hold for $(K+K_MI_M)K_AK_F$. The solution still requires stable, linear, unsaturated operation."
+      ]
     },
     "2024-uts2-q2": {
       "title": "Flowmeters, resolvers, and proximity detectors",
@@ -1420,7 +1768,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Cd corrects ideal flow. An orifice offers simplicity and low cost, rather than the highest Cd. Resolvers measure angle, inductive detectors sense nearby metal, and optical detectors sense changes in light.",
-      "takeaway": "Do not classify every device connected to a sensor as a sensing element."
+      "takeaway": "Do not classify every device connected to a sensor as a sensing element.",
+      "sourceNotes": [
+        "Part 1, pages 2 and 3, provides the functional basis for sensing. Part 3, pages 1 and 2, distinguishes presence detection from magnitude measurement and shows inductive and optical detectors.",
+        "Part 3, pages 9 and 10, supports flow measurement from pressure difference. Page 16 describes resolvers and reflected-wave sensors. Match each device to the quantity and target named in the question."
+      ]
     },
     "2024-uas-q5": {
       "title": "Mean error and system error spread",
@@ -1524,7 +1876,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The mean reading is 4500 Pa, mean error is −500 Pa, and error standard deviation is about 111.56 Pa with the actual 225 Pa/mV recorder.\n\n$$\n\\boxed{\\bar O=4500\\ \\mathrm{Pa},\\quad\\bar E=-500\\ \\mathrm{Pa},\\quad\\sigma_E\\approx111.56\\ \\mathrm{Pa}}\n$$",
-      "takeaway": "Do not classify every device connected to a sensor as a sensing element."
+      "takeaway": "Do not classify every device connected to a sensor as a sensing element.",
+      "sourceNotes": [
+        "Part 2, page 1, defines error as the reading minus the reference. Pages 2 and 3 propagate means and standard deviations separately through the system.",
+        "Part 1, page 17, gives sensitivity-weighted variance propagation. This problem retains the solution’s assumptions of uncorrelated device errors and uniform distributions; the slide’s normal-distribution example does not replace those assumptions."
+      ]
     },
     "2023-uts1-q1": {
       "title": "Roles of measurement-system elements",
@@ -1613,7 +1969,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Sensing: a, b, h. Signal conditioning: c, d, e, f, g. Signal processing: i. Data presentation: j. The low-pass filter is classified as analog conditioning in this chain. For d and g, explain circuit function because boundaries between conditioning and processing can differ across frameworks.",
-      "takeaway": "Do not classify every device connected to a sensor as a sensing element."
+      "takeaway": "Do not classify every device connected to a sensor as a sensing element.",
+      "sourceNotes": [
+        "Part 1, pages 2, 3, and 7, links element categories to their functions. Page 8 shows inverting and non-inverting amplifiers; page 16 gives an acceleration-sensor example.",
+        "Part 3, page 6, describes strain gauges. Page 17 shows a frequency-to-voltage converter after a speed sensor. Filters and converters retain the electrical roles explained in the worked steps."
+      ]
     },
     "ipe-systems-practice": {
       "title": "Practice: Measurement systems and feedback",

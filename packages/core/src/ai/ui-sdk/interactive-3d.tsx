@@ -1,7 +1,7 @@
 import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
-import { Button, Slider } from '@tutor/ui';
+import { Button, Slider, useTheme } from '@tutor/ui';
 import { compileMathExpression } from './safe-math';
 import type { RenderInteractive3DInput } from './tools';
 
@@ -28,6 +28,7 @@ export default function Interactive3DBlock({
   const dragRef = React.useRef<{ x: number; y: number } | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { t } = useLanguage();
+  const { resolvedTheme } = useTheme();
 
   const surfaceFn = React.useMemo(
     () =>
@@ -37,7 +38,7 @@ export default function Interactive3DBlock({
     [data.surfaceExpression]
   );
 
-  React.useEffect(() => {
+  const redraw = React.useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -213,6 +214,13 @@ export default function Interactive3DBlock({
 
     ctx.restore();
   }, [angles, data.domain, data.mode, data.vectors, params, surfaceFn, t]);
+
+  React.useEffect(() => {
+    // Read colors after ThemeProvider has applied the root class, including
+    // when the model stays still while the user switches theme.
+    const frame = window.requestAnimationFrame(redraw);
+    return () => window.cancelAnimationFrame(frame);
+  }, [redraw, resolvedTheme]);
 
   return (
     <div className="my-2.5 space-y-2.5 border-y border-border/80 py-3">

@@ -78,8 +78,17 @@ test('IPE retains verbatim source evidence, links, page locators, and reference 
     assert.deepEqual(evidence.pages, expected.source.pages, expected.id);
     assert.equal(evidence.originalLanguage, expected.source.originalLanguage, expected.id);
     assert.equal(digest(evidence.original), expected.source.originalSha256, `${expected.id}: original transcription changed`);
-    assert.equal(evidence.reference?.url, baseline.provenance.reference.url, expected.id);
-    assert.deepEqual(evidence.reference?.pages ?? [], expected.source.referencePages, expected.id);
+    assert.ok(evidence.references?.length, `${expected.id}: missing audited course references`);
+    for (const reference of evidence.references!) {
+      assert.ok(reference.pages.length > 0 && reference.pages.every((page) => Number.isInteger(page) && page > 0), `${expected.id}: missing physical PDF page locator`);
+    }
+    // Explicit legacy Bag3 locators remain evidence. Other questions originally
+    // linked Bag3 without pages even when the supporting theory lives in Bag1/2.
+    if (expected.source.referencePages.length) {
+      const bag3 = evidence.references!.find((reference) => reference.url === baseline.provenance.reference.url);
+      assert.ok(bag3, `${expected.id}: missing original Bag3 reference`);
+      for (const page of expected.source.referencePages) assert.ok(bag3.pages.includes(page), `${expected.id}: lost original reference page ${page}`);
+    }
   }
 });
 

@@ -452,7 +452,7 @@ export function TutorSidebarContent({
                                     >
                                       {item.title}
                                     </span>
-                                    <span className="mt-0.5 block truncate text-[11px] text-muted-foreground/80">
+                                    <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
                                       {moduleCode
                                         ? `${moduleCode} · ${moduleTitle}`
                                         : moduleTitle}

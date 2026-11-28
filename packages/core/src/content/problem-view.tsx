@@ -34,6 +34,8 @@ export function ProblemView({
     ...(problem.simulation ? [problem.simulation] : []),
     ...(problem.simulations ?? []),
   ];
+  const references = problem.sourceDetails?.references
+    ?? (problem.sourceDetails?.reference ? [problem.sourceDetails.reference] : []);
 
   const isCompleted = useTutorStore((s) => !!s.completedIds[itemKey]);
   const isBookmarked = useTutorStore((s) => !!s.bookmarkedIds[itemKey]);
@@ -42,7 +44,11 @@ export function ProblemView({
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
 
   const diff = difficultyLabel[problem.difficulty];
-  const problemContext = [problem.statement, ...(problem.given ?? []), problem.asked, ...(problem.assumptions ?? [])].filter(Boolean).join('\n\n');
+  const problemContext = [
+    problem.statement, ...(problem.given ?? []), problem.asked,
+    ...(problem.assumptions ?? []), ...(problem.sourceNotes ?? []),
+    ...references.map((reference) => `${reference.title}; ${t('halaman PDF', 'PDF pages')} ${reference.pages?.join(', ') ?? ''}; ${reference.url}`),
+  ].filter(Boolean).join('\n\n');
 
   return (
     <article className="pb-16">
@@ -144,14 +150,20 @@ export function ProblemView({
                 <div lang={problem.sourceDetails.originalLanguage} className="whitespace-pre-wrap break-words text-sm leading-relaxed">
                   {problem.sourceDetails.original}
                 </div>
-                {problem.sourceDetails.reference && (
-                  <p className="text-xs text-muted-foreground">
-                    {t('Rujukan materi: ', 'Course reference: ')}
-                    <a href={problem.sourceDetails.reference.url} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-4">
-                      {problem.sourceDetails.reference.title}
-                    </a>
-                    {!!problem.sourceDetails.reference.pages?.length && ` · ${t('halaman', 'pages')} ${problem.sourceDetails.reference.pages.join(', ')}`}
-                  </p>
+                {references.length > 0 && (
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <p className="font-medium">{t('Rujukan materi', 'Course references')}</p>
+                    <ul className="space-y-2">
+                      {references.map((reference) => (
+                        <li key={reference.url}>
+                          <a href={reference.url} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-4">
+                            {reference.title}
+                          </a>
+                          {!!reference.pages?.length && ` · ${t('halaman PDF', 'PDF pages')} ${reference.pages.join(', ')}`}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </AccordionContent>
             </AccordionItem>
@@ -166,6 +178,15 @@ export function ProblemView({
               ))}
             </ul>
           </Callout>
+        )}
+
+        {!!problem.sourceNotes?.length && (
+          <section aria-label={t('Dasar dari materi kuliah', 'Basis in the course material')} className="space-y-3 border-l-2 border-primary/35 pl-4">
+            <h2 className="text-sm font-semibold">{t('Dasar dari materi kuliah', 'Basis in the course material')}</h2>
+            {problem.sourceNotes.map((note, index) => (
+              <MathMarkdown key={index} content={note} className="text-sm leading-relaxed" />
+            ))}
+          </section>
         )}
 
         {(problem.given?.length || problem.asked) && (

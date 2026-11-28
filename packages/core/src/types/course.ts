@@ -183,8 +183,13 @@ export interface ProblemItem {
     pages: number[];
     original: string;
     originalLanguage: Locale;
+    /** Prefer plural references when a solution draws on several course sources. */
+    references?: Array<{ url: string; title: string; pages: number[] }>;
+    /** Compatibility with courses authored before multiple references were supported. */
     reference?: { url: string; title: string; pages?: number[] };
   };
+  /** Source-grounded explanations, translated with the rest of the lesson. */
+  sourceNotes?: string[];
   assumptions?: string[];
   exam?: ExamRef;
   difficulty: DifficultyLevel;

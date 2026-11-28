@@ -59,7 +59,7 @@ export const module: CourseModule = {
         {
           "id": "ipe-flow-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "Baca bagian yang sesuai dengan model yang Anda pakai. Nomor di bawah menghitung halaman PDF dari 1; satu halaman dapat memuat beberapa slide.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), halaman PDF 7, 8, 9, 10, 11, 12, 13: Prinsip sensor aliran, meter beda tekanan, tabel koefisien debit, Pitot, serta meter magnetik dan ultrasonik.\n\n[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Setiap soal menyimpan naskah, halaman ujian, dan asumsi tersendiri."
         }
       ]
     },
@@ -77,15 +77,17 @@ export const module: CourseModule = {
         ],
         "original": "1. Flow Measurement: Orifice Flowmeter\nA hydraulic oil with a density of \\(\\rho=870\\ \\mathrm{kg/m^3}\\) flows inside a pipe with an internal diameter (D) of 500 mm. An orifice flowmeter is used to measure the flow, yielding a vena contracta with a diameter (d) of 300 mm, as shown in the following figure. In addition, the pressure difference (ΔP) between the upstream and downstream sections of the orifice is measured using a pressure gauge, giving a value of 1.6 MPa. The absolute viscosity (μ) of the oil is given as 0.059 Ns/m².\na. [15%] Calculate the volumetric flowrate of the oil in m³/s. Hint: Use Bernoulli’s equation and the continuity equation.\nb. [5%] Calculate the mass flowrate of the oil in kg/s.\nc. [5%] There is a pressure difference between the upstream and downstream sections of the orifice plate. Which section has higher pressure? Explain briefly.\nd. [5%] What are the advantages and disadvantages of an orifice flowmeter compared to a venturi flowmeter?\nDischarge-coefficient table: columns Re = 10⁴, 10⁵, 10⁶, 10⁷. Rows d/D: 0.2 → 0.60, 0.595, 0.594, 0.594; 0.4 → 0.61, 0.603, 0.598, 0.598; 0.5 → 0.62, 0.608, 0.603, 0.603; 0.6 → 0.63, 0.610, 0.608, 0.608; 0.7 → 0.64, 0.614, 0.609, 0.609.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            7,
-            9,
-            10
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              7,
+              9,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Aliran tunak, oli tak termampatkan, kedua titik berada pada elevasi yang sama, dan beda tekanan sesuai titik ukur tabel.",
@@ -229,15 +231,17 @@ export const module: CourseModule = {
         ],
         "original": "5. [20%] Flow Measurement System\na. [10%] Derive the equation for v1 as a function of the mercury (Hg) manometer height difference h, the density of mercury ρm, the density of the fluid ρf, and the ratio of cross-sectional diameters (d/D), as shown in Figure 1.\nb. [5%] For D = 300 mm, d = 180 mm, a mercury height difference of 100 mm, mercury density of 13,600 kg/m³, and fluid density of 900 kg/m³, determine the mass flow rate of the fluid flowing in the pipe (m³/s).\nc. [5%] Check whether the flow is laminar or turbulent.\nFigure 1: horizontal pipe, orifice, and differential mercury U-tube manometer. The discharge-coefficient table has Re columns 10⁴, 10⁵, 10⁶, 10⁷. At d/D = 0.6, Cd = 0.63, 0.610, 0.608, 0.608. Other rows d/D: 0.2 → 0.60, 0.595, 0.594, 0.594; 0.4 → 0.61, 0.603, 0.598, 0.598; 0.5 → 0.62, 0.608, 0.603, 0.603; 0.7 → 0.64, 0.614, 0.609, 0.609.\nUseful formulas: Re = ρvD/μ; Q = Av.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            7,
-            9,
-            10
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              7,
+              9,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Aliran tunak tak termampatkan, titik ukur setinggi sama, g = 9.81 m/s². Kita memakai d sebagai diameter bukaan efektif pada metode Cd, sesuai konvensi soal orifis lain. Diameter vena contracta nyata memerlukan model koefisien yang konsisten.",
@@ -408,13 +412,15 @@ export const module: CourseModule = {
         ],
         "original": "3. Pitot Tube: Flow Measurement\nA pitot tube is used to measure the water flow inside a pipe with an internal diameter of 100 mm. The tube is connected to a U-tube manometer filled with mercury, as depicted in the following figure. Given that the density of water and mercury are 1000 kg/m³ and 13600 kg/m³, respectively, and the absolute viscosity of water at 27°C is \\(8.62\\times10^{-3}\\ \\mathrm{Ns/m^2}\\). The gravity constant is 10 m/s².\n(a) [5%] By using Bernoulli’s equation, determine the pressure difference between Point 1 and Point 2, i.e. \\(P_2-P_1\\).\n(b) [10%] By using Pascal’s Law, determine the water flow (\\(v_1\\)) in terms of the mercury height difference (\\(h_m\\)).\n(c) [10%] If \\(h_m=5\\) mm, calculate the volumetric flowrate in m³/s.\n(d) [5%] Check whether the water flow is laminar or turbulent?\nUseful formulas supplied: \\(Re=\\rho vD/\\mu\\); laminar \\(v_{max}=2v_{avg}\\); turbulent \\(v_{max}=1.23v_{avg}\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            11
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              11
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Kita anggap ujung Pitot berada pada garis tengah dan aliran berkembang penuh, sesuai gambar profil pada lampiran. Jika v1 dimaksudkan sebagai kecepatan rata-rata, debitnya 0,008816 m³/s; itu melewati koreksi profil yang diberikan soal.",
@@ -556,14 +562,16 @@ export const module: CourseModule = {
         ],
         "original": "4. [25%] Flow Measurement: Orifice Plate Flowmeter\nAn orifice plate flowmeter is situated in a horizontal pipe with an internal diameter of 90 mm in which water flows. The diameter of the sharp-edged orifice is 30 mm. The discharge coefficient (\\(C_d\\)) for the flowmeter is 0.65, and the coefficient of contraction is 0.67. The static pressure difference across the orifice is 0.3 bar. The water density is 1000 kg/m³.\n(a) [10%] Using Bernoulli’s equation and the continuity equation between positions before and after the orifice plate, derive the equation for the water velocity at the position before the orifice plate.\n(b) [5%] Calculate the cross-sectional areas of the pipe and vena contracta.\n(c) [5%] Calculate the ideal (theoretical) volumetric flow rate of the water in the pipe.\n(d) [5%] Calculate the actual (real) mass flow rate of the water in the pipe.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            9,
-            10
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              9,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025.",
@@ -727,16 +735,18 @@ export const module: CourseModule = {
         ],
         "original": "1. Flowmeter Sensors\nAn orifice-type flowmeter measures the flow of water with density of \\(\\rho_w=1000\\,\\mathrm{kg/m^3}\\) and the absolute viscosity of water at 25 °C is \\(9.53\\times10^{-3}\\,\\mathrm{Ns/m^2}\\). The flowmeter utilizes a tube filled up by mercury with density of \\(\\rho_m=13600\\,\\mathrm{kg/m^3}\\). Pipe diameter and vena contracta diameter are \\(D=800\\,\\mathrm{mm}\\) and \\(d=160\\,\\mathrm{mm}\\), respectively. During the measurement, mercury levels indicate discrepancy as \\(h=45\\,\\mathrm{cm}\\).\na. [15%] Calculate flowrate (q) of the water in m³/s.\nb. [10%] What type of sensor is suitable for measuring the flow rate of a conductive fluid such as H₂SO₄? Explain.\nc. [10%] Which type of sensor can be used to measure mass flow rate in kilograms per second? Explain.\nTable 1. Coefficient of discharge Cd for orifice plate: Reynolds number columns 10⁴, 10⁵, 10⁶, 10⁷. Rows d/D: 0.2 → 0.600, 0.595, 0.594, 0.594; 0.4 → 0.610, 0.603, 0.598, 0.598; 0.5 → 0.620, 0.608, 0.603, 0.603; 0.6 → 0.630, 0.610, 0.608, 0.608; 0.7 → 0.640, 0.614, 0.609, 0.609.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            7,
-            9,
-            10,
-            12
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              7,
+              9,
+              10,
+              12
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Tap sama tinggi, aliran tunak tak termampatkan, g=9.81 m/s². Pakai viskositas 9.53×10⁻³ Pa·s persis seperti soal; jangan menggantinya dengan nilai air dari tabel lain.",
@@ -881,15 +891,17 @@ export const module: CourseModule = {
         ],
         "original": "1. Flowmeter Sensor\nVenturi-type flowmeter measurement is used to measure fluid flow inside a pipe with an inner diameter of 80 mm at the larger section (A) and an inner diameter of 20 mm at the smaller section (B). A U-tube manometer containing mercury is connected to sections A dan B. When measuring the flow of fluid with a mass density of 950 kg/m³, the upper surfaces of the mercury in the U-tube have a differential height of 50 mm. The discharge coefficient (Cd) of the venturi-meter is 0.97, and the mass density of mercury is 13600 kg/m³.\na. [5%] Sketch the venturi-meter sensor, including the U-tube manometer.\nb. [7%] Use the Bernoulli equation to derive the flow at section A.\nc. [8%] Calculate the flow of fluid in m³/s.\nd. [10%] If we replace the venturi type with the nozzle type (with the same inner diameter), explain what will happen to the mercury height and discharge coefficient. Explain why this happens.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            8,
-            9,
-            10
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              8,
+              9,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Aliran tunak, tak termampatkan, tap sama tinggi, g=9.81 m/s². Perbandingan tinggi setelah penggantian memakai debit tetap jika disebut."
@@ -1301,7 +1313,7 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         {
           "id": "ipe-flow-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "Read the part that supports the model you use. The numbers count physical PDF pages from 1; a page may contain several slides.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), PDF pages 7, 8, 9, 10, 11, 12, 13: Flow-sensor principles, differential-pressure meters, discharge coefficients, Pitot tubes, and magnetic and ultrasonic meters.\n\n[Midterm and final-exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Each problem retains its own original statement, exam pages, and assumptions."
         }
       ]
     },

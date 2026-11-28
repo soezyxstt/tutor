@@ -4,7 +4,8 @@ import { BotMessageSquare, Pause, Play, RotateCcw } from 'lucide-react';
 import { Button, Skeleton, Slider } from '@tutor/ui';
 import type { SimulationSpec } from '../types/course';
 import { useTutorStore } from '../store/tutor-store';
-import { getSimulationComponent } from './simulation-registry';
+import { clearSimulationContextState, getSimulationComponent, updateSimulationContextState, useSimulationContextState } from './simulation-registry';
+import type { SimulationContextState } from './simulation-registry';
 
 export function SimulationStage({
   courseSlug,
@@ -16,6 +17,9 @@ export function SimulationStage({
   aiAnchorId?: string;
 }) {
   const simKey = `${courseSlug}:${spec.id}`;
+  const contextState = useSimulationContextState(simKey);
+  const setContextState = React.useCallback((patch: SimulationContextState) => updateSimulationContextState(simKey, patch), [simKey]);
+  React.useEffect(() => () => clearSimulationContextState(simKey), [simKey]);
   const { t } = useLanguage();
   const storedParams = useTutorStore((s) => s.simParams[simKey]);
   const setSimParam = useTutorStore((s) => s.setSimParam);
@@ -68,6 +72,7 @@ export function SimulationStage({
             aria-label={t("Reset parameter simulasi", "Reset simulation parameters")}
             title={t("Reset parameter", "Reset parameters")}
             onClick={() => {
+              clearSimulationContextState(simKey);
               resetSimParams(simKey, defaults);
               setResetSignal((n) => n + 1);
             }}
@@ -110,6 +115,8 @@ export function SimulationStage({
               resetSignal={resetSignal}
               setParam={setParam}
               setPlaying={setPlaying}
+              contextState={contextState}
+              setContextState={setContextState}
             />
           </React.Suspense>
         ) : (

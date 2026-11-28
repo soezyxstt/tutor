@@ -9,6 +9,7 @@ import type { AiUiToolInvocation } from './ui-sdk/tools';
 import { AiToolInvocationView } from './ui-sdk/tool-renderers';
 import { useLanguage } from '../i18n/language-provider';
 import { learningContext } from './learning-context';
+import { useSimulationContextState } from '../simulation/simulation-registry';
 
 export function InlineAiThread({
   anchorId,
@@ -44,6 +45,7 @@ export function InlineAiThread({
   const isOpen = !!thread?.open;
   const quotedText = thread?.quotedText;
   const storedParams = useTutorStore((state) => simulation ? state.simParams[`${courseSlug}:${simulation.id}`] : undefined);
+  const simulationContextState = useSimulationContextState(simulation ? `${courseSlug}:${simulation.id}` : undefined);
   const draftPrompt = thread?.draftPrompt;
   const [inputValue, setInputValue] = React.useState('');
   const [failed, setFailed] = React.useState(false);
@@ -57,7 +59,7 @@ export function InlineAiThread({
       courseCode: courseSlug,
       itemTitle,
       anchorLabel,
-      quotedText: learningContext(contextText, quotedText, simulation, storedParams),
+      quotedText: learningContext(contextText, quotedText, simulation, storedParams, simulationContextState),
       simulationId: simulation?.id,
       simulationParams: simulation?.params.map((p) => p.key),
     },

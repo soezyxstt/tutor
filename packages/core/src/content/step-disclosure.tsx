@@ -5,6 +5,8 @@ import {
   ChevronLeft,
   ChevronRight,
   HelpCircle,
+  CheckCircle2,
+  XCircle,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Button, CollapsibleMotion, TUTOR_EASE, cn } from '@tutor/ui';
@@ -13,6 +15,10 @@ import { useTutorStore } from '../store/tutor-store';
 import { MathMarkdown } from './math-markdown';
 import { InlineAiThread } from '../ai/inline-ai-thread';
 import { SimulationStage } from '../simulation/simulation-stage';
+
+function displayStepTitle(title: string, index: number) {
+  return title.replace(new RegExp(`^\\s*${index + 1}[.)]\\s+`), '');
+}
 
 export function StepDisclosure({
   courseSlug,
@@ -71,6 +77,7 @@ export function StepDisclosure({
   };
 
   const renderStepBody = (step: SolutionStep, index: number) => {
+    const displayTitle = displayStepTitle(step.title, index);
     const hintOpen = autoShowHints || !!openHints[step.id];
     const rationaleOpen = !!openRationales[step.id];
     const pickedOpt = checkpointPicks[step.id];
@@ -80,7 +87,7 @@ export function StepDisclosure({
       <div key={step.id} data-ai-anchor={stepAnchor} className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-[16px] font-semibold tracking-tight text-foreground">
-            {index + 1}. {step.title}
+            {index + 1}. {displayTitle}
           </h3>
 
           <div className="flex shrink-0 items-center gap-1">
@@ -123,7 +130,7 @@ export function StepDisclosure({
             <div className="text-xs font-medium text-muted-foreground">
               <MathMarkdown content={step.checkpoint.prompt} className="text-xs" />
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="grid gap-2">
               {step.checkpoint.options.map((opt) => {
                 const selected = pickedOpt === opt.id;
                 const isRight = opt.id === step.checkpoint?.correctOptionId;
@@ -132,22 +139,28 @@ export function StepDisclosure({
                     key={opt.id}
                     size="xs"
                     variant={selected ? 'default' : 'outline'}
+                    aria-pressed={selected}
                     onClick={() =>
                       setCheckpointPicks((prev) => ({ ...prev, [step.id]: opt.id }))
                     }
                     className={cn(
-                      'h-auto max-w-full whitespace-normal text-left',
-                      selected && !isRight && 'bg-destructive text-primary-foreground hover:bg-destructive/90'
+                      'h-auto min-h-10 w-full max-w-full items-start justify-start gap-2 whitespace-normal px-3 py-2 text-left',
+                      selected && isRight && 'bg-success text-success-foreground hover:bg-success',
+                      selected && !isRight && 'bg-destructive text-destructive-foreground hover:bg-destructive'
                     )}
                   >
-                    <MathMarkdown content={opt.label} className="text-xs" />
+                    {selected && (isRight ? <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4" /> : <XCircle aria-hidden="true" className="mt-0.5 size-4" />)}
+                    <MathMarkdown content={opt.label} className="min-w-0 text-sm" />
                   </Button>
                 );
               })}
             </div>
             <CollapsibleMotion open={!!pickedOpt}>
               {pickedOpt && (
-                <div className="pt-1 text-xs text-muted-foreground">
+                <div role="status" className="space-y-1 pt-1 text-sm text-foreground">
+                  <p className={cn('text-xs font-semibold', pickedOpt === step.checkpoint.correctOptionId ? 'text-success' : 'text-destructive')}>
+                    {pickedOpt === step.checkpoint.correctOptionId ? t('Keputusan tepat', 'Correct decision') : t('Periksa pilihan Anda', 'Review your choice')}
+                  </p>
                   <MathMarkdown content={step.checkpoint.options.find((o) => o.id === pickedOpt)?.feedback ??
                     (pickedOpt === step.checkpoint.correctOptionId
                       ? t('Keputusan tepat. Lanjut amati penurunan di bawah.', 'Correct. Continue with the derivation below.')
@@ -229,7 +242,7 @@ export function StepDisclosure({
 
         <InlineAiThread
           anchorId={stepAnchor}
-          anchorLabel={`${t('Langkah', 'Step')} ${index + 1} · ${step.title}`}
+          anchorLabel={`${t('Langkah', 'Step')} ${index + 1} · ${displayTitle}`}
           courseSlug={courseSlug}
           courseTitle={courseTitle}
           itemKey={itemKey}
@@ -283,10 +296,10 @@ export function StepDisclosure({
                     type="button"
                     role="tab"
                     aria-selected={isActive}
-                    aria-label={`${t('Langkah', 'Step')} ${idx + 1}: ${step.title}`}
+                    aria-label={`${t('Langkah', 'Step')} ${idx + 1}: ${displayStepTitle(step.title, idx)}`}
                     onClick={() => selectStep(idx)}
                     className={cn(
-                      'relative inline-flex size-6 cursor-pointer items-center justify-center rounded-full font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
+                      'relative inline-flex size-6 cursor-pointer items-center justify-center rounded-full font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
                       isActive
                         ? 'text-primary-foreground'
                         : 'bg-surface-subtle text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -313,7 +326,7 @@ export function StepDisclosure({
                 transition={{ duration: 0.16, ease: TUTOR_EASE }}
                 className="min-w-0 truncate text-xs text-muted-foreground sm:pl-1"
               >
-                {activeStep.title}
+                {displayStepTitle(activeStep.title, safeIndex)}
               </motion.span>
             </AnimatePresence>
           </div>

@@ -9,59 +9,247 @@ export const module: CourseModule = {
       "id": "ipe-dynamics-material",
       "kind": "material",
       "slug": "ipe-dynamics-material",
-      "title": "Periksa apakah sensor mengikuti perubahan",
-      "estimatedMinutes": 6,
+      "title": "Hitung respons waktu dan batas frekuensi sensor",
+      "estimatedMinutes": 18,
       "examHook": {
-        "prompt": "Dua sensor menunjukkan suhu akhir yang sama. Salah satunya lambat saat suhu berubah. Sensor mana yang sesuai untuk mengamati perubahan cepat?",
-        "targetOutcome": "Anda dapat menilai keterlambatan, amplitudo, dan batas frekuensi sensor."
+        "prompt": "Sensor gaya pada UTS 1 2025 bekerja pada 600 Hz dengan frekuensi alami 1000 Hz. Apakah berada di bawah frekuensi alami menjamin galat kecil?",
+        "targetOutcome": "Anda dapat memakai kondisi awal, menghitung amplitudo dan fase, serta membedakan batas galat dari lebar pita."
       },
-      "body": "Kalibrasi statik memeriksa hasil setelah keadaan menetap. Masukan yang berubah memerlukan pemeriksaan waktu respons. Anda perlu menilai seberapa cepat dan seberapa tepat sensor mengikuti perubahan.\n\nUntuk masukan berulang, periksa amplitudo dan fase secara terpisah. Amplitudo yang sesuai belum menjamin waktu puncak yang sesuai.\n\n[Buka pembahasan bertahap: Amplitudo, fase, dan lebar pita sensor gaya](?item=2025-uts1-q3).",
+      "body": "Kalibrasi statik memeriksa hasil setelah keadaan menetap. Masukan yang berubah memerlukan model waktu respons. Anda perlu menilai besar bacaan dan keterlambatannya.\n\nBagian 2, halaman 6 sampai 10, menghubungkan respons langkah, respons sinus, dan batas frekuensi. Mulai dari model fisik, lalu pilih ukuran galat sesuai tugas.\n\n[Buka perpindahan sensor dari air ke udara](?item=2024-uts1-q4), [respons gaya sinus](?item=2025-uts1-q3), atau [batas galat 5%](?item=2024-uas-q3).",
       "microUnits": [
         {
           "id": "ipe-dynamics-principle",
-          "title": "Pilih model dari kondisi soal",
-          "intuition": "Sensor suhu membutuhkan waktu untuk menyerap atau melepas panas. Model **orde satu** (model dengan satu konstanta waktu) menjelaskan pendekatan bertahap menuju nilai akhir. Saat kondisi lingkungan berganti, suhu sensor tetap menerus. Laju perubahannya dapat berubah karena konstanta waktu berubah.",
-          "formal": "Untuk perubahan mendadak dengan model orde satu:\n\n$$y(t)=y_\\infty+(y_0-y_\\infty)e^{-t/\\tau}.$$\n\n$y_0$ adalah keadaan awal, $y_\\infty$ nilai akhir, dan $\\tau$ konstanta waktu.",
-          "validityBounds": "Persamaan ini memakai konstanta waktu tetap dalam satu interval. Pecah interval saat kondisi berubah. Model orde dua juga memerlukan frekuensi alami dan redaman. Jangan membawa sensitivitas statik ke semua frekuensi.",
+          "title": "Bawa keadaan awal ke interval berikutnya",
+          "intuition": "Sensor suhu perlu menyerap panas sebelum bacaannya berubah. Model **orde satu** memakai satu konstanta waktu untuk menjelaskan proses itu. Konstanta waktu τ menentukan laju pendekatan menuju nilai akhir.",
+          "formal": "Untuk keadaan acuan $(u_0,y_0)$, gunakan $\\tau\\dot y+y-y_0=K(u-u_0)$. Setelah langkah pada $t_s$:\n\n$$y(t)=y_\\infty+[y(t_s)-y_\\infty]e^{-(t-t_s)/\\tau}.$$\n\nNeraca panas memberi $\\tau=MC/(UA)$. Pada soal air ke udara, $\\tau_w=10\\,\\mathrm s$ dan $\\tau_a=50\\,\\mathrm s$.",
+          "validityBounds": "Bagian 2, halaman 6 sampai 7. Suhu sensor harus seragam dalam model ini. Saat U berubah, mulai interval baru dari suhu sensor terakhir. Suhu sensor tidak meloncat mengikuti suhu lingkungan.",
           "decisionCheck": {
             "id": "ipe-dynamics-decision-question",
-            "prompt": "Sensor mengikuti amplitudo dengan baik, tetapi puncaknya terlambat. Apakah sensor pasti sesuai untuk menentukan waktu kejadian?",
+            "relatedProblemId": "2024-uts1-q4",
+            "prompt": "Sensor keluar dari air panas pada t=60 s dan masuk udara dingin. Nilai awal mana yang Anda pakai untuk interval udara?",
             "options": [
               {
                 "id": "ipe-dynamics-decision-question-option-1",
-                "label": "Belum; periksa keterlambatan terhadap toleransi waktu.",
-                "feedback": "Tepat. Tugas waktu kejadian memerlukan batas keterlambatan yang sesuai."
+                "label": "Suhu sensor tepat sebelum t=60 s.",
+                "feedback": "Tepat. Suhu sensor menerus, meski lingkungan dan konstanta waktunya berubah."
               },
               {
                 "id": "ipe-dynamics-decision-question-option-2",
-                "label": "Ya; amplitudo yang benar menjamin fase yang benar.",
-                "feedback": "Amplitudo dan fase merupakan dua bagian respons yang berbeda.",
-                "misconceptionTag": "dynamics-decision-choice-2"
+                "label": "Suhu udara, karena sensor sudah berada di udara.",
+                "feedback": "Sensor tidak langsung mencapai suhu lingkungan setelah pindah.",
+                "misconceptionTag": "ipe-dynamics-decision-question-choice-2"
               },
               {
                 "id": "ipe-dynamics-decision-question-option-3",
-                "label": "Ya; kalibrasi statik sudah mencakup semua frekuensi.",
-                "feedback": "Kalibrasi statik memeriksa keadaan menetap, bukan seluruh respons frekuensi.",
-                "misconceptionTag": "dynamics-decision-choice-3"
+                "label": "Suhu awal sebelum sensor masuk air.",
+                "feedback": "Sensor sudah menyerap panas selama interval air; keadaan terakhir perlu ikut ke interval berikutnya.",
+                "misconceptionTag": "ipe-dynamics-decision-question-choice-3"
               }
             ],
             "correctOptionId": "ipe-dynamics-decision-question-option-1",
-            "explanation": "Pilih ukuran galat sesuai tugas. Untuk waktu kejadian, respons fase atau beda waktu perlu diperiksa secara khusus."
+            "explanation": "Hitung keadaan akhir interval air. Gunakan keadaan itu sebagai nilai awal interval udara dengan konstanta waktu udara."
+          }
+        },
+        {
+          "id": "ipe-dynamics-first-frequency",
+          "title": "Pisahkan sensitivitas dan pelemahan dinamik",
+          "intuition": "Sensor orde satu meredam perubahan yang terlalu cepat. **Rasio amplitudo ternormalisasi** membandingkan amplitudo aktual dengan amplitudo dari kalibrasi statik. Rasio ini tidak memiliki satuan.",
+          "formal": "Untuk $G(s)=K/(1+\\tau s)$ dan $\\omega=2\\pi f$:\n\n$$M_1=\\frac{|G(j\\omega)|}{|K|}=\\frac{1}{\\sqrt{1+(\\omega\\tau)^2}},\\qquad \\phi_1=-\\tan^{-1}(\\omega\\tau).$$\n\nTermometer $K=0.2\\,\\mathrm{mV}/{}^\\circ\\mathrm C$ tetap memiliki gain statik 0.2. Titik setengah daya memberi $M_1=1/\\sqrt2$, bukan keluaran $0.707\\,\\mathrm{mV}$.",
+          "validityBounds": "Bagian 2, halaman 7 dan 10. Persamaan fase mengasumsikan K positif dan keadaan tunak sinus. Hitung dB dari rasio tanpa satuan. Tepat −3 dB sedikit berbeda dari −3.0103 dB pada setengah daya.",
+          "decisionCheck": {
+            "id": "ipe-dynamics-first-frequency-decision",
+            "relatedProblemId": "2023-uts1-q4",
+            "prompt": "Fungsi alih termometer adalah 0.2/(7s+1) mV/°C. Bagaimana Anda memeriksa pelemahan 3 dB?",
+            "options": [
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-1",
+                "label": "Hitung $20\\log_{10}(|G|/0.2)$.",
+                "feedback": "Tepat. Pembagian dengan gain statik menghasilkan rasio tanpa satuan."
+              },
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-2",
+                "label": "Hitung $20\\log_{10}|G|$ langsung.",
+                "feedback": "Gain berdimensi bergantung pada pilihan satuan dan bukan rasio pelemahan yang diminta.",
+                "misconceptionTag": "ipe-dynamics-first-frequency-decision-choice-2"
+              },
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-3",
+                "label": "Anggap $0.2=20\\%$ berarti sensor kehilangan 80% amplitudo.",
+                "feedback": "Nilai 0.2 membawa satuan mV/°C dan menyatakan sensitivitas statik, bukan pelemahan dinamik.",
+                "misconceptionTag": "ipe-dynamics-first-frequency-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-dynamics-first-frequency-decision-option-1",
+            "explanation": "Bandingkan respons dinamik dengan respons statik alat yang sama. Nilai rasio tetap sama saat satuan keluaran berubah."
+          }
+        },
+        {
+          "id": "ipe-dynamics-second-frequency",
+          "title": "Periksa amplitudo dan fase orde dua",
+          "intuition": "Massa, pegas, dan peredam dapat menghasilkan lonjakan atau getaran sebelum menetap. Model **orde dua** memakai frekuensi alami dan rasio redaman ζ. Keduanya menentukan respons terhadap gaya sinus.",
+          "formal": "Dengan $r=f/f_n=\\omega/\\omega_n$:\n\n$$M_2=\\frac{1}{\\sqrt{(1-r^2)^2+(2\\zeta r)^2}},\\qquad \\phi_2=-\\operatorname{atan2}(2\\zeta r,1-r^2).$$\n\nPada $r=0.6$ dan $\\zeta=0.7$, kita memperoleh $M_2=0.946943$ dan $\\phi_2=-52.696^\\circ$. Amplitudo yang dekat ideal belum menjamin fase kecil.",
+          "validityBounds": "Bagian 2, halaman 7 sampai 8. Gunakan keadaan tunak, K positif, dan redaman positif. Fungsi atan2 menjaga kuadran saat r melewati 1. Jangan membagi frekuensi Hz dengan frekuensi rad/s.",
+          "decisionCheck": {
+            "id": "ipe-dynamics-second-frequency-decision",
+            "relatedProblemId": "2025-uts1-q3",
+            "prompt": "Frekuensi masukan melewati frekuensi alami, sehingga 1−r² menjadi negatif. Bagaimana Anda menghitung fase?",
+            "options": [
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-1",
+                "label": "Gunakan $-\\operatorname{atan2}(2\\zeta r,1-r^2)$.",
+                "feedback": "Tepat. Dua argumen mempertahankan tanda pembilang dan penyebut sehingga kuadran fase benar."
+              },
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-2",
+                "label": "Pakai arctan satu argumen tanpa memeriksa kuadran.",
+                "feedback": "Rasio dapat menghasilkan fase pada kuadran yang salah setelah penyebut berubah tanda.",
+                "misconceptionTag": "ipe-dynamics-second-frequency-decision-choice-2"
+              },
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-3",
+                "label": "Anggap fase nol karena gain statik satu.",
+                "feedback": "Gain statik satu tidak menghilangkan keterlambatan pada frekuensi yang lebih tinggi.",
+                "misconceptionTag": "ipe-dynamics-second-frequency-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-dynamics-second-frequency-decision-option-1",
+            "explanation": "Laporkan amplitudo dan fase secara terpisah. Gain statik hanya menjelaskan respons pada frekuensi nol."
+          }
+        },
+        {
+          "id": "ipe-dynamics-bandwidth",
+          "title": "Pilih batas frekuensi sesuai galat yang diminta",
+          "intuition": "**Lebar pita setengah daya** berakhir ketika amplitudo turun menjadi 1/√2 dari nilai statik. Syarat galat 5% lebih ketat. Anda perlu memeriksa batas atas dan bawah amplitudo.",
+          "formal": "Untuk toleransi relatif $\\epsilon$:\n\n$$1-\\epsilon<M(f)<1+\\epsilon.$$\n\nPada soal $\\zeta=0.65$, puncak amplitudo ialah $1.01223$, masih di bawah $1.05$. Batas 5% kemudian terjadi saat $M=0.95$, yaitu $f=14.39997\\,\\mathrm{Hz}$ untuk $f_n=20\\,\\mathrm{Hz}$.",
+          "validityBounds": "Bagian 2, halaman 8 dan 10. Batas harus berlaku pada seluruh rentang mulai frekuensi rendah. Pada redaman lebih kecil, puncak resonansi dapat melanggar batas atas lebih dahulu. Periksa fase jika tugas juga membatasi waktu.",
+          "decisionCheck": {
+            "id": "ipe-dynamics-bandwidth-decision",
+            "relatedProblemId": "2024-uas-q3",
+            "prompt": "Soal meminta galat amplitudo kurang dari 5%. Apakah batas setengah daya cukup?",
+            "options": [
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-1",
+                "label": "Tidak; periksa 0.95<M<1.05 pada seluruh rentang.",
+                "feedback": "Tepat. Kedua batas menangkap pelemahan dan penguatan akibat resonansi."
+              },
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-2",
+                "label": "Ya; $M=1/\\sqrt2$ sama dengan galat 5%.",
+                "feedback": "Nilai 1/√2 sekitar 0.707, sehingga penurunan amplitudonya sekitar 29.3%.",
+                "misconceptionTag": "ipe-dynamics-bandwidth-decision-choice-2"
+              },
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-3",
+                "label": "Ya; semua frekuensi di bawah frekuensi alami akurat.",
+                "feedback": "Redaman dan rasio frekuensi tetap memengaruhi amplitudo sebelum frekuensi alami.",
+                "misconceptionTag": "ipe-dynamics-bandwidth-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-dynamics-bandwidth-decision-option-1",
+            "explanation": "Tentukan toleransi sebelum mencari akar persamaan. Pilih batas pertama yang melanggar toleransi saat frekuensi naik dari nol."
+          }
+        },
+        {
+          "id": "ipe-dynamics-harmonics",
+          "title": "Periksa setiap komponen frekuensi",
+          "intuition": "Gelombang periodik dapat tersusun dari beberapa sinus. **Harmonik** ialah komponen pada kelipatan frekuensi dasar. Sensor memberi gain dan fase yang berbeda pada setiap harmonik, sehingga bentuk gelombang dapat berubah.",
+          "formal": "Jika $u(t)=a_0+\\sum_{n\\ge1}A_n\\sin(n\\omega_0t+\\theta_n)$, respons tunaknya ialah:\n\n$$y(t)=G(0)a_0+\\sum_{n\\ge1}A_n|G(jn\\omega_0)|\\sin(n\\omega_0t+\\theta_n+\\arg G(jn\\omega_0)).$$\n\nUntuk rantai linear tanpa pembebanan antarblok, $G_{\\rm total}=\\prod_iG_i$.",
+          "validityBounds": "Bagian 2, halaman 8 sampai 9. Penjumlahan respons berlaku untuk sistem linear yang stabil dengan parameter tetap. Periksa harmonik penting, bukan frekuensi dasar saja. Model sinus tunggal tidak langsung menjelaskan lonjakan awal.",
+          "decisionCheck": {
+            "id": "ipe-dynamics-harmonics-decision",
+            "relatedProblemId": "2025-uts1-q3",
+            "prompt": "Frekuensi dasar gelombang kotak berada dalam pita datar sensor, tetapi harmonik ketiganya di luar. Apa yang dapat terjadi?",
+            "options": [
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-1",
+                "label": "Bentuk keluaran berubah karena gain dan fase harmonik berbeda.",
+                "feedback": "Tepat. Sensor dapat meloloskan frekuensi dasar tetapi mengubah bagian lain yang membentuk gelombang."
+              },
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-2",
+                "label": "Bentuk pasti tetap karena frekuensi dasar lolos.",
+                "feedback": "Gelombang kotak memerlukan harmonik untuk membentuk tepi yang tajam.",
+                "misconceptionTag": "ipe-dynamics-harmonics-decision-choice-2"
+              },
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-3",
+                "label": "Kalikan semua harmonik dengan gain pada frekuensi dasar.",
+                "feedback": "Setiap harmonik memiliki frekuensi sendiri dan memerlukan nilai respons pada frekuensi itu.",
+                "misconceptionTag": "ipe-dynamics-harmonics-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-dynamics-harmonics-decision-option-1",
+            "explanation": "Pilih rentang sensor berdasarkan komponen yang perlu Anda ukur. Masukan sinus pada soal gaya hanya memerlukan satu komponen frekuensi."
+          }
+        },
+        {
+          "id": "ipe-dynamics-compensation",
+          "title": "Nilai manfaat dan batas kompensasi",
+          "intuition": "Rangkaian tambahan dapat mempercepat bacaan sensor. **Kompensasi dinamik** mengubah respons gabungan agar lebih sesuai dengan masukan. Pembatalan matematis tetap perlu model yang cocok dengan sensor nyata.",
+          "formal": "Bagian 2 memakai sensor $G_u=1/(1+\\tau s)$ dan kompensator:\n\n$$G_c=\\frac{1+\\tau_1s}{1+\\tau_2s},\\qquad \\tau_1=\\tau,\\quad 0<\\tau_2<\\tau.$$\n\nMaka $G_uG_c=1/(1+\\tau_2s)$. Respons lebih cepat, tetapi masih memiliki konstanta waktu. Gain kompensator pada frekuensi tinggi menuju $\\tau_1/\\tau_2$.",
+          "validityBounds": "Bagian 2, halaman 10. Ketidakcocokan τ menggagalkan pembatalan tepat. Gain frekuensi tinggi dapat memperbesar derau pada masukan kompensator. Umpan balik juga perlu pemeriksaan kestabilan, bukan gain besar saja.",
+          "decisionCheck": {
+            "id": "ipe-dynamics-compensation-decision",
+            "relatedProblemId": "2024-uts1-q4",
+            "prompt": "Kompensator memakai τ₁=τ dan τ₂=τ/10. Apakah keluaran langsung mengikuti masukan tanpa batas?",
+            "options": [
+              {
+                "id": "ipe-dynamics-compensation-decision-option-1",
+                "label": "Tidak; konstanta waktu baru τ/10 masih membatasi respons.",
+                "feedback": "Tepat. Hasil gabungan tetap orde satu, dengan gain kompensator frekuensi tinggi mendekati 10."
+              },
+              {
+                "id": "ipe-dynamics-compensation-decision-option-2",
+                "label": "Ya; semua dinamika sudah hilang.",
+                "feedback": "Penyebut 1+τ₂s tetap ada setelah faktor sensor dibatalkan.",
+                "misconceptionTag": "ipe-dynamics-compensation-decision-choice-2"
+              },
+              {
+                "id": "ipe-dynamics-compensation-decision-option-3",
+                "label": "Ya; kompensasi tidak pernah memperbesar derau.",
+                "feedback": "Gain kompensator yang lebih besar pada frekuensi tinggi dapat memperbesar derau di masukannya.",
+                "misconceptionTag": "ipe-dynamics-compensation-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-dynamics-compensation-decision-option-1",
+            "explanation": "Periksa model gabungan, rentang kerja, dan derau. Jika lingkungan mengubah τ sensor, kompensator tetap mungkin tidak lagi cocok."
           }
         }
       ],
       "checkpoints": [
-        "Anda dapat menilai keterlambatan, amplitudo, dan batas frekuensi sensor.",
-        "Keadaan awal dan model dinamik menentukan respons sebelum sensor mencapai nilai akhir.",
-        "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+        "Bawa keadaan awal dan waktu sejak perpindahan ke setiap interval.",
+        "Pisahkan gain statik, rasio amplitudo, dan fase.",
+        "Gunakan pasangan satuan Hz/Hz atau rad/s/rad/s pada rasio frekuensi.",
+        "Periksa batas atas dan bawah amplitudo sebelum menentukan rentang kerja.",
+        "Nilai harmonik dan batas kompensasi jika masukan bukan sinus tunggal."
       ],
       "derivations": [
         {
+          "id": "ipe-dynamics-thermal-example",
+          "title": "Contoh: sambungkan dua interval suhu",
+          "content": "Pada [UTS 1 2024 nomor 4](?item=2024-uts1-q4), neraca panas memberi $MC\\dot T_s=UA(T_{\\rm in}-T_s)$. Maka $G(s)=1/(1+\\tau s)$ untuk perubahan terhadap keadaan acuan.\n\n1. Di air, $\\tau_w=MC/(U_wA)=10\\,\\mathrm s$ dan $T_s(t)=100-80e^{-t/10}$.\n2. Saat pindah, $T_s(60)=100-80e^{-6}=99.8017\\,{}^\\circ\\mathrm C$.\n3. Di udara, $\\tau_a=50\\,\\mathrm s$ dan $T_s(t)=20+[T_s(60)-20]e^{-(t-60)/50}$.\n\nPada $t=120\\,\\mathrm s$, suhu sensor $44.0358\\,{}^\\circ\\mathrm C$. Galat terhadap udara ialah $+24.0358\\,{}^\\circ\\mathrm C$. Kita memakai waktu sejak perpindahan, yaitu 60 s, pada eksponen kedua. Dasar: Bagian 2, halaman 6 sampai 7."
+        },
+        {
+          "id": "ipe-dynamics-force-example",
+          "title": "Contoh: frekuensi alami tidak sama dengan batas galat",
+          "content": "Pada [UTS 1 2025 nomor 3](?item=2025-uts1-q3), satuan soal menetapkan $f_n=1000\\,\\mathrm{Hz}$. Kita memakai $r=600/1000=0.6$ dan $\\zeta=0.7$.\n\n1. Hitung $M=[(1-0.6^2)^2+(2\\cdot0.7\\cdot0.6)^2]^{-1/2}=0.946943$.\n2. Hitung $\\phi=-\\operatorname{atan2}(0.84,0.64)=-52.696^\\circ$.\n3. Galat amplitudo ialah $(M-1)100\\%=-5.30575\\%$.\n\nBatas setengah daya memenuhi $M=1/\\sqrt2$. Penyelesaian kuadrat dalam $r^2$ memberi:\n\n$$f_b=f_n\\sqrt{1-2\\zeta^2+\\sqrt{(1-2\\zeta^2)^2+1}}=1010.0495\\,\\mathrm{Hz}.$$\n\nSensor masih berada dalam lebar pita setengah daya pada 600 Hz, tetapi galat amplitudonya sudah melebihi 5%. Dasar: Bagian 2, halaman 7, 8, dan 10."
+        },
+        {
+          "id": "ipe-dynamics-tolerance-example",
+          "title": "Contoh: periksa puncak sebelum batas 5%",
+          "content": "Pada [UAS 2024 nomor 3](?item=2024-uas-q3), $\\zeta=0.65<1/\\sqrt2$. Kurva amplitudo memiliki puncak, sehingga kita perlu memeriksa batas atas dahulu.\n\n$$r_{\\rm peak}=\\sqrt{1-2\\zeta^2},\\qquad M_{\\rm peak}=\\frac{1}{2\\zeta\\sqrt{1-\\zeta^2}}=1.012233.$$\n\nPuncak itu belum melewati 1.05. Kita kemudian mencari perpotongan $M=0.95$ pada sisi turun:\n\n$$r_{\\rm lim}=\\sqrt{1-2\\zeta^2+\\sqrt{(1-2\\zeta^2)^2+0.95^{-2}-1}}=0.719999.$$\n\nDengan $f_n=20\\,\\mathrm{Hz}$, syarat galat kurang dari 5% ialah $0\\le f<14.39997\\,\\mathrm{Hz}$. Syarat ketat tidak memasukkan titik batas. Dasar: Bagian 2, halaman 8 dan 10."
+        },
+        {
           "id": "ipe-dynamics-sources",
-          "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "title": "Sumber, istilah, dan batas model",
+          "content": "[Bagian 2](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), halaman 6 sampai 7: model orde satu, neraca energi, dan respons langkah. Halaman 7 sampai 8: model orde dua serta respons amplitudo dan fase.\n\nHalaman 8 sampai 9: rangkaian dinamik dan uraian Fourier. Halaman 10: batas frekuensi, kompensasi terbuka, dan akselerometer dengan umpan balik. Nomor halaman mengikuti urutan fisik PDF.\n\nKonstanta waktu menentukan laju pendekatan orde satu. Frekuensi alami menyatakan frekuensi getar model tanpa redaman. Rasio redaman membandingkan redaman aktual dengan redaman kritis. Fase menyatakan pergeseran sudut terhadap masukan sinus.\n\n[Bagian 3](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), halaman 17 sampai 19, melengkapi model sensor kecepatan dan akselerasi. Pilih fungsi alih sesuai besaran yang alat ukur, termasuk batas frekuensi rendah pada sensor piezoelektrik."
         }
-      ]
+      ],
+      "keyFormula": {
+        "label": "Model orde dua dengan sensitivitas statik",
+        "latex": "G(s)=\\frac{K\\omega_n^2}{s^2+2\\zeta\\omega_ns+\\omega_n^2},\\qquad r=\\frac{\\omega}{\\omega_n}=\\frac{f}{f_n}",
+        "note": "K memuat satuan keluaran per masukan. Rasio amplitudo ternormalisasi memakai G/K. Ubah Hz menjadi rad/s hanya jika persamaan memerlukan ω."
+      }
     },
     {
       "id": "2025-uts1-q3",
@@ -77,10 +265,17 @@ export const module: CourseModule = {
         ],
         "original": "3. [25%] Dynamic Characteristics of Measurement Systems\nA force sensor is a typical second-order system with natural frequency of ωn = 1000 Hz and damping ratio coefficient of ζ = 0.7. The sensor is used to measure a sinusoidal force of 600 Hz.\na. [10%] Calculate the ratio between output and input amplitudes.\nb. [5%] Calculate the phase difference between output and input.\nc. [5%] Calculate the system dynamic amplitude error in percent.\nd. [5%] Determine the bandwidth of the force sensor.\nUseful formulas supplied on the same page:\n\\[G(s)=\\frac{\\omega_n^2}{s^2+2\\zeta\\omega_ns+\\omega_n^2},\\qquad \\omega_b=\\omega_n\\sqrt{(1-2\\zeta^2)+\\sqrt{4\\zeta^4-4\\zeta^2+2}}.\\]",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              7,
+              8,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Angka 1000 diberi satuan Hz pada naskah, sehingga diartikan sebagai fn=1000 Hz meskipun simbolnya tertulis ωn. Frekuensi sudutnya 2π×1000 rad/s.",
@@ -212,7 +407,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Rasio amplitudo 0.946943; fase keluaran −52.696° terhadap masukan. Galat amplitudo bertanda −5.30575% (besar galat 5.30575%). Dengan batas setengah daya dan frekuensi alami 1000 Hz, lebar pita sekitar 0 sampai 1010.05 Hz.\n\n$$\n\\boxed{M=0.946943,\\quad\\phi=-52.696^\\circ,\\quad\\varepsilon_A=-5.30575\\%,\\quad f_b=1010.05\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 7 sampai 8, memberi model orde dua dan kurva amplitudo serta fase. Simbol frekuensi pada soal harus mengikuti satuan: $1000\\,\\mathrm{Hz}$ berarti $f_n$, sehingga $r=600/1000$. Gunakan atan2 untuk menjaga kuadran fase.",
+        "Bagian 2, halaman 10, membedakan rentang galat kecil dari lebar pita setengah daya. Pada 600 Hz, sensor masih di dalam lebar pita tersebut, tetapi galat amplitudo $5.30575\\%$ sudah melampaui toleransi 5%."
+      ]
     },
     {
       "id": "2025-uas-q6",
@@ -228,14 +427,24 @@ export const module: CourseModule = {
         ],
         "original": "6. [15%] Dynamic Characteristic of Measurement System\nFigure 2 depicts the sensitivity of a piezoelectric accelerometer. Suppose its sensitivity is 100 mV/g and it is valid over a frequency range from 1 to 10,000 Hz.\na. [5%] What happens to the sensor sensitivity if we operate it at a frequency of 0.5 Hz?\nb. [5%] What happens to the sensor sensitivity if we operate it at a frequency above 10,000 Hz (for example, at 25,000 Hz)?\nc. [5%] What is meant by cross-sensitivity of an accelerometer? If the cross-sensitivity of this accelerometer is 5 mV/g, what does it mean?\nFigure 2: normalized magnitude and phase response; low-frequency attenuation, approximately flat intermediate response, a high-frequency resonance peak, then roll-off. The horizontal graph axis is labelled ω.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            18,
-            19
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              8,
+              10
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              18,
+              19
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Kurva sumber bersifat kualitatif dan sumbunya memakai rad/s. Jangan membaca angka sumbu ω sebagai Hz. Tidak ada frekuensi alami, redaman, atau parameter rangkaian yang cukup untuk menghitung sensitivitas tepat di luar pita."
@@ -355,7 +564,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Pada 0.5 Hz, respons melemah. Pada 25 kHz, nilai nominal tidak berlaku dan pengaruh resonansi dapat memperbesar bacaan; angka tepat tidak diberikan. Sensitivitas silang 5 mV/g berarti respons melintang 5% dari sensitivitas sumbu utama.\n\n$$\n\\boxed{S_{\\perp}/S_{\\parallel}=5\\%,\\qquad 1g_{\\perp}\\ \\Rightarrow\\ 0.05g\\ \\text{apparent}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 8 dan 10, menunjukkan bahwa sensitivitas statik tidak berlaku pada semua frekuensi. Bagian 3, halaman 18 sampai 19, memberi model akselerometer dan batas respons sensor piezoelektrik. Kurva kualitatif tidak cukup untuk memberi sensitivitas tepat pada 0.5 Hz atau 25 kHz.",
+        "Sensitivitas silang menghubungkan gerak pada sumbu lain dengan keluaran. Perbandingan $5/100=0.05$ menyatakan 5% sensitivitas utama. Rasio itu tidak sama dengan rasio redaman atau galat amplitudo pada frekuensi tertentu."
+      ]
     },
     {
       "id": "2024-uts1-q4",
@@ -373,10 +586,16 @@ export const module: CourseModule = {
         ],
         "original": "4. [20%] A temperature measurement system consists of linear elements and has an overall steady-state sensitivity of unity. The dynamics of the system are determined by the first-order transfer function of the sensing element. At time t = 0, the sensing element is suddenly transferred from air at 20°C to boiling water, i.e. 100°C. One minute later the element is suddenly transferred back to air. Using the data given below, (a) derive transfer function of the sensor, i.e. \\(G(s)=\\Delta T_{\\mathrm{out}}(s)/\\Delta T_{\\mathrm{in}}(s)\\). (b) Calculate the system dynamic error at the following times: t = 10, 20, 50, 120 and 300 s. Sensor data: mass \\(M=5\\times10^{-2}\\ \\mathrm{kg}\\); surface area \\(A=10^{-3}\\ \\mathrm{m^2}\\); specific heat \\(C=0.2\\ \\mathrm{J\\,kg^{-1}\\,{}^\\circ C^{-1}}\\); heat-transfer coefficient for air \\(U_a=0.2\\ \\mathrm{W\\,m^{-2}\\,{}^\\circ C^{-1}}\\); heat-transfer coefficient for water \\(U_w=1.0\\ \\mathrm{W\\,m^{-2}\\,{}^\\circ C^{-1}}\\); time constant \\(\\tau=MC/(UA)\\). The appendix gives Laplace transform pairs.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              6,
+              7
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Sensor dianggap bersuhu seragam dan mula-mula setimbang pada 20°C. Nilai sifat termal mengikuti angka cetak soal, termasuk C=0,2 J/(kg·°C).",
@@ -510,7 +729,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Fungsi alih di air adalah $1/(10s+1)$; di udara $1/(50s+1)$. Kita memakai $E_d=T_{\\mathrm{keluar}}-T_{\\mathrm{masuk}}$. Galat pada 10, 20, dan 50 s adalah −29,43036; −10,82682; dan −0,53904°C. Galat pada 120 dan 300 s adalah +24,03581 dan +0,65675°C.\n\n$$\n\\boxed{\\begin{aligned}\\tau_w&=10\\ \\mathrm s,\\quad\\tau_a=50\\ \\mathrm s\\\\E_d(10)&=-29.43036^\\circ\\mathrm C\\\\E_d(20)&=-10.82682^\\circ\\mathrm C\\\\E_d(50)&=-0.53904^\\circ\\mathrm C\\\\E_d(120)&=+24.03581^\\circ\\mathrm C\\\\E_d(300)&=+0.65675^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 6 sampai 7, menurunkan respons orde satu dari simpanan panas. Neraca $MC\\dot T_s=UA(T_{\\rm in}-T_s)$ memberi $\\tau=MC/(UA)$. Perubahan U saat pindah medium mengubah konstanta waktu, tetapi suhu sensor tetap menerus.",
+        "Pada perpindahan $t=60\\,\\mathrm s$, sensor berada pada $99.8017\\,{}^\\circ\\mathrm C$. Gunakan suhu itu sebagai nilai awal interval udara dan gunakan $t-60$ sebagai waktu interval. Perhitungan tetap mengikuti nilai C yang tercetak pada naskah."
+      ]
     },
     {
       "id": "2024-uas-q3",
@@ -526,10 +749,17 @@ export const module: CourseModule = {
         ],
         "original": "3. [10%] Dynamic Characteristics of Measurement Systems\nA seismic instrument is characterized by the following dynamic transfer function \\(G(s)=\\omega_n^2/(s^2+2\\zeta\\omega_n+\\omega_n^2)\\) [as printed]. Where \\(\\omega_n\\) is the natural frequency and \\(\\zeta\\) is the damping ratio. The instrument has a natural frequency of 20 Hz and a damping ratio of 0.65. Determine the maximum input frequency for a vibration such that the amplitude error in the indicated displacement is less than 5%.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              7,
+              8,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025.",
@@ -627,7 +857,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Batas amplitudo 5% terjadi sekitar 14,40 Hz. Pilih frekuensi masukan di bawah batas ini untuk memenuhi syarat “kurang dari 5%”.\n\n$$\n\\boxed{0\\le f<f_{\\mathrm{lim}},\\qquad f_{\\mathrm{lim}}=14.39997\\ \\mathrm{Hz}\\approx14.40\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 7, memberi penyebut $s^2+2\\zeta\\omega_ns+\\omega_n^2$. Faktor s pada suku redaman diperlukan agar semua suku memiliki satuan yang sama. Naskah asli tetap menampilkan bentuk cetaknya; pembahasan menyebut koreksi model secara terbuka.",
+        "Bagian 2, halaman 8 dan 10, mendukung pemeriksaan kedua batas amplitudo. Untuk $\\zeta=0.65$, puncak $M=1.012233$ belum melanggar batas atas 1.05. Batas pertama kemudian berasal dari $M=0.95$, bukan titik setengah daya."
+      ]
     },
     {
       "id": "2023-uts1-q4",
@@ -644,10 +878,17 @@ export const module: CourseModule = {
         ],
         "original": "4. [25%] Dynamic Characteristic of Measurement Systems\nA thermometer has transfer function of \\(G(s)=O(s)/I(s)=0.2/(7s+1)\\), where O(s) is output in mV and I(s) is temperature in °C.\na. [10%] Estimate the time taken by the thermometer to reach 98% of temperature change, when the thermometer measures temperature with step profile from 30°C to 40°C.\nb. [15%] For dynamic measurement, find the maximum frequency where the error of measurement is less than 3 dB.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              6,
+              7,
+              10
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Termometer mula-mula tunak pada 30°C. Waktu nol dipilih saat suhu berubah. Offset tidak ditambahkan karena fungsi alih hanya memberi sensitivitas dan konstanta waktu.",
@@ -863,7 +1104,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Waktu mencapai 98% perubahan adalah 27.384 s sejak langkah suhu. Untuk pelemahan amplitudo kurang dari tepat 3 dB, gunakan f<0.02268250 Hz. Pendekatan cutoff half-power yang lazim adalah 0.02273642 Hz.\n\n$$\n\\boxed{t_{98}=27.38416\\ \\mathrm s,\\qquad 0\\le f<0.02268250\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 6, menyatakan respons langkah sebagai bagian dari perubahan, bukan bagian dari nilai akhir mutlak. Keluaran awal $0.2(30)=6\\,\\mathrm{mV}$ dan perubahan akhirnya $0.2(10)=2\\,\\mathrm{mV}$. Titik 98% berarti $6+0.98(2)=7.96\\,\\mathrm{mV}$.",
+        "Bagian 2, halaman 7 dan 10, memberi respons frekuensi orde satu dan batas setengah daya. Hitung pelemahan dari $M=|G|/0.2$. Nilai $20\\log_{10}(1/\\sqrt2)=-3.0103\\,\\mathrm{dB}$ sedikit berbeda dari batas tepat −3 dB yang juga dihitung pada pembahasan."
+      ]
     },
     {
       "id": "2023-uts2-q4",
@@ -880,15 +1125,25 @@ export const module: CourseModule = {
         ],
         "original": "4. Velocity Sensors\na. [10%] A policeman detects speeding drivers using a Doppler sensor. Let the car emits sound with frequency of 880 Hz while it is speeding at 120 km/h. Calculate sound frequency detected by the sensor when the car is approaching the policeman. Also, calculate the frequency after the driver passing the policeman. (Assume the speed of sound at 1 atm and 20°C is 330 m/s).\nb. [10%] A velocity transducer (vibrometer) as shown in the figure below has sensitivity of 40 mV/(cm/sec) in frequency range 10 Hz ≤ f ≤ 2000 Hz. The induced voltage of the sensor is given by e ≈ BLv where B is the magnetic field strength, L is the length of the coil, and v is the motion velocity of the coil. Since B and L are constant, then e ≈ Kv where K is the sensitivity of the sensor. If the sensor measures vibration with constant acceleration amplitude as 1G (9.81 m/s²), calculate the amplitude of output voltage at 10 Hz and at 2000 Hz.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            17,
-            18,
-            19
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              8,
+              10
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              17,
+              18,
+              19
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Medium diam, sumber dan pengamat segaris. Untuk vibrometer, getaran sinus dan sensitivitas konstan pada rentang yang disebut soal."
@@ -1091,7 +1346,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Bunyi terukur 978.88 Hz saat mendekat dan 799.27 Hz saat menjauh. Amplitudo tegangan vibrometer 624.524 mV pada 10 Hz dan 3.12262 mV pada 2000 Hz.\n\n$$\n\\boxed{\\begin{aligned}f_{\\rm approach}&=978.88\\ \\mathrm{Hz}\\\\f_{\\rm recede}&=799.27\\ \\mathrm{Hz}\\\\\\hat e_{10}&=624.524\\ \\mathrm{mV}\\\\\\hat e_{2000}&=3.12262\\ \\mathrm{mV}\\end{aligned}}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 3, halaman 17 sampai 19, membahas sensor kecepatan dan akselerasi. Untuk gerak sinus, turunan kecepatan memberi $\\hat a=\\omega\\hat v$. Maka percepatan tetap menghasilkan $\\hat v=\\hat a/(2\\pi f)$, dan tegangan vibrometer turun saat f naik.",
+        "Bagian 2, halaman 8 dan 10, mengingatkan bahwa sensitivitas hanya berlaku dalam rentang respons yang sesuai. Gunakan 40 mV/(cm/s) pada pita 10 sampai 2000 Hz yang soal berikan. Kurva orde dua umum tidak memberi model Doppler atau respons vibrometer lengkap tanpa data alat."
+      ]
     },
     {
       "id": "2023-uas-q3",
@@ -1108,14 +1367,24 @@ export const module: CourseModule = {
         ],
         "original": "3. First-Order System\nA temperature sensor can be modeled as a first-order system with a time constant of 1 second and a sensitivity of 0.08 Ω/°C. Initially, the sensor is at a steady condition of 27 °C with a resistance of 200 Ω. The temperature suddenly changes at t = 1 second to 100 °C.\na. [8%] Find the differential equation model of the sensor that relates changes in temperature input to resistance output.\nb. [7%] What will be the sensor's resistance at t = 3 seconds?",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            3
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              6,
+              7
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              3
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UAS",
@@ -1223,7 +1492,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Modelnya dR/dt + R − 200 = 0.08(T − 27), dengan satuan sesuai data. Pada t=3 s, R=205.04964 Ω.\n\n$$\n\\boxed{R(3\\,\\mathrm s)=205.04964\\ \\Omega}\n$$",
-      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak."
+      "takeaway": "Persentase respons mengacu pada perubahan dari keadaan awal, bukan selalu pada nilai akhir mutlak.",
+      "sourceNotes": [
+        "Bagian 2, halaman 6 sampai 7, mendasari persamaan orde satu terhadap perubahan dari keadaan acuan. Bagian 3, halaman 2 sampai 3, mengaitkan suhu dan tahanan sensor. Keadaan acuan soal ialah $(27\\,{}^\\circ\\mathrm C,200\\,\\Omega)$, sehingga bentuknya $\\tau\\dot R+R-200=K(T-27)$.",
+        "Langkah suhu mulai pada $t=1\\,\\mathrm s$. Saat $t=3\\,\\mathrm s$, sensor baru merespons selama dua detik. Gunakan perubahan akhir $K(100-27)=5.84\\,\\Omega$, lalu tambahkan kembali tahanan awal 200 Ω."
+      ]
     },
     {
       "id": "ipe-dynamics-practice",
@@ -1508,54 +1781,215 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
   "title": "Time and frequency response",
   "items": {
     "ipe-dynamics-material": {
-      "title": "Check whether a sensor follows the input",
+      "title": "Calculate sensor response and frequency limits",
       "examHook": {
-        "prompt": "Two sensors show the same final temperature. One responds slowly when temperature changes. Which sensor suits a rapidly changing input?",
-        "targetOutcome": "You can assess sensor delay, amplitude response, and frequency limits."
+        "prompt": "The 2025 UTS 1 force sensor operates at 600 Hz with a 1000 Hz natural frequency. Does staying below the natural frequency guarantee a small error?",
+        "targetOutcome": "You can use initial conditions, calculate amplitude and phase, and distinguish an error limit from bandwidth."
       },
-      "body": "Static calibration checks readings after conditions settle. A changing input requires a response-time check. You need to assess how quickly and faithfully a sensor follows the change.\n\nFor repeating inputs, check amplitude and phase separately. A matching amplitude does not guarantee matching peak times.\n\n[Open the worked solution: Force-sensor amplitude, phase, and bandwidth](?item=2025-uts1-q3).",
+      "body": "Static calibration checks a reading after conditions settle. A changing input needs a response model. You must assess both reading size and delay.\n\nPart 2, pages 6 to 10, connects step response, sinusoidal response, and frequency limits. Start with the physical model, then choose an error measure for your task.\n\n[Open the water-to-air sensor example](?item=2024-uts1-q4), [sinusoidal force response](?item=2025-uts1-q3), or [the 5% error limit](?item=2024-uas-q3).",
       "microUnits": [
         {
           "id": "ipe-dynamics-principle",
-          "title": "Choose a model from the stated conditions",
-          "intuition": "A temperature sensor needs time to absorb or release heat. A **first-order model** uses one time constant to describe a gradual approach to the final value. When the surroundings change, sensor temperature remains continuous. Its rate of change can alter because the time constant changes.",
-          "formal": "For a step change in a first-order model:\n\n$$y(t)=y_\\infty+(y_0-y_\\infty)e^{-t/\\tau}.$$\n\n$y_0$ is the initial value, $y_\\infty$ the final value, and $\\tau$ the time constant.",
-          "validityBounds": "This equation assumes a fixed time constant within one interval. Split the interval when conditions change. A second-order model also needs natural frequency and damping. Do not apply static sensitivity at every frequency.",
+          "title": "Carry the initial state into the next interval",
+          "intuition": "A temperature sensor must absorb heat before its reading changes. A **first-order model** uses one time constant to describe that process. The time constant τ sets the rate of approach to the final value.",
+          "formal": "For reference state $(u_0,y_0)$, use $\\tau\\dot y+y-y_0=K(u-u_0)$. After a step at $t_s$:\n\n$$y(t)=y_\\infty+[y(t_s)-y_\\infty]e^{-(t-t_s)/\\tau}.$$\n\nAn energy balance gives $\\tau=MC/(UA)$. In the water-to-air problem, $\\tau_w=10\\,\\mathrm s$ and $\\tau_a=50\\,\\mathrm s$.",
+          "validityBounds": "Part 2, pages 6 to 7. The model requires uniform sensor temperature. When U changes, start a new interval from the last sensor temperature. Sensor temperature cannot jump with the surroundings.",
           "decisionCheck": {
-            "prompt": "A sensor tracks amplitude well, but its peaks arrive late. Is it necessarily suitable for event timing?",
+            "prompt": "The sensor leaves hot water at t=60 s and enters cold air. Which initial value should you use for the air interval?",
             "options": [
               {
                 "id": "ipe-dynamics-decision-question-option-1",
-                "label": "Not yet; compare its delay with the timing tolerance.",
-                "feedback": "Correct. Event timing needs an acceptable delay limit."
+                "label": "The sensor temperature just before t=60 s.",
+                "feedback": "Correct. Sensor temperature stays continuous even when the surroundings and time constant change."
               },
               {
                 "id": "ipe-dynamics-decision-question-option-2",
-                "label": "Yes; correct amplitude guarantees correct phase.",
-                "feedback": "Amplitude and phase are separate parts of the response."
+                "label": "Air temperature, because the sensor is now in air.",
+                "feedback": "The sensor does not reach the surrounding temperature as soon as it moves."
               },
               {
                 "id": "ipe-dynamics-decision-question-option-3",
-                "label": "Yes; static calibration covers every frequency.",
-                "feedback": "Static calibration checks steady conditions rather than the full frequency response."
+                "label": "The initial temperature before the sensor entered water.",
+                "feedback": "The sensor absorbed heat in water; carry its latest state into the next interval."
               }
             ],
-            "explanation": "Choose the error measure that matches the task. Event timing requires a separate phase or time-delay check."
+            "explanation": "Calculate the final state of the water interval. Use that state as the air interval’s initial value with the air time constant."
+          }
+        },
+        {
+          "id": "ipe-dynamics-first-frequency",
+          "title": "Separate sensitivity from dynamic attenuation",
+          "intuition": "A first-order sensor weakens changes that occur too quickly. The **normalized amplitude ratio** compares actual amplitude with the amplitude predicted by static calibration. This ratio has no units.",
+          "formal": "For $G(s)=K/(1+\\tau s)$ and $\\omega=2\\pi f$:\n\n$$M_1=\\frac{|G(j\\omega)|}{|K|}=\\frac{1}{\\sqrt{1+(\\omega\\tau)^2}},\\qquad \\phi_1=-\\tan^{-1}(\\omega\\tau).$$\n\nA thermometer with $K=0.2\\,\\mathrm{mV}/{}^\\circ\\mathrm C$ still has static gain 0.2. The half-power point gives $M_1=1/\\sqrt2$, not an output of $0.707\\,\\mathrm{mV}$.",
+          "validityBounds": "Part 2, pages 7 and 10. The phase formula assumes positive K and a steady sinusoidal response. Calculate dB from a unitless ratio. Exactly −3 dB differs slightly from half-power −3.0103 dB.",
+          "decisionCheck": {
+            "prompt": "A thermometer has transfer function 0.2/(7s+1) mV/°C. How should you check 3 dB attenuation?",
+            "options": [
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-1",
+                "label": "Calculate $20\\log_{10}(|G|/0.2)$.",
+                "feedback": "Correct. Dividing by static gain produces a unitless ratio."
+              },
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-2",
+                "label": "Calculate $20\\log_{10}|G|$ directly.",
+                "feedback": "A dimensional gain depends on the choice of units and is not the requested attenuation ratio."
+              },
+              {
+                "id": "ipe-dynamics-first-frequency-decision-option-3",
+                "label": "Treat $0.2=20\\%$ as an 80% amplitude loss.",
+                "feedback": "The value 0.2 carries mV/°C units and describes static sensitivity, not dynamic attenuation."
+              }
+            ],
+            "explanation": "Compare dynamic response with the same instrument’s static response. The ratio remains unchanged when you change output units."
+          }
+        },
+        {
+          "id": "ipe-dynamics-second-frequency",
+          "title": "Check second-order amplitude and phase",
+          "intuition": "A mass, spring, and damper can produce overshoot or oscillation before settling. A **second-order model** uses natural frequency and damping ratio ζ. Both control the response to a sinusoidal force.",
+          "formal": "With $r=f/f_n=\\omega/\\omega_n$:\n\n$$M_2=\\frac{1}{\\sqrt{(1-r^2)^2+(2\\zeta r)^2}},\\qquad \\phi_2=-\\operatorname{atan2}(2\\zeta r,1-r^2).$$\n\nAt $r=0.6$ and $\\zeta=0.7$, we obtain $M_2=0.946943$ and $\\phi_2=-52.696^\\circ$. Amplitude close to its ideal value does not guarantee a small phase lag.",
+          "validityBounds": "Part 2, pages 7 to 8. Use steady response, positive K, and positive damping. The atan2 function preserves the phase quadrant as r passes 1. Do not divide Hz by rad/s.",
+          "decisionCheck": {
+            "prompt": "Input frequency passes natural frequency, making 1−r² negative. How should you calculate phase?",
+            "options": [
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-1",
+                "label": "Use $-\\operatorname{atan2}(2\\zeta r,1-r^2)$.",
+                "feedback": "Correct. Two arguments preserve numerator and denominator signs, giving the correct phase quadrant."
+              },
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-2",
+                "label": "Use a single-argument arctangent without checking its quadrant.",
+                "feedback": "The ratio can produce the wrong phase quadrant after the denominator changes sign."
+              },
+              {
+                "id": "ipe-dynamics-second-frequency-decision-option-3",
+                "label": "Assume zero phase because static gain is one.",
+                "feedback": "Unit static gain does not remove phase lag at higher frequencies."
+              }
+            ],
+            "explanation": "Report amplitude and phase separately. Static gain only describes the response at zero frequency."
+          }
+        },
+        {
+          "id": "ipe-dynamics-bandwidth",
+          "title": "Choose a frequency limit for the requested error",
+          "intuition": "**Half-power bandwidth** ends when amplitude falls to 1/√2 of its static value. A 5% error requirement is stricter. You must check both upper and lower amplitude limits.",
+          "formal": "For relative tolerance $\\epsilon$:\n\n$$1-\\epsilon<M(f)<1+\\epsilon.$$\n\nFor the problem with $\\zeta=0.65$, peak amplitude is $1.01223$, below $1.05$. The 5% boundary then occurs at $M=0.95$: $f=14.39997\\,\\mathrm{Hz}$ when $f_n=20\\,\\mathrm{Hz}$.",
+          "validityBounds": "Part 2, pages 8 and 10. The limit must hold throughout the range starting at low frequency. Lower damping can make resonance violate the upper limit first. Check phase if timing also matters.",
+          "decisionCheck": {
+            "prompt": "A question requires amplitude error below 5%. Is the half-power limit enough?",
+            "options": [
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-1",
+                "label": "No; check 0.95<M<1.05 throughout the range.",
+                "feedback": "Correct. Both bounds detect attenuation and amplification caused by resonance."
+              },
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-2",
+                "label": "Yes; $M=1/\\sqrt2$ is a 5% error.",
+                "feedback": "The value 1/√2 is about 0.707, which gives an amplitude drop of about 29.3%."
+              },
+              {
+                "id": "ipe-dynamics-bandwidth-decision-option-3",
+                "label": "Yes; every frequency below natural frequency is accurate.",
+                "feedback": "Damping and frequency ratio still affect amplitude below the natural frequency."
+              }
+            ],
+            "explanation": "Choose the tolerance before solving for a boundary. Use the first violation encountered as frequency rises from zero."
+          }
+        },
+        {
+          "id": "ipe-dynamics-harmonics",
+          "title": "Check each frequency component",
+          "intuition": "Several sine waves can form one periodic waveform. A **harmonic** is a component at a multiple of the fundamental frequency. The sensor gives each harmonic a different gain and phase, which can change waveform shape.",
+          "formal": "If $u(t)=a_0+\\sum_{n\\ge1}A_n\\sin(n\\omega_0t+\\theta_n)$, its steady response is:\n\n$$y(t)=G(0)a_0+\\sum_{n\\ge1}A_n|G(jn\\omega_0)|\\sin(n\\omega_0t+\\theta_n+\\arg G(jn\\omega_0)).$$\n\nFor a linear chain without loading between blocks, $G_{\\rm total}=\\prod_iG_i$.",
+          "validityBounds": "Part 2, pages 8 to 9. Adding responses requires a stable linear system with fixed parameters. Check important harmonics, not only the fundamental. One steady sinusoid does not directly describe the initial transient.",
+          "decisionCheck": {
+            "prompt": "A square wave’s fundamental lies in the sensor’s flat range, but its third harmonic lies outside. What can happen?",
+            "options": [
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-1",
+                "label": "Output shape changes because harmonics receive different gains and phases.",
+                "feedback": "Correct. The sensor can pass the fundamental while changing other components that form the waveform."
+              },
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-2",
+                "label": "The shape must remain unchanged because the fundamental passes.",
+                "feedback": "A square wave needs harmonics to form its sharp edges."
+              },
+              {
+                "id": "ipe-dynamics-harmonics-decision-option-3",
+                "label": "Multiply every harmonic by the gain at the fundamental frequency.",
+                "feedback": "Each harmonic has its own frequency and needs the response at that frequency."
+              }
+            ],
+            "explanation": "Choose sensor range for the components you need to measure. The force problem’s sinusoidal input requires only one frequency component."
+          }
+        },
+        {
+          "id": "ipe-dynamics-compensation",
+          "title": "Assess the benefit and limits of compensation",
+          "intuition": "An added circuit can speed up a sensor reading. **Dynamic compensation** changes the combined response to better follow the input. Mathematical cancellation still requires a model that matches the physical sensor.",
+          "formal": "Part 2 uses sensor $G_u=1/(1+\\tau s)$ and compensator:\n\n$$G_c=\\frac{1+\\tau_1s}{1+\\tau_2s},\\qquad \\tau_1=\\tau,\\quad 0<\\tau_2<\\tau.$$\n\nThen $G_uG_c=1/(1+\\tau_2s)$. The response is faster but retains a time constant. Compensator gain approaches $\\tau_1/\\tau_2$ at high frequency.",
+          "validityBounds": "Part 2, page 10. A mismatch in τ prevents exact cancellation. Higher gain can amplify high-frequency noise entering the compensator. Feedback also needs a stability check, not only a large gain.",
+          "decisionCheck": {
+            "prompt": "A compensator uses τ₁=τ and τ₂=τ/10. Does output follow the input instantly without any limit?",
+            "options": [
+              {
+                "id": "ipe-dynamics-compensation-decision-option-1",
+                "label": "No; the new time constant τ/10 still limits response.",
+                "feedback": "Correct. The combined system remains first order, and high-frequency compensator gain approaches 10."
+              },
+              {
+                "id": "ipe-dynamics-compensation-decision-option-2",
+                "label": "Yes; all dynamics have disappeared.",
+                "feedback": "The denominator 1+τ₂s remains after cancellation of the sensor factor."
+              },
+              {
+                "id": "ipe-dynamics-compensation-decision-option-3",
+                "label": "Yes; compensation can never amplify noise.",
+                "feedback": "Higher compensator gain at high frequency can amplify noise at its input."
+              }
+            ],
+            "explanation": "Check the combined model, working range, and noise. If the surroundings change sensor τ, a fixed compensator may no longer match it."
           }
         }
       ],
       "checkpoints": [
-        "You can assess sensor delay, amplitude response, and frequency limits.",
-        "The initial state and dynamic model determine response before the sensor reaches its final value.",
-        "A response percentage refers to the change from the initial state, not always the absolute final value."
+        "Carry the initial state and elapsed time into each interval.",
+        "Separate static gain, amplitude ratio, and phase.",
+        "Use matching Hz/Hz or rad/s/rad/s units for a frequency ratio.",
+        "Check both amplitude bounds before choosing an operating range.",
+        "Assess harmonics and compensation limits when the input is not one sinusoid."
       ],
       "derivations": [
         {
+          "id": "ipe-dynamics-thermal-example",
+          "title": "Example: connect two temperature intervals",
+          "content": "In [2024 UTS 1 question 4](?item=2024-uts1-q4), the energy balance gives $MC\\dot T_s=UA(T_{\\rm in}-T_s)$. Thus $G(s)=1/(1+\\tau s)$ for changes from the reference state.\n\n1. In water, $\\tau_w=MC/(U_wA)=10\\,\\mathrm s$ and $T_s(t)=100-80e^{-t/10}$.\n2. At the move, $T_s(60)=100-80e^{-6}=99.8017\\,{}^\\circ\\mathrm C$.\n3. In air, $\\tau_a=50\\,\\mathrm s$ and $T_s(t)=20+[T_s(60)-20]e^{-(t-60)/50}$.\n\nAt $t=120\\,\\mathrm s$, sensor temperature is $44.0358\\,{}^\\circ\\mathrm C$. Error relative to the air is $+24.0358\\,{}^\\circ\\mathrm C$. We use elapsed time since the move, 60 s, in the second exponent. Basis: Part 2, pages 6 to 7."
+        },
+        {
+          "id": "ipe-dynamics-force-example",
+          "title": "Example: natural frequency is not an error limit",
+          "content": "In [2025 UTS 1 question 3](?item=2025-uts1-q3), the paper’s units specify $f_n=1000\\,\\mathrm{Hz}$. We use $r=600/1000=0.6$ and $\\zeta=0.7$.\n\n1. Calculate $M=[(1-0.6^2)^2+(2\\cdot0.7\\cdot0.6)^2]^{-1/2}=0.946943$.\n2. Calculate $\\phi=-\\operatorname{atan2}(0.84,0.64)=-52.696^\\circ$.\n3. Amplitude error is $(M-1)100\\%=-5.30575\\%$.\n\nThe half-power boundary satisfies $M=1/\\sqrt2$. Solving a quadratic in $r^2$ gives:\n\n$$f_b=f_n\\sqrt{1-2\\zeta^2+\\sqrt{(1-2\\zeta^2)^2+1}}=1010.0495\\,\\mathrm{Hz}.$$\n\nThe sensor remains within its half-power bandwidth at 600 Hz, but amplitude error already exceeds 5%. Basis: Part 2, pages 7, 8, and 10."
+        },
+        {
+          "id": "ipe-dynamics-tolerance-example",
+          "title": "Example: check the peak before the 5% boundary",
+          "content": "In [2024 UAS question 3](?item=2024-uas-q3), $\\zeta=0.65<1/\\sqrt2$. The amplitude curve has a peak, so we first check the upper limit.\n\n$$r_{\\rm peak}=\\sqrt{1-2\\zeta^2},\\qquad M_{\\rm peak}=\\frac{1}{2\\zeta\\sqrt{1-\\zeta^2}}=1.012233.$$\n\nThe peak stays below 1.05. We then find the crossing at $M=0.95$ on the falling side:\n\n$$r_{\\rm lim}=\\sqrt{1-2\\zeta^2+\\sqrt{(1-2\\zeta^2)^2+0.95^{-2}-1}}=0.719999.$$\n\nWith $f_n=20\\,\\mathrm{Hz}$, an error below 5% requires $0\\le f<14.39997\\,\\mathrm{Hz}$. A strict inequality excludes the boundary itself. Basis: Part 2, pages 8 and 10."
+        },
+        {
           "id": "ipe-dynamics-sources",
-          "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "title": "Sources, terms, and model limits",
+          "content": "[Part 2](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), pages 6 to 7: first-order models, energy balance, and step response. Pages 7 to 8: second-order models, amplitude response, and phase.\n\nPages 8 to 9: dynamic chains and Fourier components. Page 10: frequency limits, open-loop compensation, and an accelerometer with feedback. Page numbers follow physical PDF order.\n\nTime constant sets a first-order response’s approach rate. Natural frequency is the model’s oscillation frequency without damping. Damping ratio compares actual damping with critical damping. Phase measures angular shift relative to a sinusoidal input.\n\n[Part 3](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), pages 17 to 19, adds velocity and acceleration sensor models. Choose a transfer function for the measured quantity, including low-frequency limits of piezoelectric sensors."
         }
-      ]
+      ],
+      "keyFormula": {
+        "label": "Second-order model with static sensitivity",
+        "note": "K carries output-per-input units. The normalized amplitude ratio uses G/K. Convert Hz to rad/s only when an equation requires ω."
+      }
     },
     "2025-uts1-q3": {
       "title": "Force-sensor amplitude, phase, and bandwidth",
@@ -1664,7 +2098,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Amplitude ratio 0.946943; output phase −52.696° relative to input. Signed amplitude error −5.30575% (magnitude 5.30575%). Using the half-power definition and a 1000 Hz natural frequency, bandwidth is approximately 0 to 1010.05 Hz.\n\n$$\n\\boxed{M=0.946943,\\quad\\phi=-52.696^\\circ,\\quad\\varepsilon_A=-5.30575\\%,\\quad f_b=1010.05\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, pages 7 to 8, gives the second-order model and amplitude/phase curves. Interpret the paper’s frequency symbol through its units: $1000\\,\\mathrm{Hz}$ means $f_n$, so $r=600/1000$. Use atan2 to preserve the phase quadrant.",
+        "Part 2, page 10, distinguishes a small-error range from half-power bandwidth. At 600 Hz, the sensor remains inside that bandwidth, but its $5.30575\\%$ amplitude error already exceeds a 5% tolerance."
+      ]
     },
     "2025-uas-q6": {
       "title": "Frequency limits and cross-axis sensitivity",
@@ -1762,7 +2200,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "At 0.5 Hz, the response attenuates. At 25 kHz, nominal sensitivity is invalid and resonance may amplify the reading; no exact value is given. Cross-axis sensitivity of 5 mV/g is 5% of main-axis sensitivity.\n\n$$\n\\boxed{S_{\\perp}/S_{\\parallel}=5\\%,\\qquad 1g_{\\perp}\\ \\Rightarrow\\ 0.05g\\ \\text{apparent}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, pages 8 and 10, shows why static sensitivity does not hold at every frequency. Part 3, pages 18 to 19, provides accelerometer models and piezoelectric response limits. A qualitative curve cannot determine exact sensitivity at 0.5 Hz or 25 kHz.",
+        "Cross-sensitivity links motion on another axis to output. The ratio $5/100=0.05$ means 5% of main-axis sensitivity. It is neither a damping ratio nor the amplitude error at a particular frequency."
+      ]
     },
     "2024-uts1-q4": {
       "title": "Temperature response when moving from water to air",
@@ -1876,7 +2318,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The transfer function is $1/(10s+1)$ in water and $1/(50s+1)$ in air. We use $E_d=T_{\\mathrm{out}}-T_{\\mathrm{in}}$. Errors at 10, 20, and 50 s are −29.43036, −10.82682, and −0.53904°C. Errors at 120 and 300 s are +24.03581 and +0.65675°C.\n\n$$\n\\boxed{\\begin{aligned}\\tau_w&=10\\ \\mathrm s,\\quad\\tau_a=50\\ \\mathrm s\\\\E_d(10)&=-29.43036^\\circ\\mathrm C\\\\E_d(20)&=-10.82682^\\circ\\mathrm C\\\\E_d(50)&=-0.53904^\\circ\\mathrm C\\\\E_d(120)&=+24.03581^\\circ\\mathrm C\\\\E_d(300)&=+0.65675^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, pages 6 to 7, derives first-order response from stored heat. The balance $MC\\dot T_s=UA(T_{\\rm in}-T_s)$ gives $\\tau=MC/(UA)$. Moving to another medium changes U and the time constant, while sensor temperature remains continuous.",
+        "At the move, $t=60\\,\\mathrm s$, the sensor is at $99.8017\\,{}^\\circ\\mathrm C$. Use that temperature as the air interval’s initial value and use $t-60$ as elapsed time. The calculation retains the paper’s printed C value."
+      ]
     },
     "2024-uas-q3": {
       "title": "Frequency limit for a 5% amplitude error",
@@ -1954,7 +2400,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The 5% amplitude-error boundary is approximately 14.40 Hz. Use an input frequency below this boundary to satisfy “less than 5%”.\n\n$$\n\\boxed{0\\le f<f_{\\mathrm{lim}},\\qquad f_{\\mathrm{lim}}=14.39997\\ \\mathrm{Hz}\\approx14.40\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, page 7, gives denominator $s^2+2\\zeta\\omega_ns+\\omega_n^2$. The damping term needs s so every term has matching units. Original evidence retains the printed form; the solution states the model correction explicitly.",
+        "Part 2, pages 8 and 10, supports checking both amplitude bounds. For $\\zeta=0.65$, peak $M=1.012233$ stays below 1.05. The first boundary then comes from $M=0.95$, not the half-power point."
+      ]
     },
     "2023-uts1-q4": {
       "title": "Thermometer response time and frequency limit",
@@ -2101,7 +2551,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Time to reach 98% of the change is 27.384 s after the temperature step. For amplitude attenuation strictly below 3 dB, use f<0.02268250 Hz. The usual half-power cutoff approximation is 0.02273642 Hz.\n\n$$\n\\boxed{t_{98}=27.38416\\ \\mathrm s,\\qquad 0\\le f<0.02268250\\ \\mathrm{Hz}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, page 6, expresses step response as a fraction of the change, not a fraction of the absolute final value. Initial output is $0.2(30)=6\\,\\mathrm{mV}$ and final change is $0.2(10)=2\\,\\mathrm{mV}$. The 98% point is $6+0.98(2)=7.96\\,\\mathrm{mV}$.",
+        "Part 2, pages 7 and 10, gives first-order frequency response and the half-power boundary. Calculate attenuation from $M=|G|/0.2$. The value $20\\log_{10}(1/\\sqrt2)=-3.0103\\,\\mathrm{dB}$ differs slightly from the exact −3 dB boundary also calculated in the solution."
+      ]
     },
     "2023-uts2-q4": {
       "title": "Doppler and vibrometer voltage",
@@ -2241,7 +2695,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Observed sound is 978.88 Hz on approach and 799.27 Hz on recession. Vibrometer voltage amplitude is 624.524 mV at 10 Hz and 3.12262 mV at 2000 Hz.\n\n$$\n\\boxed{\\begin{aligned}f_{\\rm approach}&=978.88\\ \\mathrm{Hz}\\\\f_{\\rm recede}&=799.27\\ \\mathrm{Hz}\\\\\\hat e_{10}&=624.524\\ \\mathrm{mV}\\\\\\hat e_{2000}&=3.12262\\ \\mathrm{mV}\\end{aligned}}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 3, pages 17 to 19, covers velocity and acceleration sensors. For sinusoidal motion, differentiating velocity gives $\\hat a=\\omega\\hat v$. Fixed acceleration therefore gives $\\hat v=\\hat a/(2\\pi f)$, so vibrometer voltage decreases as f rises.",
+        "Part 2, pages 8 and 10, reminds us that sensitivity applies within an appropriate response range. Use 40 mV/(cm/s) within the stated 10 to 2000 Hz band. A generic second-order curve does not supply a Doppler model or complete vibrometer response without instrument data."
+      ]
     },
     "2023-uas-q3": {
       "title": "First-order sensor response",
@@ -2319,7 +2777,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The model is dR/dt + R − 200 = 0.08(T − 27), with the stated units. At t=3 s, R=205.04964 Ω.\n\n$$\n\\boxed{R(3\\,\\mathrm s)=205.04964\\ \\Omega}\n$$",
-      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value."
+      "takeaway": "A response percentage refers to the change from the initial state, not always the absolute final value.",
+      "sourceNotes": [
+        "Part 2, pages 6 to 7, supports a first-order equation for changes from a reference state. Part 3, pages 2 to 3, links sensor temperature and resistance. The given reference is $(27\\,{}^\\circ\\mathrm C,200\\,\\Omega)$, giving $\\tau\\dot R+R-200=K(T-27)$.",
+        "The temperature step starts at $t=1\\,\\mathrm s$. At $t=3\\,\\mathrm s$, the sensor has responded for only two seconds. Use final change $K(100-27)=5.84\\,\\Omega$, then add the initial 200 Ω resistance."
+      ]
     },
     "ipe-dynamics-practice": {
       "title": "Practice: Time and frequency response",

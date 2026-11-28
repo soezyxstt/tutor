@@ -9,20 +9,20 @@ export const module: CourseModule = {
       "id": "ipe-signal-material",
       "kind": "material",
       "slug": "ipe-signal-material",
-      "title": "Baca simpul rangkaian sebelum memilih rumus",
-      "estimatedMinutes": 6,
+      "title": "Baca simpul, penguatan, dan frekuensi rangkaian",
+      "estimatedMinutes": 12,
       "examHook": {
         "prompt": "Gambar jembatan diputar, lalu rumus hafalan memberi tanda tegangan berbeda. Bagaimana Anda menentukan keluaran tanpa bergantung pada posisi gambar?",
         "targetOutcome": "Anda dapat menentukan titik ukur, polaritas, dan pengaruh beban."
       },
-      "body": "Rangkaian mengikuti hubungan antarsimpul, bukan arah gambar. Tandai simpul catu dan kedua terminal keluaran terlebih dahulu. Lalu, telusuri cabang yang menghubungkan simpul tersebut.\n\nUntuk filter, periksa hubungan dengan sumber dan beban. Beban dapat mengubah respons yang Anda hitung dari rangkaian tanpa beban.\n\n[Buka pembahasan bertahap: Filter lolos rendah pasif dan aktif](?item=2025-uts1-q5).",
+      "body": "Tandai simpul catu dan terminal keluaran terlebih dahulu. Pada jembatan, sambungan menentukan beda tegangan. Pada penguat, letak masukan serta resistor umpan balik menentukan tanda dan besar penguatan.\n\nBagian 1 memberi contoh jembatan dan penguat. Bagian 2 memberi model RC orde satu. Anda dapat memakai kedua sumber untuk memahami contoh filter aktif sambil menjaga batas asumsi rangkaian.\n\n[Buka pembahasan bertahap: Filter lolos rendah pasif dan aktif](?item=2025-uts1-q5).",
       "microUnits": [
         {
           "id": "ipe-signal-principle",
-          "title": "Pilih model dari kondisi soal",
-          "intuition": "Voltmeter membaca selisih potensial dua simpul. **Polaritas** (urutan pengurangan potensial) menentukan tanda hasil tersebut. Anda dapat mencari potensial tiap simpul terhadap acuan yang sama. Cara ini tetap berlaku saat gambar berubah arah.",
-          "formal": "Untuk pembagi tegangan tanpa beban:\n\n$$V_B=V_s\\frac{R_2}{R_1+R_2}.$$\n\nHitung cabang lain dengan urutan resistornya sendiri. Keluaran jembatan kemudian mengikuti $V_{\\mathrm{out}}=V_B-V_D$.",
-          "validityBounds": "Rumus pembagi sederhana menganggap voltmeter tidak menarik arus berarti. Untuk filter aktif, periksa batas catu dan rentang kerja penguat. Label aktif tidak menjamin semua pengaruh beban hilang.",
+          "title": "Baca simpul dan polaritas jembatan",
+          "intuition": "Voltmeter membaca selisih potensial dua simpul. **Polaritas** menyatakan urutan pengurangan itu. Anda dapat mencari kedua potensial terhadap acuan yang sama, lalu mengurangkannya. Bagian 1 halaman 7 memperlihatkan jembatan yang membaca perubahan tahanan strain gauge.",
+          "formal": "Untuk pembagi tegangan tanpa beban:\n\n$$V_B=V_s\\frac{R_2}{R_1+R_2}.$$\n\nHitung cabang lain dari sambungannya sendiri. Keluaran mengikuti $V_{\\mathrm{out}}=V_B-V_D$. Menukar terminal ukur membalik tanda hasil.",
+          "validityBounds": "Rumus sederhana ini menganggap voltmeter tidak menarik arus berarti. Cocokkan simpul sumber, terminal ukur, dan resistor sebelum memakai rumus dari gambar lain.",
           "decisionCheck": {
             "id": "ipe-signal-decision-question",
             "prompt": "Anda memutar gambar jembatan tanpa mengubah sambungan. Apa yang perlu menentukan persamaan keluarannya?",
@@ -48,18 +48,115 @@ export const module: CourseModule = {
             "correctOptionId": "ipe-signal-decision-question-option-1",
             "explanation": "Tandai simpul terlebih dahulu. Cari potensial terminal terhadap acuan yang sama, lalu kurangkan sesuai polaritas."
           }
+        },
+        {
+          "id": "ipe-signal-amplifiers",
+          "title": "Pilih penguat dari sambungan masukannya",
+          "intuition": "Penguat pembalik memberi tanda keluaran yang berlawanan terhadap masukan. Penguat tak membalik mempertahankan tanda. Keduanya memakai umpan balik, tetapi posisi masukan dan resistor menentukan penguatannya.",
+          "formal": "Bagian 1 halaman 8 menunjukkan kedua rangkaian. Dengan $R_f$ sebagai resistor umpan balik:\n\n$$A_{\\mathrm{inv}}=-\\frac{R_f}{R_i},\\qquad A_{\\mathrm{noninv}}=1+\\frac{R_f}{R_g}.$$\n\n$R_i$ menghubungkan sumber ke masukan pembalik. $R_g$ menghubungkan simpul umpan balik ke acuan pada rangkaian tak membalik.",
+          "validityBounds": "Rumus ini memakai model op-amp ideal dalam umpan balik negatif. Periksa catu, frekuensi kerja, dan beban agar penguat tetap linear.",
+          "decisionCheck": {
+            "prompt": "Dua penguat memakai resistor yang sama besar. Yang satu membalik, yang lain tak membalik. Apakah penguatannya sama?",
+            "options": [
+              {
+                "id": "ipe-signal-amplifiers-decision-option-1",
+                "label": "Tidak. Model ideal memberi −1 untuk pembalik dan 2 untuk tak membalik.",
+                "feedback": "Tepat. Sambungan menentukan apakah rumus memakai tanda minus atau tambahan satu."
+              },
+              {
+                "id": "ipe-signal-amplifiers-decision-option-2",
+                "label": "Ya. Resistor yang sama selalu memberi penguatan 1.",
+                "feedback": "Kesamaan resistor belum menentukan rumus. Anda perlu membaca sambungan masukan.",
+                "misconceptionTag": "ipe-signal-amplifiers-decision-choice-2"
+              },
+              {
+                "id": "ipe-signal-amplifiers-decision-option-3",
+                "label": "Ya. Jenis sambungan hanya mengubah warna grafik.",
+                "feedback": "Sambungan menentukan hubungan listrik yang nyata, termasuk tanda dan besar penguatan.",
+                "misconceptionTag": "ipe-signal-amplifiers-decision-choice-3"
+              }
+            ],
+            "explanation": "Cocokkan diagram dengan $-R_f/R_i$ atau $1+R_f/R_g$ sebelum memasukkan rasio resistor satu.",
+            "id": "ipe-signal-amplifiers-decision",
+            "correctOptionId": "ipe-signal-amplifiers-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-signal-rc-model",
+          "title": "Hubungkan filter RC dengan respons orde satu",
+          "intuition": "Pada contoh Bagian 2 halaman 6, resistor membatasi arus pengisian kapasitor. Tegangan kapasitor tidak langsung mengikuti perubahan cepat. Rangkaian ini meneruskan perubahan lambat lebih baik daripada perubahan cepat.",
+          "formal": "Dengan keluaran pada kapasitor:\n\n$$RC\\frac{dV_{\\mathrm{out}}}{dt}+V_{\\mathrm{out}}=V_{\\mathrm{in}},\\qquad \\tau=RC,$$\n\n$$H(s)=\\frac{1}{1+sRC},\\qquad f_c=\\frac{1}{2\\pi RC}.$$\n\nPada $f=f_c$, besar penguatan menjadi $1/\\sqrt2$ dari nilai frekuensi rendah dan fase menjadi $-45^\\circ$.",
+          "validityBounds": "Model ini memakai sumber ideal dan keluaran tanpa beban berarti. Bagian 2 halaman 7 memberi kurva amplitudo serta fase orde satu. Beban nyata dapat mengubah nilai penguatan dan frekuensi batas.",
+          "decisionCheck": {
+            "prompt": "Anda menaikkan C dengan R tetap pada RC tanpa beban. Apa perubahan yang sesuai dengan model?",
+            "options": [
+              {
+                "id": "ipe-signal-rc-model-decision-option-1",
+                "label": "Konstanta waktu naik dan frekuensi batas turun.",
+                "feedback": "Tepat. RC membesar, sedangkan 1/(2πRC) mengecil."
+              },
+              {
+                "id": "ipe-signal-rc-model-decision-option-2",
+                "label": "Konstanta waktu turun dan frekuensi batas naik.",
+                "feedback": "Hubungannya terbalik: kapasitor yang lebih besar membuat respons lebih lambat.",
+                "misconceptionTag": "ipe-signal-rc-model-decision-choice-2"
+              },
+              {
+                "id": "ipe-signal-rc-model-decision-option-3",
+                "label": "Penguatan frekuensi rendah otomatis menjadi lebih besar dari satu.",
+                "feedback": "Rangkaian RC ideal tetap memiliki penguatan frekuensi rendah satu. Kapasitor mengubah respons waktunya.",
+                "misconceptionTag": "ipe-signal-rc-model-decision-choice-3"
+              }
+            ],
+            "explanation": "Periksa kedua rumus sekaligus: $\\tau=RC$ dan $f_c=1/(2\\pi RC)$. Keduanya harus memberi perubahan yang saling sesuai.",
+            "id": "ipe-signal-rc-model-decision",
+            "correctOptionId": "ipe-signal-rc-model-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-signal-active-example",
+          "title": "Pisahkan dasar sumber dan contoh praktikum",
+          "intuition": "Anda dapat mengikuti RC dengan penguat tak membalik. Dalam model ideal, penguat menaikkan sinyal dan mengurangi beban tahap berikutnya pada RC. Bagian 1 dan 2 memberi dasar kedua blok, tetapi tidak menetapkan skema praktikum dalam naskah ujian.",
+          "formal": "Untuk susunan contoh tersebut:\n\n$$H_{\\mathrm{aktif}}(s)=\\frac{1+R_f/R_g}{1+sRC}.$$\n\nGunakan contoh $R=10\\,\\mathrm{k\\Omega}$, $C=100\\,\\mathrm{nF}$, dan $R_f=R_g$. Anda memperoleh $f_c\\approx159{,}15\\,\\mathrm{Hz}$ serta penguatan frekuensi rendah 2.",
+          "validityBounds": "Nilai ini ialah contoh yang sama dengan simulasi, bukan data praktikum tambahan. Untuk menjawab skema praktikum secara tepat, cocokkan dengan rangkaian yang benar-benar Anda pakai.",
+          "decisionCheck": {
+            "prompt": "Penguat ideal berpenguatan 2 mengikuti RC tanpa mengubah bebannya. Apa yang berubah pada gabungan contoh ini?",
+            "options": [
+              {
+                "id": "ipe-signal-active-example-decision-option-1",
+                "label": "Penguatan frekuensi rendah menjadi 2; frekuensi batas RC tetap.",
+                "feedback": "Tepat. Penguat mengalikan pembilang, sedangkan faktor RC pada penyebut tetap."
+              },
+              {
+                "id": "ipe-signal-active-example-decision-option-2",
+                "label": "Frekuensi batas selalu menjadi dua kali lipat.",
+                "feedback": "Faktor penguatan tidak mengubah RC pada model ideal ini.",
+                "misconceptionTag": "ipe-signal-active-example-decision-choice-2"
+              },
+              {
+                "id": "ipe-signal-active-example-decision-option-3",
+                "label": "Kapasitor tidak lagi memengaruhi respons frekuensi.",
+                "feedback": "Faktor RC tetap berada pada penyebut dan tetap menentukan penurunan amplitudo.",
+                "misconceptionTag": "ipe-signal-active-example-decision-choice-3"
+              }
+            ],
+            "explanation": "Bandingkan $1/(1+sRC)$ dengan $2/(1+sRC)$. Anda tetap perlu memeriksa beban dan batas op-amp pada rangkaian nyata.",
+            "id": "ipe-signal-active-example-decision",
+            "correctOptionId": "ipe-signal-active-example-decision-option-1"
+          }
         }
       ],
       "checkpoints": [
-        "Anda dapat menentukan titik ukur, polaritas, dan pengaruh beban.",
-        "Hubungan simpul, arah pengukuran, dan beban menentukan persamaan rangkaian.",
-        "Jangan menyalin rumus jembatan sebelum mencocokkan posisi catu dan terminal keluaran."
+        "Anda dapat menentukan keluaran jembatan dari simpul dan polaritasnya.",
+        "Anda dapat memilih rumus penguat dari sambungan masukannya.",
+        "Anda dapat menghubungkan RC, konstanta waktu, dan frekuensi batas.",
+        "Anda dapat membedakan dasar teori dari skema praktikum yang belum tersedia."
       ],
       "derivations": [
         {
           "id": "ipe-signal-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "[Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): halaman 3 menempatkan jembatan dan penguat sebagai pengondisi. Halaman 7 menunjukkan jembatan strain gauge serta urutan timbangan. Halaman 8 menunjukkan penguat pembalik dan tak membalik.\n\n[Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): halaman 6 memberi rangkaian RC beserta $\\tau=RC$; halaman 7 memberi respons amplitudo dan fase orde satu. Kita menggabungkan model RC dan penguat untuk contoh filter aktif. Sumber tidak memuat skema praktikum yang secara tegas dirujuk pada soal 2025.\n\nNomor halaman menghitung halaman PDF dari 1. Naskah soal tetap berasal dari [arsip ujian](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END); label dan nilai ilustrasi tidak mengganti naskah itu."
         }
       ]
     },
@@ -77,10 +174,24 @@ export const module: CourseModule = {
         ],
         "original": "5. [10%] Practicum Questions: Active and Passive Low Pass Filter\na. [5%] Based on the practicum, what are the differences between passive and active low pass filters?\nb. [5%] Draw the schematic diagram of an active low pass filter you did in the practicum?",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              3,
+              8
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              6,
+              7
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Rangkaian RC diikuti penguat tak membalik ialah contoh, bukan salinan rangkaian praktikum yang tidak disertakan.",
@@ -123,7 +234,7 @@ export const module: CourseModule = {
         ],
         "data": {
           "R": 10000,
-          "C": 1e-7,
+          "C": 1e-07,
           "gain": 2,
           "frequency": 100,
           "visualKind": "lowpass"
@@ -206,7 +317,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Filter RC pasif memakai R dan C, tidak memerlukan catu aktif, dan responsnya dapat berubah akibat sumber serta beban. Filter aktif menambah komponen berdaya seperti op-amp untuk mengurangi beban dan memberi penguatan, dengan batas catu serta respons op-amp. Contoh sah: RC masuk ke pin+ op-amp, Rf dari keluaran ke pin −, Rg dari pin − ke ground, dengan catu yang jelas. Skema praktikum asli tidak tersedia dalam naskah.\n\n$$\n\\boxed{H(s)=\\frac{1+R_f/R_g}{1+sRC},\\qquad f_c=\\frac1{2\\pi RC}}\n$$",
-      "takeaway": "Jangan menyalin rumus jembatan sebelum mencocokkan posisi catu dan terminal keluaran."
+      "takeaway": "Jangan menyalin rumus jembatan sebelum mencocokkan posisi catu dan terminal keluaran.",
+      "sourceNotes": [
+        "Bagian 1 halaman 8 menunjukkan penguat pembalik dan tak membalik. Bagian 2 halaman 6 memberi rangkaian RC dengan keluaran pada kapasitor dan konstanta waktu RC. Halaman 7 memberi respons amplitudo serta fase orde satu.",
+        "Gabungan RC dan penguat tak membalik pada pembahasan merupakan contoh yang diturunkan dari kedua model. Sumber baru ini tetap tidak mengidentifikasi skema atau nilai komponen praktikum yang diminta naskah 2025."
+      ]
     },
     {
       "id": "2023-uts1-q5",
@@ -223,10 +338,16 @@ export const module: CourseModule = {
         ],
         "original": "5. [15%] Signal Conditioning\nA force sensor produces a change in resistance as its output. The sensor forms one leg (R1) of a basic Wheatstone bridge. The sensor resistance with no force load is 500 Ω, and its static sensitivity is 0.5 Ω/N. Each arm of the bridge is initially 500 Ω.\na. [5%] Determine the bridge output for applied loads of 350 N. The bridge is operated as a deflection bridge, with an input voltage of 10 V.\nb. [5%] Determine the current flow through the sensor.\nc. [5%] Determine the power dissipated by the sensor (assume temperature sensitivity is negligible).\nAppendix, Possible Useful Formulas [as printed]: \\(P=V\\cdot I=V^2R=I^2/R\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              3,
+              7
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Jembatan standar memakai catu antara titik atas dan bawah, R1 di kiri atas, dan keluaran titik tengah kiri dikurangi kanan. Soal tidak memberi gambar polaritas; tanda berubah jika kabel keluaran ditukar.",
@@ -372,7 +493,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Tahanan sensor menjadi 675 Ω. Dengan Vo=VA−VB, keluarannya −0.744681 V; besarnya 0.744681 V. Arus sensor 8.510638 mA dan daya sensor 48.890901 mW.\n\n$$\n\\boxed{R_1=675\\ \\Omega,\\quad|V_o|=0.744681\\ \\mathrm V,\\quad I_s=8.510638\\ \\mathrm{mA},\\quad P_s=48.890901\\ \\mathrm{mW}}\n$$",
-      "takeaway": "Jangan menyalin rumus jembatan sebelum mencocokkan posisi catu dan terminal keluaran."
+      "takeaway": "Jangan menyalin rumus jembatan sebelum mencocokkan posisi catu dan terminal keluaran.",
+      "sourceNotes": [
+        "Bagian 1 halaman 3 menjelaskan jembatan sebagai pengondisi yang mengubah perubahan impedansi menjadi tegangan. Halaman 7 menunjukkan contoh jembatan strain gauge dengan simpul catu dan terminal keluarannya.",
+        "Untuk jembatan pada soal ini, perhitungan tetap mengikuti sambungan dan polaritas yang dinyatakan dalam pembahasan. Rumus daya resistor berasal dari hubungan tegangan, arus, dan tahanan; nilai daya yang keliru pada bahan tambahan arsip tidak menjadi acuan hasil."
+      ]
     },
     {
       "id": "ipe-signal-practice",
@@ -529,19 +654,19 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
   "title": "Signal-conditioning circuits",
   "items": {
     "ipe-signal-material": {
-      "title": "Read circuit nodes before choosing a formula",
+      "title": "Read circuit nodes, gain, and frequency response",
       "examHook": {
         "prompt": "A bridge diagram is rotated, and a memorized formula gives a different sign. How can you find the output without relying on drawing orientation?",
         "targetOutcome": "You can identify measurement nodes, polarity, and loading effects."
       },
-      "body": "A circuit follows node connections rather than drawing orientation. Mark the supply nodes and both output terminals first. Then trace the branches connecting those nodes.\n\nFor filters, check connections to the source and load. A load can change the response you calculated for an unloaded circuit.\n\n[Open the worked solution: Passive and active low-pass filters](?item=2025-uts1-q5).",
+      "body": "Mark the supply nodes and output terminals first. In a bridge, the connections determine voltage difference. In an amplifier, the input and feedback-resistor connections determine gain magnitude and sign.\n\nPart 1 gives bridge and amplifier examples. Part 2 gives the first-order RC model. You can use both sources to understand the active-filter example while keeping its circuit assumptions clear.\n\n[Open the worked solution: Passive and active low-pass filters](?item=2025-uts1-q5).",
       "microUnits": [
         {
           "id": "ipe-signal-principle",
-          "title": "Choose a model from the stated conditions",
-          "intuition": "A voltmeter reads the potential difference between two nodes. **Polarity** specifies the order of subtraction and sets the sign. You can find both node potentials relative to the same reference. This method still works when the drawing changes orientation.",
-          "formal": "For an unloaded voltage divider:\n\n$$V_B=V_s\\frac{R_2}{R_1+R_2}.$$\n\nCalculate the other branch using its own resistor order. The bridge output then follows $V_{\\mathrm{out}}=V_B-V_D$.",
-          "validityBounds": "The simple divider formula assumes negligible voltmeter current. For an active filter, check amplifier supply and operating limits. The word active does not guarantee that all loading effects disappear.",
+          "title": "Read bridge nodes and polarity",
+          "intuition": "A voltmeter reads the potential difference between two nodes. **Polarity** sets the subtraction order. You can find both potentials relative to one reference, then subtract them. Part 1, page 7, shows a bridge reading a strain gauge resistance change.",
+          "formal": "For an unloaded voltage divider:\n\n$$V_B=V_s\\frac{R_2}{R_1+R_2}.$$\n\nCalculate the other branch from its own connections. The output is $V_{\\mathrm{out}}=V_B-V_D$. Swapping measurement terminals reverses the result’s sign.",
+          "validityBounds": "This simple expression assumes negligible voltmeter current. Match supply nodes, measurement terminals, and resistors before using a formula from another drawing.",
           "decisionCheck": {
             "prompt": "You rotate a bridge drawing without changing its connections. What should determine the output equation?",
             "options": [
@@ -563,18 +688,103 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
             ],
             "explanation": "Label nodes first. Find terminal potentials against the same reference, then subtract according to polarity."
           }
+        },
+        {
+          "id": "ipe-signal-amplifiers",
+          "title": "Choose an amplifier from its input connections",
+          "intuition": "An inverting amplifier gives output with the opposite sign to its input. A non-inverting amplifier keeps the sign. Both use feedback, but the input and resistor connections set the gain.",
+          "formal": "Part 1, page 8, shows both circuits. With $R_f$ as the feedback resistor:\n\n$$A_{\\mathrm{inv}}=-\\frac{R_f}{R_i},\\qquad A_{\\mathrm{noninv}}=1+\\frac{R_f}{R_g}.$$\n\n$R_i$ connects the source to the inverting input. $R_g$ connects the feedback node to reference in the non-inverting circuit.",
+          "validityBounds": "When you use these formulas, assume an ideal op-amp with negative feedback. Check supply rails, operating frequency, and load so the amplifier remains linear.",
+          "decisionCheck": {
+            "prompt": "Two amplifiers use equal resistor values. One is inverting and the other non-inverting. Do you obtain the same gain?",
+            "options": [
+              {
+                "id": "ipe-signal-amplifiers-decision-option-1",
+                "label": "No. The ideal models give −1 for inverting and 2 for non-inverting.",
+                "feedback": "Correct. The connections determine whether the formula uses a minus sign or an added one."
+              },
+              {
+                "id": "ipe-signal-amplifiers-decision-option-2",
+                "label": "Yes. Equal resistors always give a gain of 1.",
+                "feedback": "Equal resistors do not determine the formula. You need to read the input connections."
+              },
+              {
+                "id": "ipe-signal-amplifiers-decision-option-3",
+                "label": "Yes. The connection type changes only the graph color.",
+                "feedback": "Connections determine the actual electrical relation, including gain magnitude and sign."
+              }
+            ],
+            "explanation": "Match the diagram to $-R_f/R_i$ or $1+R_f/R_g$ before substituting a resistor ratio of one."
+          }
+        },
+        {
+          "id": "ipe-signal-rc-model",
+          "title": "Connect an RC filter to first-order response",
+          "intuition": "In the example on Part 2, page 6, a resistor limits capacitor charging current. Capacitor voltage does not immediately follow a rapid change. The circuit therefore passes slow changes more strongly than fast ones.",
+          "formal": "With output across the capacitor:\n\n$$RC\\frac{dV_{\\mathrm{out}}}{dt}+V_{\\mathrm{out}}=V_{\\mathrm{in}},\\qquad \\tau=RC,$$\n\n$$H(s)=\\frac{1}{1+sRC},\\qquad f_c=\\frac{1}{2\\pi RC}.$$\n\nAt $f=f_c$, gain magnitude is $1/\\sqrt2$ of its low-frequency value and phase is $-45^\\circ$.",
+          "validityBounds": "This model assumes an ideal source and negligible output loading. Part 2, page 7, gives the first-order magnitude and phase curves. A real load can change gain and cutoff frequency.",
+          "decisionCheck": {
+            "prompt": "You increase C while holding R fixed in the unloaded RC circuit. Which change follows from the model?",
+            "options": [
+              {
+                "id": "ipe-signal-rc-model-decision-option-1",
+                "label": "The time constant rises and the cutoff frequency falls.",
+                "feedback": "Correct. RC increases, while 1/(2πRC) decreases."
+              },
+              {
+                "id": "ipe-signal-rc-model-decision-option-2",
+                "label": "The time constant falls and the cutoff frequency rises.",
+                "feedback": "The relation is reversed: a larger capacitor makes the response slower."
+              },
+              {
+                "id": "ipe-signal-rc-model-decision-option-3",
+                "label": "The low-frequency gain automatically becomes greater than one.",
+                "feedback": "The ideal RC circuit keeps a low-frequency gain of one. The capacitor changes its time response."
+              }
+            ],
+            "explanation": "Check both formulas: $\\tau=RC$ and $f_c=1/(2\\pi RC)$. They should give you consistent changes."
+          }
+        },
+        {
+          "id": "ipe-signal-active-example",
+          "title": "Separate the source basis from the lab example",
+          "intuition": "You can follow the RC section with a non-inverting amplifier. In the ideal model, the amplifier raises the signal and reduces how much the next stage loads the RC section. Parts 1 and 2 support these blocks, but do not specify the exam’s lab circuit.",
+          "formal": "For this illustrative arrangement:\n\n$$H_{\\mathrm{active}}(s)=\\frac{1+R_f/R_g}{1+sRC}.$$\n\nWith $R=10\\,\\mathrm{k\\Omega}$, $C=100\\,\\mathrm{nF}$, and $R_f=R_g$, we obtain $f_c\\approx159.15\\,\\mathrm{Hz}$ and a low-frequency gain of 2.",
+          "validityBounds": "You can try these illustrative values in the simulation. The values do not add evidence about the lab circuit. To answer the lab-schematic question exactly, match the circuit you actually used.",
+          "decisionCheck": {
+            "prompt": "An ideal gain-2 amplifier follows the RC section without changing its load. What changes in this example?",
+            "options": [
+              {
+                "id": "ipe-signal-active-example-decision-option-1",
+                "label": "The low-frequency gain becomes 2; the RC cutoff stays the same.",
+                "feedback": "Correct. The amplifier multiplies the numerator while the denominator’s RC factor stays unchanged."
+              },
+              {
+                "id": "ipe-signal-active-example-decision-option-2",
+                "label": "The cutoff frequency always doubles.",
+                "feedback": "The gain factor does not change RC in this ideal model."
+              },
+              {
+                "id": "ipe-signal-active-example-decision-option-3",
+                "label": "The capacitor no longer affects frequency response.",
+                "feedback": "The RC factor remains in the denominator and still sets the amplitude roll-off."
+              }
+            ],
+            "explanation": "Compare $1/(1+sRC)$ with $2/(1+sRC)$. You still need to check loading and op-amp limits in a real circuit."
+          }
         }
       ],
       "checkpoints": [
-        "You can identify measurement nodes, polarity, and loading effects.",
-        "Node connections, measurement direction, and loading determine circuit equations.",
-        "Do not copy a bridge formula before matching the supply and output terminals."
+        "You can determine bridge output from its nodes and polarity.",
+        "You can choose an amplifier formula from its input connections.",
+        "You can connect RC, time constant, and cutoff frequency.",
+        "You can distinguish the theory basis from an unavailable lab schematic."
       ],
       "derivations": [
         {
           "id": "ipe-signal-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "[Part 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): page 3 places bridges and amplifiers in conditioning; page 7 shows a strain gauge bridge and weighing system; page 8 shows inverting and non-inverting amplifiers.\n\n[Part 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): page 6 gives the RC circuit with $\\tau=RC$; page 7 gives first-order magnitude and phase response. We combine the RC and amplifier models for the active-filter example. These sources do not explicitly provide the lab schematic requested by the 2025 question.\n\nPage numbers count physical PDF pages from 1. Original questions still come from the [exam archive](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END); illustrative labels and values do not replace the papers."
         }
       ]
     },
@@ -679,7 +889,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "A passive RC filter uses R and C, needs no active supply, and can be affected by source and load impedance. An active filter adds a powered component such as an op-amp to reduce loading and provide gain, subject to supply and amplifier-response limits. A valid example connects the RC node to the+ input, Rf from output to − input, and Rg from − input to ground, with the supply shown. The actual practicum schematic is not provided.\n\n$$\n\\boxed{H(s)=\\frac{1+R_f/R_g}{1+sRC},\\qquad f_c=\\frac1{2\\pi RC}}\n$$",
-      "takeaway": "Do not copy a bridge formula before matching the supply and output terminals."
+      "takeaway": "Do not copy a bridge formula before matching the supply and output terminals.",
+      "sourceNotes": [
+        "Part 1, page 8, shows inverting and non-inverting amplifiers. Part 2, page 6, gives an RC circuit with output across the capacitor and time constant RC; page 7 gives first-order magnitude and phase response.",
+        "The solution combines RC and a non-inverting amplifier as an example derived from those models. These added sources still do not identify the schematic or component values used in the lab named by the 2025 exam."
+      ]
     },
     "2023-uts1-q5": {
       "title": "Force-sensor bridge: voltage, current, and power",
@@ -782,7 +996,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Sensor resistance becomes 675 Ω. Defining Vo=VA−VB gives −0.744681 V, with magnitude 0.744681 V. Sensor current is 8.510638 mA and sensor power is 48.890901 mW.\n\n$$\n\\boxed{R_1=675\\ \\Omega,\\quad|V_o|=0.744681\\ \\mathrm V,\\quad I_s=8.510638\\ \\mathrm{mA},\\quad P_s=48.890901\\ \\mathrm{mW}}\n$$",
-      "takeaway": "Do not copy a bridge formula before matching the supply and output terminals."
+      "takeaway": "Do not copy a bridge formula before matching the supply and output terminals.",
+      "sourceNotes": [
+        "Part 1, page 3, describes a bridge as a conditioner that converts impedance changes to voltage. Page 7 shows a strain gauge bridge with its supply nodes and output terminals.",
+        "For this question’s bridge, the calculation still follows the connections and polarity stated in the solution. Resistor power follows the voltage-current-resistance relations; incorrect power values in the archive supplement do not determine the answer."
+      ]
     },
     "ipe-signal-practice": {
       "title": "Practice: Signal-conditioning circuits",

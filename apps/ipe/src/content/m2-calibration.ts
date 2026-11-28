@@ -9,20 +9,20 @@ export const module: CourseModule = {
       "id": "ipe-calibration-material",
       "kind": "material",
       "slug": "ipe-calibration-material",
-      "title": "Bedakan perubahan kemiringan dan titik nol",
-      "estimatedMinutes": 6,
+      "title": "Baca garis kalibrasi, penyimpangan, dan batasnya",
+      "estimatedMinutes": 14,
       "examHook": {
         "prompt": "Catu sensor berubah. Apakah semua keluaran bergeser sama besar, atau perubahan keluaran bergantung pada masukan?",
         "targetOutcome": "Anda dapat memilih model kalibrasi dan menjelaskan batas penggunaannya."
       },
-      "body": "Kalibrasi membandingkan keluaran alat dengan masukan acuan. Anda perlu membaca bentuk hubungannya sebelum menentukan angka. Perubahan garis dapat menunjukkan perubahan titik nol, kepekaan, atau keduanya.\n\nGunakan rentang dan kondisi uji yang sama saat membandingkan dua kurva. Catat perbedaan data sumber secara terbuka.\n\n[Buka pembahasan bertahap: Kalibrasi suhu dan pengaruh catu](?item=2025-uts1-q1).",
+      "body": "Kalibrasi membandingkan keluaran alat dengan masukan acuan. Sebelum menghitung, catat rentang, satuan, kondisi lingkungan, dan arah pengujian. Bagian 1 memberi definisi yang membedakan kemiringan, titik nol, ketaklinieran, dan histeresis.\n\nGunakan acuan yang sama saat membandingkan data. Bila soal memuat rentang atau satuan yang tidak selaras, tulis batas kesimpulan Anda.\n\n[Buka pembahasan bertahap: Kalibrasi suhu dan pengaruh catu](?item=2025-uts1-q1).",
       "microUnits": [
         {
           "id": "ipe-calibration-principle",
-          "title": "Pilih model dari kondisi soal",
-          "intuition": "Keluaran yang bergeser sama besar menunjukkan perubahan titik nol. Keluaran yang bergeser makin jauh saat masukan naik menunjukkan perubahan kemiringan. **Sensitivitas** (perubahan keluaran per perubahan masukan) menyatakan kemiringan tersebut. Pembedaan ini membantu Anda memilih suku koreksi yang tepat.",
-          "formal": "Model garis menggunakan:\n\n$$y=Kx+a.$$\n\n$K$ menyatakan sensitivitas dan $a$ menyatakan keluaran pada masukan nol. Bandingkan selisih keluaran pada masukan yang sama.",
-          "validityBounds": "Model garis berlaku pada rentang kalibrasinya. Kalibrasi statik belum menjamin respons yang baik pada masukan cepat. Untuk histeresis, bandingkan lintasan naik dan turun pada masukan yang sama.",
+          "title": "Tentukan rentang, jangkauan, dan garis acuan",
+          "intuition": "Rentang menyebut nilai minimum dan maksimum. Jangkauan menyebut selisih keduanya. Misalnya, keluaran 4 sampai 20 mA memiliki jangkauan 16 mA. Anda memerlukan selisih ini saat menghitung kemiringan dan persen galat.",
+          "formal": "Bagian 1 halaman 11 dan 12 memakai garis melalui dua ujung:\n\n$$O_{\\mathrm{ideal}}=KI+a,\\qquad K=\\frac{O_{\\max}-O_{\\min}}{I_{\\max}-I_{\\min}},\\qquad a=O_{\\min}-KI_{\\min}.$$\n\n$K$ menyatakan perubahan keluaran per perubahan masukan; satuannya mengikuti perbandingan itu.",
+          "validityBounds": "Garis ujung berbeda dari hasil regresi. Gunakan cara yang diminta soal. Jika tabel belum mencapai batas rentang tertulis, pisahkan hasil dari data dan hasil ekstrapolasi.",
           "decisionCheck": {
             "id": "ipe-calibration-decision-question",
             "prompt": "Dua garis kalibrasi berpotongan pada masukan nol. Garis kedua lebih curam. Suku model mana yang berubah?",
@@ -48,18 +48,152 @@ export const module: CourseModule = {
             "correctOptionId": "ipe-calibration-decision-question-option-1",
             "explanation": "Dalam model garis, sensitivitas mengalikan masukan. Perubahan sensitivitas membuat selisih keluaran membesar saat masukan menjauh dari nol."
           }
+        },
+        {
+          "id": "ipe-calibration-nonlinearity",
+          "title": "Ukur selisih terhadap garis yang sama",
+          "intuition": "Keluaran sensor nyata dapat melengkung terhadap garis acuan. Ketaklinieran menunjukkan selisih keluaran pada masukan yang sama. Simpan tandanya saat menghitung tiap titik, lalu pakai besar selisih untuk mencari galat maksimum.",
+          "formal": "Bagian 1 halaman 12 mendefinisikan:\n\n$$N(I)=O(I)-(KI+a),$$\n\n$$N_{\\%}=\\frac{\\max |N(I)|}{O_{\\max}-O_{\\min}}\\,100\\%.$$\n\nPembaginya ialah jangkauan keluaran yang Anda nyatakan sebagai acuan, bukan otomatis keluaran terbesar.",
+          "validityBounds": "Maksimum dari tabel hanya berlaku pada titik yang diuji. Anda memerlukan model atau data tambahan untuk memastikan maksimum di antara titik dan di luar rentang tabel.",
+          "decisionCheck": {
+            "prompt": "Keluaran sensor berkisar 4 sampai 20 mA. Selisih maksimum dari garis acuan ialah 0,4 mA. Berapa persen terhadap jangkauan keluaran?",
+            "options": [
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-1",
+                "label": "2,5%, karena jangkauan keluarannya 16 mA.",
+                "feedback": "Tepat. Anda membagi 0,4 mA dengan 20−4 mA, lalu mengalikannya dengan 100%."
+              },
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-2",
+                "label": "2%, karena pembaginya selalu keluaran maksimum 20 mA.",
+                "feedback": "Keluaran minimum bukan nol. Jangkauannya ialah 20−4 mA.",
+                "misconceptionTag": "ipe-calibration-nonlinearity-decision-choice-2"
+              },
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-3",
+                "label": "4%, karena selisih 0,4 harus dikali sepuluh.",
+                "feedback": "Persen memerlukan pembanding yang jelas. Faktor sepuluh tidak berasal dari jangkauan soal.",
+                "misconceptionTag": "ipe-calibration-nonlinearity-decision-choice-3"
+              }
+            ],
+            "explanation": "Gunakan $0{,}4/(20-4)\\times100\\%=2{,}5\\%$. Satuan mA saling menghapus karena pembilang dan penyebut sama-sama keluaran.",
+            "id": "ipe-calibration-nonlinearity-decision",
+            "correctOptionId": "ipe-calibration-nonlinearity-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-calibration-local-sensitivity",
+          "title": "Bedakan kemiringan garis dan kepekaan setempat",
+          "intuition": "Garis ujung merangkum perubahan dari satu ujung rentang ke ujung lain. Pada kurva tak linear, perubahan kecil keluaran dapat berbeda di tiap masukan. Kepekaan setempat menyatakan perubahan kecil itu.",
+          "formal": "Untuk $O(I)=KI+a+N(I)$, Bagian 1 halaman 13 memberi:\n\n$$\\frac{dO}{dI}=K+\\frac{dN}{dI}.$$\n\nJika $N(I)=0$, sensitivitas sama dengan $K$. Jika $N(I)$ berubah terhadap $I$, sensitivitas juga dapat berubah.",
+          "validityBounds": "Kepekaan masukan-ke-keluaran memakai satuan keluaran per masukan. Model balik memakai arah sebaliknya. Jangan menukar kedua perbandingan saat memilih koefisien.",
+          "decisionCheck": {
+            "prompt": "Dua kurva memiliki titik ujung yang sama, tetapi kelengkungan berbeda. Apa yang dapat Anda simpulkan?",
+            "options": [
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-1",
+                "label": "Kemiringan garis ujung sama; kepekaan setempat dapat berbeda.",
+                "feedback": "Tepat. Dua ujung menetapkan garis acuan, tetapi tidak menetapkan seluruh turunan kurva."
+              },
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-2",
+                "label": "Kepekaan setempat pasti sama pada semua masukan.",
+                "feedback": "Kepekaan setempat mengikuti turunan kurva, bukan hanya dua ujung.",
+                "misconceptionTag": "ipe-calibration-local-sensitivity-decision-choice-2"
+              },
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-3",
+                "label": "Kedua kurva pasti tidak memiliki ketaklinieran.",
+                "feedback": "Titik tengah dapat menyimpang dari garis meskipun ujungnya sama.",
+                "misconceptionTag": "ipe-calibration-local-sensitivity-decision-choice-3"
+              }
+            ],
+            "explanation": "Garis ujung memberi $K$. Kepekaan nyata memberi $K+dN/dI$, sehingga bentuk $N(I)$ ikut menentukan hasil.",
+            "id": "ipe-calibration-local-sensitivity-decision",
+            "correctOptionId": "ipe-calibration-local-sensitivity-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-calibration-environment",
+          "title": "Pisahkan perubahan kemiringan dan titik nol",
+          "intuition": "Gangguan yang mengubah kemiringan memberi selisih keluaran yang bergantung pada masukan. Gangguan yang mengubah titik nol memberi selisih tetap. Satu perubahan catu dapat menimbulkan kedua pengaruh tersebut.",
+          "formal": "Bagian 1 halaman 13 memakai model:\n\n$$O=(K+K_MI_M)I+a+K_II_I+N(I).$$\n\n$I_M$ dan $I_I$ menyatakan penyimpangan lingkungan dari kondisi standar. Bandingkan kemiringan serta titik nol pada kondisi yang berbeda.",
+          "validityBounds": "Nyatakan kondisi standar sebelum memasukkan angka. Jika soal tidak memberi suhu atau catu standarnya, Anda dapat menulis model deviasi tanpa mengarang nilai mutlaknya.",
+          "decisionCheck": {
+            "prompt": "Setelah catu berubah, keluaran pada masukan nol bergeser dan garis menjadi lebih curam. Suku mana yang Anda perlukan?",
+            "options": [
+              {
+                "id": "ipe-calibration-environment-decision-option-1",
+                "label": "Suku pengubah kemiringan dan suku penggeser titik nol.",
+                "feedback": "Tepat. Satu penyebab fisik dapat menghasilkan dua jenis perubahan garis."
+              },
+              {
+                "id": "ipe-calibration-environment-decision-option-2",
+                "label": "Hanya suku penggeser titik nol karena perubahan catu tunggal.",
+                "feedback": "Jumlah penyebab tidak menentukan jumlah suku model. Data menunjukkan dua perubahan.",
+                "misconceptionTag": "ipe-calibration-environment-decision-choice-2"
+              },
+              {
+                "id": "ipe-calibration-environment-decision-option-3",
+                "label": "Hanya ketaklinieran karena semua garis baru pasti melengkung.",
+                "feedback": "Garis yang lebih curam tetap dapat linear. Pergeseran dan kemiringan belum menunjukkan kelengkungan.",
+                "misconceptionTag": "ipe-calibration-environment-decision-choice-3"
+              }
+            ],
+            "explanation": "Bandingkan titik nol untuk memperoleh suku $K_II_I$. Bandingkan kemiringan untuk memperoleh suku $K_MI_M$.",
+            "id": "ipe-calibration-environment-decision",
+            "correctOptionId": "ipe-calibration-environment-decision-option-1"
+          }
+        },
+        {
+          "id": "ipe-calibration-hysteresis-resolution",
+          "title": "Pisahkan histeresis dari resolusi",
+          "intuition": "Dua keluaran pada masukan yang sama dapat muncul karena arah pengujian berbeda. Itulah histeresis. Resolusi berkaitan dengan perubahan masukan yang belum menimbulkan perubahan keluaran terbaca. Keduanya membatasi pembacaan dengan cara berbeda.",
+          "formal": "Dari kurva naik dan turun pada Bagian 1 halaman 14, besar selisihnya ialah:\n\n$$H(I)=|O_{\\uparrow}(I)-O_{\\downarrow}(I)|,\\qquad H_{\\%}=\\frac{\\max H(I)}{O_{\\max}-O_{\\min}}\\,100\\%.$$\n\nBandingkan kedua lintasan pada masukan yang sama.",
+          "validityBounds": "Jangan otomatis membagi selisih dua lintasan dengan dua. Setengah selisih baru sesuai bila soal meminta simpangan tiap lintasan dari kurva tengah. Data statik belum menentukan kecepatan respons.",
+          "decisionCheck": {
+            "prompt": "Selisih terbesar lintasan naik dan turun ialah 0,6 V. Keluaran berkisar 2 sampai 10 V. Berapa histeresis penuh sebagai persen jangkauan?",
+            "options": [
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-1",
+                "label": "7,5%, dari 0,6 dibagi jangkauan 8 V.",
+                "feedback": "Tepat. Soal meminta selisih penuh terhadap jangkauan keluaran."
+              },
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-2",
+                "label": "3,75%, karena selisih harus selalu dibagi dua.",
+                "feedback": "Setengah selisih menjawab simpangan dari kurva tengah, bukan selisih penuh yang diminta.",
+                "misconceptionTag": "ipe-calibration-hysteresis-resolution-decision-choice-2"
+              },
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-3",
+                "label": "6%, dari 0,6 dibagi keluaran maksimum 10 V.",
+                "feedback": "Jangkauan mengurangi keluaran minimum dari maksimum. Di sini jangkauannya 8 V.",
+                "misconceptionTag": "ipe-calibration-hysteresis-resolution-decision-choice-3"
+              }
+            ],
+            "explanation": "Anda memakai $0{,}6/(10-2)\\times100\\%=7{,}5\\%$. Tanda arah lintasan tidak mengubah besar selisih ini.",
+            "id": "ipe-calibration-hysteresis-resolution-decision",
+            "correctOptionId": "ipe-calibration-hysteresis-resolution-decision-option-1"
+          }
         }
       ],
       "checkpoints": [
-        "Anda dapat memilih model kalibrasi dan menjelaskan batas penggunaannya.",
-        "Perbandingan pada masukan yang sama memisahkan pengaruh gangguan dari perubahan besaran ukur.",
-        "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+        "Anda dapat menghitung jangkauan dan garis acuan dari ujung data.",
+        "Anda dapat menentukan ketaklinieran dengan tanda, lalu memilih besar maksimum.",
+        "Anda dapat memisahkan pengaruh catu pada kemiringan dan titik nol.",
+        "Anda dapat menjelaskan beda histeresis, resolusi, dan respons dinamik."
       ],
       "derivations": [
         {
           "id": "ipe-calibration-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "[Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): halaman 11 membedakan rentang dan jangkauan. Halaman 12 memberi garis ujung serta ketaklinieran. Halaman 13 memberi sensitivitas dan pengaruh lingkungan. Halaman 14 memberi histeresis serta resolusi, lalu halaman 15 memberi model umum sensor.\n\n[Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): halaman 4 dan 5 membahas pengurangan pengaruh lingkungan; halaman 6 sampai 8 memberi respons waktu dan frekuensi. [Bagian 3 halaman 19](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view) memberi arti rentang frekuensi kerja sensor.\n\nNomor halaman menghitung halaman PDF dari 1. Angka pada soal tetap mengikuti [arsip ujian](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END); pembahasan menandai rentang, satuan, dan kondisi yang tidak lengkap."
+        },
+        {
+          "id": "ipe-calibration-environment-derivation",
+          "title": "Ambil koefisien gangguan dari dua garis",
+          "content": "Misalkan garis pada catu standar ialah $O_0=K_0I+a_0$. Pada perubahan catu $\\Delta V_s$, garis menjadi $O_1=K_1I+a_1$. Untuk model yang merangkum perubahan dua garis, kurangkan keduanya:\n\n$$O_1-O_0=(K_1-K_0)I+(a_1-a_0).$$\n\nJika perubahan catu bertindak sebagai kedua masukan lingkungan, gunakan $I_M=I_I=\\Delta V_s$. Cocokkan koefisien dengan model Bagian 1 halaman 13:\n\n$$K_M=\\frac{K_1-K_0}{\\Delta V_s},\\qquad K_I=\\frac{a_1-a_0}{\\Delta V_s}.$$\n\nPeriksa satuan: $K_M\\Delta V_s$ harus memiliki satuan kemiringan, sedangkan $K_I\\Delta V_s$ memiliki satuan keluaran. Sisa ketaklinieran pada titik tengah tetap perlu Anda hitung; dua garis ujung tidak menjamin semua titik mengikuti model tepat."
         }
       ]
     },
@@ -77,10 +211,18 @@ export const module: CourseModule = {
         ],
         "original": "1. [30%] Static Characteristics of Measurement Systems\nA temperature sensor has an input range of 0 to 120°C and a standard voltage supply Vs = 9 V.\nThe calibration result is presented on the table below.\nInput temperature in °C: 0, 15, 30, 45, 60, 75, 90.\nOutput voltage in mV (Vs = 9 V): 0, 78, 155, 222, 308, 377, 450.\nOutput voltage in mV (Vs = 12 V): 5, 93, 177, 255, 345, 415, 500.\nBy using the general equation of a system element\n\\[O=KI+K_MI_MI+a+K_II_I+N(I),\\]\na. [10%] Calculate the slope (K) and offset (a) of the standard system.\nb. [10%] Calculate the constants KM and KI associated with supply voltage variations.\nc. [10%] Calculate the maximum non-linearity as a percentage of f.s.d.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13,
+              14
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Garis acuan memakai dua ujung data, bukan regresi. IM dan II berarti perubahan catu dari 9 V.",
@@ -192,7 +334,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "$K=5\\ \\mathrm{mV/{}^\\circ C}$, $a=0$, $K_M=1/6\\ \\mathrm{mV/({}^\\circ C\\,V)}$, dan $K_I=5/3\\ \\mathrm{mV/V}$. Deviasi maksimum pada titik terukur adalah 8 mV di 60 °C. Nilainya 1.778% span tabel 450 mV, atau 1.333% span nominal 600 mV bila garis diekstrapolasi ke 120 °C. Maksimum di wilayah 90 sampai 120 °C belum diketahui.\n\n$$\n\\boxed{K=5,\\quad a=0,\\quad K_M=\\tfrac16,\\quad K_I=\\tfrac53,\\quad\\max|N|_{\\mathrm{sampled}}=8\\ \\mathrm{mV}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 11 sampai 13 mendasari jangkauan, garis ujung, ketaklinieran, dan koefisien lingkungan. Halaman 14 memberi contoh perubahan catu yang mengubah kemiringan.",
+        "Data ujian berhenti pada 90 °C meskipun rentang tertulis mencapai 120 °C. Definisi sumber tidak menutup selisih data itu: pembagian dengan 600 mV tetap memakai ekstrapolasi, dan maksimum seluruh rentang belum terbukti."
+      ]
     },
     {
       "id": "2025-uts1-q4",
@@ -208,10 +354,16 @@ export const module: CourseModule = {
         ],
         "original": "4. [15%] Systematic Characteristics of Measurement Systems: Hysteresis\nA liquid level sensor has an input range of 0 to 24 cm. By using the calibration results given in the following table, estimate the maximum hysteresis as a percentage of f.s.d.\nLevel h (cm): 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24.\nOutput voltage (V), h increasing: 0.0, 2.4, 5.3, 8.1, 10.8, 13.7, 17.2, 20.3, 23.5, 26.7, 29.9, 33.2, 36.8.\nOutput voltage (V), h decreasing: 0.3, 2.9, 6.0, 9.0, 11.6, 14.4, 18.2, 21.5, 24.7, 27.5, 30.7, 34.2, 36.8.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              14
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Gunakan selisih penuh dua kurva pada masukan yang sama dan span keluaran 36.8 V.",
@@ -361,7 +513,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Histeresis maksimum pada titik terukur ialah 1.2 V, terjadi pada 14 cm dan 16 cm. Dengan span keluaran 36.8 V, histeresis maksimum sekitar 3.26% f.s.d.\n\n$$\n\\boxed{H_{\\max}=1.2\\ \\mathrm V,\\qquad H_{\\%\\mathrm{fsd}}=3.26087\\%}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 14 mendefinisikan histeresis dari selisih keluaran lintasan naik dan turun pada masukan yang sama. Halaman 11 menjelaskan jangkauan sebagai nilai maksimum dikurangi minimum.",
+        "Pembahasan memakai selisih penuh antarlintasan dan jangkauan keluaran 36,8 V. Titik pengujian hanya mendukung maksimum pada data yang tersedia; kurva di antara titik belum diketahui."
+      ]
     },
     {
       "id": "2025-uts2-q6",
@@ -377,13 +533,35 @@ export const module: CourseModule = {
         ],
         "original": "6. Practicum Questions: Static and Dynamic Calibration\na. [5%] When should dynamic calibration be performed instead of static calibration?\nb. [5%] Why is sensor calibration important?",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            19
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              6,
+              7,
+              8
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (2022)",
+            "pages": [
+              19
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UTS 2",
@@ -498,7 +676,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Kalibrasi dinamik diperlukan saat respons waktu sensor memengaruhi hasil. Kalibrasi statik tetap diperlukan untuk skala dan offset; kalibrasi dinamik menambah informasi amplitudo, fase, dan batas frekuensi.",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 11 sampai 15 membahas sifat statik, termasuk sensitivitas, ketaklinieran, histeresis, resolusi, serta pengaruh lingkungan. Nilai-nilai itu menjelaskan hubungan setelah kondisi tetap.",
+        "Bagian 2 halaman 6 sampai 8 menambah waktu tanggap, redaman, dan respons frekuensi. Bagian 3 halaman 19 mengaitkan rentang frekuensi kerja dengan sensitivitas. Kalibrasi statik saja belum menjamin pembacaan benar untuk masukan yang cepat berubah."
+      ]
     },
     {
       "id": "2025-uas-q2",
@@ -515,10 +697,18 @@ export const module: CourseModule = {
         ],
         "original": "2. [20%] Systematic Characteristics of Measurement System\nA displacement sensor has an input range of 0.0 to 0.3 cm and a standard supply voltage Vs = 1.0 volts. Using the calibration results given in the table, estimate:\na. [5%] The slope K of the ideal straight line.\nb. [10%] The constant KI, KM associated with supply voltage variations.\nc. [5%] The maximum nonlinearity as a percentage of f.s.d.\nDisplacement x in cm: 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0.\nOutput voltage in millivolts when Vs = 1.0 V: 0, 33, 64, 88, 103, 111, 116.\nOutput voltage in millivolts when Vs = 1.2 V: 0, 42, 83, 112, 130, 141, 148.\nUseful formula: \\(O=KI+K_M I_M I+a+K_I I_I+N(I)\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13,
+              14
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Rentang 0.0 sampai 0.3 cm pada paragraf bertentangan dengan tabel 0.0 sampai 3.0 cm. Hasil memakai tabel. Jika seluruh posisi tabel seharusnya sepersepuluhnya, K dan KM menjadi sepuluh kali lebih besar; persen ketaklinieran tetap.",
@@ -634,7 +824,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Dengan tabel 0 sampai 3 cm, garis dua ujung memberi K = 38.667 mV/cm dan KI = 0. Nilai KM ≈ 53.333 mV/(cm·V). Ketaklinieran maksimum pada titik sampel ialah 25.86% skala penuh.\n\n$$\n\\boxed{\\begin{aligned}K&=38.667\\ \\mathrm{mV/cm},\\quad K_I=0\\ \\mathrm{mV/V}\\\\K_M&\\approx53.333\\ \\mathrm{mV/(cm\\,V)}\\\\N_{\\max}&=25.86\\%\\ \\mathrm{FS}\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 12 dan 13 memberi garis ujung serta pemisahan perubahan kemiringan dan titik nol. Masukan lingkungan menyatakan perubahan dari kondisi standar, bukan nilai catu mutlak.",
+        "Naskah ujian menulis rentang 0 sampai 0,3 cm, sedangkan tabel mencapai 3,0. Pembahasan mempertahankan catatan perbedaan itu dan menggunakan angka tabel untuk hitungan. Rujukan teori tidak menentukan satuan atau angka mana yang penulis soal maksud."
+      ]
     },
     {
       "id": "2024-uts1-q2",
@@ -650,10 +844,17 @@ export const module: CourseModule = {
         ],
         "original": "2. [20%] A thermocouple used between 0 and 500°C has the following input–output characteristics: Input T in °C: 0, 100, 200, 300, 500. Output E in μV: 0, 5268, 10777, 16325, 27388. (a) Find the equation of the ideal straight line. (b) Find the non-linearity at 100°C and 300°C in μV and as a percentage of f.s.d.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Garis ideal memakai metode titik ujung. Nonlinearitas bertanda didefinisikan sebagai data dikurangi garis; besar nonlinearitas adalah nilai mutlaknya."
@@ -738,7 +939,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Garis idealnya $E=54{,}776T$ dalam μV. Pada 100°C, nonlinearitas bertanda −209,6 μV (−0,76530% f.s.d.). Pada 300°C, nilainya −107,8 μV (−0,39360% f.s.d.). Besarnya masing-masing 0,76530% dan 0,39360%.\n\n$$\n\\boxed{\\begin{aligned}E_{\\mathrm{lin}}&=54.776T\\quad[\\mu\\mathrm V]\\\\N(100)&=-209.6\\ \\mu\\mathrm V=-0.76530\\%\\ \\mathrm{f.s.d.}\\\\N(300)&=-107.8\\ \\mu\\mathrm V=-0.39360\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 12 menentukan garis lurus ideal melalui ujung rentang dan mendefinisikan ketaklinieran sebagai keluaran nyata dikurangi garis tersebut. Halaman 13 menerapkan cara yang sama pada termokopel.",
+        "Gunakan data termokopel pada naskah ini. Koefisien contoh termokopel dalam slide hanya menjelaskan cara hitung dan tidak mengganti data ujian."
+      ]
     },
     {
       "id": "2024-uts1-q5",
@@ -754,10 +959,26 @@ export const module: CourseModule = {
         ],
         "original": "5. [20%] Under standard condition, a pressure gauge operates according to \\(i=4p+0.04\\), where i is electrical current in mA and p is measured pressure in barg. When the gauge operates at ambient temperature 5°C higher than the standard condition, and the battery is normal, the equation becomes \\(i=4p+0.06\\). When the temperature is standardized, but the battery is 0.2 volts lower than the standard, the equation becomes \\(i=4.1p+0.04\\). If the gauge is modelled as \\(i=(K+K_MI_M)p+(a+K_II_I)\\), (a) calculate K, \\(K_M\\), a and \\(K_I\\); (b) what are the units of each?",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              4,
+              5
+            ]
+          }
+        ]
       },
       "assumptions": [
         "I_M dan I_I adalah perubahan dari kondisi standar. Suhu dan tegangan standar absolut tidak diberikan. Titik 0 dan 1 bar pada visual adalah titik contoh dari persamaan, bukan data uji baru."
@@ -846,7 +1067,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "K=4 mA/bar, a=0,04 mA, K_M=−0,5 mA/(bar·V), dan K_I=0,004 mA/°C. Perubahan catu memodifikasi sensitivitas; perubahan suhu menggeser offset.\n\n$$\n\\boxed{\\begin{aligned}K&=4\\ \\mathrm{mA/bar},&a&=0.04\\ \\mathrm{mA}\\\\K_M&=-0.5\\ \\mathrm{mA/(bar\\,V)},&K_I&=0.004\\ \\mathrm{mA}/{}^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 13 memakai masukan lingkungan sebagai deviasi dari kondisi standar. Suku yang mengalikan masukan mengubah kemiringan; suku tambahan mengubah titik nol.",
+        "Bagian 2 halaman 4 dan 5 menjelaskan isolasi, kompensasi, serta umpan balik untuk mengurangi pengaruh lingkungan. Naskah soal tetap tidak memberi semua nilai acuan mutlak, sehingga titik numerik ilustrasi tidak menjadi data kalibrasi baru."
+      ]
     },
     {
       "id": "2024-uts2-q4",
@@ -863,15 +1088,26 @@ export const module: CourseModule = {
         ],
         "original": "4. Thermocouple: Temperature Measurement & Measurement Characteristics\nAn iron v. constantan thermocouple (Type J) is used to measure temperatures in the ranges of 0°C to 300°C. The e.m.f. values for the thermocouple are provided in the following table.\nType: Iron v. constantan, Type J. Temperature range: −20 to +700°C. E.m.f. values (μV): \\(E_{0,0}=0\\), \\(E_{100,0}=5269\\), \\(E_{200,0}=10779\\), \\(E_{300,0}=16327\\).\n(a) [10%] Calculate the non-linearity at 100°C and 200°C as a percentage of the full scale.\n(b) [5%] For the temperature range between 100°C and 300°C, the thermocouple e.m.f. is expressed as \\(E_{T,0}=a_1T+a_2T^2\\). Calculate \\(a_1\\) and \\(a_2\\).\n(c) [10%] If the measured e.m.f. is 12500 μV relative to a reference junction at 20°C, and the reference junction circuit voltage is 1000 μV, use the results from question (b) to estimate the temperature of the measured junction.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            4,
-            5,
-            6
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (2022)",
+            "pages": [
+              4,
+              5,
+              6
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Nonlinearitas memakai garis ujung 0 sampai 300°C. Model kuadrat memakai titik 100 dan 300°C; soal tidak menetapkan metode pencocokan."
@@ -979,7 +1215,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Besar nonlinearitasnya 1,062% pada 100°C dan 0,647% pada 200°C. Model dua titik memberi suhu sekitar 250,04°C setelah kompensasi referensi.\n\n$$\n\\boxed{\\begin{aligned}|N_{100}|&=1.062\\%,\\quad|N_{200}|=0.647\\%\\\\a_1&=51.82333\\ \\mu\\mathrm V/{}^\\circ\\mathrm C\\\\a_2&=0.008666667\\ \\mu\\mathrm V/{}^\\circ\\mathrm C^2\\\\T&\\approx250.04^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 12 dan 13 memberi dasar garis ujung, ketaklinieran, dan sensitivitas termokopel. Bagian 3 halaman 4 sampai 6 melengkapi jenis serta prinsip termokopel.",
+        "Polinom kuadrat pada pembahasan merangkum titik data yang dipilih dengan asumsi yang tertulis. Sumber tambahan tidak membuat polinom itu menjadi hukum tepat untuk seluruh rentang suhu."
+      ]
     },
     {
       "id": "2024-uas-q1",
@@ -995,10 +1235,17 @@ export const module: CourseModule = {
         ],
         "original": "1. [20%] Systematic Characteristics of Measurement Systems\nThe following table presents the test results of a pressure transducer in a laboratory under the following conditions:\n(i) Ambient temperature 25°C, supply voltage 9 V (standard).\n(ii) Ambient temperature 25°C, supply voltage 12 V.\n(iii) Ambient temperature 30°C, supply voltage 9 V.\nInput (barg): 0, 4, 8, 12, 16.\nOutput (mA), condition (i): 4, 11.0, 16.0, 22.8, 29.6.\nOutput (mA), condition (ii): 4, 13.2, 21.3, 31.1, 39.2.\nOutput (mA), condition (iii): 6, 12.5, 18.1, 25.5, 31.6.\n(a) [10%] Determine the values of \\(K_M,K_I,a,K\\) associated with the model equation \\(O=(K+K_MI_M)I+a+K_II_I\\). Complete your answer with the units.\n(b) [10%] Calculate the maximum non-linearity as a percentage of the full-scale deflection (f.s.d.).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025.",
@@ -1139,7 +1386,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "K = 1,6 mA/bar, a = 4 mA, KM = 0,2 mA/(bar·V), KI = 0,4 mA/°C. Nonlinearitas maksimum pada kondisi standar adalah 3,125% f.s.d.\n\n$$\n\\boxed{\\begin{aligned}K&=1.6\\ \\mathrm{mA/bar},&a&=4\\ \\mathrm{mA}\\\\K_M&=0.2\\ \\mathrm{mA/(bar\\,V)},&K_I&=0.4\\ \\mathrm{mA/{}^\\circ C}\\\\N_{max}&=3.125\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 11 dan 12 memberi jangkauan, garis dua ujung, serta persen ketaklinieran terhadap jangkauan keluaran. Halaman 13 membedakan kemiringan garis acuan dari sensitivitas setempat.",
+        "Tahun soal mengikuti folder UAS 2024; naskah mencetak tanggal Januari 2025. Rujukan materi tidak mengubah identitas arsip, tabel tekanan, atau nilai pengukuran pada soal."
+      ]
     },
     {
       "id": "2023-uts1-q2",
@@ -1155,10 +1406,18 @@ export const module: CourseModule = {
         ],
         "original": "2. [40%] Systematic Characteristic of Measurement Systems\nA calibration process is conducted to find the systematic characteristic of a strain-gauge-based force measurement system under three different conditions. Condition I is considered as a standard, where the ambient temperature is kept constant at \\(T=20^\\circ\\mathrm C\\) and the power supply is set at \\(V_s=10\\) volts. Under Condition II, the temperature is set at \\(T=25^\\circ\\mathrm C\\) and the power supply is set at \\(V_s=10\\) volts. Under Condition III, the temperature is set at \\(T=20^\\circ\\mathrm C\\) and the power supply is set at \\(V_s=12\\) volts. The results are summarized in the following table.\nInput in kgf: 0, 10, 20, 30, 40, 50.\nCondition I, output in volts: 0.00, 0.11, 0.23, 0.34, 0.42, 0.50.\nCondition II, output in volts: 0.02, 0.11, 0.25, 0.36, 0.44, 0.52.\nCondition III, output in volts: 0.00, 0.13, 0.27, 0.40, 0.50, 0.60.\na. [10%] If the model of ideal system is \\(O=KI+a\\), where O denotes output in volts and I denotes input in kgf, find K and a.\nb. [10%] Find interfering constant \\(K_I\\) and interfering input \\(I_I\\).\nc. [10%] Find modifying constant \\(K_M\\) and modifying input \\(I_M\\).\nd. [10%] Find maximum nonlinearity of the system in percentage of F.S.D. (Full Scale Displacement).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              12,
+              13,
+              14,
+              15
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Garis ideal menggunakan titik ujung karena soal tidak menetapkan metode regresi. Masukan lingkungan dinyatakan sebagai perubahan dari 20°C dan 10 V.",
@@ -1303,7 +1562,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Dengan garis ujung: K=0.010 V/kgf dan a=0 V. Pengaruh suhu: II=T−20°C, KI=0.004 V/°C. Pengaruh catu: IM=Vs−10 V, KM=0.001 V/(kgf·V). Nonlinearitas maksimum 8.0% F.S.D.\n\n$$\n\\boxed{\\begin{aligned}K&=0.010\\ \\mathrm{V/kgf},&a&=0\\\\K_I&=0.004\\ \\mathrm{V/{}^\\circ C},&K_M&=0.001\\ \\mathrm{V/(kgf\\,V)}\\\\N_{\\max}&=8.0\\%\\ \\mathrm{F.S.D.}\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 12 sampai 14 mendasari garis acuan dan perbandingan kemiringan serta titik nol pada kondisi lingkungan yang berbeda. Halaman 15 menunjukkan bahwa satu pengaruh lingkungan dapat berperan sebagai pengubah dan pengganggu.",
+        "Kondisi standar soal ialah 20 °C dan 10 V. Gunakan deviasi dari nilai itu, serta pertahankan keluaran 0,11 V sebagaimana tercetak saat membandingkan data."
+      ]
     },
     {
       "id": "2023-uas-q5",
@@ -1319,11 +1582,18 @@ export const module: CourseModule = {
         ],
         "original": "5. Systematic Characteristic of Measurement Systems\nA pressure sensor has an input range of 0.0 to 3.0 BarG and a standard supply voltage Vs = 0.5 volts. Using the calibration result given in the table,\na. [5%] Calculate the slope K and a of the ideal straight line.\nb. [5%] Calculate the constants KM and KI associated with supply voltage variations.\nc. [5%] Calculate the maximum non-linearity as a percentage of f.s.d.\nPressure x in Bar gauge (BarG): 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0.\nOutput voltage in millivolts (Vs = 0.5 volts): 0.0, 16.5, 32.0, 44.0, 51.5, 55.5, 58.5.\nOutput voltage in millivolts (Vs = 0.6 volts): 0.0, 21.0, 41.5, 56.0, 65.0, 70.5, 74.0.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": []
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              12,
+              13,
+              14
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Pakai garis ujung, bukan regresi kuadrat terkecil. KM dan KI merujuk perubahan catu dari 0.5 V."
@@ -1433,7 +1703,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Dengan garis ujung: K=19.5 mV/barG, a=0, KM=51.6667 mV/(barG·V), KI=0. Ketaklinearan maksimum 25.2137% f.s.d.\n\n$$\n\\boxed{\\begin{aligned}K&=19.5\\ \\mathrm{mV/barG},&a&=0\\\\K_M&=51.6667\\ \\mathrm{mV/(barG\\,V)},&K_I&=0\\\\N_{\\max}&=25.2137\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal."
+      "takeaway": "Jangan membagi galat dengan rentang yang berbeda dari acuan soal.",
+      "sourceNotes": [
+        "Bagian 1 halaman 12 dan 13 memberi garis ujung dan model lingkungan. Halaman 14 menunjukkan bahwa perubahan catu dapat mengubah sensitivitas alat.",
+        "Pada soal ini, perubahan catu dihitung dari 0,5 V. Pisahkan perubahan kemiringan dan titik nol dari selisih ketaklinieran pada titik tengah."
+      ]
     },
     {
       "id": "ipe-calibration-practice",
@@ -1654,19 +1928,19 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
   "title": "Calibration and disturbances",
   "items": {
     "ipe-calibration-material": {
-      "title": "Distinguish gain changes from zero shifts",
+      "title": "Read calibration lines, deviations, and limits",
       "examHook": {
         "prompt": "The sensor supply changes. Do all outputs shift equally, or does the shift depend on the input?",
         "targetOutcome": "You can choose a calibration model and explain its limits."
       },
-      "body": "Calibration compares instrument outputs with reference inputs. Read the shape of that relation before choosing numbers. A line can change through a zero shift, a sensitivity change, or both.\n\nUse the same range and test conditions when comparing two curves. State any conflict in the source data.\n\n[Open the worked solution: Temperature calibration and supply effects](?item=2025-uts1-q1).",
+      "body": "Calibration compares instrument output with a reference input. Before calculating, record the range, units, environmental conditions, and direction of testing. Part 1 defines slope, zero offset, nonlinearity, and hysteresis.\n\nUse a common reference when comparing data. If a question contains conflicting ranges or units, state the limits of your conclusion.\n\n[Open the worked solution: Temperature calibration and supply effects](?item=2025-uts1-q1).",
       "microUnits": [
         {
           "id": "ipe-calibration-principle",
-          "title": "Choose a model from the stated conditions",
-          "intuition": "An equal output shift suggests a zero change. A shift that grows with input suggests a slope change. **Sensitivity** is the output change per input change. It describes that slope. Distinguishing the two changes helps you choose the correct correction term.",
-          "formal": "A straight-line model uses:\n\n$$y=Kx+a.$$\n\n$K$ is sensitivity and $a$ is the output at zero input. Compare output differences at the same input.",
-          "validityBounds": "A line model applies within its calibration range. Static calibration does not guarantee good response to rapid inputs. For hysteresis, compare rising and falling paths at the same input.",
+          "title": "Set the range, span, and reference line",
+          "intuition": "A range names the minimum and maximum values. A span is their difference. For example, an output range of 4 to 20 mA has a 16 mA span. You need this difference when calculating slope and percentage error.",
+          "formal": "Part 1, pages 11 and 12, uses the line through the two endpoints:\n\n$$O_{\\mathrm{ideal}}=KI+a,\\qquad K=\\frac{O_{\\max}-O_{\\min}}{I_{\\max}-I_{\\min}},\\qquad a=O_{\\min}-KI_{\\min}.$$\n\n$K$ is output change per input change; its units follow that ratio.",
+          "validityBounds": "An endpoint line differs from a regression fit. Use the method requested in the question. If the table stops short of the stated range, separate data-based results from extrapolation.",
           "decisionCheck": {
             "prompt": "Two calibration lines intersect at zero input. The second line is steeper. Which model term changes?",
             "options": [
@@ -1688,18 +1962,136 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
             ],
             "explanation": "In a line model, sensitivity multiplies the input. A sensitivity change makes output differences grow as the input moves away from zero."
           }
+        },
+        {
+          "id": "ipe-calibration-nonlinearity",
+          "title": "Measure deviation from the same line",
+          "intuition": "A real sensor curve may depart from its reference line. Nonlinearity measures the output difference at the same input. Keep the sign at each point, then use the magnitude to find the largest deviation.",
+          "formal": "Part 1, page 12, defines:\n\n$$N(I)=O(I)-(KI+a),$$\n\n$$N_{\\%}=\\frac{\\max |N(I)|}{O_{\\max}-O_{\\min}}\\,100\\%.$$\n\nThe denominator is the output span you state as the reference, not automatically the largest output.",
+          "validityBounds": "From a table, you only know the largest deviation at the tested points. You need a model or more data to establish the maximum between points or beyond the tabulated range.",
+          "decisionCheck": {
+            "prompt": "A sensor output ranges from 4 to 20 mA. Its largest reference-line deviation is 0.4 mA. What percentage of output span do you report?",
+            "options": [
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-1",
+                "label": "2.5%, because the output span is 16 mA.",
+                "feedback": "Correct. You divide 0.4 mA by 20−4 mA, then multiply by 100%."
+              },
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-2",
+                "label": "2%, because the denominator is always the maximum output of 20 mA.",
+                "feedback": "The minimum output is nonzero. The span is 20−4 mA."
+              },
+              {
+                "id": "ipe-calibration-nonlinearity-decision-option-3",
+                "label": "4%, because you must multiply 0.4 by ten.",
+                "feedback": "Before you report a percentage, choose its reference. A factor of ten does not follow from this span."
+              }
+            ],
+            "explanation": "Use $0.4/(20-4)\\times100\\%=2.5\\%$. The mA units cancel because numerator and denominator are both outputs."
+          }
+        },
+        {
+          "id": "ipe-calibration-local-sensitivity",
+          "title": "Distinguish line slope from local sensitivity",
+          "intuition": "The endpoint line summarizes change across the whole range. On a nonlinear curve, a small output change may differ at each input. Local sensitivity describes that small-change response.",
+          "formal": "For $O(I)=KI+a+N(I)$, Part 1, page 13, gives:\n\n$$\\frac{dO}{dI}=K+\\frac{dN}{dI}.$$\n\nIf $N(I)=0$, sensitivity equals $K$. If $N(I)$ changes with $I$, sensitivity may change too.",
+          "validityBounds": "Input-to-output sensitivity has output units per input unit. An inverse model uses the opposite direction. Do not interchange the two ratios when selecting a coefficient.",
+          "decisionCheck": {
+            "prompt": "Two curves share the same endpoints but have different shapes between them. What can you conclude?",
+            "options": [
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-1",
+                "label": "Their endpoint slopes match; their local sensitivities may differ.",
+                "feedback": "Correct. The endpoints set the reference line, but they do not set every local derivative."
+              },
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-2",
+                "label": "Their local sensitivities must match at every input.",
+                "feedback": "Local sensitivity follows the curve’s derivative, not just its endpoints."
+              },
+              {
+                "id": "ipe-calibration-local-sensitivity-decision-option-3",
+                "label": "Both curves must have zero nonlinearity.",
+                "feedback": "Intermediate points can depart from the line even when the endpoints match."
+              }
+            ],
+            "explanation": "The endpoint line gives you $K$. Actual sensitivity is $K+dN/dI$, so the shape of $N(I)$ also matters."
+          }
+        },
+        {
+          "id": "ipe-calibration-environment",
+          "title": "Separate slope and zero shifts",
+          "intuition": "A disturbance that changes slope produces an output difference that depends on input. A disturbance that shifts zero produces a constant difference. One supply change may cause both effects.",
+          "formal": "Part 1, page 13, uses:\n\n$$O=(K+K_MI_M)I+a+K_II_I+N(I).$$\n\n$I_M$ and $I_I$ are environmental deviations from standard conditions. Compare slopes and zero offsets across the conditions.",
+          "validityBounds": "Before you substitute values, state the standard conditions. If a standard temperature or supply is missing, you can write a deviation model without inventing its absolute value.",
+          "decisionCheck": {
+            "prompt": "After a supply change, the zero-input output shifts and the line becomes steeper. Which terms do you need?",
+            "options": [
+              {
+                "id": "ipe-calibration-environment-decision-option-1",
+                "label": "Both a slope-change term and a zero-shift term.",
+                "feedback": "Correct. One physical cause can produce two kinds of line change."
+              },
+              {
+                "id": "ipe-calibration-environment-decision-option-2",
+                "label": "Only a zero-shift term, because there is just one supply change.",
+                "feedback": "The number of causes does not set the number of model terms. Your data shows two changes."
+              },
+              {
+                "id": "ipe-calibration-environment-decision-option-3",
+                "label": "Only nonlinearity, because every new line must curve.",
+                "feedback": "A steeper line can still be linear. A shift and slope change do not establish curvature."
+              }
+            ],
+            "explanation": "Compare zero-input outputs to obtain the $K_II_I$ term. Compare slopes to obtain the $K_MI_M$ term."
+          }
+        },
+        {
+          "id": "ipe-calibration-hysteresis-resolution",
+          "title": "Separate hysteresis from resolution",
+          "intuition": "The same input may give two outputs because the test approaches it from different directions. We call this path dependence hysteresis. Resolution concerns input changes that do not yet produce a readable output change. You need to distinguish these effects because they limit a reading in different ways.",
+          "formal": "Using the rising and falling curves on Part 1, page 14, the separation magnitude is:\n\n$$H(I)=|O_{\\uparrow}(I)-O_{\\downarrow}(I)|,\\qquad H_{\\%}=\\frac{\\max H(I)}{O_{\\max}-O_{\\min}}\\,100\\%.$$\n\nCompare both paths at the same input, so you isolate the effect of path direction.",
+          "validityBounds": "Do not automatically halve the path separation. Half is appropriate only when the question asks each path’s deviation from a middle curve. Static data does not establish response speed.",
+          "decisionCheck": {
+            "prompt": "The largest rising-falling separation is 0.6 V. Output ranges from 2 to 10 V. What full hysteresis percentage should you report?",
+            "options": [
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-1",
+                "label": "7.5%, from 0.6 divided by the 8 V span.",
+                "feedback": "Correct. The question asks for the full separation relative to output span."
+              },
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-2",
+                "label": "3.75%, because you must always halve the separation.",
+                "feedback": "Half the separation describes deviation from a middle curve, not the requested full separation."
+              },
+              {
+                "id": "ipe-calibration-hysteresis-resolution-decision-option-3",
+                "label": "6%, from 0.6 divided by the maximum output of 10 V.",
+                "feedback": "Span subtracts minimum output from maximum output. Here the span is 8 V."
+              }
+            ],
+            "explanation": "You use $0.6/(10-2)\\times100\\%=7.5\\%$. The path-direction sign does not change this separation magnitude."
+          }
         }
       ],
       "checkpoints": [
-        "You can choose a calibration model and explain its limits.",
-        "Comparing the same input separates disturbance effects from changes in the measured quantity.",
-        "Do not normalize an error using a range different from the stated reference."
+        "You can calculate the span and endpoint reference line.",
+        "You can keep each nonlinearity sign and then find the largest magnitude.",
+        "You can separate supply effects on slope and zero offset.",
+        "You can distinguish hysteresis, resolution, and dynamic response."
       ],
       "derivations": [
         {
           "id": "ipe-calibration-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "[Part 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view): page 11 distinguishes range and span. Page 12 gives the endpoint line and nonlinearity. Page 13 gives sensitivity and environmental effects. Page 14 gives hysteresis and resolution, then page 15 gives the general sensor model.\n\n[Part 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view): pages 4 and 5 cover environmental compensation; pages 6 to 8 give time and frequency response. [Part 3, page 19](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view) defines the sensor working-frequency range.\n\nPage numbers count physical PDF pages from 1. Problem data still follows the [exam archive](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END); the solutions flag incomplete ranges, units, and conditions."
+        },
+        {
+          "id": "ipe-calibration-environment-derivation",
+          "title": "Obtain disturbance coefficients from two lines",
+          "content": "Let the line at the standard supply be $O_0=K_0I+a_0$. After a supply change $\\Delta V_s$, let it be $O_1=K_1I+a_1$. For a model summarizing the change between these lines, subtract them:\n\n$$O_1-O_0=(K_1-K_0)I+(a_1-a_0).$$\n\nIf supply change acts as both environmental inputs, use $I_M=I_I=\\Delta V_s$. Match coefficients with the model on Part 1, page 13:\n\n$$K_M=\\frac{K_1-K_0}{\\Delta V_s},\\qquad K_I=\\frac{a_1-a_0}{\\Delta V_s}.$$\n\nCheck units: $K_M\\Delta V_s$ must have slope units, while $K_I\\Delta V_s$ has output units. You still need to calculate residual nonlinearity at intermediate points; two endpoint lines do not prove that every point follows the model exactly."
         }
       ]
     },
@@ -1776,7 +2168,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "$K=5\\ \\mathrm{mV/{}^\\circ C}$, $a=0$, $K_M=1/6\\ \\mathrm{mV/({}^\\circ C\\,V)}$, and $K_I=5/3\\ \\mathrm{mV/V}$. The largest measured-point deviation is 8 mV at 60 °C. That deviation is 1.778% of the 450 mV table span. It is 1.333% of a 600 mV nominal span extrapolated to 120 °C. The maximum over 90 to 120 °C remains unknown.\n\n$$\n\\boxed{K=5,\\quad a=0,\\quad K_M=\\tfrac16,\\quad K_I=\\tfrac53,\\quad\\max|N|_{\\mathrm{sampled}}=8\\ \\mathrm{mV}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 11 to 13, supports span, endpoint lines, nonlinearity, and environmental coefficients. Page 14 gives a supply-change example that changes slope.",
+        "The exam table stops at 90 °C although the stated range reaches 120 °C. The source definitions do not fill that data gap: normalization by 600 mV still uses extrapolation, and the maximum over the whole range remains unproven."
+      ]
     },
     "2025-uts1-q4": {
       "title": "Liquid-level sensor hysteresis",
@@ -1865,7 +2261,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Maximum sampled hysteresis is 1.2 V, at 14 cm and 16 cm. Relative to the 36.8 V output span, maximum hysteresis is approximately 3.26% f.s.d.\n\n$$\n\\boxed{H_{\\max}=1.2\\ \\mathrm V,\\qquad H_{\\%\\mathrm{fsd}}=3.26087\\%}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, page 14, defines hysteresis from the output separation between rising and falling paths at the same input. Page 11 defines span as maximum minus minimum.",
+        "The solution uses the full path separation and the 36.8 V output span. The sampled points support only the largest observed separation; the curves between points are not known."
+      ]
     },
     "2025-uts2-q6": {
       "title": "Choosing static or dynamic calibration",
@@ -1959,7 +2359,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Dynamic calibration is needed when sensor response time affects the result. Static calibration still establishes scale and offset; dynamic calibration adds amplitude, phase, and frequency-limit information.",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 11 to 15, covers static properties, including sensitivity, nonlinearity, hysteresis, resolution, and environmental effects. These describe the relationship after conditions settle.",
+        "Part 2, pages 6 to 8, adds response time, damping, and frequency response. Part 3, page 19, links working-frequency range to sensitivity. Static calibration alone does not establish correct readings for rapidly changing inputs."
+      ]
     },
     "2025-uas-q2": {
       "title": "Sensor calibration and supply variation",
@@ -2038,7 +2442,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "For the 0 to 3 cm table, endpoint lines give K = 38.667 mV/cm and KI = 0. The value of KM is approximately 53.333 mV/(cm·V). Maximum sampled nonlinearity is 25.86% of full scale.\n\n$$\n\\boxed{\\begin{aligned}K&=38.667\\ \\mathrm{mV/cm},\\quad K_I=0\\ \\mathrm{mV/V}\\\\K_M&\\approx53.333\\ \\mathrm{mV/(cm\\,V)}\\\\N_{\\max}&=25.86\\%\\ \\mathrm{FS}\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 12 and 13, gives endpoint lines and separates slope changes from zero shifts. Environmental inputs are changes from standard conditions, not absolute supply values.",
+        "The exam states a range of 0 to 0.3 cm, while the table reaches 3.0. The solution retains this discrepancy and uses the table values in its calculations. The theory source cannot establish which unit or number the exam author intended."
+      ]
     },
     "2024-uts1-q2": {
       "title": "Ideal line and thermocouple nonlinearity",
@@ -2101,7 +2509,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The ideal line is E = 54.776 T in μV. Signed nonlinearity is −209.6 μV (−0.76530% f.s.d.) at 100°C and −107.8 μV (−0.39360% f.s.d.) at 300°C. Magnitudes are 0.76530% and 0.39360%.\n\n$$\n\\boxed{\\begin{aligned}E_{\\mathrm{lin}}&=54.776T\\quad[\\mu\\mathrm V]\\\\N(100)&=-209.6\\ \\mu\\mathrm V=-0.76530\\%\\ \\mathrm{f.s.d.}\\\\N(300)&=-107.8\\ \\mu\\mathrm V=-0.39360\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, page 12, sets the ideal line through the range endpoints and defines nonlinearity as actual output minus that line. Page 13 applies the method to a thermocouple.",
+        "Use this exam’s thermocouple data. The slide example coefficients explain the method and do not replace the exam values."
+      ]
     },
     "2024-uts1-q5": {
       "title": "Temperature and supply effects on a pressure gauge",
@@ -2164,7 +2576,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "K=4 mA/bar, a=0.04 mA, K_M=−0.5 mA/(bar·V), and K_I=0.004 mA/°C. Supply variation modifies sensitivity; temperature variation shifts offset.\n\n$$\n\\boxed{\\begin{aligned}K&=4\\ \\mathrm{mA/bar},&a&=0.04\\ \\mathrm{mA}\\\\K_M&=-0.5\\ \\mathrm{mA/(bar\\,V)},&K_I&=0.004\\ \\mathrm{mA}/{}^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, page 13, treats environmental inputs as deviations from standard conditions. A term multiplying the input changes slope; an added term changes zero offset.",
+        "Part 2, pages 4 and 5, explains isolation, compensation, and feedback for reducing environmental effects. The exam still lacks some absolute reference values, so illustrative numerical points are not new calibration data."
+      ]
     },
     "2024-uts2-q4": {
       "title": "Thermocouple nonlinearity and a fitted model",
@@ -2247,7 +2663,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Nonlinearity magnitudes are 1.062% at 100°C and 0.647% at 200°C. The endpoint-fitted model gives approximately 250.04°C after reference compensation.\n\n$$\n\\boxed{\\begin{aligned}|N_{100}|&=1.062\\%,\\quad|N_{200}|=0.647\\%\\\\a_1&=51.82333\\ \\mu\\mathrm V/{}^\\circ\\mathrm C\\\\a_2&=0.008666667\\ \\mu\\mathrm V/{}^\\circ\\mathrm C^2\\\\T&\\approx250.04^\\circ\\mathrm C\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 12 and 13, gives the basis for endpoint lines, nonlinearity, and thermocouple sensitivity. Part 3, pages 4 to 6, adds thermocouple types and principles.",
+        "The quadratic in the solution summarizes selected data points under the stated assumptions. The added source does not make that polynomial an exact law over the full temperature range."
+      ]
     },
     "2024-uas-q1": {
       "title": "Calibrating a pressure transducer",
@@ -2346,7 +2766,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "K = 1.6 mA/bar, a = 4 mA, KM = 0.2 mA/(bar·V), KI = 0.4 mA/°C. Maximum standard-condition nonlinearity is 3.125% f.s.d.\n\n$$\n\\boxed{\\begin{aligned}K&=1.6\\ \\mathrm{mA/bar},&a&=4\\ \\mathrm{mA}\\\\K_M&=0.2\\ \\mathrm{mA/(bar\\,V)},&K_I&=0.4\\ \\mathrm{mA/{}^\\circ C}\\\\N_{max}&=3.125\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 11 and 12, gives span, the endpoint line, and nonlinearity as a percentage of output span. Page 13 distinguishes the reference-line slope from local sensitivity.",
+        "The exam year follows the 2024 final-exam folder; the paper prints a January 2025 date. The course reference does not change the archive identity, pressure table, or measured values."
+      ]
     },
     "2023-uts1-q2": {
       "title": "Force calibration at different temperatures and supplies",
@@ -2445,7 +2869,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Using endpoint lines: K=0.010 V/kgf and a=0 V. Temperature effect: II=T−20°C, KI=0.004 V/°C. Supply effect: IM=Vs−10 V, KM=0.001 V/(kgf·V). Maximum nonlinearity is 8.0% F.S.D.\n\n$$\n\\boxed{\\begin{aligned}K&=0.010\\ \\mathrm{V/kgf},&a&=0\\\\K_I&=0.004\\ \\mathrm{V/{}^\\circ C},&K_M&=0.001\\ \\mathrm{V/(kgf\\,V)}\\\\N_{\\max}&=8.0\\%\\ \\mathrm{F.S.D.}\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 12 to 14, supports the reference line and comparison of slopes and zero offsets across environmental conditions. Page 15 shows that one environmental effect may act as both a modifying and an interfering input.",
+        "The question’s standard conditions are 20 °C and 10 V. Use deviations from those values and retain the printed 0.11 V output when comparing the data."
+      ]
     },
     "2023-uas-q5": {
       "title": "Calibration and supply-voltage effects",
@@ -2518,7 +2946,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Using endpoint lines: K=19.5 mV/barG, a=0, KM=51.6667 mV/(barG·V), KI=0. Maximum nonlinearity is 25.2137% f.s.d.\n\n$$\n\\boxed{\\begin{aligned}K&=19.5\\ \\mathrm{mV/barG},&a&=0\\\\K_M&=51.6667\\ \\mathrm{mV/(barG\\,V)},&K_I&=0\\\\N_{\\max}&=25.2137\\%\\ \\mathrm{f.s.d.}\\end{aligned}}\n$$",
-      "takeaway": "Do not normalize an error using a range different from the stated reference."
+      "takeaway": "Do not normalize an error using a range different from the stated reference.",
+      "sourceNotes": [
+        "Part 1, pages 12 and 13, gives the endpoint line and environmental model. Page 14 shows that a supply change can alter instrument sensitivity.",
+        "In this question, supply change is measured from 0.5 V. Separate slope and zero changes from residual nonlinearity at intermediate points."
+      ]
     },
     "ipe-calibration-practice": {
       "title": "Practice: Calibration and disturbances",

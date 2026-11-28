@@ -10,7 +10,7 @@ export const module: CourseModule = {
       "kind": "material",
       "slug": "ipe-temperature-material",
       "title": "Periksa acuan sebelum mencari suhu",
-      "estimatedMinutes": 6,
+      "estimatedMinutes": 12,
       "examHook": {
         "prompt": "Tabel termokopel mengacu pada 0 °C, tetapi terminal alat berada pada suhu ruang. Bagaimana Anda memakai tegangan terukur?",
         "targetOutcome": "Anda dapat memilih koreksi referensi dan skala suhu yang sesuai."
@@ -48,6 +48,70 @@ export const module: CourseModule = {
             "correctOptionId": "ipe-temperature-decision-question-option-1",
             "explanation": "Ikuti satuan pada definisi model. Konstanta model yang memakai kelvin tidak dapat langsung dipakai bersama angka Celsius."
           }
+        },
+        {
+          "id": "ipe-temperature-static-reference",
+          "title": "Pisahkan ketaklinieran dan koreksi referensi",
+          "intuition": "Bagian 1, halaman PDF 12-14, membahas dua sebab selisih yang berbeda. Kurva sensor dapat menyimpang dari garis ideal. Suhu terminal juga dapat mengubah tegangan yang Anda baca. Tentukan dahulu selisih mana yang ditanya.",
+          "formal": "Untuk rentang $T_a$ sampai $T_b$, tulis $K=[E(T_b,0)-E(T_a,0)]/(T_b-T_a)$ dan $E_{\\mathrm{ideal}}(T)=E(T_a,0)+K(T-T_a)$. Lalu $N(T)=E(T,0)-E_{\\mathrm{ideal}}(T)$. Persen simpangan pada titik itu adalah $100|N(T)|/|E(T_b,0)-E(T_a,0)|$.",
+          "validityBounds": "Pakai tipe termokopel, rentang, satuan tegangan, serta acuan yang sama. Simpangan pada satu titik tidak selalu menjadi simpangan terbesar. Koreksi referensi memakai tegangan, sehingga jangan menambah suhu begitu saja.",
+          "decisionCheck": {
+            "id": "ipe-temperature-static-reference-check",
+            "prompt": "Tabel memberi tegangan termokopel terhadap 0 °C. Soal meminta ketaklinieran pada satu suhu dalam rentang tertentu. Apa pembagi yang tepat untuk persen skala penuh?",
+            "options": [
+              {
+                "id": "ipe-temperature-static-reference-option-1",
+                "label": "Rentang tegangan antara kedua ujung rentang suhu.",
+                "feedback": "Tepat. Pembilang dan pembagi sama-sama memiliki satuan tegangan."
+              },
+              {
+                "id": "ipe-temperature-static-reference-option-2",
+                "label": "Suhu titik yang sedang diperiksa.",
+                "feedback": "Membagi tegangan dengan suhu menghasilkan sensitivitas, bukan persen simpangan.",
+                "misconceptionTag": "ipe-temperature-static-reference-error-2"
+              },
+              {
+                "id": "ipe-temperature-static-reference-option-3",
+                "label": "Tegangan terukur tanpa memeriksa suhu referensi.",
+                "feedback": "Tegangan terukur dapat memakai acuan lain dan bukan rentang keluaran penuh.",
+                "misconceptionTag": "ipe-temperature-static-reference-error-3"
+              }
+            ],
+            "explanation": "Skala penuh mengacu pada rentang keluaran tegangan yang membentuk garis ideal. Selisih suhu dipakai untuk kemiringan garis, bukan sebagai pembagi simpangan tegangan.",
+            "correctOptionId": "ipe-temperature-static-reference-option-1"
+          }
+        },
+        {
+          "id": "ipe-temperature-time-response",
+          "title": "Hitung waktu sejak suhu berubah",
+          "intuition": "Bagian 2, halaman PDF 6-7, memodelkan sensor yang perlu waktu untuk mendekati nilai akhir. Kalibrasi statik memberi hubungan saat keadaan sudah tunak. Konstanta waktu menentukan seberapa cepat sensor mendekati keadaan itu.",
+          "formal": "Untuk masukan yang berubah sekali pada $t_0$, $R(t)=R_\\infty+[R(t_0)-R_\\infty]e^{-(t-t_0)/\\tau}$ bagi $t\\ge t_0$. Anda memperoleh $R_\\infty$ dari kalibrasi statik. Setelah satu $\\tau$, sisa selisih adalah $e^{-1}$ dari selisih awal.",
+          "validityBounds": "Model ini memakai satu konstanta waktu, parameter tetap, dan masukan yang tetap setelah perubahan. Tetapkan keadaan awal dan waktu perubahan. Jangan memakai nilai kalibrasi akhir sebagai pembacaan sesaat.",
+          "decisionCheck": {
+            "id": "ipe-temperature-time-response-check",
+            "prompt": "Suhu berubah pada detik ke-1. Anda mencari bacaan pada detik ke-2. Waktu mana yang masuk ke pangkat eksponensial?",
+            "options": [
+              {
+                "id": "ipe-temperature-time-response-option-1",
+                "label": "1 detik, yaitu 2 dikurangi 1.",
+                "feedback": "Tepat. Sensor telah merespons selama satu detik."
+              },
+              {
+                "id": "ipe-temperature-time-response-option-2",
+                "label": "2 detik karena itu waktu pembacaan.",
+                "feedback": "Itu menghitung satu detik sebelum perubahan suhu sebagai bagian dari respons.",
+                "misconceptionTag": "ipe-temperature-time-response-error-2"
+              },
+              {
+                "id": "ipe-temperature-time-response-option-3",
+                "label": "3 detik karena kedua waktu perlu dijumlahkan.",
+                "feedback": "Waktu respons merupakan selisih, bukan jumlah kedua waktu.",
+                "misconceptionTag": "ipe-temperature-time-response-error-3"
+              }
+            ],
+            "explanation": "Respons dimulai pada saat masukan berubah. Gunakan selang waktu sejak perubahan itu, bukan angka jam pengamatan.",
+            "correctOptionId": "ipe-temperature-time-response-option-1"
+          }
         }
       ],
       "checkpoints": [
@@ -59,7 +123,7 @@ export const module: CourseModule = {
         {
           "id": "ipe-temperature-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "Baca bagian yang sesuai dengan model yang Anda pakai. Nomor di bawah menghitung halaman PDF dari 1; satu halaman dapat memuat beberapa slide.\n\n[Pengukuran Teknik, Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), halaman PDF 11, 12, 13, 14, 16: Rentang, garis ideal, ketaklinieran, sensitivitas, dan pengaruh suhu referensi.\n\n[Pengukuran Teknik, Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), halaman PDF 6, 7: Model orde satu dan respons terhadap perubahan suhu.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), halaman PDF 2, 3, 4, 5, 6, 19, 20, 24, 25, 26: Jenis sensor suhu, model tahanan, hukum termokopel, dan tabel acuan.\n\n[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Setiap soal menyimpan naskah, halaman ujian, dan asumsi tersendiri."
         }
       ]
     },
@@ -79,17 +143,29 @@ export const module: CourseModule = {
         ],
         "original": "2. Temperature Sensor: Thermocouple\nA Type J thermocouple is used to measure temperature of air inside a pipe, as shown in the following figure. Hint: Use the table in the appendix to answer the following questions.\na. [5%] If the reference junction temperature is 0°C, calculate the percentage non-linearity at 150°C for a measurement range of 0 to 400°C.\nb. [10%] Calculate the temperature inside a pipe if an emf of 12.7 mV is measured relative to a reference junction of 20°C.\nFigure data: Air, V = 50 m/s; emf measured against Tref. Appendix: Type J thermocouple, reference junctions at 0°C. Relevant table entries (°C → mV): 0 → 0.000; 20 → 1.019; 150 → 8.010; 252 → 13.666; 253 → 13.722; 400 → 21.848.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            4,
-            5,
-            24,
-            25,
-            26
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              12,
+              13,
+              14,
+              16
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              4,
+              5,
+              24,
+              25,
+              26
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Acuan ketaklinieran memakai garis dua ujung rentang. Suhu sambungan ukur mewakili suhu udara; galat pemasangan dan perpindahan panas diabaikan."
@@ -238,7 +314,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Ketaklinieran pada 150 °C ialah 0.838% skala penuh, dengan simpangan −0.183 mV. Suhu ukur sekitar 252.95 °C.\n\n$$\n\\boxed{\\%N_{150}=0.838\\%\\ \\mathrm{FS},\\qquad T\\approx252.95^\\circ\\mathrm C}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 12-13, menetapkan garis ideal dari dua ujung rentang dan simpangan $N(T)=E(T)-E_{\\mathrm{ideal}}(T)$. Jadi, pada bagian (a), bagi besar simpangan tegangan dengan rentang **keluaran** $E(400,0)-E(0,0)$. Nilai di satu suhu tidak membuktikan simpangan terbesar di seluruh rentang.",
+        "Bagian 1, halaman PDF 14 dan 16, membahas suhu referensi sebagai pengaruh lingkungan pada termokopel. Gabungkan dasar itu dengan hukum termokopel di Bagian 3: koreksi tegangan sambungan referensi terlebih dahulu, lalu cari suhu pada tabel tipe J. Jangan menambah $20^\\circ\\mathrm C$ langsung ke hasil pembacaan tabel. Bedakan dua kondisi: saat suhu sambungan ukur tetap, kenaikan suhu referensi menurunkan tegangan terukur. Saat tegangan terukur tetap seperti pada soal, kenaikan suhu referensi menaikkan tegangan yang harus dicari pada tabel dan menaikkan suhu sambungan ukur hasil hitung."
+      ]
     },
     {
       "id": "2025-uts2-q5",
@@ -254,15 +334,27 @@ export const module: CourseModule = {
         ],
         "original": "5. RTD Sensor and Signal Conditioning\nAn RTD (Resistance Temperature Detector) is used as one arm (R4) of a Wheatstone bridge, as shown in the figure below. The RTD is used to measure a constant temperature, with the bridge operating in deflection mode. The RTD has a resistance of 25 Ω at a temperature of 0°C, and a thermal coefficient of resistance, β = 0.004 °C⁻¹. The resistance of the RTD as a function of temperature is given by: R(T) = R0(1 + βT).\na. [5%] If the RTD is subjected to a temperature of 100°C, calculate the resistance of RTD.\nb. [5%] Then, if the input voltage to the bridge is 5 V, calculate the output voltage of the bridge.\nFigure data: R2 = R3 = 100 Ω; R1 = 25 Ω at 0°C and balanced bridge conditions. Excitation connects the left and right diamond nodes; the galvanometer connects the upper and lower nodes.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            3,
-            5
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3,
+              12
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              3,
+              5,
+              19
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Pembaca keluaran berimpedansi tinggi, tahanan kabel dan pemanasan sendiri diabaikan. Polaritas sumber dan pembaca kita definisikan karena gambar tidak memberi tanda keluaran."
@@ -393,7 +485,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Tahanan RTD ialah 35 Ω. Besar tegangan keluaran 0.4167 V; dengan polaritas atas dikurangi bawah, keluarannya −0.4167 V.\n\n$$\n\\boxed{R(100^\\circ\\mathrm C)=35\\ \\Omega,\\qquad |V_o|=0.4167\\ \\mathrm V}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 2-3, membedakan sensor dari pengondisi sinyal. RTD mengubah suhu menjadi tahanan; jembatan mengubah perubahan tahanan menjadi beda tegangan. Karena itu, hitung $R(T)$ lebih dahulu, lalu hitung kedua tegangan simpul sesuai gambar. Letak catu dan tanda keluaran menentukan persamaan jembatan."
+      ]
     },
     {
       "id": "2025-uas-q4",
@@ -410,16 +505,28 @@ export const module: CourseModule = {
         ],
         "original": "4. [10%] Thermocouple\nA table of Type T Thermocouple relative to a reference junction temperature of 0°C is presented in the Appendix. Use the table to calculate:\na. [5%] The percentage non-linearity at 200°C if the temperature range is 0 to 400°C.\nb. [5%] The temperature inside a vessel is an e.m.f of 11.5 mV is measured relative to a reference junction of 25°C.\nRelevant appendix entries (°C → mV): 0 → 0.000; 25 → 0.992; 200 → 9.288; 258 → 12.461; 259 → 12.518; 400 → 20.872.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            4,
-            24,
-            25,
-            26
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              12,
+              13,
+              14,
+              16
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              4,
+              24,
+              25,
+              26
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Acuan ketaklinieran memakai garis dua ujung. Suhu sambungan ukur dianggap sama dengan suhu bejana. Nilai tegangan mengikuti tabel lampiran soal, tanpa mengganti pembulatannya."
@@ -534,7 +641,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Ketaklinieran pada 200 °C ialah 5.50% skala penuh. Setelah koreksi sambungan dingin, suhu bejana sekitar 258.54 °C.\n\n$$\n\\boxed{\\%N_{200}=5.50\\%\\ \\mathrm{FS},\\qquad T\\approx258.54^\\circ\\mathrm C}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Gunakan definisi ketaklinieran Bagian 1, halaman PDF 12-13: selisih terhadap garis dua ujung berbeda dari sensitivitas lokal $dE/dT$. Bagi besar simpangan pada $200^\\circ\\mathrm C$ dengan rentang tegangan tabel, bukan dengan suhu $200^\\circ\\mathrm C$. Untuk bagian (b), gangguan suhu referensi di halaman PDF 14 menjelaskan mengapa Anda perlu menambah tegangan acuan sebelum mencari suhu."
+      ]
     },
     {
       "id": "2024-uts1-q1",
@@ -550,14 +660,26 @@ export const module: CourseModule = {
         ],
         "original": "1. [5%] The resistance \\(R(\\theta)\\) of a thermistor at temperature \\(\\theta\\) K is given by \\(R(\\theta)=\\alpha e^{(\\beta/\\theta)}\\). Given that the resistance at the ice point \\((\\theta=273.15\\ \\mathrm K)\\) is 9.00 kΩ and the resistance at the steam point \\((\\theta=373.15\\ \\mathrm K)\\) is 0.50 kΩ, find the resistance at 25°C.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            4
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              4,
+              19,
+              20
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Model eksponensial yang diberikan dianggap berlaku di antara kedua titik kalibrasi. Pemanasan sendiri akibat arus ukur diabaikan."
@@ -670,7 +792,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Hambatan pada 25°C sekitar 3,643 kΩ. Kalibrasi model memberi β ≈ 2946,04 K.\n\n$$\n\\boxed{R(25^\\circ\\mathrm C)\\approx3.6432\\ \\mathrm{k\\Omega}}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Bagian 3, halaman PDF 19-20, memberi model termistor eksponensial. Bagian 1, halaman PDF 12-13, mengingatkan bahwa sensor yang tidak linear tidak memiliki satu sensitivitas tetap. Untuk model soal ini, $\\ln R=\\ln\\alpha+\\beta/\\theta$ membentuk garis terhadap $1/\\theta$, bukan terhadap $\\theta$. Gunakan dua suhu acuan dalam kelvin; hasil kalibrasi berlaku dalam batas model yang diberikan."
+      ]
     },
     {
       "id": "2024-uts2-q1",
@@ -687,17 +812,29 @@ export const module: CourseModule = {
         ],
         "original": "1. Temperature Sensors: RTD, Thermistor, Thermocouple\n(a) [5%] What are the differences between an RTD (Resistance Temperature Detector) and a thermistor, in terms of their characteristics and measurement ranges?\n(b) [5%] If you need to measure the temperature of approximately 1000°C, which sensor would you choose among an RTD, a thermistor, and a thermocouple? Explain why you choose this sensor.\n(c) [10%] A type J thermocouple is used to measure temperature \\(T_1\\), with the reference temperature \\(T_2\\), as shown in the figure below. The voltage output is measured using a voltmeter. If the measured temperature \\(T_1\\) is 450°C and the voltage recorded by the voltmeter is 15 mV, determine the reference temperature \\(T_2\\). Use the table provided on the last page to answer this question.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              11,
+              14
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              25,
+              26
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UTS 2",
@@ -841,7 +978,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Pilih termokopel yang sesuai untuk 1000°C. Untuk sambungan tipe J pada bagian (c), suhu referensinya sekitar 179°C.\n\n$$\n\\boxed{T_2\\approx179^\\circ\\mathrm C}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 11, memisahkan rentang input dari rentang keluaran. Pilih sensor yang mencakup suhu proses, lalu periksa syarat pemasangan dan pembacaan pada tabel Bagian 3. Untuk mencari suhu referensi, pakai $E(T_2,0)=E(T_1,0)-E_{\\mathrm{ukur}}$ dengan tipe dan polaritas yang sama; tabel beracuan nol tidak berarti sambungan nyata berada pada nol."
+      ]
     },
     {
       "id": "2024-uas-q2",
@@ -857,14 +997,26 @@ export const module: CourseModule = {
         ],
         "original": "2. [15%] Temperature Sensor (RTD) and Signal Conditioning (Wheatstone Bridge)\nAn RTD serves as one arm (\\(R_4\\)) of a Wheatstone bridge, as shown in figure below. The RTD is used to measure a constant temperature, with the bridge operating in deflection mode. The RTD has a resistance of 25 Ω at a temperature of 0°C, and a thermal coefficient of resistance, \\(\\alpha=0.003925\\ {}^\\circ\\mathrm C^{-1}\\). If the RTD is subjected to a temperature of 100°C and the input voltage to the bridge is 5 V, calculate the output voltage of the bridge.\nFigure labels: \\(R_2=R_3=100\\ \\Omega\\); \\(R_1=25\\ \\Omega\\) at 0°C and balanced bridge conditions. Supply is between the left and right nodes; the detector is between the upper and lower nodes.\nThe resistance of the RTD as a function of temperature is given by \\(R(T)=R_0(1+\\alpha T)\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            3
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3,
+              12
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              3,
+              19
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025.",
@@ -990,7 +1142,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "RTD menjadi 34,8125 Ω. Besar tegangan keluaran jembatan adalah sekitar 0,410 V; tanda mengikuti polaritas voltmeter.\n\n$$\n\\boxed{R_4=34.8125\\ \\Omega,\\qquad|V_o|\\approx0.41014\\ \\mathrm V}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Baca RTD dan jembatan sebagai dua tahap berbeda, sesuai Bagian 1, halaman PDF 2-3. Hubungan tahanan-suhu boleh linear pada rentang pendekatan, tetapi hubungan tegangan jembatan terhadap tahanan berbentuk pembagi tegangan. Karena itu, jangan mengganti hitungan simpul dengan rumus jembatan kecil-sinyal tanpa memeriksa batas perubahan tahanannya."
+      ]
     },
     {
       "id": "2023-uts2-q2",
@@ -1007,17 +1162,27 @@ export const module: CourseModule = {
         ],
         "original": "2. Temperature Sensors: Thermocouple & RTD\na. [10%] A type K thermocouple is used to measure the machine temperature of T = 340 °C. The reference temperatur for the thermocouple is Tref = 100 °C. Calculate the output voltage of the thermocouple during the measurement. You may see the table given in the attachment to this document.\nb. [10%] An RTD can be modeled as a first order system with a time constant 0.5 seconds and a sensitivity 0.004 Ω/°C. There are no biases in the system. Initially the RTD is at steady 20 °C with its resistance 100 Ω. The temperature suddenly changes at t = 1 second to 100 °C.\ni. Find the differential equation model of the RTD that relates changes temperature input to resistance output.\nii. What will be the RTD's resistance at t = 2 seconds?\nAttached type K table, reference junction 0 °C: E(100 °C)=4.096 mV; E(340 °C)=13.874 mV.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            2,
-            3,
-            4,
-            24,
-            25
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              6,
+              7
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              2,
+              3,
+              4,
+              24,
+              25
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Pernyataan tanpa bias ditafsirkan untuk variabel perubahan. Model mutlak tanpa offset tidak dapat memenuhi nilai awal dan sensitivitas yang sama."
@@ -1295,7 +1460,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Tegangan termokopel 9.778 mV. Model RTD memakai perubahan dari 20 °C dan 100 Ω; pada t=2 s, tahanan 100.27669 Ω.\n\n$$\n\\boxed{\\begin{aligned}E_K&=9.778\\ \\mathrm{mV}\\\\R(2)&=100.27669\\ \\Omega\\end{aligned}}\n$$",
-      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi."
+      "takeaway": "Jangan menambah suhu referensi langsung pada suhu hasil pembacaan tabel yang belum dikoreksi.",
+      "sourceNotes": [
+        "Bagian 2, halaman PDF 6-7, menambah dasar yang tidak dijelaskan oleh tabel sensor saja: model orde satu menghubungkan respons waktu dengan nilai akhirnya. Gunakan perubahan terhadap keadaan awal, $\\Delta R=R-100\\ \\Omega$ dan $\\Delta T=T-20^\\circ\\mathrm C$, sehingga $\\tau\\,d\\Delta R/dt+\\Delta R=K\\Delta T$. Model perubahan ini menjaga keadaan awal yang diberikan.",
+        "Hitung waktu sejak suhu berubah, yaitu $t-1\\ \\mathrm s$. Pada $t=2\\ \\mathrm s$, sensor sudah merespons selama dua konstanta waktu. Tabel termokopel pada bagian (a) tetap memakai hukum beda suhu acuan; persamaan dinamik baru diperlukan pada bagian RTD."
+      ]
     },
     {
       "id": "ipe-temperature-practice",
@@ -1550,6 +1719,62 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
             ],
             "explanation": "Follow the units in the model definition. Constants defined for kelvin cannot be used directly with Celsius values."
           }
+        },
+        {
+          "id": "ipe-temperature-static-reference",
+          "title": "Separate nonlinearity from reference correction",
+          "intuition": "Part 1, PDF pages 12-14, describes two different causes of a reading difference. The sensor curve may depart from an ideal line, and terminal temperature may change the measured voltage. Identify which difference the question asks you to evaluate.",
+          "formal": "For a range from $T_a$ to $T_b$, write $K=[E(T_b,0)-E(T_a,0)]/(T_b-T_a)$ and $E_{\\mathrm{ideal}}(T)=E(T_a,0)+K(T-T_a)$. Then $N(T)=E(T,0)-E_{\\mathrm{ideal}}(T)$. The percentage deviation at that point is $100|N(T)|/|E(T_b,0)-E(T_a,0)|$.",
+          "validityBounds": "Use the same thermocouple type, range, voltage unit, and reference throughout. A deviation at one point need not be the maximum. Correct the reference voltage before looking up temperature.",
+          "decisionCheck": {
+            "prompt": "A table gives thermocouple voltages relative to 0 °C. A question asks for nonlinearity at one temperature within a stated range. Which denominator gives percentage of full scale?",
+            "options": [
+              {
+                "id": "ipe-temperature-static-reference-option-1",
+                "label": "The voltage span between the two temperature endpoints.",
+                "feedback": "Correct. Numerator and denominator both have voltage units."
+              },
+              {
+                "id": "ipe-temperature-static-reference-option-2",
+                "label": "The temperature at the test point.",
+                "feedback": "Voltage divided by temperature is sensitivity, not percentage deviation."
+              },
+              {
+                "id": "ipe-temperature-static-reference-option-3",
+                "label": "The measured voltage without checking its reference.",
+                "feedback": "The measured voltage may use a different reference and is not the full output span."
+              }
+            ],
+            "explanation": "Full scale uses the voltage-output span that defines the ideal line. The temperature span sets its slope; it is not the denominator for a voltage deviation."
+          }
+        },
+        {
+          "id": "ipe-temperature-time-response",
+          "title": "Measure time from the temperature change",
+          "intuition": "Part 2, PDF pages 6-7, models a sensor that takes time to approach its final reading. Static calibration sets the steady value. The time constant determines how quickly the sensor approaches it.",
+          "formal": "For one input step at $t_0$, $R(t)=R_\\infty+[R(t_0)-R_\\infty]e^{-(t-t_0)/\\tau}$ for $t\\ge t_0$. Static calibration gives $R_\\infty$. After one $\\tau$, the remaining difference is $e^{-1}$ of its initial value.",
+          "validityBounds": "This model assumes one time constant, fixed parameters, and a constant input after the step. State the initial reading and step time. The final calibrated reading is not the instantaneous reading.",
+          "decisionCheck": {
+            "prompt": "Temperature changes at 1 second and you want the reading at 2 seconds. Which elapsed time belongs in the exponential?",
+            "options": [
+              {
+                "id": "ipe-temperature-time-response-option-1",
+                "label": "1 second, from 2 minus 1.",
+                "feedback": "Correct. The sensor has responded for one second."
+              },
+              {
+                "id": "ipe-temperature-time-response-option-2",
+                "label": "2 seconds because that is the reading time.",
+                "feedback": "That counts one second before the temperature step as part of the response."
+              },
+              {
+                "id": "ipe-temperature-time-response-option-3",
+                "label": "3 seconds, from adding both times.",
+                "feedback": "Response time is the difference, not the sum."
+              }
+            ],
+            "explanation": "The response begins when the input changes. Use time since that change, not the absolute observation time."
+          }
         }
       ],
       "checkpoints": [
@@ -1561,7 +1786,7 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         {
           "id": "ipe-temperature-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "Read the part that supports the model you use. The numbers count physical PDF pages from 1; a page may contain several slides.\n\n[Pengukuran Teknik, Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), PDF pages 11, 12, 13, 14, 16: Ranges, endpoint lines, nonlinearity, sensitivity, and reference-temperature effects.\n\n[Pengukuran Teknik, Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), PDF pages 6, 7: First-order models and temperature step response.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), PDF pages 2, 3, 4, 5, 6, 19, 20, 24, 25, 26: Temperature-sensor types, resistance models, thermocouple laws, and reference tables.\n\n[Midterm and final-exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Each problem retains its own original statement, exam pages, and assumptions."
         }
       ]
     },
@@ -1670,7 +1895,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Nonlinearity at 150 °C is 0.838% of full scale, with a −0.183 mV deviation. The measured temperature is about 252.95 °C.\n\n$$\n\\boxed{\\%N_{150}=0.838\\%\\ \\mathrm{FS},\\qquad T\\approx252.95^\\circ\\mathrm C}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Part 1, PDF pages 12-13, defines the ideal endpoint line and the deviation $N(T)=E(T)-E_{\\mathrm{ideal}}(T)$. In part (a), divide the magnitude of the voltage deviation by the **output** span $E(400,0)-E(0,0)$. A value at one temperature does not establish the largest deviation across the range.",
+        "Part 1, PDF pages 14 and 16, treats reference-junction temperature as an environmental influence. Combine this with the thermocouple laws in Part 3: correct the reference voltage first, then find temperature in the Type J table. Do not add $20^\\circ\\mathrm C$ directly to an uncorrected table reading. Distinguish two conditions: with hot-junction temperature held fixed, a higher reference temperature lowers the measured voltage. With measured voltage held fixed as in the problem, a higher reference temperature raises the voltage used for the table lookup and raises the calculated hot-junction temperature."
+      ]
     },
     "2025-uts2-q5": {
       "title": "RTD in a Wheatstone bridge",
@@ -1756,7 +1985,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "RTD resistance is 35 Ω. Output magnitude is 0.4167 V; with top-minus-bottom polarity, output is −0.4167 V.\n\n$$\n\\boxed{R(100^\\circ\\mathrm C)=35\\ \\Omega,\\qquad |V_o|=0.4167\\ \\mathrm V}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Part 1, PDF pages 2-3, distinguishes sensing from signal conditioning. The RTD converts temperature into resistance; the bridge converts the resistance change into a voltage difference. Find $R(T)$ first, then calculate both node voltages from the actual diagram. The supply position and output polarity determine the bridge equation."
+      ]
     },
     "2025-uas-q4": {
       "title": "Type T thermocouple with a 25 °C reference",
@@ -1833,7 +2065,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Nonlinearity at 200 °C is 5.50% of full scale. After cold-junction correction, vessel temperature is about 258.54 °C.\n\n$$\n\\boxed{\\%N_{200}=5.50\\%\\ \\mathrm{FS},\\qquad T\\approx258.54^\\circ\\mathrm C}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Use the nonlinearity definition in Part 1, PDF pages 12-13: deviation from an endpoint line differs from local sensitivity $dE/dT$. Divide the deviation magnitude at $200^\\circ\\mathrm C$ by the table voltage span, not by the temperature $200^\\circ\\mathrm C$. For part (b), the reference-temperature influence on PDF page 14 explains why you add the reference voltage before finding temperature."
+      ]
     },
     "2024-uts1-q1": {
       "title": "Thermistor resistance from two calibration points",
@@ -1926,7 +2161,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Resistance at 25°C is about 3.643 kΩ. The model calibration gives β ≈ 2946.04 K.\n\n$$\n\\boxed{R(25^\\circ\\mathrm C)\\approx3.6432\\ \\mathrm{k\\Omega}}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Part 3, PDF pages 19-20, presents the exponential thermistor model. Part 1, PDF pages 12-13, explains why a nonlinear sensor does not have one constant sensitivity. For this problem, $\\ln R=\\ln\\alpha+\\beta/\\theta$ is a line against $1/\\theta$, not against $\\theta$. Use both reference temperatures in kelvin and keep the result within the stated model limits."
+      ]
     },
     "2024-uts2-q1": {
       "title": "Choosing a sensor and finding the reference temperature",
@@ -2035,7 +2273,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Choose a suitably rated thermocouple at 1000°C. The type J reference junction in part (c) is approximately 179°C.\n\n$$\n\\boxed{T_2\\approx179^\\circ\\mathrm C}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Part 1, PDF page 11, separates the input range from the output range. Choose a sensor that covers the process temperature, then check installation and readout requirements in Part 3. To find the reference temperature, use $E(T_2,0)=E(T_1,0)-E_{\\mathrm{meas}}$ with the same thermocouple type and polarity. A zero-reference table does not imply that the physical reference junction is at zero."
+      ]
     },
     "2024-uas-q2": {
       "title": "An RTD in a Wheatstone bridge",
@@ -2133,7 +2374,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The RTD becomes 34.8125 Ω. The bridge output magnitude is approximately 0.410 V; its sign depends on detector polarity.\n\n$$\n\\boxed{R_4=34.8125\\ \\Omega,\\qquad|V_o|\\approx0.41014\\ \\mathrm V}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Read the RTD and bridge as separate stages, following Part 1, PDF pages 2-3. Resistance may vary linearly with temperature over the stated approximation, while bridge voltage follows a voltage-divider relation. Do not replace the node calculation with a small-signal bridge formula without checking the resistance-change limit."
+      ]
     },
     "2023-uts2-q2": {
       "title": "Thermocouple and RTD response",
@@ -2299,7 +2543,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Thermocouple output is 9.778 mV. Use the RTD deviation model about 20 °C and 100 Ω; at t=2 s, resistance is 100.27669 Ω.\n\n$$\n\\boxed{\\begin{aligned}E_K&=9.778\\ \\mathrm{mV}\\\\R(2)&=100.27669\\ \\Omega\\end{aligned}}\n$$",
-      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup."
+      "takeaway": "Do not simply add reference temperature to a temperature obtained from an uncorrected table lookup.",
+      "sourceNotes": [
+        "Part 2, PDF pages 6-7, supplies the time-response model that a sensor table alone does not provide. Work with changes from the initial state: $\\Delta R=R-100\\ \\Omega$ and $\\Delta T=T-20^\\circ\\mathrm C$. Then $\\tau\\,d\\Delta R/dt+\\Delta R=K\\Delta T$, which preserves the stated initial condition.",
+        "Measure elapsed time from the temperature change, using $t-1\\ \\mathrm s$. At $t=2\\ \\mathrm s$, two time constants have elapsed. Part (a) still uses the thermocouple reference-junction relation; the dynamic equation applies to the RTD part."
+      ]
     },
     "ipe-temperature-practice": {
       "title": "Practice: Temperature sensors",

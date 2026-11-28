@@ -9,59 +9,175 @@ export const module: CourseModule = {
       "id": "ipe-statistics-material",
       "kind": "material",
       "slug": "ipe-statistics-material",
-      "title": "Bedakan bias dari sebaran hasil",
-      "estimatedMinutes": 6,
+      "title": "Hitung bias dan sebaran pada rantai ukur",
+      "estimatedMinutes": 14,
       "examHook": {
-        "prompt": "Hasil pengukuran berkumpul rapat, tetapi jauh dari acuan. Apakah mengulang pengukuran cukup untuk memperbaikinya?",
-        "targetOutcome": "Anda dapat memilih tindakan untuk bias dan sebaran acak."
+        "prompt": "Recorder pada soal UTS 1 2025 salah memakai penguatan 15, bukan 20 Pa/mV. Apakah sebaran kecil menjamin bacaan tekanan benar?",
+        "targetOutcome": "Anda dapat menghitung bias, meneruskan sebaran tiap blok, dan memilih simpangan baku yang sesuai."
       },
-      "body": "Nilai rata-rata dan sebaran menjawab dua pertanyaan berbeda. Rata-rata membantu Anda melihat letak kumpulan hasil. Sebaran menunjukkan seberapa jauh hasil berubah antarulang.\n\nBandingkan rata-rata dengan acuan sebelum menilai ketepatan. Kumpulan hasil yang rapat tetap dapat memiliki kesalahan tetap.\n\n[Buka pembahasan bertahap: Bias dan sebaran galat pada rantai ukur](?item=2025-uts1-q2).",
+      "body": "Mulai dari besaran yang ingin Anda ukur. Cocokkan satuan bacaan akhir dengan satuan acuan, lalu pisahkan selisih rata-rata dan sebaran hasil.\n\nBagian 2 membahas galat seluruh rantai ukur. Bagian 1 memberi dasar sebaran data dan rumus sampel. Kita memakai keduanya untuk menilai hasil sensor.\n\n[Buka contoh rantai tekanan](?item=2025-uts1-q2), [contoh koefisien sensor](?item=2024-uts1-q6), lalu [contoh sampel tahanan](?item=2023-uas-q2).",
       "microUnits": [
         {
           "id": "ipe-statistics-principle",
-          "title": "Pilih model dari kondisi soal",
-          "intuition": "Kesalahan penguatan dapat menggeser rata-rata hasil dari acuan. Pergeseran tetap ini disebut **bias** (selisih rata-rata terhadap acuan). Gangguan acak membuat hasil menyebar. Merata-ratakan pengulangan independen dapat mengurangi sebaran rata-rata, tetapi tidak otomatis menghapus bias.",
-          "formal": "Untuk model $y=Kx+a$, koefisien yang berubah ikut mengubah hasil. Pada $x$ tetap:\n\n$$\\sigma_y^2=x^2\\sigma_K^2+\\sigma_a^2+2x\\,\\operatorname{Cov}(K,a).$$\n\nSuku kovariansi boleh hilang hanya dengan alasan yang sesuai.",
-          "validityBounds": "Jangan menganggap semua masukan independen tanpa memeriksa sumbernya. Bedakan simpangan baku data dari simpangan baku rata-rata. Nyatakan apakah perhitungan memakai sampel atau populasi.",
+          "title": "Pisahkan bias dari sebaran",
+          "intuition": "Bacaan dapat berkumpul rapat tetapi tetap meleset dari acuan. Selisih rata-rata terhadap acuan disebut **bias**. Lebar kumpulan hasil disebut **simpangan baku**, yang mengukur sebaran terhadap rata-rata.",
+          "formal": "Untuk acuan tetap $I$ dan bacaan $O$ dalam satuan yang sama:\n\n$$E=O-I,\\qquad \\bar E=\\bar O-I,\\qquad \\sigma_E=\\sigma_O.$$\n\nTanpa offset, rantai linear memberi $\\bar O=(\\prod_iK_i)I$. Pada soal tekanan, gain total $0.75$ memberi $\\bar O=3750\\,\\mathrm{Pa}$ dari $I=5000\\,\\mathrm{Pa}$.",
+          "validityBounds": "Bagian 2, halaman 1 sampai 3. Jika acuan juga tidak pasti, masukkan varians acuan dan kovariansnya. Pengulangan tidak menghapus salah penguatan yang tetap.",
           "decisionCheck": {
             "id": "ipe-statistics-decision-question",
-            "prompt": "Pengulangan independen memperkecil sebaran rata-rata, tetapi rata-rata masih jauh dari acuan. Apa langkah berikutnya?",
+            "relatedProblemId": "2025-uts1-q2",
+            "prompt": "Bacaan tekanan makin rapat setelah banyak pengulangan, tetapi rata-ratanya tetap 3750 Pa untuk acuan 5000 Pa. Apa yang Anda periksa?",
             "options": [
               {
                 "id": "ipe-statistics-decision-question-option-1",
-                "label": "Periksa penyebab bias dan hubungan kalibrasi.",
-                "feedback": "Tepat. Pengulangan tidak otomatis mengoreksi kesalahan tetap."
+                "label": "Penguatan dan kalibrasi rantai ukur.",
+                "feedback": "Tepat. Gain total yang salah dapat mempertahankan bias meski sebaran rata-rata mengecil."
               },
               {
                 "id": "ipe-statistics-decision-question-option-2",
-                "label": "Anggap bias sudah hilang karena sebaran mengecil.",
-                "feedback": "Sebaran dan bias menjelaskan hal berbeda. Rata-rata masih belum sesuai acuan.",
-                "misconceptionTag": "statistics-decision-choice-2"
+                "label": "Jumlah pengulangan saja.",
+                "feedback": "Pengulangan tidak mengubah gain recorder yang salah.",
+                "misconceptionTag": "ipe-statistics-decision-question-choice-2"
               },
               {
                 "id": "ipe-statistics-decision-question-option-3",
-                "label": "Ganti nilai acuan dengan rata-rata alat tanpa pemeriksaan.",
-                "feedback": "Mengganti acuan akan menyembunyikan selisih, bukan menjelaskan penyebabnya.",
-                "misconceptionTag": "statistics-decision-choice-3"
+                "label": "Acuan diganti menjadi rata-rata bacaan.",
+                "feedback": "Mengganti acuan tanpa alasan menyembunyikan selisih dan tidak memperbaiki alat.",
+                "misconceptionTag": "ipe-statistics-decision-question-choice-3"
               }
             ],
             "correctOptionId": "ipe-statistics-decision-question-option-1",
-            "explanation": "Gunakan pengulangan untuk menilai komponen acak. Periksa titik nol, penguatan, dan kondisi uji untuk mencari bias."
+            "explanation": "Hitung bias terhadap acuan yang sah. Gunakan pengulangan untuk menilai komponen acak, lalu periksa penguatan untuk memperbaiki bias."
+          }
+        },
+        {
+          "id": "ipe-statistics-chain-spread",
+          "title": "Teruskan galat melalui blok berikutnya",
+          "intuition": "Galat yang muncul di awal rantai ikut melewati penguat berikutnya. Anda perlu mengubah setiap kontribusi ke satuan keluaran akhir sebelum menjumlahkan variansnya.",
+          "formal": "Untuk $O_i=K_iI_i+e_i$, dengan galat tambahan independen:\n\n$$\\sigma_{O_i}^2=K_i^2\\sigma_{I_i}^2+\\sigma_{e_i}^2.$$\n\nGalat uniform pada $[-h_i,h_i]$ memiliki $\\sigma_{e_i}^2=h_i^2/3$. Pada rantai tekanan, galat sensor $0.08\\,\\Omega$ melewati gain $0.05\\times1000\\times15$. Kontribusi batasnya menjadi $60\\,\\mathrm{Pa}$.",
+          "validityBounds": "Bagian 2, halaman 2 sampai 3. Gunakan gain aktual. Rumus h²/3 memerlukan distribusi uniform; batas ±h saja belum menentukan distribusi. Tambahkan kovarians jika galat saling terkait.",
+          "decisionCheck": {
+            "id": "ipe-statistics-chain-decision",
+            "relatedProblemId": "2025-uts1-q2",
+            "prompt": "Galat sensor masuk sebelum tiga penguat. Bagaimana Anda menghitung sumbangannya pada varians keluaran akhir?",
+            "options": [
+              {
+                "id": "ipe-statistics-chain-decision-option-1",
+                "label": "Kalikan varians sensor dengan kuadrat hasil kali gain sesudah sensor.",
+                "feedback": "Tepat. Gain mengalikan simpangan, sehingga kuadrat gain mengalikan varians."
+              },
+              {
+                "id": "ipe-statistics-chain-decision-option-2",
+                "label": "Jumlahkan batas galat semua blok tanpa mengubah satuan.",
+                "feedback": "Galat dalam ohm, milivolt, dan pascal belum dapat langsung dijumlahkan.",
+                "misconceptionTag": "ipe-statistics-chain-decision-choice-2"
+              },
+              {
+                "id": "ipe-statistics-chain-decision-option-3",
+                "label": "Pakai gain nominal recorder meski recorder salah setel.",
+                "feedback": "Penyebaran galat mengikuti gain aktual yang sedang bekerja.",
+                "misconceptionTag": "ipe-statistics-chain-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-statistics-chain-decision-option-1",
+            "explanation": "Letak galat menentukan gain yang dilaluinya. Periksa satuan setiap kontribusi sebelum mengambil akar jumlah varians."
+          }
+        },
+        {
+          "id": "ipe-statistics-coefficients",
+          "title": "Periksa hubungan antar-koefisien",
+          "intuition": "Koefisien sensor dapat berubah bersama karena proses produksi yang sama. **Kovarians** mengukur perubahan bersama itu. Sebaran normal masing-masing koefisien belum menjamin kovariansnya nol.",
+          "formal": "Pada suhu tetap, $V=KT+a$ memberi:\n\n$$\\bar V=\\bar KT+\\bar a,\\qquad \\sigma_V^2=T^2\\sigma_K^2+\\sigma_a^2+2T\\operatorname{Cov}(K,a).$$\n\nUntuk $E=a_0+a_1T+a_2T^2$, sensitivitas terhadap koefisien adalah $(1,T,T^2)$. Pada $T=120\\,{}^\\circ\\mathrm C$, data soal memberi $\\bar E=6.816\\,\\mu\\mathrm V$.",
+          "validityBounds": "Bagian 1, halaman 17, dan Bagian 2, halaman 2. Model ini linear terhadap koefisien, sehingga variansnya tepat pada suhu tetap. Suhu yang turut berubah memerlukan suku tambahan.",
+          "decisionCheck": {
+            "id": "ipe-statistics-covariance-decision",
+            "relatedProblemId": "2024-uts1-q6",
+            "prompt": "Tabel memberi simpangan baku koefisien dan menyebut distribusi normal. Bolehkah Anda langsung menghapus semua kovarians?",
+            "options": [
+              {
+                "id": "ipe-statistics-covariance-decision-option-1",
+                "label": "Belum; nyatakan atau periksa asumsi koefisien tidak berkorelasi.",
+                "feedback": "Tepat. Bentuk distribusi setiap koefisien tidak menentukan hubungan antar-koefisien."
+              },
+              {
+                "id": "ipe-statistics-covariance-decision-option-2",
+                "label": "Ya; normal selalu berarti independen.",
+                "feedback": "Koefisien yang berkorelasi tetap dapat mengikuti distribusi normal.",
+                "misconceptionTag": "ipe-statistics-covariance-decision-choice-2"
+              },
+              {
+                "id": "ipe-statistics-covariance-decision-option-3",
+                "label": "Ya; suhu tetap membuat semua koefisien konstan.",
+                "feedback": "Suhu tetap hanya menghilangkan variasi suhu, bukan variasi koefisien produksi.",
+                "misconceptionTag": "ipe-statistics-covariance-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-statistics-covariance-decision-option-1",
+            "explanation": "Tulis hasil numerik bersama asumsi kovarians nol. Jika kovarians tidak diketahui, tabel belum memberi satu nilai varians keluaran yang pasti."
+          }
+        },
+        {
+          "id": "ipe-statistics-sample",
+          "title": "Bedakan sebaran sampel dan sebaran rata-rata",
+          "intuition": "Sebaran sepuluh tahanan menjelaskan beda antar-komponen. Sebaran rata-rata menjelaskan ketidakpastian saat Anda menaksir rata-rata populasi. Kedua hasil menjawab pertanyaan yang berbeda.",
+          "formal": "Untuk $n>1$, hitung rata-rata dan simpangan baku sampel:\n\n$$\\bar x=\\frac{1}{n}\\sum_i x_i,\\qquad s=\\sqrt{\\frac{\\sum_i(x_i-\\bar x)^2}{n-1}}.$$\n\nPada sampel strain gauge, $\\bar R=119.99\\,\\Omega$ dan $s=0.196921\\,\\Omega$. Untuk sampel independen dengan sebaran sama, taksiran simpangan baku rata-rata ialah $s/\\sqrt n$.",
+          "validityBounds": "Bagian 1, halaman 16 sampai 17. Sumber menulis simbol σ untuk rumus n−1; kita memakai s untuk menandai taksiran sampel. Jangan mengganti s dengan s/√n jika soal meminta sebaran komponen.",
+          "decisionCheck": {
+            "id": "ipe-statistics-sample-decision",
+            "relatedProblemId": "2023-uas-q2",
+            "prompt": "Kendali mutu meminta simpangan baku sepuluh strain gauge. Angka mana yang Anda laporkan?",
+            "options": [
+              {
+                "id": "ipe-statistics-sample-decision-option-1",
+                "label": "$s=0.196921\\,\\Omega$.",
+                "feedback": "Tepat. Nilai s merangkum sebaran tahanan antar-komponen pada sampel."
+              },
+              {
+                "id": "ipe-statistics-sample-decision-option-2",
+                "label": "$s/\\sqrt{10}=0.062272\\,\\Omega$.",
+                "feedback": "Nilai ini menaksir sebaran rata-rata sampel, bukan sebaran tahanan antar-komponen.",
+                "misconceptionTag": "ipe-statistics-sample-decision-choice-2"
+              },
+              {
+                "id": "ipe-statistics-sample-decision-option-3",
+                "label": "$\\bar R=119.99\\,\\Omega$.",
+                "feedback": "Rata-rata menyatakan pusat data, bukan sebarannya.",
+                "misconceptionTag": "ipe-statistics-sample-decision-choice-3"
+              }
+            ],
+            "correctOptionId": "ipe-statistics-sample-decision-option-1",
+            "explanation": "Tentukan objek yang ingin dinilai sebelum memilih rumus: satu bacaan, kumpulan komponen, atau rata-rata kumpulan."
           }
         }
       ],
       "checkpoints": [
-        "Anda dapat memilih tindakan untuk bias dan sebaran acak.",
-        "Bias memerlukan koreksi model atau kalibrasi; pengulangan terutama membantu menilai komponen acak.",
-        "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan."
+        "Cocokkan satuan bacaan dan acuan sebelum menghitung bias.",
+        "Teruskan tiap galat memakai gain aktual sesudah letak galat.",
+        "Nyatakan distribusi dan kovarians sebelum menghitung sebaran.",
+        "Pilih s atau s/√n sesuai besaran yang soal minta."
       ],
       "derivations": [
         {
+          "id": "ipe-statistics-chain-example",
+          "title": "Contoh: satuan dan gain pada rantai tekanan",
+          "content": "Pada [UTS 1 2025 nomor 2](?item=2025-uts1-q2), kita memakai gain recorder aktual $15\\,\\mathrm{Pa/mV}$. Hasil kali gain menjadi $10^{-3}(0.05)(1000)(15)=0.75$.\n\n1. Hitung rata-rata: $\\bar O=0.75(5000)=3750\\,\\mathrm{Pa}$, sehingga $\\bar E=-1250\\,\\mathrm{Pa}$.\n2. Ubah setiap batas galat ke keluaran akhir: $(60,15,7.5,5)\\,\\mathrm{Pa}$.\n3. Untuk galat uniform independen, hitung $\\sigma_E=\\sqrt{(60^2+15^2+7.5^2+5^2)/3}=36.0844\\,\\mathrm{Pa}$.\n\nBias dan simpangan baku memiliki peran berbeda. Simpangan baku 36.0844 Pa tidak menghapus bias −1250 Pa. Dasar: Bagian 2, halaman 1 sampai 3."
+        },
+        {
+          "id": "ipe-statistics-coefficient-example",
+          "title": "Contoh: koefisien acak pada suhu tetap",
+          "content": "Pada [UTS 1 2024 nomor 6](?item=2024-uts1-q6), suhu tetap $120\\,{}^\\circ\\mathrm C$. Kita meneruskan variasi koefisien melalui faktor $(1,120,120^2)$.\n\n$$\\bar E=1.2+0.018(120)+0.00024(120)^2=6.816\\,\\mu\\mathrm V.$$\n\nDengan kovarians nol, $\\sigma_{a_0}=0.01\\,\\mu\\mathrm V$, $\\sigma_{a_1}=0.001\\,\\mu\\mathrm V/{}^\\circ\\mathrm C$, dan $\\sigma_{a_2}=0$:\n\n$$\\sigma_E=\\sqrt{0.01^2+120^2(0.001)^2}=0.120416\\,\\mu\\mathrm V.$$\n\nJumlah 100 sampel pada naskah menjelaskan asal tabel. Soal meminta sebaran keluaran dari variasi koefisien, sehingga kita tidak membagi hasil dengan √100. Dasar: Bagian 1, halaman 17; Bagian 2, halaman 2."
+        },
+        {
           "id": "ipe-statistics-sources",
-          "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "title": "Sumber dan batas penggunaan rumus",
+          "content": "[Bagian 1](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), halaman 16 sampai 17: keterulangan, sebaran normal, simpangan baku sampel, dan propagasi galat.\n\n[Bagian 2](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), halaman 1 sampai 3: galat rantai ukur dan contoh penerusan varians. Rumus tanpa kovarians memerlukan masukan yang tidak berkorelasi. Rumus lokal untuk model tak linear memerlukan perubahan kecil.\n\nPada modul ini, bias berarti selisih rata-rata terhadap acuan. Varians ialah kuadrat simpangan baku. Kovarians menyatakan perubahan bersama dua masukan. Kita membedakan simpangan baku sampel s dari simpangan baku rata-rata s/√n."
         }
-      ]
+      ],
+      "keyFormula": {
+        "label": "Propagasi varians dengan hubungan antar-masukan",
+        "latex": "\\sigma_y^2\\approx\\sum_i c_i^2\\sigma_i^2+2\\sum_{i<j}c_ic_j\\operatorname{Cov}(x_i,x_j),\\qquad c_i=\\left.\\frac{\\partial f}{\\partial x_i}\\right|_{\\bar{\\mathbf{x}}}",
+        "note": "Persamaan berlaku tepat untuk model linear. Untuk model tak linear, gunakan pendekatan ini hanya jika perubahan lokal cukup kecil."
+      }
     },
     {
       "id": "2025-uts1-q2",
@@ -78,10 +194,17 @@ export const module: CourseModule = {
         ],
         "original": "2. [20%] Accuracy of Measurement Systems\nA pressure measurement system consists of a pressure sensor, a deflection bridge, an amplifier, and a recorder, as shown in the following figure.\n[Figure: Input → Pressure Sensor → Deflection Bridge → Amplifier → Recorder → Output.]\nThe table below gives the linear sensitivities and error bandwidths for each element in the system.\nPressure sensor: K = 10⁻³ Ω Pa⁻¹; error bandwidth ±h = ±0.08 Ω.\nDeflection bridge: K = 5 × 10⁻² mV Ω⁻¹; ±h = ±10⁻³ mV.\nAmplifier: K = 10³ mV mV⁻¹; ±h = ±0.5 mV.\nRecorder: K = 20 Pa mV⁻¹; ±h = ±5 Pa.\na. [10%] Given that the recorder is incorrectly adjusted so that its sensitivity is 15 Pa mV⁻¹, calculate the mean error Ē for an input pressure of 5 × 10³ Pa.\nb. [10%] Calculate the standard deviation σE of the error distribution function.\nUseful formulas supplied on page2:\n\\[\\overline O_i=K_i\\overline I_i,\\qquad \\sigma_{I_{i+1}}^2=\\sigma_{O_i}^2=K_i^2\\sigma_{I_i}^2+\\frac{h_i^2}{3}.\\]",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              1,
+              2,
+              3
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Masukan 5000 Pa dianggap acuan tetap tanpa ketidakpastian tambahan.",
@@ -224,7 +347,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Keluaran rata-rata 3750 Pa, sehingga galat rata-rata (indikasi −acuan) adalah −1250 Pa atau −25%. Dengan galat blok uniform, independen, bermean nol, dan gain recorder aktual 15 Pa/mV, simpangan baku galatnya 36.0844 Pa.\n\n$$\n\\boxed{\\overline E=-1250\\ \\mathrm{Pa},\\qquad\\sigma_E\\approx36.08\\ \\mathrm{Pa}}\n$$",
-      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan."
+      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan.",
+      "sourceNotes": [
+        "Bagian 2, halaman 1, menilai galat seluruh rantai melalui hasil kali sensitivitas. Gain recorder aktual membuat hasil kali menjadi $0.75$, sehingga bias tetap ada meski galat acak bermean nol.",
+        "Bagian 2, halaman 2 sampai 3, meneruskan varians dari satu keluaran ke masukan berikutnya. Bentuk $h_i^2/3$ pada naskah soal memerlukan galat uniform pada $[-h_i,h_i]$. Independensi menghapus suku kovarians; batas galat saja tidak membuktikan independensi."
+      ]
     },
     {
       "id": "2024-uts1-q6",
@@ -240,10 +367,23 @@ export const module: CourseModule = {
         ],
         "original": "6. [15%] A sensing element with characteristic \\(E=a_0+a_1T+a_2T^2\\) measures temperature at \\(T=120^\\circ\\mathrm C\\). Here E represents output voltage in μV and T is the measured temperature in °C. Statistical data is presented in Table 1 after one hundred samples tested in the laboratory. Parameter \\(a_0\\): average 1.2, standard deviation \\(0.1\\times10^{-1}\\). Parameter \\(a_1\\): average \\(1.8\\times10^{-2}\\), standard deviation \\(0.1\\times10^{-2}\\). Parameter \\(a_2\\): average \\(2.4\\times10^{-4}\\), standard deviation 0. Calculate average value and standard deviation of E. Assume that the distribution is normal or Gaussian.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (Rev. 2022)",
+            "pages": [
+              17
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              2,
+              3
+            ]
+          }
+        ]
       },
       "assumptions": [
         "T=120°C dianggap tetap tanpa ketidakpastian masukan. Untuk hasil numerik simpangan baku utama, koefisien diasumsikan tidak berkorelasi; asumsi ini tidak mengikuti normalitas saja."
@@ -339,7 +479,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Rata-rata keluaran 6,816 μV. Dengan koefisien tidak berkorelasi, simpangan bakunya 0,120416 μV. Jika kovarians koefisien tidak nol, tabel belum cukup untuk menentukan satu simpangan baku.\n\n$$\n\\boxed{\\bar E=6.816\\ \\mu\\mathrm V,\\qquad\\sigma_E=0.120416\\ \\mu\\mathrm V\\quad(\\operatorname{Cov}=0)}\n$$",
-      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan."
+      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan.",
+      "sourceNotes": [
+        "Bagian 1, halaman 17, dan Bagian 2, halaman 2, memakai sensitivitas parsial untuk meneruskan sebaran. Pada suhu tetap, $E$ linear terhadap koefisien dengan sensitivitas $(1,T,T^2)$. Rumus varians koefisien berlaku tepat, bukan pendekatan terhadap T.",
+        "Kita perlu menambahkan kovarians jika koefisien berubah bersama. Pernyataan normal atau Gaussian belum cukup untuk menghapusnya. Seratus sampel menjelaskan asal statistik koefisien; soal meminta sebaran keluaran, bukan ketidakpastian rata-rata dari 100 keluaran."
+      ]
     },
     {
       "id": "2023-uts1-q3",
@@ -356,10 +500,22 @@ export const module: CourseModule = {
         ],
         "original": "3. [10%] Statistical Characteristic of Measurement Systems\nA temperature sensor is modeled by \\(V=KT+a\\), where V is output in volts, T is measured temperature in °C, where as K and a are constants. Due to imperfection in manufacturing process, the sensors are varied with statistical properties listed below. If the manufacturing process is assumed to be a normal process, calculate the average of output voltage \\(\\bar V\\) and the standard deviation of the output voltage \\(\\sigma_V\\). Let the temperature being measured is \\(T=100^\\circ\\mathrm C\\).\n\\(\\bar K=0.02,\\ \\sigma_K=0.001,\\ \\bar a=-0.001,\\ \\sigma_a=1.5\\times10^{-4}\\).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)"
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (Rev. 2022)",
+            "pages": [
+              17
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (Rev. 2022)",
+            "pages": [
+              2
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Suhu 100°C dianggap tepat dan tetap. Perhitungan numerik simpangan baku mengasumsikan kovarians K dan a nol; normalitas saja tidak cukup untuk membuktikan asumsi ini."
@@ -449,7 +605,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Rata-rata keluaran adalah 1.999 V. Dengan kovarians K dan a dianggap nol, simpangan baku keluaran 0.1000001125 V, atau sekitar 0.100 V.\n\n$$\n\\boxed{\\bar V=1.999\\ \\mathrm V,\\qquad \\sigma_V\\approx0.100\\ \\mathrm V\\quad[\\operatorname{Cov}(K,a)=0]}\n$$",
-      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan."
+      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan.",
+      "sourceNotes": [
+        "Bagian 1, halaman 17, dan Bagian 2, halaman 2, memberi dasar propagasi varians. Untuk $V=KT+a$ pada T tetap, sensitivitas terhadap K dan a ialah T dan 1. Suku tambahan $2T\\operatorname{Cov}(K,a)$ tetap perlu jika K dan a berkorelasi. Distribusi normal masing-masing koefisien tidak menjamin kovarians nol."
+      ]
     },
     {
       "id": "2023-uas-q2",
@@ -465,11 +624,16 @@ export const module: CourseModule = {
         ],
         "original": "2. Statistical Characteristic of Measurement Systems\n[10%] Ten strain gauges are sampled and measured for quality control purposes. Calculate the average and standard deviation values of the resistance measurement results shown below. The unit is in ohm.\n120.1, 120.0, 120.2, 120.0, 119.8, 120.3, 120.0, 119.6, 120.0, 119.9.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": []
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (Rev. 2022)",
+            "pages": [
+              16,
+              17
+            ]
+          }
+        ]
       },
       "exam": {
         "term": "UAS",
@@ -669,7 +833,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Rata-rata 119.99 Ω dan simpangan baku sampel 0.196921 Ω.\n\n$$\n\\boxed{\\bar R=119.99\\ \\Omega,\\qquad s=0.196921\\ \\Omega}\n$$",
-      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan."
+      "takeaway": "Sebaran kecil tidak membuktikan hasil sudah dekat dengan nilai acuan.",
+      "sourceNotes": [
+        "Bagian 1, halaman 16, menampilkan pembagi $n-1$ untuk sebaran data sampel; halaman 17 memberi latihan serupa. Sumber menulis simbol σ, tetapi pembahasan memakai s untuk membedakan taksiran sampel dari simpangan baku populasi.",
+        "Soal meminta sebaran tahanan antar-komponen. Nilai $s/\\sqrt{10}=0.062272\\,\\Omega$ menaksir sebaran rata-rata untuk sampel independen dengan sebaran sama. Nilai itu tidak menggantikan $s=0.196921\\,\\Omega$."
+      ]
     },
     {
       "id": "ipe-statistics-practice",
@@ -858,54 +1026,153 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
   "title": "Error and uncertainty",
   "items": {
     "ipe-statistics-material": {
-      "title": "Distinguish bias from measurement spread",
+      "title": "Calculate bias and spread through a measurement chain",
       "examHook": {
-        "prompt": "Measurements cluster tightly but remain far from the reference. Will repeating the measurement be enough to fix the problem?",
-        "targetOutcome": "You can choose appropriate actions for bias and random spread."
+        "prompt": "The recorder in the 2025 UTS 1 problem uses 15 instead of 20 Pa/mV. Does a small spread guarantee an accurate pressure reading?",
+        "targetOutcome": "You can calculate bias, carry each block’s spread forward, and choose the appropriate standard deviation."
       },
-      "body": "The mean and spread answer different questions. The mean helps you locate a group of readings. The spread describes how readings vary between repeats.\n\nCompare the mean with a reference before judging accuracy. A tight cluster can still have a consistent error.\n\n[Open the worked solution: Bias and error spread in a measurement chain](?item=2025-uts1-q2).",
+      "body": "Start with the quantity you want to measure. Express the final reading and reference in matching units, then separate mean error from reading spread.\n\nPart 2 examines error through a complete measurement chain. Part 1 introduces reading spread and sample statistics. We use both sources to assess sensor results.\n\n[Open the pressure-chain example](?item=2025-uts1-q2), [the sensor-coefficient example](?item=2024-uts1-q6), then [the resistance-sample example](?item=2023-uas-q2).",
       "microUnits": [
         {
           "id": "ipe-statistics-principle",
-          "title": "Choose a model from the stated conditions",
-          "intuition": "An incorrect gain can shift the mean away from a reference. This consistent difference is **bias**, the mean error relative to the reference. Random disturbances spread the readings. Averaging independent repeats can reduce the spread of the mean, but it does not automatically remove bias.",
-          "formal": "For $y=Kx+a$, changing coefficients also change the result. With fixed $x$:\n\n$$\\sigma_y^2=x^2\\sigma_K^2+\\sigma_a^2+2x\\,\\operatorname{Cov}(K,a).$$\n\nDrop the covariance term only when the assumptions justify it.",
-          "validityBounds": "Do not assume every input is independent without checking its source. Distinguish the spread of readings from the spread of their mean. State whether the calculation concerns a sample or population.",
+          "title": "Separate bias from spread",
+          "intuition": "Readings can cluster tightly while missing the reference. **Bias** is the difference between the mean reading and reference. **Standard deviation** measures the spread of readings around their mean.",
+          "formal": "For a fixed reference $I$ and reading $O$ in matching units:\n\n$$E=O-I,\\qquad \\bar E=\\bar O-I,\\qquad \\sigma_E=\\sigma_O.$$\n\nWithout offsets, a linear chain gives $\\bar O=(\\prod_iK_i)I$. In the pressure problem, total gain $0.75$ gives $\\bar O=3750\\,\\mathrm{Pa}$ for $I=5000\\,\\mathrm{Pa}$.",
+          "validityBounds": "Part 2, pages 1 to 3. If the reference also has uncertainty, include its variance and covariance. Repetition does not remove a fixed gain error.",
           "decisionCheck": {
-            "prompt": "Independent repeats narrow the spread of the mean, but the mean remains far from the reference. What should you do next?",
+            "prompt": "Repeated pressure readings become less scattered, but their mean remains 3750 Pa for a 5000 Pa reference. What should you check?",
             "options": [
               {
                 "id": "ipe-statistics-decision-question-option-1",
-                "label": "Check the cause of bias and the calibration relation.",
-                "feedback": "Correct. Repeats do not automatically correct a consistent error."
+                "label": "The measurement chain’s gain and calibration.",
+                "feedback": "Correct. Incorrect total gain can preserve bias even when the mean’s spread shrinks."
               },
               {
                 "id": "ipe-statistics-decision-question-option-2",
-                "label": "Treat bias as removed because the spread shrank.",
-                "feedback": "Spread and bias describe different properties. The mean still disagrees with the reference."
+                "label": "Only the number of repeats.",
+                "feedback": "Repeating the measurement does not change the incorrect recorder gain."
               },
               {
                 "id": "ipe-statistics-decision-question-option-3",
-                "label": "Replace the reference with the instrument mean without checking it.",
-                "feedback": "Replacing the reference hides the difference rather than explaining its cause."
+                "label": "Replace the reference with the mean reading.",
+                "feedback": "Changing the reference without justification hides the difference and does not repair the instrument."
               }
             ],
-            "explanation": "Use repeats to assess random variation. Check zero, gain, and test conditions to investigate bias."
+            "explanation": "Calculate bias against a valid reference. Use repetition to assess random components, then check gain to correct the bias."
+          }
+        },
+        {
+          "id": "ipe-statistics-chain-spread",
+          "title": "Carry error through the remaining blocks",
+          "intuition": "Error introduced early in a chain passes through later amplifiers. You must express every contribution in final-output units before adding its variance.",
+          "formal": "For $O_i=K_iI_i+e_i$ with independent added error:\n\n$$\\sigma_{O_i}^2=K_i^2\\sigma_{I_i}^2+\\sigma_{e_i}^2.$$\n\nA uniform error on $[-h_i,h_i]$ has $\\sigma_{e_i}^2=h_i^2/3$. In the pressure chain, sensor error $0.08\\,\\Omega$ passes through gain $0.05\\times1000\\times15$. Its bound contributes $60\\,\\mathrm{Pa}$ at the output.",
+          "validityBounds": "Part 2, pages 2 to 3. Use actual gains. The h²/3 term requires a uniform distribution; bounds ±h alone do not specify a distribution. Include covariance for related errors.",
+          "decisionCheck": {
+            "prompt": "Sensor error enters before three amplifiers. How do you find its contribution to final-output variance?",
+            "options": [
+              {
+                "id": "ipe-statistics-chain-decision-option-1",
+                "label": "Multiply sensor variance by the square of the remaining gain product.",
+                "feedback": "Correct. Gain multiplies deviations, so squared gain multiplies variance."
+              },
+              {
+                "id": "ipe-statistics-chain-decision-option-2",
+                "label": "Add all block-error bounds without converting units.",
+                "feedback": "Errors in ohms, millivolts, and pascals cannot yet be added directly."
+              },
+              {
+                "id": "ipe-statistics-chain-decision-option-3",
+                "label": "Use nominal recorder gain even when the recorder is misadjusted.",
+                "feedback": "Error propagation follows the actual gain in use."
+              }
+            ],
+            "explanation": "The error’s location determines which gains act on it. Check each contribution’s units before taking the square root of total variance."
+          }
+        },
+        {
+          "id": "ipe-statistics-coefficients",
+          "title": "Check relationships between coefficients",
+          "intuition": "Sensor coefficients can vary together because they share a production process. **Covariance** measures that shared variation. Normal distributions for individual coefficients do not guarantee zero covariance.",
+          "formal": "At fixed temperature, $V=KT+a$ gives:\n\n$$\\bar V=\\bar KT+\\bar a,\\qquad \\sigma_V^2=T^2\\sigma_K^2+\\sigma_a^2+2T\\operatorname{Cov}(K,a).$$\n\nFor $E=a_0+a_1T+a_2T^2$, coefficient sensitivities are $(1,T,T^2)$. At $T=120\\,{}^\\circ\\mathrm C$, the problem data give $\\bar E=6.816\\,\\mu\\mathrm V$.",
+          "validityBounds": "Part 1, page 17, and Part 2, page 2. The model is linear in its coefficients, so its variance is exact at fixed temperature. Variable temperature requires extra terms.",
+          "decisionCheck": {
+            "prompt": "A table gives coefficient standard deviations and mentions normal distributions. Can you immediately remove every covariance term?",
+            "options": [
+              {
+                "id": "ipe-statistics-covariance-decision-option-1",
+                "label": "No; state or check an assumption of uncorrelated coefficients.",
+                "feedback": "Correct. Each coefficient’s distribution does not determine relationships between coefficients."
+              },
+              {
+                "id": "ipe-statistics-covariance-decision-option-2",
+                "label": "Yes; normal always means independent.",
+                "feedback": "Correlated coefficients can still have normal distributions."
+              },
+              {
+                "id": "ipe-statistics-covariance-decision-option-3",
+                "label": "Yes; fixed temperature makes every coefficient constant.",
+                "feedback": "Fixed temperature removes temperature variation, not variation in production coefficients."
+              }
+            ],
+            "explanation": "Report the numerical result with its zero-covariance assumption. Without covariance information, the table does not determine a unique output variance."
+          }
+        },
+        {
+          "id": "ipe-statistics-sample",
+          "title": "Distinguish sample spread from mean spread",
+          "intuition": "The spread of ten resistances describes differences between components. The spread of their mean describes uncertainty in estimating a population mean. You need different quantities for these tasks.",
+          "formal": "For $n>1$, calculate the mean and sample standard deviation:\n\n$$\\bar x=\\frac{1}{n}\\sum_i x_i,\\qquad s=\\sqrt{\\frac{\\sum_i(x_i-\\bar x)^2}{n-1}}.$$\n\nThe strain-gauge sample gives $\\bar R=119.99\\,\\Omega$ and $s=0.196921\\,\\Omega$. For independent samples with equal spread, $s/\\sqrt n$ estimates the mean’s standard deviation.",
+          "validityBounds": "Part 1, pages 16 to 17. The source uses σ for the n−1 formula; we use s to mark a sample estimate. Do not substitute s/√n for component spread.",
+          "decisionCheck": {
+            "prompt": "Quality control asks for the standard deviation of ten strain gauges. Which value should you report?",
+            "options": [
+              {
+                "id": "ipe-statistics-sample-decision-option-1",
+                "label": "$s=0.196921\\,\\Omega$.",
+                "feedback": "Correct. The value s describes resistance spread between components in the sample."
+              },
+              {
+                "id": "ipe-statistics-sample-decision-option-2",
+                "label": "$s/\\sqrt{10}=0.062272\\,\\Omega$.",
+                "feedback": "This value estimates the sample mean’s spread, not resistance spread between components."
+              },
+              {
+                "id": "ipe-statistics-sample-decision-option-3",
+                "label": "$\\bar R=119.99\\,\\Omega$.",
+                "feedback": "The mean locates the centre of the data; it does not measure spread."
+              }
+            ],
+            "explanation": "Decide what you want to assess before choosing a formula: one reading, a group of components, or the group’s mean."
           }
         }
       ],
       "checkpoints": [
-        "You can choose appropriate actions for bias and random spread.",
-        "Bias requires model or calibration correction; repeats mainly help assess random variation.",
-        "A small spread does not prove that results are close to the reference."
+        "Match reading and reference units before calculating bias.",
+        "Carry each error through the actual gains after its entry point.",
+        "State distribution and covariance assumptions before calculating spread.",
+        "Choose s or s/√n for the quantity the question requests."
       ],
       "derivations": [
         {
+          "id": "ipe-statistics-chain-example",
+          "title": "Example: units and gains in a pressure chain",
+          "content": "In [2025 UTS 1 question 2](?item=2025-uts1-q2), we use the actual recorder gain of $15\\,\\mathrm{Pa/mV}$. The gain product is $10^{-3}(0.05)(1000)(15)=0.75$.\n\n1. Calculate the mean: $\\bar O=0.75(5000)=3750\\,\\mathrm{Pa}$, so $\\bar E=-1250\\,\\mathrm{Pa}$.\n2. Express every error bound at the final output: $(60,15,7.5,5)\\,\\mathrm{Pa}$.\n3. For independent uniform errors, calculate $\\sigma_E=\\sqrt{(60^2+15^2+7.5^2+5^2)/3}=36.0844\\,\\mathrm{Pa}$.\n\nBias and standard deviation serve different purposes. A standard deviation of 36.0844 Pa does not remove the −1250 Pa bias. Basis: Part 2, pages 1 to 3."
+        },
+        {
+          "id": "ipe-statistics-coefficient-example",
+          "title": "Example: random coefficients at fixed temperature",
+          "content": "In [2024 UTS 1 question 6](?item=2024-uts1-q6), temperature stays at $120\\,{}^\\circ\\mathrm C$. We propagate coefficient variation through factors $(1,120,120^2)$.\n\n$$\\bar E=1.2+0.018(120)+0.00024(120)^2=6.816\\,\\mu\\mathrm V.$$\n\nWith zero covariance, $\\sigma_{a_0}=0.01\\,\\mu\\mathrm V$, $\\sigma_{a_1}=0.001\\,\\mu\\mathrm V/{}^\\circ\\mathrm C$, and $\\sigma_{a_2}=0$:\n\n$$\\sigma_E=\\sqrt{0.01^2+120^2(0.001)^2}=0.120416\\,\\mu\\mathrm V.$$\n\nThe paper’s 100 samples explain the table’s origin. The question asks for output spread caused by coefficient variation, so we do not divide by √100. Basis: Part 1, page 17; Part 2, page 2."
+        },
+        {
           "id": "ipe-statistics-sources",
-          "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "title": "Sources and limits of the formulas",
+          "content": "[Part 1](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), pages 16 to 17: repeatability, normal spread, sample standard deviation, and error propagation.\n\n[Part 2](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), pages 1 to 3: measurement-chain error and a variance-propagation example. Formulas without covariance require uncorrelated inputs. A local nonlinear approximation requires small changes.\n\nIn this module, bias means the difference between the mean and reference. Variance is squared standard deviation. Covariance describes shared variation between two inputs. We distinguish sample standard deviation s from the mean’s standard deviation s/√n."
         }
-      ]
+      ],
+      "keyFormula": {
+        "label": "Variance propagation with relationships between inputs",
+        "note": "The equation is exact for a linear model. For a nonlinear model, use this approximation only when local changes are sufficiently small."
+      }
     },
     "2025-uts1-q2": {
       "title": "Bias and error spread in a measurement chain",
@@ -1014,7 +1281,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Mean output is 3750 Pa, giving a mean error (indication −reference) of −1250 Pa or −25%. With independent zero-mean uniform block errors and the actual 15 Pa/mV recorder gain, error standard deviation is 36.0844 Pa.\n\n$$\n\\boxed{\\overline E=-1250\\ \\mathrm{Pa},\\qquad\\sigma_E\\approx36.08\\ \\mathrm{Pa}}\n$$",
-      "takeaway": "A small spread does not prove that results are close to the reference."
+      "takeaway": "A small spread does not prove that results are close to the reference.",
+      "sourceNotes": [
+        "Part 2, page 1, assesses the complete chain through the sensitivity product. Actual recorder gain makes this product $0.75$, so bias remains even when random errors have zero mean.",
+        "Part 2, pages 2 to 3, passes variance from each output to the next input. The paper’s $h_i^2/3$ term requires uniform error on $[-h_i,h_i]$. Independence removes covariance terms; error bounds alone do not establish independence."
+      ]
     },
     "2024-uts1-q6": {
       "title": "Mean and voltage spread from sensor coefficients",
@@ -1087,7 +1358,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Mean output is 6.816 μV. With uncorrelated coefficients, standard deviation is 0.120416 μV. Nonzero coefficient covariance requires more information for a unique standard deviation.\n\n$$\n\\boxed{\\bar E=6.816\\ \\mu\\mathrm V,\\qquad\\sigma_E=0.120416\\ \\mu\\mathrm V\\quad(\\operatorname{Cov}=0)}\n$$",
-      "takeaway": "A small spread does not prove that results are close to the reference."
+      "takeaway": "A small spread does not prove that results are close to the reference.",
+      "sourceNotes": [
+        "Part 1, page 17, and Part 2, page 2, propagate spread through partial sensitivities. At fixed temperature, $E$ is linear in its coefficients, with sensitivities $(1,T,T^2)$. Coefficient-variance propagation is exact, not an approximation in T.",
+        "Include covariance if the coefficients vary together. A normal or Gaussian distribution alone does not remove covariance. The 100 samples explain the coefficient statistics; the task asks for output spread, not uncertainty in the mean of 100 outputs."
+      ]
     },
     "2023-uts1-q3": {
       "title": "Output spread from sensitivity and offset variation",
@@ -1160,7 +1435,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Mean output is 1.999 V. Assuming zero covariance between K and a, output standard deviation is 0.1000001125 V, approximately 0.100 V.\n\n$$\n\\boxed{\\bar V=1.999\\ \\mathrm V,\\qquad \\sigma_V\\approx0.100\\ \\mathrm V\\quad[\\operatorname{Cov}(K,a)=0]}\n$$",
-      "takeaway": "A small spread does not prove that results are close to the reference."
+      "takeaway": "A small spread does not prove that results are close to the reference.",
+      "sourceNotes": [
+        "Part 1, page 17, and Part 2, page 2, support variance propagation. For $V=KT+a$ at fixed T, sensitivities to K and a are T and 1. Retain $2T\\operatorname{Cov}(K,a)$ if K and a correlate. Normal distributions for individual coefficients do not guarantee zero covariance."
+      ]
     },
     "2023-uas-q2": {
       "title": "Mean and standard deviation",
@@ -1286,7 +1564,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Mean 119.99 Ω and sample standard deviation 0.196921 Ω.\n\n$$\n\\boxed{\\bar R=119.99\\ \\Omega,\\qquad s=0.196921\\ \\Omega}\n$$",
-      "takeaway": "A small spread does not prove that results are close to the reference."
+      "takeaway": "A small spread does not prove that results are close to the reference.",
+      "sourceNotes": [
+        "Part 1, page 16, uses denominator $n-1$ for sample-data spread; page 17 gives related exercises. The source writes σ, but this solution uses s to distinguish a sample estimate from population standard deviation.",
+        "The task asks for resistance spread between components. The value $s/\\sqrt{10}=0.062272\\,\\Omega$ estimates mean spread for independent samples with equal spread. It does not replace $s=0.196921\\,\\Omega$."
+      ]
     },
     "ipe-statistics-practice": {
       "title": "Practice: Error and uncertainty",

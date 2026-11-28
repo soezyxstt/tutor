@@ -1,4 +1,5 @@
-import { useParamState, useParamArray } from "./context";
+import { useParamState, useParamArray, useModelChoice } from "./context";
+import { thermocoupleState } from "./thermocouple-context";
 import { useMemo, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import type { Locale, VisualSpec } from "./types";
@@ -29,18 +30,12 @@ const has = (spec: VisualSpec, key: string) =>
 
 export function ThermocoupleVisual({ spec, locale }: Props) {
   const initialType = pstr(spec, "type", "J");
-  const [type, setType] = useState(initialType);
+  const [type, setType] = useModelChoice('thermocoupleType', initialType);
   const [T, setT] = useParamState("temperature", pnum(spec, "T", 200));
   const [Tref, setTref] = useParamState("referenceTemperature", pnum(spec, "Tref", 20));
-  const maximum = Math.min(
-    type === "T" ? 400 : 500,
-    pnum(spec, "rangeMax", type === "T" ? 400 : 500),
+  const { maximum, hot, cold, eHot, eCold, measured } = thermocoupleState(
+    T, Tref, type, pnum(spec, "rangeMax", type === "T" ? 400 : 500),
   );
-  const hot = Math.min(maximum, Math.max(0, T));
-  const cold = Math.min(maximum, Math.max(0, Tref));
-  const eHot = thermocoupleEMF(hot, type),
-    eCold = thermocoupleEMF(cold, type),
-    measured = eHot - eCold;
   const series: Series[] = [
     {
       name: text(locale, "Tabel acuan 0°C", "0°C reference curve"),

@@ -10,7 +10,7 @@ export const module: CourseModule = {
       "kind": "material",
       "slug": "ipe-position-material",
       "title": "Pilih sinyal yang membedakan posisi",
-      "estimatedMinutes": 6,
+      "estimatedMinutes": 9,
       "examHook": {
         "prompt": "Poros bergerak saat daya mati. Sensor apa yang dapat membaca posisi dalam satu putaran saat daya kembali?",
         "targetOutcome": "Anda dapat menjelaskan acuan posisi dan informasi arah dari keluaran sensor."
@@ -48,6 +48,38 @@ export const module: CourseModule = {
             "correctOptionId": "ipe-position-decision-question-option-1",
             "explanation": "Baca fungsi tiap tahap. DC LVDT dapat memuat pembangkit AC dan pengolah keluaran di dalam perangkat."
           }
+        },
+        {
+          "id": "ipe-position-resolution",
+          "title": "Bedakan resolusi, sensitivitas, dan akurasi",
+          "intuition": "Bagian 1, halaman PDF 13-14, memberi dua ukuran yang berbeda. Sensitivitas menyatakan perubahan keluaran per perubahan input. Resolusi menyatakan selang input yang belum menghasilkan perubahan keluaran yang bisa dibedakan. Keduanya belum mencakup seluruh galat sistem.",
+          "formal": "Untuk keluaran kontinu $O(I)$, sensitivitas lokal ialah $dO/dI$. Untuk encoder absolut $n$ bit yang mencakup satu putaran, jumlah kode $2^n$ memberi langkah sudut $\\Delta\\theta=360^\\circ/2^n$. Encoder 8 bit memiliki 256 kode, sehingga langkahnya $1.40625^\\circ$.",
+          "validityBounds": "Rumus langkah sudut menganggap kode terbagi rata dalam satu putaran. Periksa apakah jumlah hitungan encoder inkremental memakai satu tepi atau empat tepi per siklus. Jangan menyamakan jarak antarkode dengan batas galat total.",
+          "decisionCheck": {
+            "id": "ipe-position-resolution-check",
+            "prompt": "Encoder absolut 8 bit mencakup satu putaran. Kesimpulan mana yang langsung mengikuti jumlah bitnya?",
+            "options": [
+              {
+                "id": "ipe-position-resolution-option-1",
+                "label": "Ada 256 kode dengan langkah nominal 360°/256.",
+                "feedback": "Tepat. Itu menyatakan pembagian posisi nominal."
+              },
+              {
+                "id": "ipe-position-resolution-option-2",
+                "label": "Setiap hasil pasti bebas galat sampai delapan angka desimal.",
+                "feedback": "Bit menyatakan kode biner, bukan jumlah angka desimal yang akurat.",
+                "misconceptionTag": "ipe-position-resolution-error-2"
+              },
+              {
+                "id": "ipe-position-resolution-option-3",
+                "label": "Sensitivitas setiap sensor posisi pasti sama dengan 8 V/derajat.",
+                "feedback": "Jumlah bit tidak menentukan sensitivitas tegangan sensor.",
+                "misconceptionTag": "ipe-position-resolution-error-3"
+              }
+            ],
+            "explanation": "Jumlah bit menentukan jumlah kode dan langkah nominal. Akurasi sistem juga bergantung pada kesalahan alat, pembacaan, dan pemasangan.",
+            "correctOptionId": "ipe-position-resolution-option-1"
+          }
         }
       ],
       "checkpoints": [
@@ -59,7 +91,7 @@ export const module: CourseModule = {
         {
           "id": "ipe-position-sources",
           "title": "Sumber dan cara membaca arsip",
-          "content": "[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Tahun mengikuti folder arsip; tanggal pada naskah dapat berbeda.\n\n[Materi utama: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Setiap pembahasan menyertakan naskah sumber, halaman, dan asumsi yang relevan."
+          "content": "Baca bagian yang sesuai dengan model yang Anda pakai. Nomor di bawah menghitung halaman PDF dari 1; satu halaman dapat memuat beberapa slide.\n\n[Pengukuran Teknik, Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), halaman PDF 2, 3, 8, 12, 13, 14: Fungsi tahap pengukuran, pengondisi sinyal, sensitivitas, dan resolusi.\n\n[Pengukuran Teknik, Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), halaman PDF 4, 7, 8, 10: Kompensasi suhu pada gauge serta model orde dua dan batas frekuensi akselerometer.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), halaman PDF 14, 15, 16, 17, 18, 19, 20, 21, 22, 23: Sensor posisi, encoder, LVDT, strain gauge, dan susunan sensor perpindahan.\n\n[Arsip soal UTS 1, UTS 2, dan UAS 2023 sampai 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Setiap soal menyimpan naskah, halaman ujian, dan asumsi tersendiri."
         }
       ]
     },
@@ -77,13 +109,23 @@ export const module: CourseModule = {
         ],
         "original": "3. Ultrasonic Sensor\nAn ultrasonic sensor is used to monitor the fluid level in a tank. The sensor is installed above the tank. When the tank is empty, it takes 200 ms for the ultrasonic waves to travel from sensor to the fluid surface and then back to sensor. When the fluid in the tank is at height h, it takes 100 ms for the ultrasonic waves to travel from the sensor to the fluid surface and then back to sensor. The ultrasound travel in the air with speed of 330 m/s.\na. [10%] Draw a schematic of this measurement setup and briefly explain how it works.\nb. [15%] Calculate the fluid height (h).",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            16
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              16
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Saat tangki kosong, frasa “fluid surface” pada sumber kita baca sebagai dasar atau permukaan acuan kosong. Kedua waktu merupakan waktu pulang-pergi."
@@ -167,7 +209,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Tinggi cairan 16.5 m. Pengukuran membandingkan waktu pantulan dari dasar dengan waktu pantulan dari permukaan cairan.\n\n$$\n\\boxed{h=\\frac{330}{2}(0.200-0.100)=16.5\\ \\mathrm m}\n$$",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Sesuai urutan fungsi di Bagian 1, halaman PDF 2-3, detektor mula-mula menerima pantulan; pengolah kemudian mengubah selang waktu menjadi jarak. Bagian 3, halaman PDF 16, menjelaskan pengukuran berdasarkan waktu pantulan. Karena waktunya pulang-pergi, perubahan tinggi ialah $h=c(t_{\\mathrm{kosong}}-t_{\\mathrm{isi}})/2$ bila cepat rambat tetap."
+      ]
     },
     {
       "id": "2025-uts2-q4",
@@ -184,18 +229,35 @@ export const module: CourseModule = {
         ],
         "original": "4. Position Sensors: LVDT, Resolver, Encoder, Strain gauges\na. [5%] What are the similarities and differences between a resolver and an LVDT (Linear Variable Differential Transformer)?\nb. [5%] What are the advantages and disadvantages of an absolute encoder compared to an incremental encoder?\nc. [5%] A cantilever beam with four strain gauges A1, A2, D1 and D2 is shown in the figure below. These four strain gauges form a Wheatstone bridge. (i) Describe the position of each strain gauge on the Wheatstone bridge’s arm. (ii) What is the function of D1 and D2?\nd. [5%] In a two-channel incremental encoder, how can we detect the direction of motion of the rotor (e.g. clockwise and counterclockwise)? You may sketch a schematic to support your answer.\nFigure: a cantilever fixed on the left and loaded downward at its right end; A1 and D1 are on the upper face, A2 and D2 on the lower face. The D gauges are drawn perpendicular to the A gauges.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            15,
-            16,
-            17,
-            20,
-            21,
-            23
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              3,
+              8
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              15,
+              16,
+              17,
+              20,
+              21,
+              23
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Penamaan lengan pada pembahasan kita tetapkan secara eksplisit; susunan yang setara dengan polaritas keluaran terbalik juga sah. Identifikasi regangan D mengikuti orientasi pada gambar, bukan huruf D saja."
@@ -423,7 +485,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "LVDT mengukur perpindahan lurus, resolver mengukur sudut. Encoder absolut memberi kode posisi; encoder inkremental menghitung perubahan. Tempatkan A1/A2 bersebelahan dan D1/D2 pada dua lengan lain sesuai diagram. D membantu kompensasi suhu; gauge melintang yang merekat juga merasakan efek Poisson. Arah encoder berasal dari kanal yang mendahului.",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 3 dan 8, memisahkan sensor regangan dari pengondisi sinyal. Bagian 2, halaman PDF 4, menunjukkan kompensasi suhu dengan gauge yang mendapat pengaruh suhu serupa. Pada soal ini, periksa pula arah gauge: gauge melintang yang melekat pada balok dapat menerima regangan Poisson, sehingga bukan selalu resistor yang bebas regangan."
+      ]
     },
     {
       "id": "2025-uas-q3",
@@ -440,16 +505,25 @@ export const module: CourseModule = {
         ],
         "original": "3. [25%] Angular Position Measurement\na. [5%] Explain the working principle of an incremental encoder. How can you determine the direction of rotation that occurs?\nb. [5%] What is the difference between an incremental encoder and an absolute encoder? What are the weaknesses of an incremental encoder?\nc. [5%] Calculate the resolution in degrees of an 8-bit encoder.\nd. [5%] What are the advantages and disadvantages of resolver compared to linear potentiometer?\ne. [5%] Explain briefly how the following resolver works.\nFigure: rotor reference RH/RL coupled through a brushless excitation transformer; perpendicular stator windings S2/S4 marked K Ref Cos θ and S3/S1 marked K Ref Sin θ.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            14,
-            15,
-            16,
-            17
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              14
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              14,
+              15,
+              16,
+              17
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Encoder 8 bit mencakup satu putaran penuh dengan 256 kode. Arti searah jarum jam terhadap kanal A/B mengikuti pemasangan. Perbandingan resolver mengacu pada jenis brushless yang tampak pada sumber."
@@ -650,7 +724,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Resolusi encoder 8 bit ialah 1.40625° per kode. Arah inkremental berasal dari urutan A/B; posisi absolut berasal dari kode. Resolver membaca sudut dari dua amplitudo sinus-kosinus yang telah didemodulasi.\n\n$$\n\\boxed{\\Delta\\theta=1.40625^\\circ/\\mathrm{code}}\n$$",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 14, membedakan resolusi dari bentuk kurva keluaran. Untuk encoder absolut dengan $n$ bit, ada $2^n$ kode dan lebar satu langkah sudut ialah $360^\\circ/2^n$. Jumlah kode tidak menyatakan akurasi total; pemasangan dan kesalahan pembacaan masih dapat menambah galat."
+      ]
     },
     {
       "id": "2024-uas-q6",
@@ -666,15 +743,26 @@ export const module: CourseModule = {
         ],
         "original": "6. [10%] Position Sensor\n(a) [5%] Explain briefly how a DC LVDT (Direct Current Linear Variable Differential Transformer) works. You may include a sketch of the DC LVDT.\n(b) [5%] What are the differences between an absolute and an incremental encoder? You may include sketches of both encoders.",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            15,
-            16,
-            17
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              2,
+              3,
+              14
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              15,
+              16,
+              17
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Berkas ini berada dalam arsip 2024; kepala soal mencantumkan tanggal ujian 15 Januari 2025."
@@ -980,7 +1068,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "DC LVDT mengolah selisih sinyal AC internal menjadi keluaran DC posisi. Encoder inkremental menghitung perubahan posisi; encoder absolut membaca kode posisi dalam rentangnya.",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 2-3, membantu membaca istilah DC LVDT sebagai sistem lengkap. Elemen induktif memakai eksitasi bolak-balik; rangkaian internal menyediakan eksitasi dan mengolah selisih sekunder menjadi keluaran DC. Perbedaan antarmuka tidak mengubah besaran yang diukur, yaitu perpindahan inti."
+      ]
     },
     {
       "id": "2023-uts2-q3",
@@ -996,19 +1087,30 @@ export const module: CourseModule = {
         ],
         "original": "3. Position Sensors\na. [5%] Please explain the differences between absolute and incremental encoders, in terms of construction and output signals?\nb. [5%] A capacitive-based sensor is used to measure the liquid level in a tank. Assuming the dielectric constant of the liquid is k times of air, surface area of the sensor is A, and the distance between surfaces is D. Determine the capacitance of the sensor as shown in the figure below.\nFigure labels: total height h; air height h1; liquid height h2; probe bottom clearance h0; metal shell, measured material, inner electrode, outer electrode.\nc. [5%] Sketch a signal conditioner to measure changes in capacitance in the level sensor at question [b].\nd. [5%] Please explain how the following LVDT works?\ne. [5%] What is the advantage and disadvantage of an LVDT over a potentiometer?",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            14,
-            15,
-            16,
-            17,
-            21,
-            22,
-            23
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view",
+            "title": "Pengukuran Teknik, Bagian 1 (2022)",
+            "pages": [
+              3,
+              12,
+              13
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              14,
+              15,
+              16,
+              17,
+              21,
+              22,
+              23
+            ]
+          }
+        ]
       },
       "assumptions": [
         "A adalah luas seluruh elektroda aktif, bukan luas dasar tangki. Rumus A/D memakai model pelat sejajar atau celah silinder yang tipis; abaikan efek ujung dan kapasitansi kabel.",
@@ -1301,7 +1403,10 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Encoder absolut memberi kode posisi; inkremental memberi pulsa perubahan posisi. Kapasitansi menjumlahkan daerah udara dan cairan. Jembatan AC membaca perubahannya. LVDT membaca selisih dua sekunder tanpa kontak geser listrik.\n\n$$\n\\boxed{C=\\frac{\\varepsilon_{\\rm air}A}{D}\\left[1+(k-1)\\frac{h_2-h_0}{h-h_0}\\right]}\n$$",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Bagian 1, halaman PDF 12-13, menghubungkan sensitivitas dengan kemiringan keluaran terhadap input. Setelah memakai geometri level di Bagian 3, halaman PDF 22, turunkan $dC/dh$ dari persamaan kapasitansi Anda. Ini menguji apakah perubahan tinggi memberi perubahan keluaran yang sesuai. Halaman PDF 3 pada Bagian 1 menjelaskan mengapa perubahan kapasitansi masih memerlukan pengondisi sinyal."
+      ]
     },
     {
       "id": "2023-uas-q4",
@@ -1319,16 +1424,28 @@ export const module: CourseModule = {
         ],
         "original": "4. Position Sensors\na. [7%] Please explain the working principle of the following resolver.\nb. [8%] Sketch an LVDT and explain how does an LVDT works?\nc. [15%] An LVDT is used to measure the seismic mass displacement in an accelerometer. The LVDT output (with signal conditioning) is 0.31 mV/mm, and the maximum LVDT core displacement is ±10 mm. The spring constant is 240 N/m, the seismic mass is m = m1 + m2 = 0.05 kg, and the damping coefficient is c = 3.46 N.s/m.\ni. The relationship between the acceleration m/s² and the output voltage.\nii. The maximum measurable acceleration m/s².",
         "originalLanguage": "en",
-        "reference": {
-          "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
-          "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
-          "pages": [
-            15,
-            16,
-            18,
-            23
-          ]
-        }
+        "references": [
+          {
+            "url": "https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view",
+            "title": "Pengukuran Teknik, Bagian 2 (2022)",
+            "pages": [
+              7,
+              8,
+              10
+            ]
+          },
+          {
+            "url": "https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view",
+            "title": "Pengukuran Teknik, Bagian 3 (Rev. 2022)",
+            "pages": [
+              15,
+              16,
+              18,
+              19,
+              23
+            ]
+          }
+        ]
       },
       "assumptions": [
         "Koordinat simpangan diukur dari keseimbangan statik sehingga berat dan gaya pegas awal saling meniadakan. Tanda keluaran bergantung sambungan LVDT.",
@@ -1680,7 +1797,11 @@ export const module: CourseModule = {
         }
       ],
       "finalAnswer": "Resolver memakai dua keluaran sinus/kosinus; LVDT memakai selisih sekunder. Model dinamik E/A = −0.31/(s²+69.2s+4800). Pada frekuensi rendah, sensitivitas 0.0645833 mV/(m/s²) dan batas percepatan ±48 m/s².\n\n$$\n\\boxed{\\begin{aligned}|E|&\\approx0.0645833|a|\\quad[\\mathrm{mV}]\\\\|a|_{\\max}&=48\\ \\mathrm{m/s^2}\\quad(\\omega\\ll\\omega_n)\\end{aligned}}\n$$",
-      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran."
+      "takeaway": "Rasio dua sinyal saja dapat menghilangkan informasi kuadran.",
+      "sourceNotes": [
+        "Bagian 2, halaman PDF 7-8, memberi model respons orde dua. Di sini, LVDT membaca simpangan **relatif** massa terhadap alas. Dengan $z=x-y$, neraca gaya memberi $m\\ddot z+c\\dot z+kz=-m\\ddot y$. Kalikan hubungan simpangan itu dengan sensitivitas LVDT untuk memperoleh tegangan.",
+        "Bagian 2, halaman PDF 10, dan Bagian 3, halaman PDF 19, menekankan batas frekuensi kerja. Pendekatan $z\\approx-ma/k$ berlaku jauh di bawah frekuensi alami. Karena itu, batas percepatan dari simpangan maksimum perlu menyebut batas frekuensinya; nilai statik tidak berlaku pada semua frekuensi."
+      ]
     },
     {
       "id": "ipe-position-practice",
@@ -1967,6 +2088,34 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
             ],
             "explanation": "Read the function of each stage. A DC LVDT can contain an AC generator and output-conditioning circuits."
           }
+        },
+        {
+          "id": "ipe-position-resolution",
+          "title": "Distinguish resolution, sensitivity, and accuracy",
+          "intuition": "Part 1, PDF pages 13-14, defines two different measures. Sensitivity is output change per input change. Resolution is an input interval that does not yet produce a distinguishable output change. Neither measure accounts for every system error.",
+          "formal": "For continuous output $O(I)$, local sensitivity is $dO/dI$. For an $n$-bit absolute encoder over one turn, $2^n$ codes give an angular step $\\Delta\\theta=360^\\circ/2^n$. An 8-bit encoder has 256 codes, giving a step of $1.40625^\\circ$.",
+          "validityBounds": "This step-size relation assumes evenly spaced codes over one turn. For an incremental encoder, check whether counts use one edge or four edges per cycle. Code spacing is not the total error limit.",
+          "decisionCheck": {
+            "prompt": "An 8-bit absolute encoder covers one turn. Which conclusion follows directly from its bit count?",
+            "options": [
+              {
+                "id": "ipe-position-resolution-option-1",
+                "label": "There are 256 codes with a nominal step of 360°/256.",
+                "feedback": "Correct. This describes the nominal position intervals."
+              },
+              {
+                "id": "ipe-position-resolution-option-2",
+                "label": "Every reading is error-free to eight decimal places.",
+                "feedback": "Bits specify binary codes, not accurate decimal places."
+              },
+              {
+                "id": "ipe-position-resolution-option-3",
+                "label": "Every position sensor must have a sensitivity of 8 V/degree.",
+                "feedback": "Bit count does not set a sensor voltage sensitivity."
+              }
+            ],
+            "explanation": "Bit count determines the code count and nominal step. System accuracy also depends on instrument, readout, and installation errors."
+          }
         }
       ],
       "checkpoints": [
@@ -1978,7 +2127,7 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         {
           "id": "ipe-position-sources",
           "title": "Sources and archive conventions",
-          "content": "[Midterm 1, Midterm 2, and final exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Years follow archive folders; printed paper dates may differ.\n\n[Main reference: Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view). Each worked solution includes its original statement, source pages, and relevant assumptions."
+          "content": "Read the part that supports the model you use. The numbers count physical PDF pages from 1; a page may contain several slides.\n\n[Pengukuran Teknik, Bagian 1 (2022)](https://drive.google.com/file/d/1Jr_rHWlZKSQPUH87TGEL7w8GgDuixE0A/view), PDF pages 2, 3, 8, 12, 13, 14: Measurement-stage functions, signal conditioning, sensitivity, and resolution.\n\n[Pengukuran Teknik, Bagian 2 (2022)](https://drive.google.com/file/d/1VyFbwvvW_N_A9vbipKjYTGkX3CnjXONr/view), PDF pages 4, 7, 8, 10: Gauge temperature compensation, second-order models, and accelerometer frequency limits.\n\n[Pengukuran Teknik, Bagian 3 (Rev. 2022)](https://drive.google.com/file/d/1UnGPrB_172dW6P9SGHRdpHQbjk2TleJJ/view), PDF pages 14, 15, 16, 17, 18, 19, 20, 21, 22, 23: Position sensors, encoders, LVDTs, strain gauges, and displacement-sensor arrangements.\n\n[Midterm and final-exam archive, 2023 to 2025](https://drive.google.com/drive/folders/1yDxh5kA1s5m4ZNPbKlmjoymkVJrD1END). Each problem retains its own original statement, exam pages, and assumptions."
         }
       ]
     },
@@ -2048,7 +2197,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "The liquid height is 16.5 m. The measurement compares the bottom-echo time with the liquid-surface echo time.\n\n$$\n\\boxed{h=\\frac{330}{2}(0.200-0.100)=16.5\\ \\mathrm m}\n$$",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Following the functional sequence in Part 1, PDF pages 2-3, a detector first receives the echo and processing converts travel time into distance. Part 3, PDF page 16, describes echo-time measurement. Since travel is round-trip, the level change is $h=c(t_{\\mathrm{empty}}-t_{\\mathrm{filled}})/2$ for constant sound speed."
+      ]
     },
     "2025-uts2-q4": {
       "title": "Position sensors and strain-gauge wiring",
@@ -2210,7 +2362,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "An LVDT measures linear displacement; a resolver measures angle. Absolute encoders give position codes; incremental encoders count changes. Put A1/A2 in adjacent arms and D1/D2 in the remaining arms as shown. D gauges help compensate temperature; bonded transverse gauges also sense Poisson strain. Encoder direction comes from the leading channel.",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Part 1, PDF pages 3 and 8, separates strain sensing from signal conditioning. Part 2, PDF page 4, shows temperature compensation with gauges exposed to similar temperature changes. Also check gauge orientation here: a transverse gauge bonded to the beam can sense Poisson strain, so it is not necessarily strain-free."
+      ]
     },
     "2025-uas-q3": {
       "title": "8-bit encoder and resolver operation",
@@ -2351,7 +2506,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "An 8-bit encoder resolves 1.40625° per code. Incremental direction comes from A/B order; absolute position comes from its code. A resolver derives angle from demodulated sine/cosine amplitudes.\n\n$$\n\\boxed{\\Delta\\theta=1.40625^\\circ/\\mathrm{code}}\n$$",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Part 1, PDF page 14, treats resolution as the input interval that produces no distinct output change. An absolute encoder with $n$ bits has $2^n$ codes and an angular step of $360^\\circ/2^n$. Code count alone does not establish total accuracy; installation and readout errors can add further error."
+      ]
     },
     "2024-uas-q6": {
       "title": "DC LVDTs and two encoder types",
@@ -2537,7 +2695,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "A DC LVDT converts an internal AC difference signal into a DC position output. Incremental encoders count position changes; absolute encoders read a position code within their range.",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Part 1, PDF pages 2-3, helps interpret a DC LVDT as a complete system. The inductive element uses alternating excitation; internal electronics supply that excitation and convert the secondary difference into a DC output. The interface does not change the measurand: core displacement."
+      ]
     },
     "2023-uts2-q3": {
       "title": "Encoders, level sensing, and LVDT",
@@ -2722,7 +2883,10 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "Absolute encoders provide position codes; incremental encoders provide motion pulses. Capacitance adds the air and liquid regions. An AC bridge reads its change. An LVDT senses the secondary-voltage difference without sliding electrical contact.\n\n$$\n\\boxed{C=\\frac{\\varepsilon_{\\rm air}A}{D}\\left[1+(k-1)\\frac{h_2-h_0}{h-h_0}\\right]}\n$$",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Part 1, PDF pages 12-13, relates sensitivity to the output slope against input. After using the level geometry in Part 3, PDF page 22, derive $dC/dh$ from your capacitance expression. This checks whether a level change gives the expected output change. Part 1, PDF page 3, explains why a capacitance change still needs signal conditioning."
+      ]
     },
     "2023-uas-q4": {
       "title": "Resolver, LVDT, and accelerometer",
@@ -2928,7 +3092,11 @@ export const english: NonNullable<CourseTranslation['modules']>[string] = {
         }
       ],
       "finalAnswer": "A resolver uses sine/cosine outputs; an LVDT uses the secondary difference. Dynamic model E/A = −0.31/(s²+69.2s+4800). At low frequency, sensitivity magnitude is 0.0645833 mV/(m/s²), with acceleration limit ±48 m/s².\n\n$$\n\\boxed{\\begin{aligned}|E|&\\approx0.0645833|a|\\quad[\\mathrm{mV}]\\\\|a|_{\\max}&=48\\ \\mathrm{m/s^2}\\quad(\\omega\\ll\\omega_n)\\end{aligned}}\n$$",
-      "takeaway": "A ratio alone can discard quadrant information."
+      "takeaway": "A ratio alone can discard quadrant information.",
+      "sourceNotes": [
+        "Part 2, PDF pages 7-8, supplies the second-order response model. Here the LVDT reads **relative** mass displacement. With $z=x-y$, force balance gives $m\\ddot z+c\\dot z+kz=-m\\ddot y$. Multiply the displacement relation by LVDT sensitivity to obtain voltage.",
+        "Part 2, PDF page 10, and Part 3, PDF page 19, emphasize the usable frequency range. The approximation $z\\approx-ma/k$ applies well below the natural frequency. An acceleration limit derived from maximum displacement must therefore state its frequency condition; the static limit does not hold at every frequency."
+      ]
     },
     "ipe-position-practice": {
       "title": "Practice: Position, displacement, and strain",
