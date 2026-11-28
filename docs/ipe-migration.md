@@ -118,7 +118,10 @@ The shared Markdown renderer converts bare Celsius notation in ordinary prose
 to `°C`. Formula meanings and units use that renderer too. Parsed equations, code,
 source strings, and link destinations remain intact. Spatial visuals check WebGL2
 before mounting the 3D renderer and release the probe context. Unsupported
-devices receive the translated fallback directly and can return to 2D.
+devices receive the translated fallback directly and can return to 2D. Flow and
+resolver labels use native 3D sprites, keeping their lifecycle within the scene
+when the user changes dimensions. Their text also remains available to screen
+readers in the surrounding DOM.
 
 ## Run and verify
 

@@ -1,10 +1,11 @@
 import { resolveColor, useThemeRevision } from "./theme";
 import { Component, Suspense, useRef, useState, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Line, Html } from "@react-three/drei";
+import { OrbitControls, Line } from "@react-three/drei";
 import type { OrbitControls as OrbitType } from "three-stdlib";
 import type { Locale } from "./types";
 import { text, num } from "../lib/i18n";
+import { SpatialLabel, type SpatialLabelData } from "./spatial-label";
 
 export function supportsWebGL2() {
   if (typeof document === "undefined") return false;
@@ -118,7 +119,6 @@ function Flow({
     xs = [-2, -1.7, -0.8, -0.2, 0.3, 1.3, 2];
   const flowXs = [-2, -1.2, -0.4, 0, 0.5, 1.2, 2],
     flowRadii = [1, 1, beta, beta, venturi ? beta : jetBeta, 1, 1];
-  const contracted = !venturi && Math.abs(jetBeta - beta) > 1e-8;
   return (
     <group>
       {venturi ? (
@@ -170,17 +170,6 @@ function Flow({
           lineWidth={2}
         />
       ))}
-      <Html position={[-1.5, 1.3, 0]} center>
-        <span className="spatial-label">D</span>
-      </Html>
-      <Html position={[0, -0.15, beta + 0.2]} center>
-        <span className="spatial-label">{contracted ? "d₀" : "d"}</span>
-      </Html>
-      {contracted && (
-        <Html position={[0.65, -0.15, jetBeta + 0.2]} center>
-          <span className="spatial-label">d₂</span>
-        </Html>
-      )}
     </group>
   );
 }
@@ -219,7 +208,7 @@ function Encoder({ angle, marks }: { angle: number; marks: number }) {
     </group>
   );
 }
-function Resolver({ angle, locale }: { angle: number; locale: Locale }) {
+function Resolver({ angle }: { angle: number }) {
   const theta = (angle * Math.PI) / 180,
     c = Math.cos(theta),
     s = Math.sin(theta);
@@ -327,17 +316,6 @@ function Resolver({ angle, locale }: { angle: number; locale: Locale }) {
         gapSize={0.05}
         lineWidth={1.4}
       />
-      <Html position={[1.88, 0, 0.15]} center>
-        <span className="spatial-label">S · cos θ</span>
-      </Html>
-      <Html position={[0, 1.94, 0.15]} center>
-        <span className="spatial-label">S · sin θ</span>
-      </Html>
-      <Html position={[0, -1.97, 0.15]} center>
-        <span className="spatial-label">
-          {text(locale, "Rotor", "Rotor")} · θ = {num(angle, locale, 0)}°
-        </span>
-      </Html>
     </group>
   );
 }
@@ -388,6 +366,7 @@ export default function Spatial({
   useThemeRevision();
   const [webGLAvailable] = useState(supportsWebGL2);
   const background = resolveColor("var(--surface-subtle)");
+  const foreground = resolveColor("var(--foreground)");
   const controls = useRef<OrbitType>(null);
   const positions = 2 ** bits,
     divisions =
@@ -395,6 +374,20 @@ export default function Spatial({
         ? Math.max(1, Math.round(pulses))
         : positions,
     marks = Math.min(divisions, 64);
+  const contracted = kind === "orifice" && Math.abs(jetBeta - beta) > 1e-8;
+  const labels: SpatialLabelData[] = kind === "orifice" || kind === "venturi"
+    ? [
+        { label: "D", position: [-1.5, 1.3, 0] },
+        { label: contracted ? "d₀" : "d", position: [0, -0.15, beta + 0.2] },
+        ...(contracted ? [{ label: "d₂", position: [0.65, -0.15, jetBeta + 0.2] as [number, number, number] }] : []),
+      ]
+    : kind === "resolver"
+      ? [
+          { label: "S · cos θ", position: [1.88, 0, 0.15] },
+          { label: "S · sin θ", position: [0, 1.94, 0.15] },
+          { label: `${text(locale, "Rotor", "Rotor")} · θ = ${num(value, locale, 0)}°`, position: [0, -1.97, 0.15] },
+        ]
+      : [];
   const captions: Record<string, string> = {
     orifice:
       Math.abs(jetBeta - beta) > 1e-8
@@ -501,10 +494,13 @@ export default function Spatial({
               ) : kind === "lvdt" ? (
                 <Lvdt x={value} />
               ) : kind === "resolver" ? (
-                <Resolver angle={value} locale={locale} />
+                <Resolver angle={value} />
               ) : kind === "encoder" ? (
                 <Encoder angle={value} marks={marks} />
               ) : null}
+              {labels.map((label, index) => (
+                <SpatialLabel key={index} {...label} foreground={foreground} background={background} />
+              ))}
             </Suspense>
             <OrbitControls
               ref={controls}
@@ -513,6 +509,7 @@ export default function Spatial({
               maxDistance={10}
             />
           </Canvas>
+          <span className="sr-only">{labels.map(({ label }) => label).join("; ")}</span>
           <span
             className="spatial-caption"
             style={{ right: 5, background: "color-mix(in srgb, var(--surface-subtle) 90%, transparent)", lineHeight: 1.45 }}
