@@ -1,0 +1,12 @@
+{
+  "$schema": "../apps/catalog/node_modules/wrangler/config-schema.json",
+  "name": "tutor-catalog-verification",
+  "compatibility_date": "2026-11-01",
+  "services": [
+    {
+      "binding": "CATALOG",
+      "service": "tutor-catalog",
+      "remote": true
+    }
+  ]
+}

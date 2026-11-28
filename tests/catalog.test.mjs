@@ -13,7 +13,7 @@ test('course URLs only allow HTTPS hostnames without credentials or executable p
   }
 });
 
-test('catalog discovers imported content and new apps, skips drafts/templates, and reports partial translation honestly', async () => {
+test('catalog discovers real courses, excludes demo even when published, and reports partial translation honestly', async () => {
   const rootDir = await mkdtemp(join(tmpdir(), 'tutor-catalog-test-'));
   const outputPath = join(rootDir, 'catalog.json');
   const writeCourse = async (slug, extra = '') => {
@@ -34,8 +34,11 @@ test('catalog discovers imported content and new apps, skips drafts/templates, a
   };
   try {
     await writeCourse('starter');
+    await writeCourse('demo', "catalog:{listed:true,status:'published'}");
     await writeCourse('hidden', 'catalog:{listed:false}');
     await writeCourse('draft', "catalog:{status:'draft'}");
+    const empty = await generateCatalog({ rootDir, outputPath });
+    assert.deepEqual(empty.courses, [], 'demo, templates, drafts, and hidden courses do not fill an empty public catalog');
     await writeCourse('perpan');
     const first = await generateCatalog({ rootDir, outputPath });
     assert.equal(first.courses.length, 1);

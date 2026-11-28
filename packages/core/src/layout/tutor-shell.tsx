@@ -119,7 +119,7 @@ export function TutorShell({
 
       {/* Mobile Sidebar Sheet */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="p-0" showClose={false}>
+        <SheetContent side="left" className="p-0" showClose={false} closeLabel={t('Tutup panel', 'Close panel')}>
           <SheetTitle className="sr-only">{course.title}</SheetTitle>
           <TutorSidebarContent
             course={course}

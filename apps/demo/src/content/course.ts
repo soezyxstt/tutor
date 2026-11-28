@@ -9,6 +9,7 @@ export const demoCourse: CourseConfig = {
   domain: 'demo.tutor.adihnursyam.com',
   semester: 'Semester 1',
   enableShowcase: true,
+  catalog: { listed: false, status: 'showcase' },
   sourceLanguage: 'id',
   translations: { en: demoEnglish },
   modules: [

@@ -118,7 +118,7 @@ export async function generateCatalog({
   const courses = [];
   try {
     for (const directory of directories.sort((a, b) => a.name.localeCompare(b.name))) {
-      if (!directory.isDirectory() || directory.name.startsWith('.') || ['starter', 'catalog'].includes(directory.name)) continue;
+      if (!directory.isDirectory() || directory.name.startsWith('.') || ['starter', 'catalog', 'demo'].includes(directory.name)) continue;
       const file = resolve(appDirectory, directory.name, 'src/content/course.ts');
       if (!existsSync(file)) continue;
       const course = await loadCourse(file, tempDirectory, directory.name, localizerPath);

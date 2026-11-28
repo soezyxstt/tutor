@@ -26,8 +26,9 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  closeLabel = 'Tutup',
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { closeLabel?: string }) {
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -40,7 +41,7 @@ function DialogContent({
       >
         {children}
         <DialogPrimitive.Close
-          aria-label="Tutup"
+          aria-label={closeLabel}
           className="absolute top-3.5 right-3.5 inline-flex size-6 cursor-pointer items-center justify-center border-0 bg-transparent text-muted-foreground transition-colors hover:text-foreground outline-none"
         >
           <X className="size-4" />

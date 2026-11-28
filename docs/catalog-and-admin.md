@@ -11,7 +11,7 @@ The catalog build and local development server run this generator automatically.
 The deploy workflow watches every app, so a new course does not need a separate
 catalog entry or a change to the workflow.
 
-The generator skips `starter`, `catalog`, empty courses, and courses with
+The generator skips `demo`, `starter`, `catalog`, empty courses, and courses with
 `catalog.listed: false` or `catalog.status: 'draft'`. `pnpm new-course` starts in
 draft status. After authoring and validation, publish the course with:
 
@@ -101,9 +101,17 @@ SQLite Durable Object. The session expires after eight hours. Mutations require
 the exact admin origin, including when a request comes from a sibling course site.
 
 Choose one primary model and up to five fallback models. Save once to apply the
-choice across every course Worker. Course Workers read `/api/tutor-config`, cache
-it for 30 seconds, and keep a last good result or environment defaults if the
-catalog cannot respond. A fallback model runs when the previous request fails
+choice across every course Worker. Course Workers read `/api/tutor-config` through
+the internal `TUTOR_CONFIG` service binding to `tutor-catalog`. They cache the
+result for 30 seconds and keep a last good result or environment defaults if the
+catalog cannot respond. The internal call does not depend on public bot checks.
+The demo and starter declare this binding, so `pnpm new-course` inherits it.
+
+Standalone or local deployments without the binding can use `TUTOR_CONFIG_URL`
+as a URL fallback. Set `TUTOR_CONFIG_URL=disabled` for isolated local work.
+Service and public URL reads use separate caches. A bound service failure uses
+its own last good result or local defaults instead of switching to public fetch.
+A fallback model runs when the previous request fails
 before streaming begins; the server does not replay a partially emitted answer.
 
 ## Model inventory
@@ -145,7 +153,14 @@ For local admin work, build the catalog and run Wrangler in `apps/catalog`.
 Put disposable development credentials in ignored `.dev.vars`. Do not copy
 production secrets into local files. Vite proxies `/api` to port 8787.
 
-The production workflow runs `scripts/verify-catalog.mjs` after deploy. The check
-signs in using Actions secrets, reads settings and provider lists, checks origin
-protection, then revokes its session. It does not change model choices or print
-credentials, cookies, or upstream error bodies.
+The production workflow runs `scripts/verify-catalog.mjs` after deploy. With
+`CATALOG_CHECK_MODE=binding`, Wrangler opens an authenticated remote service
+binding through `scripts/wrangler.verify.jsonc`. The check reaches the deployed
+Worker and its live secrets and storage without depending on public bot checks.
+It signs in using Actions secrets, reads settings and provider lists, checks
+origin protection, then revokes its session. It does not change model choices or
+print credentials, cookies, or upstream error bodies.
+
+Check the public domain in a browser separately. The script's default HTTP mode
+also supports manual checks where public requests are allowed. Neither mode adds
+a public verification endpoint or changes the site's Cloudflare security rules.

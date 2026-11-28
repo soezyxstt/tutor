@@ -28,10 +28,12 @@ function SheetContent({
   side = 'right',
   children,
   showClose = true,
+  closeLabel = 'Tutup panel',
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   side?: 'left' | 'right';
   showClose?: boolean;
+  closeLabel?: string;
 }) {
   return (
     <SheetPortal>
@@ -49,7 +51,7 @@ function SheetContent({
         {children}
         {showClose && (
           <DialogPrimitive.Close
-            aria-label="Tutup panel"
+            aria-label={closeLabel}
             className="absolute top-3 right-3 inline-flex size-6 cursor-pointer items-center justify-center border-0 bg-transparent text-muted-foreground transition-colors hover:text-foreground outline-none"
           >
             <X className="size-4" />

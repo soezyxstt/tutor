@@ -37,6 +37,8 @@ export interface TutorWorkerEnv {
   ADMIN_SESSION_SECRET?: string;
   /** SQLite Durable Object binding on the catalog Worker only. */
   TUTOR_ADMIN_STATE?: DurableNamespaceLike;
+  /** Internal service binding from course Workers to the catalog Worker. */
+  TUTOR_CONFIG?: { fetch(request: Request): Promise<Response> };
   /** Trusted central config URL; set to "disabled" for isolated local tests. */
   TUTOR_CONFIG_URL?: string;
   /** Cloudflare Account ID (injected at deploy time via --var or env) */

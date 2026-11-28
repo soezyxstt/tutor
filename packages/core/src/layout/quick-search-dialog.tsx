@@ -58,7 +58,7 @@ export function QuickSearchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-0">
+      <DialogContent className="p-0" closeLabel={t('Tutup', 'Close')}>
         <DialogTitle className="sr-only">{t("Cari Materi, Latihan, atau Pembahasan", "Search lessons, practice, or solutions")}</DialogTitle>
         <DialogDescription className="sr-only">
           {t('Cari halaman di', 'Search pages in')} {course.title}.

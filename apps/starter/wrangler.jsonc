@@ -16,6 +16,9 @@
       "custom_domain": true
     }
   ],
+  "services": [
+    { "binding": "TUTOR_CONFIG", "service": "tutor-catalog" }
+  ],
   "vars": {
     "TUTOR_CONFIG_URL": "https://tutor.adihnursyam.com/api/tutor-config",
     "CF_AI_GATEWAY_ID": "tutor-ai-gateway",

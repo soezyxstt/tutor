@@ -6,7 +6,7 @@ import { TutorAdminState } from '../packages/core/src/server/admin-state';
 import type { DurableStorageLike } from '../packages/core/src/server/admin-state';
 import { ADMIN_COOKIE, SESSION_SECONDS, digest, signSession, verifySession } from '../packages/core/src/server/admin-auth';
 import { discoverProviderModels, getModelCatalog, isUnifiedModelId, normalizeModel } from '../packages/core/src/server/model-catalog';
-import { parseSettings } from '../packages/core/src/server/tutor-settings';
+import { parseSettings, resolveTutorSettings } from '../packages/core/src/server/tutor-settings';
 import { createGatewayFetch } from '../packages/core/src/server/gateway-fetch';
 import { buildTutorSystemPrompt } from '../packages/core/src/server/teaching-prompt';
 
@@ -141,6 +141,80 @@ test('model ID and settings validation rejects query injection, duplicate models
   for (const id of ['openai/model?token=x', 'openai/../../key', 'evil/model', 'openai/']) assert.equal(isUnifiedModelId(id), false);
   assert.equal(parseSettings({ primaryModel: 'openai/gpt-4o', fallbackModels: ['openai/gpt-4o'] }), null);
   assert.equal(parseSettings({ primaryModel: 'openai/gpt-4o', fallbackModels: Array.from({ length: 6 }, (_, i) => `custom-muse/model-${i}`) }), null);
+});
+
+test('course settings prefer the internal service binding and cache its result', async (t) => {
+  let serviceCalls = 0;
+  const publicFetch = t.mock.method(globalThis, 'fetch', async () => { throw new Error('Public fetch must not run'); });
+  const env: TutorWorkerEnv = { TUTOR_CONFIG: { fetch: async (request) => {
+    serviceCalls++;
+    assert.equal(new URL(request.url).pathname, '/api/tutor-config');
+    assert.equal(request.method, 'GET');
+    assert.equal(request.headers.has('Cookie'), false);
+    return Response.json({ primaryModel: 'openai/gpt-4.1-mini', fallbackModels: [], source: 'admin', updatedAt: '2026-11-28T00:00:00Z' });
+  } } };
+  assert.equal((await resolveTutorSettings(env)).primaryModel, 'openai/gpt-4.1-mini');
+  assert.equal((await resolveTutorSettings(env)).primaryModel, 'openai/gpt-4.1-mini');
+  assert.equal(serviceCalls, 1);
+  assert.equal(publicFetch.mock.callCount(), 0);
+});
+
+test('a service failure keeps its last good settings and recovers after the failure cache expires', async (t) => {
+  let now = 5_000_000;
+  let calls = 0;
+  let fails = false;
+  let model = 'openai/gpt-4.1-mini';
+  t.mock.method(Date, 'now', () => now);
+  const publicFetch = t.mock.method(globalThis, 'fetch', async () => { throw new Error('Public fetch must not run'); });
+  const env: TutorWorkerEnv = { AI_MODEL: 'openai/gpt-4o-mini', TUTOR_CONFIG: { fetch: async () => {
+    calls++;
+    if (fails) return new Response('Unavailable', { status: 503 });
+    return Response.json({ primaryModel: model, fallbackModels: [], source: 'admin', updatedAt: '2026-11-28T00:00:00Z' });
+  } } };
+  assert.equal((await resolveTutorSettings(env)).primaryModel, model);
+  now += 31_000;
+  fails = true;
+  assert.equal((await resolveTutorSettings(env)).primaryModel, model);
+  assert.equal(calls, 2);
+  now += 1000;
+  assert.equal((await resolveTutorSettings(env)).primaryModel, model);
+  assert.equal(calls, 2);
+  now += 10_000;
+  fails = false;
+  model = 'google-ai-studio/gemini-3.8-flash';
+  assert.equal((await resolveTutorSettings(env)).primaryModel, model);
+  assert.equal(calls, 3);
+  assert.equal(publicFetch.mock.callCount(), 0);
+});
+
+test('URL fallback still works without a binding and never supplies a service cache entry', async (t) => {
+  const endpoint = `https://catalog.example/${crypto.randomUUID()}/api/tutor-config`;
+  const publicFetch = t.mock.method(globalThis, 'fetch', async (request: Request) => {
+    assert.equal(request.url, endpoint);
+    return Response.json({ primaryModel: 'openai/gpt-4o-mini', fallbackModels: [], source: 'admin' });
+  });
+  assert.equal((await resolveTutorSettings({ TUTOR_CONFIG_URL: endpoint })).primaryModel, 'openai/gpt-4o-mini');
+  let serviceCalls = 0;
+  const env: TutorWorkerEnv = {
+    TUTOR_CONFIG_URL: endpoint,
+    AI_MODEL: 'google-ai-studio/gemini-2.5-flash',
+    TUTOR_CONFIG: { fetch: async () => { serviceCalls++; return new Response('Unavailable', { status: 503 }); } },
+  };
+  const settings = await resolveTutorSettings(env);
+  assert.equal(settings.primaryModel, env.AI_MODEL);
+  assert.equal(settings.source, 'environment');
+  assert.equal(serviceCalls, 1);
+  assert.equal(publicFetch.mock.callCount(), 1);
+});
+
+test('disabling central settings prevents both service and URL reads', async (t) => {
+  const publicFetch = t.mock.method(globalThis, 'fetch', async () => { throw new Error('Must not fetch'); });
+  let serviceCalls = 0;
+  const result = await resolveTutorSettings({ TUTOR_CONFIG_URL: 'disabled', AI_MODEL: 'openai/gpt-4o-mini', TUTOR_CONFIG: { fetch: async () => { serviceCalls++; throw new Error('Must not call service'); } } });
+  assert.equal(result.primaryModel, 'openai/gpt-4o-mini');
+  assert.equal(result.source, 'environment');
+  assert.equal(serviceCalls, 0);
+  assert.equal(publicFetch.mock.callCount(), 0);
 });
 
 test('Gemini discovery follows every page, preserves older live IDs, and never forwards provider credentials', async () => {

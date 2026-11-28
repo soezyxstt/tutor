@@ -61,9 +61,12 @@ jobs:
           node -e 'for (const name of ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN", "CF_AIG_TOKEN", "ADMIN_USERNAME", "ADMIN_PASSWORD"]) { if (!process.env[name]) { console.error("Missing required secret: " + name); process.exit(1); } }'
           pnpm exec wrangler deploy --var "CF_ACCOUNT_ID:${CLOUDFLARE_ACCOUNT_ID}"
           node -e 'process.stdout.write(JSON.stringify(Object.fromEntries(["CF_AIG_TOKEN", "ADMIN_USERNAME", "ADMIN_PASSWORD"].map(name => [name, process.env[name]]))))' | pnpm exec wrangler secret bulk
-      - name: Check live catalog, sign in, and provider model lists
+      - name: Check live Worker, sign in, and provider model lists
         env:
           CATALOG_ORIGIN: https://tutor.adihnursyam.com
+          CATALOG_CHECK_MODE: binding
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_DEPLOY_PAGES_TOKEN }}
           ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: node scripts/verify-catalog.mjs

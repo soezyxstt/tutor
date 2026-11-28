@@ -108,7 +108,7 @@ export function AiToolInvocationView({
           <ListChecks className="size-3.5 shrink-0" />
           <span>
             {t(`Langkah ${invocation.args.stepIndex + 1} dibuka di halaman`, `Step ${invocation.args.stepIndex + 1} opened on the page`)}
-            {invocation.args.note ? ` — ${invocation.args.note}` : ''}
+            {invocation.args.note ? `: ${invocation.args.note}` : ''}
           </span>
         </div>
       );

@@ -9,6 +9,8 @@ Setiap mata kuliah di-host terpisah sebagai **Cloudflare Worker (Static Assets +
 
 Katalog pusat: `https://tutor.adihnursyam.com`, Worker `tutor-catalog`, workflow `.github/workflows/deploy-catalog.yml`. Admin: `/admin`. Katalog membaca app mata kuliah secara otomatis saat build.
 
+App `demo` merupakan referensi UI dan tidak muncul di katalog publik.
+
 | Slug | Kode | Mata Kuliah | Domain | Worker Name | Workflow CI/CD | Status | Ringkasan Konten & Ujian |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `demo` | `FI1101` | Mekanika & Getaran | `https://demo.tutor.adihnursyam.com` | `tutor-demo` | `.github/workflows/deploy-demo.yml` | Showcase / Core Reference | 2 modul (`M1 Osilasi Teredam`, `M2 Dinamika Benda Tegar`), 2 materi, 1 latihan, 3 pembahasan (`UTS 2024`, `UTS 2023`), simulasi RK4, katalog Core UI (`?view=components`) |

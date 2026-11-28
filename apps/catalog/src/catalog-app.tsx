@@ -106,15 +106,17 @@ export function CatalogApp() {
               {t('Materi dan pembahasan', 'Materials and solutions')}
             </h1>
             <p className="mt-3 max-w-lg text-sm leading-7 text-muted-foreground">
-              {t('Pilih mata kuliah untuk membaca materi, mencoba latihan, dan mengikuti pembahasan langkah demi langkah.', 'Choose a course to read the material, try a practice set, and follow each step of a worked solution.')}
+              {courses.length > 0
+                ? t('Pilih mata kuliah untuk membaca materi, mencoba latihan, dan mengikuti pembahasan langkah demi langkah.', 'Choose a course to read the material, try a practice set, and follow each step of a worked solution.')
+                : t('Materi kuliah, latihan, dan pembahasan soal akan terkumpul di sini.', 'Course materials, practice sets, and worked solutions will appear here.')}
             </p>
           </div>
-          <p className="pb-0.5 text-xs text-muted-foreground sm:text-right">
+          {courses.length > 0 && <p className="pb-0.5 text-xs text-muted-foreground sm:text-right">
             <span className="font-medium text-foreground">{courses.length}</span> {t('mata kuliah tersedia', courses.length === 1 ? 'course available' : 'courses available')}
-          </p>
+          </p>}
         </div>
 
-        <div className="mt-7 flex flex-col gap-2 border-y border-border py-3 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+        {courses.length > 0 && <div className="mt-7 flex flex-col gap-2 border-y border-border py-3 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
           <div className="relative flex min-w-0 flex-1 items-center gap-2">
             <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
             <label htmlFor="course-search" className="sr-only">{t('Cari mata kuliah, topik, atau ujian', 'Search courses, topics, or exams')}</label>
@@ -125,7 +127,7 @@ export function CatalogApp() {
             <SelectTrigger className="h-9 w-fit min-w-36 pl-0 sm:pl-1.5" aria-label={t('Jenis isi', 'Content type')}><SelectValue /></SelectTrigger>
             <SelectContent align="end">{filters.map((item) => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}</SelectContent>
           </Select>}
-        </div>
+        </div>}
 
         <div aria-live="polite" aria-atomic="true" className="sr-only">
           {results.length} {t('mata kuliah ditemukan', 'courses found')}
@@ -134,7 +136,7 @@ export function CatalogApp() {
           <AnimatePresence initial={false}>{results.map((course) => <CourseRow key={course.slug} course={course} />)}</AnimatePresence>
         </ul>
         {results.length === 0 && <div className="py-12 text-center">
-          <SearchX className="mx-auto mb-3 size-6 text-muted-foreground" aria-hidden="true" />
+          {courses.length === 0 ? <BookOpen className="mx-auto mb-3 size-6 text-muted-foreground" aria-hidden="true" /> : <SearchX className="mx-auto mb-3 size-6 text-muted-foreground" aria-hidden="true" />}
           <h2 className="text-base font-medium">{courses.length === 0 ? t('Belum ada mata kuliah', 'No courses yet') : t('Belum ada yang cocok', 'No matching courses')}</h2>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{courses.length === 0 ? t('Materi baru akan muncul di sini saat tersedia.', 'New course materials will appear here when available.') : t('Coba nama mata kuliah, kode, topik, atau tahun ujian lain.', 'Try another course name, code, topic, or exam year.')}</p>
           {(search || filter !== 'all') && <Button variant="ghost" className="mt-4" onClick={() => { setSearch(''); setFilter('all'); }}>{t('Tampilkan semua', 'Show all courses')}</Button>}

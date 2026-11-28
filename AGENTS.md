@@ -80,6 +80,7 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
 - Gunakan `sourceLanguage` dan `translations` pada `CourseConfig`. Semua teks UI bersama memakai `useLanguage()` dari `@tutor/core`; jangan menambah teks antarmuka satu bahasa saja.
 - Pertahankan ID modul, item, langkah, opsi, dan parameter saat menerjemahkan. Terjemahkan teks saja. Jangan membuat ID baru per bahasa.
 - Starter memakai `catalog.status: 'draft'`. Setelah isi selesai dan lolos verifikasi, ubah ke `'published'` sebelum push ke `main`. Workflow katalog membaca data baru secara otomatis.
+- App `demo` hanya untuk referensi UI dan pengujian. Jangan masukkan demo ke katalog publik atau gunakan demo untuk mengisi katalog yang masih kosong.
 - Katalog menandai terjemahan yang belum lengkap dan menampilkan bahasa sumber sebagai pengganti. Jangan mengklaim terjemahan lengkap jika hanya judul yang diterjemahkan.
 - Untuk katalog/admin, gunakan entry point `@tutor/core/catalog` agar halaman tidak memuat engine simulasi dan matematika yang tidak dipakai.
 - Login admin hanya tersedia di Worker katalog. Semua Worker mata kuliah membaca pilihan model dari `https://tutor.adihnursyam.com/api/tutor-config`.

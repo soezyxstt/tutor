@@ -15,7 +15,7 @@ Monorepo untuk platform pembahasan soal dan materi interaktif per mata kuliah de
 
 - `packages/ui` (`@tutor/ui`): Sistem desain, palet warna kontras belajar (terang & gelap), primitif Shadcn/Radix UI (select tanpa border, icon button tanpa border/bg, tombol ringkas), dan animasi `motion/react`.
 - `packages/core` (`@tutor/core`): Layout shell & sidebar collapsible, renderer Markdown + KaTeX, pembahasan bertahap (*progressive disclosure*), registry simulasi lazy-loaded (built-in RK4 Canvas solver, siap untuk R3F / Rapier / Mafs / ECharts), panel Tutor AI (Vercel AI SDK + *client-side tool calling*), state persisten Zustand, serta Cloudflare Worker AI handler (Hono + Cloudflare AI Gateway).
-- `apps/demo` (`@tutor/app-demo`): Aplikasi showcase (Mekanika & Getaran + katalog Komponen Core UI di `?view=components`).
+- `apps/demo` (`@tutor/app-demo`): Aplikasi showcase (Mekanika & Getaran + katalog Komponen Core UI di `?view=components`). Demo tidak masuk katalog publik.
 - `apps/starter` (`@tutor/app-starter`): Template bersih untuk membuat mata kuliah baru.
 - `scripts/new-course.mjs`: Generator CLI untuk membuat app mata kuliah baru lengkap dengan `wrangler.jsonc` dan workflow GitHub Actions.
 
