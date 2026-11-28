@@ -12,6 +12,7 @@ import type { SimulationSpec, SolutionStep } from '../types/course';
 import { useTutorStore } from '../store/tutor-store';
 import { MathMarkdown } from './math-markdown';
 import { InlineAiThread } from '../ai/inline-ai-thread';
+import { SimulationStage } from '../simulation/simulation-stage';
 
 export function StepDisclosure({
   courseSlug,
@@ -19,6 +20,7 @@ export function StepDisclosure({
   itemKey,
   steps,
   problemTitle,
+  problemContext,
   simulation,
 }: {
   courseSlug: string;
@@ -26,11 +28,14 @@ export function StepDisclosure({
   itemKey: string;
   steps: SolutionStep[];
   problemTitle: string;
+  problemContext?: string;
   simulation?: SimulationSpec;
 }) {
   const autoShowHints = useTutorStore((s) => s.autoShowHints);
   const { t } = useLanguage();
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
+  const revealStep = useTutorStore((s) => s.revealStep);
+  const stepRequest = useTutorStore((s) => s.stepRequests[itemKey]);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [showAll, setShowAll] = React.useState(false);
@@ -41,17 +46,29 @@ export function StepDisclosure({
 
   // Reset to step 0 when switching problems
   React.useEffect(() => {
-    setActiveIndex(0);
+    const visited = useTutorStore.getState().revealedSteps[itemKey] ?? [0];
+    setActiveIndex(Math.max(0, ...visited));
     setShowAll(false);
     setOpenHints({});
     setOpenRationales({});
     setCheckpointPicks({});
   }, [itemKey]);
 
+  React.useEffect(() => {
+    if (!stepRequest || stepRequest.index < 0 || stepRequest.index >= steps.length) return;
+    setActiveIndex(stepRequest.index);
+    setShowAll(false);
+  }, [stepRequest, steps.length]);
+
   const safeIndex = Math.min(activeIndex, Math.max(0, steps.length - 1));
   const activeStep = steps[safeIndex];
 
   if (!activeStep) return null;
+
+  const selectStep = (index: number) => {
+    setActiveIndex(index);
+    revealStep(itemKey, index);
+  };
 
   const renderStepBody = (step: SolutionStep, index: number) => {
     const hintOpen = autoShowHints || !!openHints[step.id];
@@ -104,7 +121,7 @@ export function StepDisclosure({
         {step.checkpoint && (
           <div className="space-y-2 border-l-2 border-border pl-3.5 text-[13.5px]">
             <div className="text-xs font-medium text-muted-foreground">
-              {step.checkpoint.prompt}
+              <MathMarkdown content={step.checkpoint.prompt} className="text-xs" />
             </div>
             <div className="flex flex-wrap gap-1.5">
               {step.checkpoint.options.map((opt) => {
@@ -119,10 +136,11 @@ export function StepDisclosure({
                       setCheckpointPicks((prev) => ({ ...prev, [step.id]: opt.id }))
                     }
                     className={cn(
+                      'h-auto max-w-full whitespace-normal text-left',
                       selected && !isRight && 'bg-destructive text-primary-foreground hover:bg-destructive/90'
                     )}
                   >
-                    {opt.label}
+                    <MathMarkdown content={opt.label} className="text-xs" />
                   </Button>
                 );
               })}
@@ -130,10 +148,10 @@ export function StepDisclosure({
             <CollapsibleMotion open={!!pickedOpt}>
               {pickedOpt && (
                 <div className="pt-1 text-xs text-muted-foreground">
-                  {step.checkpoint.options.find((o) => o.id === pickedOpt)?.feedback ??
+                  <MathMarkdown content={step.checkpoint.options.find((o) => o.id === pickedOpt)?.feedback ??
                     (pickedOpt === step.checkpoint.correctOptionId
                       ? t('Keputusan tepat. Lanjut amati penurunan di bawah.', 'Correct. Continue with the derivation below.')
-                      : t('Coba bandingkan asumsi ini dengan penurunan di bawah.', 'Compare this assumption with the derivation below.'))}
+                      : t('Coba bandingkan asumsi ini dengan penurunan di bawah.', 'Compare this assumption with the derivation below.'))} className="text-xs" />
                 </div>
               )}
             </CollapsibleMotion>
@@ -150,6 +168,10 @@ export function StepDisclosure({
         )}
 
         <MathMarkdown content={step.content} />
+
+        {step.simulation && (
+          <SimulationStage courseSlug={courseSlug} spec={step.simulation} aiAnchorId={stepAnchor} />
+        )}
 
         {/* Optional collapsible Rationale drawer ("Kenapa cara ini?") */}
         {step.rationale && (
@@ -207,12 +229,13 @@ export function StepDisclosure({
 
         <InlineAiThread
           anchorId={stepAnchor}
-          anchorLabel={`Langkah ${index + 1} · ${step.title}`}
+          anchorLabel={`${t('Langkah', 'Step')} ${index + 1} · ${step.title}`}
           courseSlug={courseSlug}
           courseTitle={courseTitle}
           itemKey={itemKey}
           itemTitle={problemTitle}
-          simulation={simulation}
+          contextText={[problemContext, step.title, step.content, step.rationale?.whyThisMethod, step.rationale?.commonPitfall].filter(Boolean).join('\n\n')}
+          simulation={step.simulation ?? simulation}
           stepCount={steps.length}
         />
       </div>
@@ -261,7 +284,7 @@ export function StepDisclosure({
                     role="tab"
                     aria-selected={isActive}
                     aria-label={`${t('Langkah', 'Step')} ${idx + 1}: ${step.title}`}
-                    onClick={() => setActiveIndex(idx)}
+                    onClick={() => selectStep(idx)}
                     className={cn(
                       'relative inline-flex size-6 cursor-pointer items-center justify-center rounded-full font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
                       isActive
@@ -341,7 +364,7 @@ export function StepDisclosure({
                 size="sm"
                 variant="ghost"
                 disabled={safeIndex === 0}
-                onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
+                onClick={() => selectStep(Math.max(0, safeIndex - 1))}
               >
                 <ChevronLeft className="size-3.5" />
                 <span>{t("Sebelumnya", "Previous")}</span>
@@ -356,7 +379,7 @@ export function StepDisclosure({
                 variant={safeIndex >= steps.length - 1 ? 'secondary' : 'default'}
                 disabled={safeIndex >= steps.length - 1}
                 onClick={() =>
-                  setActiveIndex((i) => Math.min(steps.length - 1, i + 1))
+                  selectStep(Math.min(steps.length - 1, safeIndex + 1))
                 }
               >
                 <span>{t("Lanjut", "Next")}</span>

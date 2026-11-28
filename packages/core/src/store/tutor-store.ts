@@ -14,7 +14,9 @@ interface TutorState {
   bookmarkedIds: Record<string, boolean>;
   checkedPoints: Record<string, boolean>;
   practiceAnswers: Record<string, string>;
+  essayDrafts: Record<string, Record<string, string>>;
   revealedSteps: Record<string, number[]>;
+  stepRequests: Record<string, { index: number }>;
   simParams: Record<string, Record<string, number>>;
   sidebarCollapsed: boolean;
   fontSize: ReadingFontSize;
@@ -27,6 +29,7 @@ interface TutorState {
   toggleCheckpoint: (pointKey: string) => void;
   setPracticeAnswer: (questionKey: string, optionId: string) => void;
   resetPracticeAnswers: (prefix: string) => void;
+  setEssayDraft: (taskKey: string, section: string, value: string) => void;
 
   toggleStep: (itemKey: string, stepIndex: number) => void;
   revealStep: (itemKey: string, stepIndex: number) => void;
@@ -59,7 +62,9 @@ export const useTutorStore = create<TutorState>()(
       bookmarkedIds: {},
       checkedPoints: {},
       practiceAnswers: {},
+      essayDrafts: {},
       revealedSteps: {},
+      stepRequests: {},
       simParams: {},
       sidebarCollapsed: false,
       fontSize: 'md',
@@ -102,11 +107,21 @@ export const useTutorStore = create<TutorState>()(
       resetPracticeAnswers: (prefix) =>
         set((state) => {
           const next = { ...state.practiceAnswers };
+          const drafts = { ...state.essayDrafts };
           for (const key of Object.keys(next)) {
             if (key.startsWith(prefix)) delete next[key];
           }
-          return { practiceAnswers: next };
+          for (const key of Object.keys(drafts)) {
+            if (key.startsWith(prefix)) delete drafts[key];
+          }
+          return { practiceAnswers: next, essayDrafts: drafts };
         }),
+
+      setEssayDraft: (taskKey, section, value) =>
+        set((state) => ({ essayDrafts: {
+          ...state.essayDrafts,
+          [taskKey]: { ...state.essayDrafts[taskKey], [section]: value },
+        } })),
 
       toggleStep: (itemKey, stepIndex) =>
         set((state) => {
@@ -126,11 +141,11 @@ export const useTutorStore = create<TutorState>()(
       revealStep: (itemKey, stepIndex) =>
         set((state) => {
           const current = state.revealedSteps[itemKey] ?? [0];
-          if (current.includes(stepIndex)) return state;
           return {
+            stepRequests: { ...state.stepRequests, [itemKey]: { index: stepIndex } },
             revealedSteps: {
               ...state.revealedSteps,
-              [itemKey]: [...current, stepIndex].sort((a, b) => a - b),
+              [itemKey]: current.includes(stepIndex) ? current : [...current, stepIndex].sort((a, b) => a - b),
             },
           };
         }),
@@ -252,6 +267,7 @@ export const useTutorStore = create<TutorState>()(
         bookmarkedIds: state.bookmarkedIds,
         checkedPoints: state.checkedPoints,
         practiceAnswers: state.practiceAnswers,
+        essayDrafts: state.essayDrafts,
         revealedSteps: state.revealedSteps,
         sidebarCollapsed: state.sidebarCollapsed,
         fontSize: state.fontSize,

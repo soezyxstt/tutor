@@ -39,6 +39,11 @@ export function SimulationStage({
   );
 
   const SimComponent = getSimulationComponent(spec.type);
+  const setParam = React.useCallback((key: string, value: number) => {
+    const definition = spec.params.find((param) => param.key === key);
+    if (!definition || !Number.isFinite(value)) return;
+    setSimParam(simKey, key, Math.min(definition.max, Math.max(definition.min, value)));
+  }, [spec.params, simKey, setSimParam]);
 
   return (
     <figure className="space-y-3 border-y border-border py-4">
@@ -98,9 +103,13 @@ export function SimulationStage({
             }
           >
             <SimComponent
+              key={spec.id}
+              spec={spec}
               params={activeParams}
               playing={playing}
               resetSignal={resetSignal}
+              setParam={setParam}
+              setPlaying={setPlaying}
             />
           </React.Suspense>
         ) : (
@@ -119,18 +128,19 @@ export function SimulationStage({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">{p.label}</span>
                 <span className="font-mono font-medium text-foreground">
-                  {val.toFixed(p.step < 1 ? 2 : 0)}
+                  {new Intl.NumberFormat(undefined, { maximumFractionDigits: 8 }).format(val)}
                   {p.unit ? ` ${p.unit}` : ''}
                 </span>
               </div>
               <Slider
+                aria-label={p.label}
                 value={[val]}
                 min={p.min}
                 max={p.max}
                 step={p.step}
                 onValueChange={([next]) => {
                   if (typeof next === 'number') {
-                    setSimParam(simKey, p.key, next);
+                    setParam(p.key, next);
                   }
                 }}
               />

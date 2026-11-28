@@ -17,6 +17,7 @@ import { MathMarkdown } from './math-markdown';
 import { Callout } from './callout';
 import { SimulationStage } from '../simulation/simulation-stage';
 import { InlineAiThread } from '../ai/inline-ai-thread';
+import { DecisionCheck } from './decision-check';
 
 export function MaterialView({
   courseSlug,
@@ -39,6 +40,10 @@ export function MaterialView({
   const toggleBookmark = useTutorStore((s) => s.toggleBookmark);
   const toggleCheckpoint = useTutorStore((s) => s.toggleCheckpoint);
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
+  const materialContext = [material.examHook?.prompt, material.body,
+    ...(material.microUnits ?? []).flatMap((unit) => [unit.title, unit.intuition, unit.formal, unit.validityBounds]),
+    material.keyFormula?.latex,
+  ].filter(Boolean).join('\n\n');
 
   return (
     <article className="pb-16">
@@ -105,6 +110,31 @@ export function MaterialView({
       <Separator className="my-5" />
 
       <div data-ai-anchor={materialAnchor}>
+        {material.examHook && (
+          <section aria-label={t('Mulai dari kasus', 'Start with a case')} className="mb-6 space-y-3 border-l-2 border-primary/40 pl-4">
+            <MathMarkdown content={material.examHook.prompt} />
+            <MathMarkdown content={material.examHook.targetOutcome} className="text-sm text-muted-foreground" />
+          </section>
+        )}
+
+        <MathMarkdown content={material.body} />
+
+        {!!material.microUnits?.length && (
+          <Accordion type="multiple" defaultValue={[material.microUnits[0].id]} className="my-6 border-t border-border">
+            {material.microUnits.map((unit) => (
+              <AccordionItem key={unit.id} value={unit.id}>
+                <AccordionTrigger>{unit.title}</AccordionTrigger>
+                <AccordionContent className="space-y-4">
+                  <MathMarkdown content={unit.intuition} />
+                  <MathMarkdown content={unit.formal} />
+                  {unit.validityBounds && <Callout tone="tip" label={t('Kapan cara ini berlaku?', 'When does this method apply?')}><MathMarkdown content={unit.validityBounds} className="text-sm" /></Callout>}
+                  {unit.decisionCheck && <DecisionCheck question={unit.decisionCheck} answerKey={`${itemKey}:concept:${unit.id}`} />}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+
         {material.keyFormula && (
           <Callout
             tone="formula"
@@ -120,8 +150,6 @@ export function MaterialView({
           </Callout>
         )}
 
-        <MathMarkdown content={material.body} />
-
         <InlineAiThread
           anchorId={materialAnchor}
           anchorLabel={t("Diskusi Materi", "Lesson discussion")}
@@ -129,6 +157,7 @@ export function MaterialView({
           courseTitle={courseTitle}
           itemKey={itemKey}
           itemTitle={material.title}
+          contextText={materialContext}
           simulation={material.simulation}
         />
       </div>
@@ -151,6 +180,7 @@ export function MaterialView({
             courseTitle={courseTitle}
             itemKey={itemKey}
             itemTitle={material.title}
+            contextText={materialContext}
             simulation={material.simulation}
           />
         </section>

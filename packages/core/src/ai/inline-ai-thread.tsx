@@ -8,6 +8,7 @@ import { MathMarkdown } from '../content/math-markdown';
 import type { AiUiToolInvocation } from './ui-sdk/tools';
 import { AiToolInvocationView } from './ui-sdk/tool-renderers';
 import { useLanguage } from '../i18n/language-provider';
+import { learningContext } from './learning-context';
 
 export function InlineAiThread({
   anchorId,
@@ -16,6 +17,7 @@ export function InlineAiThread({
   courseTitle,
   itemKey,
   itemTitle,
+  contextText,
   simulation,
   stepCount,
   apiEndpoint = '/api/ai',
@@ -27,6 +29,7 @@ export function InlineAiThread({
   courseTitle?: string;
   itemKey: string;
   itemTitle: string;
+  contextText?: string;
   simulation?: SimulationSpec;
   stepCount?: number;
   apiEndpoint?: string;
@@ -40,6 +43,7 @@ export function InlineAiThread({
   const revealStep = useTutorStore((s) => s.revealStep);
   const isOpen = !!thread?.open;
   const quotedText = thread?.quotedText;
+  const storedParams = useTutorStore((state) => simulation ? state.simParams[`${courseSlug}:${simulation.id}`] : undefined);
   const draftPrompt = thread?.draftPrompt;
   const [inputValue, setInputValue] = React.useState('');
   const [failed, setFailed] = React.useState(false);
@@ -53,7 +57,7 @@ export function InlineAiThread({
       courseCode: courseSlug,
       itemTitle,
       anchorLabel,
-      quotedText,
+      quotedText: learningContext(contextText, quotedText, simulation, storedParams),
       simulationId: simulation?.id,
       simulationParams: simulation?.params.map((p) => p.key),
     },
