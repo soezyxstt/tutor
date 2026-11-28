@@ -13,7 +13,7 @@ Jika pengguna hanya menyebut repo ini dan memberikan tautan/berkas materi, soal 
 
 - **`COURSES.md`** — Indeks resmi seluruh mata kuliah yang sudah ada, domain custom, nama Worker, workflow deploy, dan daftar modul/ujiannya. **Selalu baca file ini lebih dulu** untuk mengecek apakah mata kuliah sudah ada atau perlu dibuat baru.
 - **`packages/ui` (`@tutor/ui`)** — Sistem desain, token warna kontras belajar (terang & gelap), primitif Shadcn/Radix, dan animasi `motion/react`.
-- **`packages/core` (`@tutor/core`)** — Engine aplikasi bersama: layout & sidebar (`Per Bab` & `Per Ujian`), renderer Markdown + KaTeX, stepper pembahasan bergaya `ipe.tutor`, latihan interaktif (`PracticeView`), registry simulasi *lazy-loaded*, **Inline AI Tutor** (+ *highlight-to-ask*), 9 tool **AI UI-SDK** (termasuk grafik 2D & 3D interaktif), dan factory Cloudflare Worker (`createTutorWorker`).
+- **`packages/core` (`@tutor/core`)** — Engine aplikasi bersama: layout & sidebar (`Per Bab` & `Per Ujian`), renderer Markdown + KaTeX, langkah pembahasan, latihan interaktif (`PracticeView`), registry simulasi *lazy-loaded*, **Inline AI Tutor** (+ *highlight-to-ask*), 10 alat pengajaran dan visual, 3 alat UI SDK resmi (`snapshot`, `query`, `act`), dan factory Cloudflare Worker (`createTutorWorker`).
 - **`apps/<slug>`** — Deployment per mata kuliah. Setiap app hanya menyimpan konfigurasi mata kuliah, konten (`src/content/`), simulasi khusus (bila perlu), `wrangler.jsonc`, dan entrypoint minimal `<TutorApp course={course} />`.
 - **`apps/starter`** — Template bersih yang disalin oleh `pnpm new-course`.
 - **`apps/demo`** — Showcase referensi (`FI1101 · Mekanika & Getaran`) + katalog Komponen Core UI (`?view=components`).
@@ -33,6 +33,11 @@ Baca skill yang relevan di `.agents/skills/` sebelum mengeksekusi tugas:
 | **build-course-simulation** | `.agents/skills/build-course-simulation/SKILL.md` | Membuat visualisasi/simulasi interaktif *lazy-loaded* (RK4 Canvas, Mafs, ECharts, R3F/Rapier) yang terhubung ke slider & AI tool `updateSimulationParams`. |
 
 ### External Skills (Wajib Rujuk Langsung — Jangan Duplikasi)
+
+Saat mengubah kontrol yang dipakai Tutor AI, baca skill resmi UI SDK pada `packages/core/node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md`, lalu indeks `packages/core/node_modules/@ui-sdk/react/docs/llms.txt`. Baca halaman komponen dan `docs/agents.md` sesuai tugas. Paket `@ui-sdk/core` dan `@ui-sdk/react` memakai versi yang sama; ikuti dokumen versi terpasang. Jangan ubah kebijakan umur rilis agar paket baru bisa dipasang.
+
+Kontrol belajar memakai `AgentButton` dan `AgentSlider` pada `packages/core/src/ai/agent-controls.tsx`, dengan gaya dari `@tutor/ui`. Beri nama yang jelas dan unik pada setiap kontrol. `agent-runtime.ts` membatasi bacaan serta tindakan pada pelajaran aktif. Pertahankan jawaban kuis, centang kemajuan, penanda, dan formulir percakapan sebagai tindakan siswa. Alat pembuat grafik, tampilan 3D, dan simulasi memakai skema data tervalidasi; alat tersebut berbeda dari pustaka UI SDK resmi. Jangan jalankan kode bebas dari model.
+
 Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gunakan versi terbaru** dari kedua skill berikut yang berada di repository **`soezyxstt/agent-skills`** (via skill terpasang di agent atau baca langsung dari `soezyxstt/agent-skills`):
 - **`bahasa-ajar`** (`soezyxstt/agent-skills`) — standar gaya bahasa pengajaran Bahasa Indonesia yang jernih, natural, dan mudah dipahami.
 - **`instructional-language`** (`soezyxstt/agent-skills`) — prinsip penyusunan kalimat instruksional dan alur pedagogis agar penjelasan tidak bertele-tele dan efektif untuk belajar.

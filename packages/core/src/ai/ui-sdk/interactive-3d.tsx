@@ -1,7 +1,9 @@
 import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
-import { Button, Slider, useTheme } from '@tutor/ui';
+import { useTheme } from '@tutor/ui';
+import { AgentButton } from '../agent-controls';
+import { InteractiveParameterControls } from './interactive-controls';
 import { compileMathExpression } from './safe-math';
 import type { RenderInteractive3DInput } from './tools';
 
@@ -46,7 +48,7 @@ export default function Interactive3DBlock({
 
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    const width = Math.max(rect.width, 280);
+    const width = Math.max(rect.width, 1);
     const height = Math.max(rect.height, 210);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
@@ -70,6 +72,22 @@ export default function Interactive3DBlock({
 
     const cx = width * 0.5;
     const cy = height * 0.54;
+    const [minDomain, maxDomain] = data.domain ?? [-1.5, 1.5];
+    const surfaceValues: number[][] = [];
+    let extent = Math.max(Math.abs(minDomain), Math.abs(maxDomain), 1);
+    if (data.mode === 'surface' && surfaceFn) {
+      for (let i = 0; i <= 16; i++) {
+        const row: number[] = [];
+        for (let j = 0; j <= 16; j++) {
+          const value = surfaceFn({ ...params, x: minDomain + (maxDomain - minDomain) * i / 16, y: minDomain + (maxDomain - minDomain) * j / 16 });
+          row.push(value);
+          if (Number.isFinite(value)) extent = Math.max(extent, Math.abs(value));
+        }
+        surfaceValues.push(row);
+      }
+    } else if (data.vectors?.length) {
+      extent = Math.max(1, ...data.vectors.flatMap((vector) => [Math.abs(vector.x), Math.abs(vector.y), Math.abs(vector.z)]));
+    }
     const scale = Math.min(width, height) * 0.25;
 
     const cosY = Math.cos(angles.yaw);
@@ -79,9 +97,9 @@ export default function Interactive3DBlock({
 
     const project = (x: number, y: number, z: number) => {
       // Rotate around vertical z-axis (yaw), then tilt (pitch)
-      const rx = x * cosY - y * sinY;
-      const ry = x * sinY + y * cosY;
-      const rz = z;
+      const rx = (x / extent) * cosY - (y / extent) * sinY;
+      const ry = (x / extent) * sinY + (y / extent) * cosY;
+      const rz = z / extent;
       const py = ry * cosP - rz * sinP;
       const pz = ry * sinP + rz * cosP;
       const persp = 4.6 / (4.6 + py * 0.35);
@@ -93,7 +111,7 @@ export default function Interactive3DBlock({
     };
 
     // Draw 3D Cartesian axes
-    const axisLen = 1.55;
+    const axisLen = Math.min(Number.MAX_VALUE, extent * 1.35);
     const origin = project(0, 0, 0);
     const axes: { end: [number, number, number]; label: string }[] = [
       { end: [axisLen, 0, 0], label: 'x' },
@@ -117,17 +135,16 @@ export default function Interactive3DBlock({
     if (data.mode === 'surface' && surfaceFn) {
       const N = 16;
       const [minD, maxD] = data.domain ?? [-1.5, 1.5];
-      const grid: { sx: number; sy: number; z: number; depth: number }[][] = [];
+      const grid: ({ sx: number; sy: number; z: number; depth: number } | null)[][] = [];
 
       for (let i = 0; i <= N; i++) {
-        const row: { sx: number; sy: number; z: number; depth: number }[] = [];
+        const row: ({ sx: number; sy: number; z: number; depth: number } | null)[] = [];
         const x = minD + ((maxD - minD) * i) / N;
         for (let j = 0; j <= N; j++) {
           const y = minD + ((maxD - minD) * j) / N;
-          const rawZ = surfaceFn({ ...params, x, y });
-          const z = Number.isFinite(rawZ)
-            ? Math.max(-1.6, Math.min(1.6, rawZ))
-            : 0;
+          const z = surfaceValues[i][j];
+          // Undefined points are holes, never fabricated zeros or clamped peaks.
+          if (!Number.isFinite(z)) { row.push(null); continue; }
           const p = project(x, y, z);
           row.push({ ...p, z });
         }
@@ -147,10 +164,11 @@ export default function Interactive3DBlock({
           const p10 = grid[i + 1][j];
           const p11 = grid[i + 1][j + 1];
           const p01 = grid[i][j + 1];
+          if (!p00 || !p10 || !p11 || !p01) continue;
           quads.push({
             pts: [p00, p10, p11, p01],
             depth: (p00.depth + p10.depth + p11.depth + p01.depth) / 4,
-            zAvg: (p00.z + p10.z + p11.z + p01.z) / 4,
+            zAvg: p00.z / 4 + p10.z / 4 + p11.z / 4 + p01.z / 4,
           });
         }
       }
@@ -158,7 +176,7 @@ export default function Interactive3DBlock({
       quads.sort((a, b) => b.depth - a.depth);
 
       for (const q of quads) {
-        const normZ = Math.max(0, Math.min(1, (q.zAvg + 1) / 2));
+        const normZ = Math.max(0, Math.min(1, (q.zAvg / extent + 1) / 2));
         ctx.beginPath();
         ctx.moveTo(q.pts[0].sx, q.pts[0].sy);
         ctx.lineTo(q.pts[1].sx, q.pts[1].sy);
@@ -215,6 +233,15 @@ export default function Interactive3DBlock({
     ctx.restore();
   }, [angles, data.domain, data.mode, data.vectors, params, surfaceFn, t]);
 
+  const redrawRef = React.useRef(redraw);
+  redrawRef.current = redraw;
+  React.useEffect(() => {
+    if (!canvasRef.current) return;
+    const observer = new ResizeObserver(() => redrawRef.current());
+    observer.observe(canvasRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   React.useEffect(() => {
     // Read colors after ThemeProvider has applied the root class, including
     // when the model stays still while the user switches theme.
@@ -223,20 +250,21 @@ export default function Interactive3DBlock({
   }, [redraw, resolvedTheme]);
 
   return (
-    <div className="my-2.5 space-y-2.5 border-y border-border/80 py-3">
-      <div className="flex items-center justify-between gap-2">
-        <div className="text-xs font-semibold text-foreground">{data.title}</div>
-        <Button
+    <div className="my-2.5 min-w-0 space-y-2.5 border-y border-border/80 py-3">
+      <div className="flex min-w-0 items-center justify-between gap-2">
+        <h4 className="min-w-0 break-words text-sm font-semibold text-foreground">{data.title}</h4>
+        <AgentButton
           variant="icon"
           size="icon-xs"
-          aria-label={t('Reset sudut pandang 3D', 'Reset 3D view')}
+          className="shrink-0"
+          aria-label={t(`Ulangi ${data.title}`, `Reset ${data.title}`)}
           onClick={() => {
             setAngles({ yaw: 0.68, pitch: 0.48 });
             setParams(defaults);
           }}
         >
           <RotateCcw className="size-3" />
-        </Button>
+        </AgentButton>
       </div>
 
       <canvas
@@ -259,38 +287,12 @@ export default function Interactive3DBlock({
         onPointerUp={() => {
           dragRef.current = null;
         }}
+        onPointerCancel={() => { dragRef.current = null; }}
+        onLostPointerCapture={() => { dragRef.current = null; }}
         className="block h-[220px] w-full cursor-grab rounded-md active:cursor-grabbing touch-none"
       />
 
-      {data.sliders && data.sliders.length > 0 && (
-        <div className="grid grid-cols-1 gap-x-5 gap-y-2.5 pt-1 sm:grid-cols-2">
-          {data.sliders.map((s) => {
-            const val = params[s.key] ?? s.defaultValue;
-            return (
-              <div key={s.key} className="space-y-1">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-muted-foreground">{s.label}</span>
-                  <span className="font-mono font-medium text-foreground">
-                    {val.toFixed(s.step < 1 ? 2 : 0)}
-                    {s.unit ? ` ${s.unit}` : ''}
-                  </span>
-                </div>
-                <Slider
-                  value={[val]}
-                  min={s.min}
-                  max={s.max}
-                  step={s.step}
-                  onValueChange={([next]) => {
-                    if (typeof next === 'number') {
-                      setParams((prev) => ({ ...prev, [s.key]: next }));
-                    }
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <InteractiveParameterControls title={data.title} sliders={data.sliders} params={params} onChange={setParams} />
     </div>
   );
 }

@@ -1,294 +1,117 @@
-import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
-import { Button, Slider, useTheme } from '@tutor/ui';
-import { compileMathExpression } from './safe-math';
+import { useTheme } from '@tutor/ui';
+import { useLanguage } from '../../i18n/language-provider';
+import { AgentButton, AgentSlider } from '../agent-controls';
+import { compileMathExpression, samplePlotCurve, type PlotPoint } from './safe-math';
+import { formatNumeric, InteractiveParameterControls } from './interactive-controls';
 import type { RenderInteractivePlotInput } from './tools';
 
-const COLOR_VAR: Record<string, string> = {
-  primary: '--primary',
-  success: '--success',
-  warning: '--warning',
-  destructive: '--destructive',
-};
+const COLOR_VAR: Record<string, string> = { primary: '--primary', success: '--success', warning: '--warning', destructive: '--destructive' };
 
-export default function InteractivePlotBlock({
-  data,
-}: {
-  data: RenderInteractivePlotInput;
-}) {
-  const defaults = React.useMemo(() => {
-    const map: Record<string, number> = {};
-    for (const s of data.sliders ?? []) {
-      map[s.key] = s.defaultValue;
-    }
-    return map;
-  }, [data.sliders]);
-
+export default function InteractivePlotBlock({ data }: { data: RenderInteractivePlotInput }) {
+  const defaults = React.useMemo(() => Object.fromEntries((data.sliders ?? []).map((slider) => [slider.key, slider.defaultValue])), [data.sliders]);
   const [params, setParams] = React.useState<Record<string, number>>(defaults);
-  const [hoverX, setHoverX] = React.useState<number | null>(null);
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const [probe, setProbe] = React.useState((data.xDomain[0] + data.xDomain[1]) / 2);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const { t } = useLanguage();
   const { resolvedTheme } = useTheme();
-
-  const compiledCurves = React.useMemo(
-    () =>
-      data.curves.map((c) => ({
-        ...c,
-        fn: compileMathExpression(c.expression),
-      })),
-    [data.curves]
-  );
-
+  const compiled = React.useMemo(() => data.curves.map((curve) => ({ ...curve, fn: compileMathExpression(curve.expression) })), [data.curves]);
   const [xMin, xMax] = data.xDomain;
+  const series = React.useMemo(() => compiled.map((curve) => ({ ...curve, points: samplePlotCurve(curve.fn, params, xMin, xMax, 320) })), [compiled, params, xMin, xMax]);
+  const hasValues = series.some((curve) => curve.points.some(Boolean));
 
-  const redraw = React.useCallback(() => {
+  const draw = React.useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
+    const context = canvas?.getContext('2d');
+    if (!canvas || !context) return;
     const rect = canvas.getBoundingClientRect();
-    const width = Math.max(rect.width, 280);
-    const height = Math.max(rect.height, 190);
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-
-    ctx.save();
-    ctx.scale(dpr, dpr);
-
+    const width = Math.max(1, rect.width); const height = Math.max(1, rect.height);
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+    context.scale(dpr, dpr);
     const styles = getComputedStyle(document.documentElement);
-    const fg = styles.getPropertyValue('--foreground').trim() || '#18181b';
-    const mutedFg =
-      styles.getPropertyValue('--muted-foreground').trim() || '#57534e';
-    const border = styles.getPropertyValue('--border').trim() || '#e5e2da';
-    const bgSubtle =
-      styles.getPropertyValue('--surface-subtle').trim() || '#f3f1ec';
-
-    ctx.fillStyle = bgSubtle;
-    ctx.fillRect(0, 0, width, height);
-
-    const padL = 38;
-    const padR = 14;
-    const padT = 18;
-    const padB = 26;
-    const plotW = width - padL - padR;
-    const plotH = height - padT - padB;
-
-    const samples = 220;
-    const series: { color: string; label: string; pts: { x: number; y: number }[] }[] = [];
-    let yMin = Infinity;
-    let yMax = -Infinity;
-
-    for (const c of compiledCurves) {
-      const pts: { x: number; y: number }[] = [];
-      for (let i = 0; i <= samples; i++) {
-        const x = xMin + ((xMax - xMin) * i) / samples;
-        const y = c.fn({ ...params, x, t: x });
-        if (Number.isFinite(y) && Math.abs(y) < 1e5) {
-          pts.push({ x, y });
-          if (y < yMin) yMin = y;
-          if (y > yMax) yMax = y;
-        }
+    const muted = styles.getPropertyValue('--muted-foreground').trim();
+    const border = styles.getPropertyValue('--border').trim();
+    const foreground = styles.getPropertyValue('--foreground').trim();
+    const colors = series.map((curve) => styles.getPropertyValue(COLOR_VAR[curve.color ?? 'primary']).trim());
+    context.fillStyle = styles.getPropertyValue('--surface-subtle').trim();
+    context.fillRect(0, 0, width, height);
+    const pad = { left: width < 360 ? 43 : 50, right: 20, top: 22, bottom: 30 };
+    const plotWidth = width - pad.left - pad.right; const plotHeight = height - pad.top - pad.bottom;
+    const values = series.flatMap((curve) => curve.points.filter((point): point is PlotPoint => point !== null).map((point) => point.y));
+    let yMin = values.length ? Math.min(...values) : -1;
+    let yMax = values.length ? Math.max(...values) : 1;
+    const range = yMax - yMin;
+    const margin = Number.isFinite(range) && range > 0 ? range * 0.1 : Math.max(1, Math.abs(yMin) * 0.1);
+    yMin -= margin; yMax += margin;
+    if (!Number.isFinite(yMax - yMin)) { yMin = -1e308; yMax = 1e308; }
+    const xPixel = (x: number) => pad.left + (x - xMin) / (xMax - xMin) * plotWidth;
+    const yPixel = (y: number) => pad.top + ((yMax / 2 - y / 2) / (yMax / 2 - yMin / 2)) * plotHeight;
+    context.font = '11px ui-monospace, monospace'; context.lineWidth = 1;
+    for (let index = 0; index <= 4; index++) {
+      const vertical = pad.top + plotHeight * index / 4;
+      context.strokeStyle = border; context.beginPath(); context.moveTo(pad.left, vertical); context.lineTo(width - pad.right, vertical); context.stroke();
+      context.fillStyle = muted; context.textAlign = 'right'; context.textBaseline = 'middle';
+      context.fillText(formatNumeric((yMax / 2 - (yMax / 2 - yMin / 2) * index / 4) * 2), pad.left - 6, vertical, pad.left - 8);
+      const xValue = xMin + (xMax - xMin) * index / 4;
+      context.textAlign = 'center'; context.textBaseline = 'top';
+      context.fillText(formatNumeric(xValue), xPixel(xValue), pad.top + plotHeight + 7);
+    }
+    if (yMin <= 0 && yMax >= 0) {
+      context.strokeStyle = muted; context.globalAlpha = 0.5; context.beginPath(); context.moveTo(pad.left, yPixel(0)); context.lineTo(width - pad.right, yPixel(0)); context.stroke(); context.globalAlpha = 1;
+    }
+    context.save(); context.beginPath(); context.rect(pad.left, pad.top, plotWidth, plotHeight); context.clip();
+    series.forEach((curve, index) => {
+      context.strokeStyle = colors[index]; context.lineWidth = 2; context.beginPath();
+      let started = false;
+      for (const point of curve.points) {
+        if (!point) { started = false; continue; }
+        if (!started) context.moveTo(xPixel(point.x), yPixel(point.y));
+        else context.lineTo(xPixel(point.x), yPixel(point.y));
+        started = true;
       }
-      const varName = COLOR_VAR[c.color ?? 'primary'] ?? '--primary';
-      const resolvedColor =
-        styles.getPropertyValue(varName).trim() || '#1e5269';
-      series.push({ color: resolvedColor, label: c.label, pts });
-    }
-
-    if (!Number.isFinite(yMin) || !Number.isFinite(yMax) || yMin === yMax) {
-      yMin = -1;
-      yMax = 1;
-    } else {
-      const span = yMax - yMin;
-      yMin -= span * 0.12;
-      yMax += span * 0.12;
-    }
-
-    const toPx = (x: number) => padL + ((x - xMin) / (xMax - xMin)) * plotW;
-    const toPy = (y: number) => padT + ((yMax - y) / (yMax - yMin)) * plotH;
-
-    // Subtle horizontal gridlines
-    ctx.strokeStyle = border;
-    ctx.lineWidth = 1;
-    for (let g = 0; g <= 4; g++) {
-      const gy = padT + (plotH * g) / 4;
-      ctx.beginPath();
-      ctx.moveTo(padL, gy);
-      ctx.lineTo(width - padR, gy);
-      ctx.stroke();
-
-      const yVal = yMax - ((yMax - yMin) * g) / 4;
-      ctx.fillStyle = mutedFg;
-      ctx.font = '500 9.5px ui-monospace, monospace';
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(yVal.toFixed(1), padL - 6, gy);
-    }
-
-    // Zero axis if inside range
-    if (yMin < 0 && yMax > 0) {
-      const y0 = toPy(0);
-      ctx.strokeStyle = mutedFg;
-      ctx.globalAlpha = 0.45;
-      ctx.beginPath();
-      ctx.moveTo(padL, y0);
-      ctx.lineTo(width - padR, y0);
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-
-    // Draw curves
-    for (const s of series) {
-      if (s.pts.length < 2) continue;
-      ctx.strokeStyle = s.color;
-      ctx.lineWidth = 1.9;
-      ctx.beginPath();
-      s.pts.forEach((pt, idx) => {
-        const px = toPx(pt.x);
-        const py = toPy(pt.y);
-        if (idx === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      });
-      ctx.stroke();
-    }
-
-    // Hover crosshair
-    if (hoverX !== null && hoverX >= xMin && hoverX <= xMax) {
-      const hx = toPx(hoverX);
-      ctx.save();
-      ctx.setLineDash([3, 3]);
-      ctx.strokeStyle = mutedFg;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(hx, padT);
-      ctx.lineTo(hx, padT + plotH);
-      ctx.stroke();
-      ctx.restore();
-
-      const readout: string[] = [`${data.xLabel || 'x'}=${hoverX.toFixed(2)}`];
-      compiledCurves.forEach((c, idx) => {
-        const y = c.fn({ ...params, x: hoverX, t: hoverX });
-        if (Number.isFinite(y)) {
-          const py = toPy(y);
-          ctx.fillStyle = series[idx].color;
-          ctx.beginPath();
-          ctx.arc(hx, py, 3.2, 0, Math.PI * 2);
-          ctx.fill();
-          readout.push(`${c.label}=${y.toFixed(2)}`);
-        }
-      });
-
-      ctx.fillStyle = fg;
-      ctx.font = '500 10px ui-monospace, monospace';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'top';
-      ctx.fillText(readout.join('  ·  '), padL + 4, 4);
-    }
-
-    // X-axis ticks
-    ctx.fillStyle = mutedFg;
-    ctx.font = '500 9.5px ui-monospace, monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    for (let t = 0; t <= 4; t++) {
-      const xv = xMin + ((xMax - xMin) * t) / 4;
-      ctx.fillText(xv.toFixed(1), toPx(xv), padT + plotH + 6);
-    }
-
-    ctx.restore();
-  }, [compiledCurves, data.xLabel, hoverX, params, xMax, xMin]);
-
+      context.stroke();
+    });
+    context.strokeStyle = muted; context.setLineDash([3, 3]); context.beginPath(); context.moveTo(xPixel(probe), pad.top); context.lineTo(xPixel(probe), pad.top + plotHeight); context.stroke(); context.setLineDash([]);
+    compiled.forEach((curve, index) => {
+      const value = curve.fn({ ...params, x: probe, t: probe });
+      if (!Number.isFinite(value)) return;
+      context.fillStyle = colors[index]; context.beginPath(); context.arc(xPixel(probe), yPixel(value), 3.5, 0, 2 * Math.PI); context.fill();
+    });
+    context.restore();
+    context.fillStyle = foreground; context.font = '12px system-ui, sans-serif'; context.textAlign = 'right'; context.textBaseline = 'top';
+    context.fillText(data.xLabel || 'x', width - pad.right, 4, plotWidth);
+  }, [compiled, data.xLabel, params, probe, series, xMin, xMax]);
+  const drawRef = React.useRef(draw); drawRef.current = draw;
   React.useEffect(() => {
-    // ThemeProvider applies its root class in a parent effect. Draw in the
-    // next frame so CSS tokens already reflect the selected theme.
-    const frame = window.requestAnimationFrame(redraw);
-    return () => window.cancelAnimationFrame(frame);
-  }, [redraw, resolvedTheme]);
+    if (!canvasRef.current) return;
+    const observer = new ResizeObserver(() => drawRef.current()); observer.observe(canvasRef.current);
+    return () => observer.disconnect();
+  }, []);
+  React.useEffect(() => { const frame = requestAnimationFrame(draw); return () => cancelAnimationFrame(frame); }, [draw, resolvedTheme]);
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const padL = 38;
-    const padR = 14;
-    const rel = (e.clientX - rect.left - padL) / Math.max(rect.width - padL - padR, 1);
-    if (rel >= 0 && rel <= 1) {
-      setHoverX(xMin + rel * (xMax - xMin));
-    } else {
-      setHoverX(null);
-    }
-  };
-
-  return (
-    <div className="my-2.5 space-y-2.5 border-y border-border/80 py-3">
-      <div className="flex items-center justify-between gap-2">
-        <div className="text-xs font-semibold text-foreground">{data.title}</div>
-        {(data.sliders?.length ?? 0) > 0 && (
-          <Button
-            variant="icon"
-            size="icon-xs"
-            aria-label={t('Reset parameter grafik', 'Reset plot parameters')}
-            onClick={() => setParams(defaults)}
-          >
-            <RotateCcw className="size-3" />
-          </Button>
-        )}
-      </div>
-
-      <canvas
-        ref={canvasRef}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={() => setHoverX(null)}
-        aria-label={data.title}
-        className="block h-[200px] w-full cursor-crosshair rounded-md"
-      />
-
-      {/* Curve Legend */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
-        {data.curves.map((c, idx) => (
-          <span key={idx} className="inline-flex items-center gap-1.5">
-            <span
-              className="size-2 rounded-full"
-              style={{
-                backgroundColor: `var(${COLOR_VAR[c.color ?? 'primary'] ?? '--primary'})`,
-              }}
-            />
-            <span className="font-mono text-foreground">{c.label}</span>
-          </span>
-        ))}
-      </div>
-
-      {/* Live Parameter Sliders */}
-      {data.sliders && data.sliders.length > 0 && (
-        <div className="grid grid-cols-1 gap-x-5 gap-y-2.5 pt-1 sm:grid-cols-2">
-          {data.sliders.map((s) => {
-            const val = params[s.key] ?? s.defaultValue;
-            return (
-              <div key={s.key} className="space-y-1">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-muted-foreground">{s.label}</span>
-                  <span className="font-mono font-medium text-foreground">
-                    {val.toFixed(s.step < 1 ? 2 : 0)}
-                    {s.unit ? ` ${s.unit}` : ''}
-                  </span>
-                </div>
-                <Slider
-                  value={[val]}
-                  min={s.min}
-                  max={s.max}
-                  step={s.step}
-                  onValueChange={([next]) => {
-                    if (typeof next === 'number') {
-                      setParams((prev) => ({ ...prev, [s.key]: next }));
-                    }
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
+  return <section className="my-3 min-w-0 space-y-3 border-y border-border/80 py-3" aria-label={data.title}>
+    <div className="flex min-w-0 items-center justify-between gap-3">
+      <h4 className="min-w-0 break-words text-sm font-semibold text-foreground">{data.title}</h4>
+      <AgentButton variant="icon" size="icon-xs" className="shrink-0" aria-label={t(`Ulangi ${data.title}`, `Reset ${data.title}`)} onClick={() => { setParams(defaults); setProbe((xMin + xMax) / 2); }}><RotateCcw className="size-3.5" /></AgentButton>
     </div>
-  );
+    <canvas ref={canvasRef} role="img" aria-label={data.title} className="block h-[220px] w-full cursor-crosshair rounded-sm" onPointerMove={(event) => {
+      const rect = event.currentTarget.getBoundingClientRect(); const left = rect.width < 360 ? 43 : 50;
+      const fraction = (event.clientX - rect.left - left) / Math.max(1, rect.width - left - 20);
+      if (fraction >= 0 && fraction <= 1) setProbe(xMin + fraction * (xMax - xMin));
+    }} />
+    {!hasValues && <p role="status" className="text-sm text-warning">{t('Kurva tidak terdefinisi pada parameter ini. Ubah parameter atau ulangi grafik.', 'The curve is undefined with these parameters. Change a parameter or reset the plot.')}</p>}
+    <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+      <output className="min-w-0 max-w-full break-words font-mono text-xs tabular-nums">{data.xLabel || 'x'} = {formatNumeric(probe)}</output>
+      <AgentSlider aria-label={t(`${data.title}: posisi pembacaan`, `${data.title}: probe position`)} value={[probe]} min={xMin} max={xMax} step={(xMax - xMin) / 200} onValueChange={([value]) => { if (Number.isFinite(value)) setProbe(value); }} className="w-auto min-w-24 flex-1" />
+    </div>
+    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      {compiled.map((curve, index) => {
+        const value = curve.fn({ ...params, x: probe, t: probe });
+        return <span key={index} className="inline-flex min-w-0 max-w-full items-center gap-1.5"><span className="h-0.5 w-3 shrink-0" style={{ backgroundColor: `var(${COLOR_VAR[curve.color ?? 'primary']})` }} /><span className="min-w-0 break-words">{curve.label}: <output className="font-mono text-foreground">{Number.isFinite(value) ? formatNumeric(value) : t('Tidak terdefinisi', 'Undefined')}</output></span></span>;
+      })}
+    </div>
+    <InteractiveParameterControls title={data.title} sliders={data.sliders} params={params} onChange={setParams} />
+  </section>;
 }

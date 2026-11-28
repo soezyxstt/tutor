@@ -8,10 +8,12 @@ import { resolveTutorSettings } from './tutor-settings';
 import { createGatewayFetch } from './gateway-fetch';
 import { readGeminiToolSignatures } from './gateway-stream';
 import { buildTutorSystemPrompt } from './teaching-prompt';
+import { tutorAgentTools } from '../ai/agent-tools';
 export { TutorAdminState } from './admin-state';
 import {
   renderInteractive3DSchema,
   renderInteractivePlotSchema,
+  renderInteractiveSimulationSchema,
   revealSolutionStepSchema,
   showComparisonTableSchema,
   showFormulaBreakdownSchema,
@@ -155,8 +157,9 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
       quotedText?: string;
       simulationId?: string;
       simulationParams?: string[];
+      uiContext?: string;
     }>().catch(() => null);
-    if (!body || !Array.isArray(body.messages) || body.messages.length > 100 || body.messages.some((message) => !message || !['user', 'assistant'].includes(message.role))) {
+    if (!body || (body.uiContext !== undefined && typeof body.uiContext !== 'string') || !Array.isArray(body.messages) || body.messages.length > 100 || body.messages.some((message) => !message || !['user', 'assistant'].includes(message.role))) {
       return c.json({ error: 'Invalid conversation.' }, 400);
     }
     const settings = await resolveTutorSettings(c.env);
@@ -179,6 +182,7 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
     const systemPrompt = buildTutorSystemPrompt(body);
 
     const tools = {
+      ...tutorAgentTools,
       updateSimulationParams: tool({
         description:
           'Ubah parameter simulasi interaktif di layar siswa secara langsung.',
@@ -222,6 +226,10 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
         description:
           'Buat visualisasi 3D interaktif (permukaan z=f(x,y) atau vektor 3D) yang bisa diputar siswa langsung.',
         parameters: renderInteractive3DSchema,
+      }),
+      renderInteractiveSimulation: tool({
+        description: 'Create a live 2D simulation on the page, with time, play/pause/reset, parameter sliders, trajectories, vectors, and numeric readouts. Use for animation, motion, time response, or parameter experiments. Supply explicit math expressions, units, and assumptions; no HTML or JavaScript.',
+        parameters: renderInteractiveSimulationSchema,
       }),
     };
 

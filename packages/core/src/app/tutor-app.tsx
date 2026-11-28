@@ -7,6 +7,7 @@ import { ProblemView } from '../content/problem-view';
 import { MaterialView } from '../content/material-view';
 import { PracticeView } from '../content/practice-view';
 import { CoreShowcaseView } from '../showcase/core-showcase-view';
+import { initializeTutorAgent } from '../ai/agent-runtime';
 
 interface FlatEntry {
   moduleLabel: string;
@@ -41,6 +42,7 @@ export function TutorApp({ course }: { course: CourseConfig }) {
 }
 
 function LocalizedTutorApp({ source }: { source: CourseConfig }) {
+  React.useEffect(() => { initializeTutorAgent(); }, []);
   const { locale, t } = useLanguage();
   const localization = React.useMemo(() => resolveCourseLocale(source, locale), [source, locale]);
   const { course } = localization;
@@ -139,6 +141,7 @@ function LocalizedTutorApp({ source }: { source: CourseConfig }) {
               course.enableShowcase ? handleSelectShowcase : undefined
             }
           >
+            <div className="min-w-0" data-tutor-agent-scope={activeView === 'lesson' && activeEntry ? `${course.slug}:${activeEntry.item.id}` : undefined}>
             {activeView === 'lesson' && activeEntry && localization.missingItemIds.includes(activeEntry.item.id) && (
               <p role="status" className="mb-5 border-l-2 border-border pl-3 text-xs leading-relaxed text-muted-foreground">
                 {localization.partiallyTranslatedItemIds.includes(activeEntry.item.id)
@@ -175,6 +178,7 @@ function LocalizedTutorApp({ source }: { source: CourseConfig }) {
                 {t('Belum ada materi atau soal pada mata kuliah ini.', 'No lessons or problems are available for this course yet.')}
               </div>
             )}
+            </div>
           </TutorShell>
         </TooltipProvider>
       </MotionProvider>

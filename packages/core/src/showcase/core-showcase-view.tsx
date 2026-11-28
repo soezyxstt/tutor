@@ -482,6 +482,27 @@ export function CoreShowcaseView() {
 
           <AiToolInvocationView
             invocation={{
+              toolName: 'renderInteractiveSimulation',
+              args: {
+                title: t('Respons orde satu terhadap masukan langkah', 'First-order step response'),
+                description: t('Masukan naik dari 0 ke 1 pada $t=0$. Model memakai $y(t)=1-e^{-t/\\tau}$ dengan keluaran awal nol. Ubah konstanta waktu, lalu putar animasi untuk melihat laju perubahan respons.', 'The input rises from 0 to 1 at $t=0$. The model uses $y(t)=1-e^{-t/\\tau}$ with zero initial output. Change the time constant, then play the animation to compare response rates.'),
+                duration: 8,
+                xDomain: [0, 8],
+                yDomain: [0, 1.1],
+                xLabel: t('Waktu (s)', 'Time (s)'),
+                yLabel: t('Respons y', 'Response y'),
+                particles: [{ label: 'y(t)', xExpression: 't', yExpression: '1-exp(-t/tau)', trail: true }],
+                readouts: [
+                  { label: 'y(t)', expression: '1-exp(-t/tau)' },
+                  { label: 'dy/dt', expression: 'exp(-t/tau)/tau', unit: 's⁻¹' },
+                ],
+                sliders: [{ key: 'tau', label: t('Konstanta waktu (τ)', 'Time constant (τ)'), unit: 's', min: 0.2, max: 4, step: 0.2, defaultValue: 1 }],
+              },
+            }}
+          />
+
+          <AiToolInvocationView
+            invocation={{
               toolName: 'renderInteractive3D',
               args: {
                 title: t("Permukaan Gelombang 3D · z(x, y)", "3D wave surface · z(x, y)"),

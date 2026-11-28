@@ -160,7 +160,7 @@ export function TutorSidebarContent({
   };
 
   return (
-    <div className="flex h-full flex-col bg-surface-subtle/55 text-foreground">
+    <div className="flex h-full min-w-0 flex-col bg-surface-subtle/55 text-foreground">
       {/* Course identity + hairline progress */}
       <div className="space-y-2.5 border-b border-border px-4 py-3.5">
         <div>
@@ -282,7 +282,9 @@ export function TutorSidebarContent({
       </div>
 
       {/* Animated Navigation Tree */}
-      <ScrollArea className="flex-1">
+      {/* Radix's table wrapper otherwise grows to the intrinsic width of an
+          expanded lesson list, pushing group counts beyond the viewport. */}
+      <ScrollArea className="min-h-0 min-w-0 flex-1 [&_[data-radix-scroll-area-viewport]>div]:block! [&_[data-radix-scroll-area-viewport]>div]:w-full">
         <AnimatePresence mode="wait" initial={false}>
           {groupMode === 'chapter' ? (
             <motion.nav
@@ -292,7 +294,7 @@ export function TutorSidebarContent({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.18, ease: TUTOR_EASE }}
-              className="space-y-5 px-3 py-3.5"
+              className="min-w-0 space-y-5 px-3 py-3.5"
             >
               {course.modules.map((mod) => {
                 const visibleItems = mod.items.filter((item) => {
@@ -306,12 +308,12 @@ export function TutorSidebarContent({
                 const isOpen = openGroups[mod.id] ?? true;
 
                 return (
-                  <div key={mod.id} className="space-y-2">
+                  <div key={mod.id} className="min-w-0 space-y-2">
                     <button
                       type="button"
                       onClick={() => toggleGroup(mod.id)}
                       aria-expanded={isOpen}
-                      className="flex w-full cursor-pointer items-center gap-1.5 px-1 py-0.5 text-left text-xs font-semibold text-foreground/90 transition-colors hover:text-primary"
+                      className="flex w-full min-w-0 cursor-pointer items-center gap-1.5 px-1 py-0.5 text-left text-xs font-semibold text-foreground/90 transition-colors hover:text-primary"
                     >
                       <ChevronRight
                         className={cn(
@@ -319,7 +321,7 @@ export function TutorSidebarContent({
                           isOpen && 'rotate-90'
                         )}
                       />
-                      <span className="truncate">
+                      <span className="min-w-0 truncate">
                         {mod.code ? `${mod.code} · ` : ''}
                         {mod.title}
                       </span>
@@ -354,13 +356,13 @@ export function TutorSidebarContent({
                                         type="button"
                                         onClick={() => onSelectItem(item)}
                                         className={cn(
-                                          'group flex w-full cursor-pointer items-start justify-between gap-2 border-l-2 py-1.5 pr-2 pl-2.5 text-left text-[13px] leading-snug transition-colors outline-none',
+                                          'group flex w-full min-w-0 cursor-pointer items-start justify-between gap-2 border-l-2 py-1.5 pr-2 pl-2.5 text-left text-[13px] leading-snug transition-colors outline-none',
                                           isActive
                                             ? 'border-primary font-medium text-foreground'
                                             : 'border-border/50 text-muted-foreground hover:border-border hover:text-foreground'
                                         )}
                                       >
-                                        <span className="min-w-0 flex-1 break-words">
+                                        <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
                                           {item.title}
                                         </span>
                                         {isDone && (
@@ -388,7 +390,7 @@ export function TutorSidebarContent({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.18, ease: TUTOR_EASE }}
-              className="space-y-4 px-3 py-3.5"
+              className="min-w-0 space-y-4 px-3 py-3.5"
             >
               {examGroups
                 .filter(
@@ -397,12 +399,12 @@ export function TutorSidebarContent({
                 .map((group) => {
                   const isOpen = openGroups[group.key] ?? true;
                   return (
-                    <div key={group.key} className="space-y-1.5">
+                    <div key={group.key} className="min-w-0 space-y-1.5">
                       <button
                         type="button"
                         onClick={() => toggleGroup(group.key)}
                         aria-expanded={isOpen}
-                        className="flex w-full cursor-pointer items-center justify-between gap-2 px-1 py-0.5 text-left text-xs font-semibold text-foreground/90 transition-colors hover:text-primary"
+                        className="grid w-full min-w-0 cursor-pointer grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-1 py-0.5 text-left text-xs font-semibold text-foreground/90 transition-colors hover:text-primary"
                       >
                         <span className="flex min-w-0 items-center gap-1.5">
                           <ChevronRight
@@ -413,7 +415,7 @@ export function TutorSidebarContent({
                           />
                           <span className="truncate">{group.label}</span>
                         </span>
-                        <span className="font-mono text-[11px] font-normal text-muted-foreground">
+                        <span className="shrink-0 font-mono text-[11px] font-normal whitespace-nowrap text-muted-foreground tabular-nums">
                           {group.entries.length} {t('soal', 'problems')}
                         </span>
                       </button>
@@ -432,7 +434,7 @@ export function TutorSidebarContent({
                                   type="button"
                                   onClick={() => onSelectItem(item)}
                                   className={cn(
-                                    'group flex w-full cursor-pointer items-start gap-2 border-l-2 py-1.5 pr-2 pl-2.5 text-left transition-colors outline-none',
+                                    'group flex w-full min-w-0 cursor-pointer items-start gap-2 border-l-2 py-1.5 pr-2 pl-2.5 text-left transition-colors outline-none',
                                     isActive
                                       ? 'border-primary text-foreground'
                                       : 'border-border/50 text-muted-foreground hover:border-border hover:text-foreground'
@@ -446,7 +448,7 @@ export function TutorSidebarContent({
                                   <span className="min-w-0 flex-1">
                                     <span
                                       className={cn(
-                                        'block text-[13px] leading-snug break-words',
+                                        'block text-[13px] leading-snug [overflow-wrap:anywhere]',
                                         isActive && 'font-medium'
                                       )}
                                     >

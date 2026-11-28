@@ -11,9 +11,17 @@ import { RadioGroup, RadioGroupItem, Skeleton, cn } from '@tutor/ui';
 import { MathMarkdown } from '../../content/math-markdown';
 import { MathExpression } from '../../content/math-expression';
 import type { AiUiToolInvocation, ShowQuickQuizInput } from './tools';
+import { validateAiToolCall } from './tools';
 
 const LazyInteractivePlot = React.lazy(() => import('./interactive-plot'));
 const LazyInteractive3D = React.lazy(() => import('./interactive-3d'));
+const LazyInteractiveSimulation = React.lazy(() => import('./interactive-simulation'));
+
+class InteractiveOutputBoundary extends React.Component<{ children: React.ReactNode; fallback: React.ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? this.props.fallback : this.props.children; }
+}
 
 function QuickQuizBlock({ data }: { data: ShowQuickQuizInput }) {
   const { t } = useLanguage();
@@ -84,6 +92,14 @@ export function AiToolInvocationView({
 }: {
   invocation: AiUiToolInvocation;
 }) {
+  const { t } = useLanguage();
+  const result = React.useMemo(() => validateAiToolCall(invocation.toolName, invocation.args), [invocation.toolName, invocation.args]);
+  const fallback = <p role="alert" className="my-3 border-l-2 border-warning pl-3 text-sm text-muted-foreground">{t('Tutor AI belum dapat menampilkan interaksi ini. Minta tutor memperbaikinya.', 'The AI tutor could not display this interaction. Ask the tutor to fix it.')}</p>;
+  if (!result.ok) return fallback;
+  return <InteractiveOutputBoundary fallback={fallback}><ValidatedToolInvocationView invocation={result.invocation} /></InteractiveOutputBoundary>;
+}
+
+function ValidatedToolInvocationView({ invocation }: { invocation: AiUiToolInvocation }) {
   const { t } = useLanguage();
   switch (invocation.toolName) {
     case 'updateSimulationParams': {
@@ -277,6 +293,10 @@ export function AiToolInvocationView({
           <LazyInteractive3D data={invocation.args} />
         </React.Suspense>
       );
+    }
+
+    case 'renderInteractiveSimulation': {
+      return <React.Suspense fallback={<Skeleton className="my-3 h-[280px] w-full" />}><LazyInteractiveSimulation data={invocation.args} /></React.Suspense>;
     }
 
     default:
