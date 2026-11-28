@@ -33,7 +33,7 @@ try {
       courseTests.push(output);
     }
   }
-  const result = spawnSync(process.execPath, ['--experimental-strip-types', '--test', serverTest, 'tests/admin.workerd.mjs', 'tests/catalog.test.mjs', 'tests/contrast.test.mjs', ...coreTests, ...courseTests], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--experimental-strip-types', '--test', serverTest, 'tests/admin.workerd.mjs', 'tests/catalog.test.mjs', 'tests/contrast.test.mjs', 'tests/new-course.test.mjs', ...coreTests, ...courseTests], { stdio: 'inherit' });
   process.exitCode = result.status ?? 1;
 } finally {
   await rm(directory, { recursive: true, force: true });

@@ -58,6 +58,7 @@ export {
 export type { SimulationRendererProps } from './simulation/damped-oscillator-sim';
 
 export { InlineAiThread } from './ai/inline-ai-thread';
+export { AgentButton, AgentSlider } from './ai/agent-controls';
 export { SelectionAiPopover } from './ai/selection-ai-popover';
 export {
   updateSimulationParamsSchema,
@@ -69,6 +70,7 @@ export {
   showPitfallWarningSchema,
   renderInteractivePlotSchema,
   renderInteractive3DSchema,
+  renderInteractiveSimulationSchema,
   type AiUiToolInvocation,
   type UpdateSimulationParamsInput,
   type RevealSolutionStepInput,
@@ -79,6 +81,7 @@ export {
   type ShowPitfallWarningInput,
   type RenderInteractivePlotInput,
   type RenderInteractive3DInput,
+  type RenderInteractiveSimulationInput,
 } from './ai/ui-sdk/tools';
 export { AiToolInvocationView } from './ai/ui-sdk/tool-renderers';
 

@@ -2,6 +2,7 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { assertCourseRuntime } from './check-course-runtime.mjs';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const starterDir = join(rootDir, 'apps', 'starter');
@@ -70,6 +71,8 @@ Example:
   if (existsSync(targetDir)) {
     throw new Error(`Directory apps/${slug} already exists.`);
   }
+
+  assertCourseRuntime(starterDir, rootDir);
 
   cpSync(starterDir, targetDir, {
     recursive: true,
@@ -197,6 +200,7 @@ jobs:
   console.log(`  Workflow : .github/workflows/deploy-${slug}.yml`);
   console.log(`  Indexed  : COURSES.md`);
   console.log(`  Catalog  : draft (set course.catalog.status to 'published' after authoring)`);
+  console.log(`  UI/Tutor : shared @tutor/core and @tutor/ui; model settings from tutor-catalog`);
   console.log(`\nNext steps:`);
   console.log(`  pnpm install`);
   console.log(`  pnpm --filter @tutor/app-${slug} dev`);

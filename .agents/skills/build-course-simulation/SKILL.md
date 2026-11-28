@@ -1,6 +1,6 @@
 ---
 name: build-course-simulation
-description: How to build and lazy-register interactive 2D/3D simulations and charts (RK4 Canvas, Mafs, ECharts, React Three Fiber + Rapier) in @tutor/core so they sync with sliders and AI Tutor updateSimulationParams tool calls.
+description: Build and lazy-register course simulations in the shared Tutor app, with synchronized parameters and agent-readable controls. Use for custom 2D/3D visuals and charts; keep shared UI, AI tools, and provider logic in @tutor/core.
 ---
 # Building & Registering Lazy-Loaded Course Simulations
 
@@ -56,4 +56,9 @@ simulation: {
 ```
 Otomatis:
 - `SimulationStage` merender tombol Play/Pause, Reset, `Uji via AI`, dan slider parameter.
-- Parameter tersimpan di `useTutorStore`, sehingga saat siswa meminta **Inline AI Tutor** mengubah parameter (via tool `updateSimulationParams`), slider dan visualisasi langsung berubah secara *real-time*.
+- Parameter tersimpan di `useTutorStore`. Tool `updateSimulationParams` hanya mengubah parameter yang terdaftar pada simulasi bawaan materi tersebut.
+- Tutor membaca dan mengubah kontrol belajar lewat `snapshot`, `query`, dan `act`. Grafik atau animasi yang dibuat Tutor melalui `renderInteractivePlot`, `renderInteractive3D`, atau `renderInteractiveSimulation` memakai jalur kontrol ini, termasuk penggeser waktu.
+
+Untuk kontrol eksplorasi tambahan, impor `AgentButton` dan `AgentSlider` dari `@tutor/core`. Gunakan `setParam` pada `SimulationRendererProps` untuk menjaga parameter visual dan slider bersama tetap sama. Beri setiap kontrol nama jelas yang mencakup judul simulasi. Pertahankan pilihan jawaban, penanda selesai, dan formulir chat sebagai tindakan siswa. Baca skill UI SDK resmi sesuai petunjuk `AGENTS.md` saat menambah jenis kontrol baru.
+
+Pertahankan `<TutorApp course={course} />` dan worker factory dari starter. Daftarkan hanya visual khusus course di app; gunakan prompt, validator ekspresi, renderer hasil AI, dan gateway dari core tanpa menyalinnya. Jalankan `pnpm validate`, `pnpm typecheck`, `pnpm test`, dan build course setelah perubahan.

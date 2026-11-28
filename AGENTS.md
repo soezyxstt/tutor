@@ -36,7 +36,7 @@ Baca skill yang relevan di `.agents/skills/` sebelum mengeksekusi tugas:
 
 Saat mengubah kontrol yang dipakai Tutor AI, baca skill resmi UI SDK pada `packages/core/node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md`, lalu indeks `packages/core/node_modules/@ui-sdk/react/docs/llms.txt`. Baca halaman komponen dan `docs/agents.md` sesuai tugas. Paket `@ui-sdk/core` dan `@ui-sdk/react` memakai versi yang sama; ikuti dokumen versi terpasang. Jangan ubah kebijakan umur rilis agar paket baru bisa dipasang.
 
-Kontrol belajar memakai `AgentButton` dan `AgentSlider` pada `packages/core/src/ai/agent-controls.tsx`, dengan gaya dari `@tutor/ui`. Beri nama yang jelas dan unik pada setiap kontrol. `agent-runtime.ts` membatasi bacaan serta tindakan pada pelajaran aktif. Pertahankan jawaban kuis, centang kemajuan, penanda, dan formulir percakapan sebagai tindakan siswa. Alat pembuat grafik, tampilan 3D, dan simulasi memakai skema data tervalidasi; alat tersebut berbeda dari pustaka UI SDK resmi. Jangan jalankan kode bebas dari model.
+Kontrol belajar memakai `AgentButton` dan `AgentSlider`, yang dapat diimpor dari `@tutor/core`, dengan gaya dari `@tutor/ui`. Beri nama yang jelas dan unik pada setiap kontrol. `agent-runtime.ts` membatasi bacaan serta tindakan pada pelajaran aktif. Pertahankan jawaban kuis, centang kemajuan, penanda, dan formulir percakapan sebagai tindakan siswa. Alat pembuat grafik, tampilan 3D, dan simulasi memakai skema data tervalidasi; alat tersebut berbeda dari pustaka UI SDK resmi. Jangan jalankan kode bebas dari model.
 
 Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gunakan versi terbaru** dari kedua skill berikut yang berada di repository **`soezyxstt/agent-skills`** (via skill terpasang di agent atau baca langsung dari `soezyxstt/agent-skills`):
 - **`bahasa-ajar`** (`soezyxstt/agent-skills`) — standar gaya bahasa pengajaran Bahasa Indonesia yang jernih, natural, dan mudah dipahami.
@@ -45,6 +45,8 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
 ---
 
 ## 3. Alur Kerja Standar (End-to-End Pipeline)
+
+Pada checkout baru, jalankan `pnpm install` sebelum memakai generator atau validasi.
 
 1. **Cek Indeks**: Buka `COURSES.md`.
    - Jika mata kuliah **belum ada** → jalankan:
@@ -67,9 +69,10 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
    ```bash
    pnpm validate
    pnpm typecheck
+   pnpm test
    pnpm build
    ```
-   Pastikan lulus validasi skema/pedagogi (`pnpm validate`), tidak ada error TypeScript, tidak ada broken LaTeX, dan chunk simulasi berat terpisah (*lazy-loaded*).
+   Pastikan lulus validasi skema/pedagogi dan batas UI/worker bersama (`pnpm validate`), tidak ada error TypeScript, tidak ada broken LaTeX, dan chunk simulasi berat terpisah (*lazy-loaded*). Uji generator pada `pnpm test` memeriksa build UI dan worker dari course yang benar-benar dibuat lewat CLI.
 7. **Deployment (Cloudflare Workers via GitHub Actions)**:
    - Setiap app di `apps/<slug>` memiliki `wrangler.jsonc` dengan custom domain `<slug>.tutor.adihnursyam.com` dan workflow `.github/workflows/deploy-<slug>.yml` yang menggunakan GitHub Secrets:
      - `CF_ACCOUNT_ID`
@@ -91,6 +94,7 @@ Saat menulis narasi materi, pembahasan soal, petunjuk, atau latihan, **selalu gu
 - Login admin hanya tersedia di Worker katalog. Semua Worker mata kuliah membaca pilihan model dari `https://tutor.adihnursyam.com/api/tutor-config`.
 
 - **Satu Sistem UI Bersama**: Jangan membangun ulang sidebar, topbar, layout, atau primitif UI di dalam `apps/<slug>`. Selalu impor dari `@tutor/core` dan `@tutor/ui`.
+- **Default Course Baru**: Pertahankan entrypoint, CSS, dan worker starter. `scripts/check-course-runtime.mjs` menjaga pemakaian paket workspace, layer UI SDK, sumber Tailwind, API, serta setelan AI pusat melalui `pnpm validate` dan pemeriksaan generator. Konten dan simulasi khusus tetap berada di app. Perubahan sistem pengajaran bersama masuk ke core agar setiap course mendapat pembaruan pada deploy berikutnya.
 - **Hampir 0 Cards**: Hindari membungkus paragraf, soal, atau langkah dalam kotak card/shadow. Gunakan tipografi, spasi lega, garis tipis 1px (`border-border`), dan callout `border-l-2`.
 - **Tanpa Eyebrow / Pill Title**: Jangan tambahkan label uppercase kecil di atas judul (seperti `SIMULASI INTERAKTIF` atau pill badge dekoratif).
 - **Kontrol Minimalis**:
