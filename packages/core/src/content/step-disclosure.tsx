@@ -15,6 +15,7 @@ import { useTutorStore } from '../store/tutor-store';
 import { MathMarkdown } from './math-markdown';
 import { InlineAiThread } from '../ai/inline-ai-thread';
 import { SimulationStage } from '../simulation/simulation-stage';
+import { AgentButton } from '../ai/agent-controls';
 
 function displayStepTitle(title: string, index: number) {
   return title.replace(new RegExp(`^\\s*${index + 1}[.)]\\s+`), '');
@@ -42,6 +43,7 @@ export function StepDisclosure({
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
   const revealStep = useTutorStore((s) => s.revealStep);
   const stepRequest = useTutorStore((s) => s.stepRequests[itemKey]);
+  const inlineThreads = useTutorStore((s) => s.inlineThreads);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [showAll, setShowAll] = React.useState(false);
@@ -84,7 +86,7 @@ export function StepDisclosure({
     const stepAnchor = `${itemKey}:step:${step.id}`;
 
     return (
-      <div key={step.id} data-ai-anchor={stepAnchor} className="space-y-3">
+      <div key={step.id} data-ai-anchor={stepAnchor} className="min-w-0 space-y-3">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-[16px] font-semibold tracking-tight text-foreground">
             {index + 1}. {displayTitle}
@@ -92,11 +94,12 @@ export function StepDisclosure({
 
           <div className="flex shrink-0 items-center gap-1">
             {step.hint && (
-              <Button
+              <AgentButton
                 variant="icon"
                 size="icon-sm"
                 aria-label={t(`Petunjuk langkah ${index + 1}`, `Hint for step ${index + 1}`)}
                 title={t("Petunjuk", "Hint")}
+                aria-expanded={hintOpen}
                 onClick={() =>
                   setOpenHints((prev) => ({
                     ...prev,
@@ -106,7 +109,7 @@ export function StepDisclosure({
                 className={cn(hintOpen && 'text-primary')}
               >
                 <HelpCircle className="size-3.5" />
-              </Button>
+              </AgentButton>
             )}
             <Button
               variant="icon"
@@ -189,8 +192,10 @@ export function StepDisclosure({
         {/* Optional collapsible Rationale drawer ("Kenapa cara ini?") */}
         {step.rationale && (
           <div className="pt-1">
-            <button
+            <AgentButton
               type="button"
+              variant="link"
+              size="sm"
               onClick={() =>
                 setOpenRationales((prev) => ({
                   ...prev,
@@ -198,7 +203,8 @@ export function StepDisclosure({
                 }))
               }
               aria-expanded={rationaleOpen}
-              className="inline-flex cursor-pointer items-center gap-1 text-xs font-medium text-primary transition-colors hover:underline"
+              aria-label={t(`Alasan metode langkah ${index + 1}`, `Method rationale for step ${index + 1}`)}
+              className="min-h-9 justify-start gap-1 whitespace-normal text-left text-sm"
             >
               <ChevronRight
                 className={cn(
@@ -207,7 +213,7 @@ export function StepDisclosure({
                 )}
               />
               <span>{t("Kenapa pakai cara ini?", "Why this method?")}</span>
-            </button>
+            </AgentButton>
             <CollapsibleMotion open={rationaleOpen}>
               <div className="mt-2 space-y-2 border-l-2 border-primary/40 pl-3.5 text-[13px] text-muted-foreground">
                 <div>
@@ -240,28 +246,17 @@ export function StepDisclosure({
           </div>
         )}
 
-        <InlineAiThread
-          anchorId={stepAnchor}
-          anchorLabel={`${t('Langkah', 'Step')} ${index + 1} · ${displayTitle}`}
-          courseSlug={courseSlug}
-          courseTitle={courseTitle}
-          itemKey={itemKey}
-          itemTitle={problemTitle}
-          contextText={[problemContext, step.title, step.content, step.rationale?.whyThisMethod, step.rationale?.commonPitfall].filter(Boolean).join('\n\n')}
-          simulation={step.simulation ?? simulation}
-          stepCount={steps.length}
-        />
       </div>
     );
   };
 
   return (
-    <section aria-label={t("Pembahasan", "Solution")} className="mt-8 space-y-5">
+    <section aria-label={t("Pembahasan", "Solution")} className="mt-6 min-w-0 space-y-4 border-t border-border pt-5">
       {/* Header row: Pembahasan · Langkah 1 / N  |  Lihat semua langkah */}
       <div className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-baseline gap-2.5">
-            <h2 className="text-sm font-semibold tracking-tight text-foreground">
+            <h2 className="text-base font-semibold tracking-tight text-foreground">
               {t("Pembahasan", "Solution")}
             </h2>
             <span className="text-xs text-muted-foreground">
@@ -271,13 +266,15 @@ export function StepDisclosure({
             </span>
           </div>
 
-          <Button
+          <AgentButton
             size="sm"
             variant="ghost"
+            aria-pressed={showAll}
+            className="min-h-9"
             onClick={() => setShowAll((prev) => !prev)}
           >
             {showAll ? t('Mode bertahap', 'One step at a time') : t('Lihat semua langkah', 'Show all steps')}
-          </Button>
+          </AgentButton>
         </div>
 
         {/* Numbered step selector row — smoothly collapses when Lihat semua langkah is active */}
@@ -285,21 +282,24 @@ export function StepDisclosure({
           <div className="flex flex-wrap items-center gap-2 border-b border-border pb-3.5">
             <div
               className="flex flex-wrap items-center gap-1.5"
-              role="tablist"
+              role="group"
               aria-label={t("Pilih langkah", "Choose a step")}
             >
               {steps.map((step, idx) => {
                 const isActive = idx === safeIndex;
                 return (
-                  <button
+                  <AgentButton
                     key={step.id}
                     type="button"
-                    role="tab"
-                    aria-selected={isActive}
+                    variant="ghost"
+                    size="icon"
+                    aria-pressed={isActive}
+                    aria-controls={`${itemKey}:active-step`}
                     aria-label={`${t('Langkah', 'Step')} ${idx + 1}: ${displayStepTitle(step.title, idx)}`}
+                    title={displayStepTitle(step.title, idx)}
                     onClick={() => selectStep(idx)}
                     className={cn(
-                      'relative inline-flex size-6 cursor-pointer items-center justify-center rounded-full font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      'relative size-9 rounded-full p-0 font-mono text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
                       isActive
                         ? 'text-primary-foreground'
                         : 'bg-surface-subtle text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -313,7 +313,7 @@ export function StepDisclosure({
                       />
                     )}
                     <span className="relative z-10">{idx + 1}</span>
-                  </button>
+                  </AgentButton>
                 );
               })}
             </div>
@@ -324,7 +324,7 @@ export function StepDisclosure({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -4 }}
                 transition={{ duration: 0.16, ease: TUTOR_EASE }}
-                className="min-w-0 truncate text-xs text-muted-foreground sm:pl-1"
+                className="sr-only"
               >
                 {displayStepTitle(activeStep.title, safeIndex)}
               </motion.span>
@@ -333,63 +333,51 @@ export function StepDisclosure({
         </CollapsibleMotion>
       </div>
 
-      {/* Smooth mode transition between Lihat semua langkah and Mode bertahap */}
-      <AnimatePresence mode="wait" initial={false}>
-        {showAll ? (
-          <motion.div
-            key="steps-all"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.22, ease: TUTOR_EASE }}
-            className="divide-y divide-border/80"
-          >
-            {steps.map((step, idx) => (
-              <div key={step.id} className="py-5 first:pt-0">
-                {renderStepBody(step, idx)}
-              </div>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="steps-paged"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.22, ease: TUTOR_EASE }}
-            className="space-y-6"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={activeStep.id}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.18, ease: TUTOR_EASE }}
-              >
-                {renderStepBody(activeStep, safeIndex)}
-              </motion.div>
-            </AnimatePresence>
+      {/* Keep threads mounted when the tutor or the learner changes the visible step. */}
+      <div id={`${itemKey}:active-step`} className="flex min-w-0 flex-col gap-5">
+        {steps.map((step, index) => {
+          const stepAnchor = `${itemKey}:step:${step.id}`;
+          const bodyVisible = showAll || index === safeIndex;
+          const threadOpen = !!inlineThreads[stepAnchor]?.open;
+          return <div key={`${itemKey}:${step.id}`} hidden={!bodyVisible && !threadOpen}
+            className={cn('min-w-0', showAll && index > 0 && 'border-t border-border/80 pt-5')}>
+            {bodyVisible && <motion.div data-tutor-transition
+              initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.18, ease: TUTOR_EASE }}>
+              {renderStepBody(step, index)}
+            </motion.div>}
+            <InlineAiThread
+              anchorId={stepAnchor}
+              anchorLabel={`${t('Langkah', 'Step')} ${index + 1} · ${displayStepTitle(step.title, index)}`}
+              courseSlug={courseSlug} courseTitle={courseTitle} itemKey={itemKey} itemTitle={problemTitle}
+              contextText={[problemContext, step.title, step.content, step.rationale?.whyThisMethod, step.rationale?.commonPitfall].filter(Boolean).join('\n\n')}
+              simulation={step.simulation ?? simulation} stepCount={steps.length}
+            />
+          </div>;
+        })}
+      </div>
 
-            {/* Bottom step navigation: < Sebelumnya  |  1 / N  |  Lanjut > */}
+      {!showAll && (
             <div className="flex items-center justify-between gap-3 border-t border-border pt-4">
-              <Button
+              <AgentButton
                 size="sm"
                 variant="ghost"
+                className="min-h-9"
                 disabled={safeIndex === 0}
                 onClick={() => selectStep(Math.max(0, safeIndex - 1))}
               >
                 <ChevronLeft className="size-3.5" />
                 <span>{t("Sebelumnya", "Previous")}</span>
-              </Button>
+              </AgentButton>
 
               <span className="font-mono text-xs text-muted-foreground">
                 {safeIndex + 1} / {steps.length}
               </span>
 
-              <Button
+              <AgentButton
                 size="sm"
                 variant={safeIndex >= steps.length - 1 ? 'secondary' : 'default'}
+                className="min-h-9"
                 disabled={safeIndex >= steps.length - 1}
                 onClick={() =>
                   selectStep(Math.min(steps.length - 1, safeIndex + 1))
@@ -397,11 +385,9 @@ export function StepDisclosure({
               >
                 <span>{t("Lanjut", "Next")}</span>
                 <ChevronRight className="size-3.5" />
-              </Button>
+              </AgentButton>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      )}
     </section>
   );
 }

@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import './interactive-tools.test';
+import { validateAiToolCall } from '../packages/core/src/ai/ui-sdk/tools';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { createTutorWorker } from '../packages/core/src/server/worker';
@@ -37,7 +39,7 @@ function splitSse(text: string) {
   }), { headers: { 'Content-Type': 'text/event-stream' } });
 }
 
-test('all nine tutor tools retain compatible optional schemas through the actual SDK provider payload', async (t) => {
+test('all tutor and UI SDK tools retain compatible optional schemas through the actual SDK provider payload', async (t) => {
   const captured: Record<string, any>[] = [];
   t.mock.method(globalThis, 'fetch', async (_input: RequestInfo | URL, init?: RequestInit) => {
     const payload = JSON.parse(String(init?.body));
@@ -65,7 +67,8 @@ test('all nine tutor tools retain compatible optional schemas through the actual
   }
   assert.deepEqual(captured.map((payload) => payload.model), ['openai/gpt-5.4', 'openai/gpt-4o-mini', 'google-ai-studio/gemini-2.5-flash', 'custom-muse/gpt-5.4']);
   for (const payload of captured) {
-    assert.equal(payload.tools.length, 9);
+    assert.equal(payload.tools.length, 13);
+    for (const name of ['snapshot', 'query', 'act', 'renderInteractiveSimulation']) assert.ok(payload.tools.some((entry: any) => entry.function.name === name), name);
     assert.ok(payload.tools.every((entry: any) => entry.function.strict !== true));
     const simulation = payload.tools.find((entry: any) => entry.function.name === 'updateSimulationParams').function.parameters;
     assert.ok(!simulation.required.includes('reason'));
@@ -241,4 +244,60 @@ test('caller cancellation still aborts a body after its headers arrive', async (
     caller.abort();
     await assert.rejects(reader.read(), { name: 'AbortError' });
   }
+});
+
+test('a generated animation crosses the provider and client stream and reports invalid expressions for repair', async (t) => {
+  const valid = {
+    title: 'Step response', description: 'A unit step applied to a first-order system.', duration: 5,
+    xDomain: [0, 5], yDomain: [0, 1.1],
+    particles: [{ label: 'Response', xExpression: 't', yExpression: '1-exp(-t/tau)', trail: true }],
+    readouts: [{ label: 'Response', expression: '1-exp(-t/tau)' }],
+    sliders: [{ key: 'tau', label: 'Time constant', unit: 's', min: 0.1, max: 4, step: 0.1, defaultValue: 1 }],
+  };
+  const results: any[] = [];
+  let requestCount = 0;
+  t.mock.method(globalThis, 'fetch', async (_input: RequestInfo | URL, init?: RequestInit) => {
+    const payload = JSON.parse(String(init?.body));
+    requestCount++;
+    assert.ok(payload.tools.some((entry: any) => entry.function.name === 'renderInteractiveSimulation'));
+    if (requestCount > 1) {
+      const toolResult = payload.messages.find((message: any) => message.role === 'tool' && message.tool_call_id === 'simulation-1');
+      assert.ok(toolResult, 'The model receives the failed render result');
+      assert.equal(JSON.parse(toolResult.content).ok, false);
+      assert.match(JSON.parse(toolResult.content).error, /defined at t=0/);
+    }
+    const args = requestCount === 1 ? { ...valid, particles: [{ ...valid.particles[0], yExpression: '1/t' }] } : valid;
+    const chunk = { id: 'simulation-stream', object: 'chat.completion.chunk', created: 1, model: 'test', choices: [{ index: 0, delta: { role: 'assistant', tool_calls: [{ index: 0, id: `simulation-${requestCount}`, type: 'function', function: { name: 'renderInteractiveSimulation', arguments: JSON.stringify(args) } }] }, finish_reason: null }] };
+    const finish = { id: 'simulation-stream', object: 'chat.completion.chunk', created: 1, model: 'test', choices: [{ index: 0, delta: {}, finish_reason: 'tool_calls' }] };
+    return splitSse(`data: ${JSON.stringify(chunk)}\n\ndata: ${JSON.stringify(finish)}\n\ndata: [DONE]\n\n`);
+  });
+  const app = createTutorWorker();
+  const env: TutorWorkerEnv = { TUTOR_CONFIG_URL: 'disabled', OPENAI_API_KEY: 'test-only-key', AI_MODEL: 'openai/gpt-4o-mini', AI_FALLBACK_MODELS: '' };
+  async function chat(messages: any[], lastMessage?: any) {
+    let answer: any;
+    await callChatApi({
+      api: '/api/ai', body: { messages, language: 'en', uiContext: 'No generated controls yet.' },
+      fetch: (_input: RequestInfo | URL, init: RequestInit) => app.request('/api/ai', init, env),
+      restoreMessagesOnFailure: () => assert.fail('Client stream failed'),
+      onUpdate: ({ message }: any) => { answer = message; },
+      onFinish: (message: any) => { answer = message; },
+      onToolCall: ({ toolCall }: any) => {
+        const result = validateAiToolCall(toolCall.toolName, toolCall.args);
+        results.push(result);
+        return result.ok ? { ok: true, rendered: toolCall.toolName } : result;
+      },
+      lastMessage,
+    });
+    return answer;
+  }
+  const user = { role: 'user', content: 'Create an animated step response with a time-constant slider.' };
+  const failed = await chat([user]);
+  assert.equal(results[0].ok, false);
+  const repaired = await chat([user, failed], failed);
+  assert.equal(results[1].ok, true);
+  const invocation = repaired.parts.find((part: any) => part.type === 'tool-invocation' && part.toolInvocation.toolCallId === 'simulation-2').toolInvocation;
+  assert.equal(invocation.state, 'result');
+  assert.deepEqual(invocation.args, valid);
+  assert.deepEqual(invocation.result, { ok: true, rendered: 'renderInteractiveSimulation' });
+  assert.equal(requestCount, 2);
 });

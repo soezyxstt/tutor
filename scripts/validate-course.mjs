@@ -6,6 +6,7 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkCourseRuntime } from './check-course-runtime.mjs';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const appsDir = join(rootDir, 'apps');
@@ -90,6 +91,9 @@ function main() {
   for (const app of apps) {
     const contentDir = join(appsDir, app.name, 'src', 'content');
     if (!existsSync(contentDir)) continue;
+    for (const issue of checkCourseRuntime(join(appsDir, app.name), rootDir)) {
+      error(`apps/${app.name}/${issue.file}`, issue.message);
+    }
     const files = readdirSync(contentDir).filter((f) => f.endsWith('.ts'));
     for (const f of files) {
       const full = join(contentDir, f);

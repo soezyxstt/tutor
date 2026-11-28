@@ -1,7 +1,8 @@
 import { useLanguage } from '../i18n/language-provider';
 import * as React from 'react';
 import { BotMessageSquare, Pause, Play, RotateCcw } from 'lucide-react';
-import { Button, Skeleton, Slider } from '@tutor/ui';
+import { Button, Skeleton } from '@tutor/ui';
+import { AgentButton, AgentSlider } from '../ai/agent-controls';
 import type { SimulationSpec } from '../types/course';
 import { useTutorStore } from '../store/tutor-store';
 import { clearSimulationContextState, getSimulationComponent, updateSimulationContextState, useSimulationContextState } from './simulation-registry';
@@ -57,19 +58,19 @@ export function SimulationStage({
         </figcaption>
 
         <div className="flex shrink-0 items-center gap-1">
-          <Button
+          <AgentButton
             variant="icon"
             size="icon-sm"
-            aria-label={playing ? t('Jeda simulasi', 'Pause simulation') : t('Jalankan simulasi', 'Play simulation')}
+            aria-label={`${spec.title}: ${playing ? t('Jeda simulasi', 'Pause simulation') : t('Jalankan simulasi', 'Play simulation')}`}
             title={playing ? t('Jeda', 'Pause') : t('Jalankan', 'Play')}
             onClick={() => setPlaying((p) => !p)}
           >
             {playing ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
-          </Button>
-          <Button
+          </AgentButton>
+          <AgentButton
             variant="icon"
             size="icon-sm"
-            aria-label={t("Reset parameter simulasi", "Reset simulation parameters")}
+            aria-label={`${spec.title}: ${t('Reset parameter simulasi', 'Reset simulation parameters')}`}
             title={t("Reset parameter", "Reset parameters")}
             onClick={() => {
               clearSimulationContextState(simKey);
@@ -78,7 +79,7 @@ export function SimulationStage({
             }}
           >
             <RotateCcw className="size-3.5" />
-          </Button>
+          </AgentButton>
           {aiAnchorId && (
             <Button
               variant="ghost"
@@ -139,8 +140,8 @@ export function SimulationStage({
                   {p.unit ? ` ${p.unit}` : ''}
                 </span>
               </div>
-              <Slider
-                aria-label={p.label}
+              <AgentSlider
+                aria-label={`${spec.title}: ${p.label}`}
                 value={[val]}
                 min={p.min}
                 max={p.max}

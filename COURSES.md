@@ -11,11 +11,13 @@ Katalog pusat: `https://tutor.adihnursyam.com`, Worker `tutor-catalog`, workflow
 
 App `demo` merupakan referensi UI dan tidak muncul di katalog publik.
 
+Semua mata kuliah memakai UI dan Tutor AI bersama dari `@tutor/core` dan `@tutor/ui`. Buat mata kuliah baru lewat `pnpm new-course` agar struktur pembahasan, preset pilihan teks, UI SDK, simulasi AI, dan prompt tutor ikut terpasang. Perbaikan pada paket bersama berlaku untuk semua app; workflow tiap mata kuliah membangun dan merilis ulang saat paket tersebut berubah.
+
 | Slug | Kode | Mata Kuliah | Domain | Worker Name | Workflow CI/CD | Status | Ringkasan Konten & Ujian |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `demo` | `FI1101` | Mekanika & Getaran | `https://demo.tutor.adihnursyam.com` | `tutor-demo` | `.github/workflows/deploy-demo.yml` | Showcase / Core Reference | 2 modul (`M1 Osilasi Teredam`, `M2 Dinamika Benda Tegar`), 2 materi, 1 latihan, 3 pembahasan (`UTS 2024`, `UTS 2023`), simulasi RK4, katalog Core UI (`?view=components`) |
 | `starter` | `MK1001` | Template Starter | `https://starter.tutor.adihnursyam.com` | `tutor-starter` | *(template — tidak di-deploy)* | Template | Template bersih untuk `pnpm new-course` |
-| `ipe` | `MS3105` | Instrumentasi, Pengukuran & Eksperimen | `https://ipe.tutor.adihnursyam.com` | `tutor-ipe` | `.github/workflows/deploy-ipe.yml` | Migrasi siap ditinjau | 8 modul, 8 materi, 8 set latihan (30 soal konsep, 8 tugas terbimbing, 8 esai), 47 soal ujian dengan 419 langkah, 90 visual, UTS 1/UTS 2/UAS 2023 sampai 2025, bahasa Indonesia dan Inggris |
+| `ipe` | `MS3105` | Instrumentasi, Pengukuran & Eksperimen | `https://ipe.tutor.adihnursyam.com` | `tutor-ipe` | `.github/workflows/deploy-ipe.yml` | Aktif | 8 modul, 8 materi, 8 set latihan (30 soal konsep, 8 tugas terbimbing, 8 esai), 47 soal ujian dengan 419 langkah, 90 visual, UTS 1/UTS 2/UAS 2023 sampai 2025, bahasa Indonesia dan Inggris |
 
 
 ## Infrastruktur & Secret Bersama

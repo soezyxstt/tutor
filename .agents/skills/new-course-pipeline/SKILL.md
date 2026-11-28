@@ -13,7 +13,7 @@ https://<slug>.tutor.adihnursyam.com
 ```
 
 ## Langkah 2 — Jalankan Generator CLI
-Dari root monorepo:
+Dari root monorepo, jalankan `pnpm install` dahulu jika dependensi checkout belum terpasang. Lalu:
 ```bash
 pnpm new-course --slug <slug> --name "<Nama Mata Kuliah>" --code <KODE>
 pnpm install
@@ -31,6 +31,8 @@ Perintah ini otomatis membuat:
    - `CLOUDFLARE_API_TOKEN: ${{ secrets.CF_DEPLOY_PAGES_TOKEN }}`
 4. Baris baru di `COURSES.md`.
 
+Pertahankan entry UI `TutorApp`, worker `createTutorWorker()`, dependensi `workspace:*`, dan CSS bersama dari starter. Generator memeriksa template sebelum menyalinnya. `pnpm validate` memeriksa batas yang sama pada setiap course: layer UI SDK, sumber Tailwind core/UI, rute API, gateway, dan binding setelan katalog. Tambahkan konten dan registrasi simulasi di app; ubah UI, prompt, atau alat Tutor yang berlaku umum di `packages/core` atau `packages/ui`.
+
 ## Langkah 3 — Susun Konten & Simulasi
 - Ikuti skill `author-course-content` untuk mengisi `apps/<slug>/src/content/` (jika soal banyak, pecah per modul/ujian, misal `src/content/m1-konduksi.ts`, `src/content/m2-konveksi.ts`, lalu gabungkan di `src/content/course.ts`).
 - Jika butuh visualisasi khusus (grafik ECharts, Mafs, solver numerik Canvas, 3D R3F/Rapier), ikuti skill `build-course-simulation`.
@@ -41,15 +43,18 @@ Lengkapi kolom **Ringkasan Konten & Ujian** di `COURSES.md` (jumlah modul, dafta
 ## Langkah 5 — Verifikasi Wajib
 Jalankan dari root monorepo:
 ```bash
+pnpm validate
 pnpm typecheck
+pnpm test
 pnpm --filter @tutor/app-<slug> build
 ```
 Pastikan:
 - 0 error TypeScript di seluruh workspace.
 - Build produksi selesai bersih tanpa warning broken import.
-- Bila diperlukan, jalankan `pnpm --filter @tutor/app-<slug> preview` dan verifikasi tampilan desktop & mobile.
+- Jalankan `pnpm --filter @tutor/app-<slug> preview` dan verifikasi tampilan desktop & mobile, termasuk pembahasan, pilihan teks, dan kontrol simulasi yang ditambahkan.
 
 ## Langkah 6 — Deploy
 - Commit pada feature branch atau push ke `main` sesuai instruksi pengguna.
 - Workflow `.github/workflows/deploy-<slug>.yml` otomatis berjalan saat ada perubahan di `apps/<slug>/**`, `packages/ui/**`, atau `packages/core/**`, lalu men-deploy ke `https://<slug>.tutor.adihnursyam.com`.
-- Untuk mengaktifkan AI Tutor live di production, set Worker environment variables `OPENAI_API_KEY`, `CLOUDFLARE_AI_GATEWAY_URL`, dan `AI_MODEL` pada Worker `tutor-<slug>` di dashboard Cloudflare (tanpa mengubah kode).
+- Workflow memakai secret bersama `CF_AIG_TOKEN` untuk gateway BYOK. Starter mewariskan binding `TUTOR_CONFIG` ke `tutor-catalog`; pilih model melalui admin katalog agar semua course memakai setelan yang sama. Variabel model pada starter hanya menjadi nilai cadangan saat setelan pusat tidak tersedia. Ikuti `docs/cloudflare-setup.md` dan `docs/catalog-and-admin.md` untuk infrastruktur bersama.
+- Uji generator pada `pnpm test` membuat course sementara, membangun UI aslinya, dan memeriksa worker beserta alat AI melalui provider lokal tiruan. Uji ini tidak menggantikan pemeriksaan domain dan provider setelah deploy.
