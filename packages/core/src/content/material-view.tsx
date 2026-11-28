@@ -163,7 +163,7 @@ export function MaterialView({
           className="mt-8"
         >
           <h2 className="mb-1 text-sm font-semibold tracking-tight text-foreground">
-            {t("Penurunan &amp; Pendalaman", "Derivations and details")}
+            {t("Penurunan dan Pendalaman", "Derivations and details")}
           </h2>
           <Accordion type="multiple" className="border-t border-border">
             {material.derivations.map((d) => (

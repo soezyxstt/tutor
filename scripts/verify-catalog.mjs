@@ -11,12 +11,21 @@ const request = (path, init = {}) => fetch(`${origin}${path}`, {
   headers: { ...(cookie ? { Cookie: cookie } : {}), ...(init.method ? { Origin: origin, 'Content-Type': 'application/json' } : {}), ...init.headers },
 });
 
-for (let attempt = 0; attempt < 6; attempt++) {
+let healthResult = 'No response';
+for (let attempt = 0; attempt < 12; attempt++) {
   try {
     const health = await request('/api/health');
-    if (health.ok && (await health.json()).ok) break;
-  } catch { /* A newly bound domain may need time to become available. */ }
-  assert(attempt < 5, 'Catalog health endpoint is not available.');
+    healthResult = `HTTP ${health.status}`;
+    const payload = await health.json().catch(() => null);
+    if (health.ok && payload?.ok === true) break;
+    if (health.ok) healthResult += ' with an unexpected response format';
+  } catch (error) {
+    healthResult = error?.name === 'TimeoutError' ? 'Request timed out' : 'Network request failed';
+  }
+  // A newly bound domain can need time to become available. Keep diagnostics
+  // useful without logging response bodies, headers, or credentials.
+  assert(attempt < 11, `Catalog health endpoint is not available: ${healthResult}.`);
+  console.log(`Waiting for catalog health (${attempt + 1}/12): ${healthResult}.`);
   await new Promise(resolve => setTimeout(resolve, 10_000));
 }
 
@@ -41,10 +50,10 @@ try {
   const login = await request('/api/admin/login', { method: 'POST', body: JSON.stringify({ username: process.env.ADMIN_USERNAME, password: process.env.ADMIN_PASSWORD }) });
   assert.equal(login.status, 200, 'Admin sign-in must succeed.');
   const setCookie = login.headers.get('set-cookie') || '';
-  assert.match(setCookie, /HttpOnly/);
-  assert.match(setCookie, /Secure/);
-  assert.match(setCookie, /SameSite=Strict/);
-  assert.doesNotMatch(setCookie, /Domain=/i);
+  assert(/HttpOnly/.test(setCookie), 'Session cookie must be HttpOnly.');
+  assert(/Secure/.test(setCookie), 'Session cookie must require HTTPS.');
+  assert(/SameSite=Strict/.test(setCookie), 'Session cookie must use strict same-site protection.');
+  assert(!/Domain=/i.test(setCookie), 'Session cookie must be limited to the catalog host.');
   cookie = setCookie.split(';', 1)[0];
   assert.equal((await (await request('/api/admin/session')).json()).authenticated, true);
   const settingsResponse = await request('/api/admin/settings');
@@ -63,8 +72,8 @@ try {
   const aiResponse = await request('/api/ai', { method: 'POST', body: JSON.stringify({ language: 'en', courseCode: 'deployment-check', messages: [{ id: 'deployment-check', role: 'user', content: 'Reply with the single word ready.' }] }) });
   assert.equal(aiResponse.status, 200, 'AI tutor request must start.');
   const aiStream = await aiResponse.text();
-  assert.match(aiStream, /^0:/m, 'AI tutor must return real streamed text.');
-  assert.doesNotMatch(aiStream, /^3:/m, 'AI tutor stream must not report a provider error.');
+  assert(/^0:/m.test(aiStream), 'AI tutor must return real streamed text.');
+  assert(!/^3:/m.test(aiStream), 'AI tutor stream must not report a provider error.');
   console.log('AI tutor streamed a real response through the configured models.');
   console.log('Live catalog, shared settings, login, secure session, model discovery, and origin checks passed.');
 } finally {
