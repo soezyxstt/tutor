@@ -16,10 +16,11 @@ Setiap mata kuliah di-host terpisah sebagai **Cloudflare Worker (Static Assets +
 
 - **Hosting**: Cloudflare Workers dengan Static Assets (`./dist`) + API route `/api/ai` (`@tutor/core/worker`).
 - **Custom Domain Pattern**: `<slug>.tutor.adihnursyam.com` (dideklarasikan di `apps/<slug>/wrangler.jsonc`).
-- **GitHub Actions Secrets** (sudah terpasang di repo `soezyxstt/tutor`):
-  - `CF_ACCOUNT_ID` → dipetakan ke `CLOUDFLARE_ACCOUNT_ID`
+- **GitHub Actions Secrets** (di repo `soezyxstt/tutor`):
+  - `CF_ACCOUNT_ID` → dipetakan ke `CLOUDFLARE_ACCOUNT_ID` dan disuntikkan ke Worker var
   - `CF_DEPLOY_PAGES_TOKEN` → dipetakan ke `CLOUDFLARE_API_TOKEN`
-- **Runtime Worker Environment Variables (opsional per Worker di dashboard Cloudflare untuk AI live)**:
-  - `OPENAI_API_KEY`: API key provider LLM
-  - `CLOUDFLARE_AI_GATEWAY_URL`: URL Cloudflare AI Gateway (caching, rate-limit, fallback)
-  - `AI_MODEL`: Nama model (default `gpt-4o-mini`)
+  - `CF_AIG_TOKEN` *(pasang sekali di GitHub Secrets)* → otomatis disinkronkan ke seluruh Worker untuk **Cloudflare AI Gateway BYOK** (`tutor-ai-gateway`)
+- **AI Providers (BYOK via Cloudflare AI Gateway `/compat`)**:
+  - Primary default: `google-ai-studio/gemini-2.5-flash`
+  - Fallback default: `openai/gpt-4o-mini` (bisa ditambah Muse AI via Custom Provider `custom-muse/<model>`)
+  - Panduan lengkap setup AI Gateway BYOK & R2: [`docs/cloudflare-setup.md`](docs/cloudflare-setup.md)

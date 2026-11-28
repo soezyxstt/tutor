@@ -54,4 +54,9 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_DEPLOY_PAGES_TOKEN }}
-        run: pnpm exec wrangler deploy
+          CF_AIG_TOKEN: ${{ secrets.CF_AIG_TOKEN }}
+        run: |
+          pnpm exec wrangler deploy --var "CF_ACCOUNT_ID:${CLOUDFLARE_ACCOUNT_ID}"
+          if [ -n "${CF_AIG_TOKEN}" ]; then
+            printf '%s' "${CF_AIG_TOKEN}" | pnpm exec wrangler secret put CF_AIG_TOKEN
+          fi
