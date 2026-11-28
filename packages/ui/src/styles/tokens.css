@@ -271,8 +271,17 @@
 @layer components {
 .tutor-prose {
   font-size: 0.96875rem; /* 15.5px */
-  line-height: 1.75;
+  line-height: 1.85;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   /* Do not reset color: use the parent surface or an explicit utility class. */
+}
+
+/* Text-size utilities also set line-height on the wrapper. Keep the reading
+   rhythm on text elements, without changing KaTeX's internal line boxes. */
+.tutor-prose :is(p, li, blockquote, th, td) {
+  line-height: 1.85;
 }
 
 .tutor-prose p {
@@ -320,7 +329,7 @@
 }
 
 .tutor-prose li {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5em;
 }
 
 .tutor-prose strong {
@@ -359,6 +368,7 @@
 .tutor-prose table {
   display: block;
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.875rem;
@@ -375,8 +385,9 @@
 .tutor-prose th,
 .tutor-prose td {
   border-bottom: 1px solid var(--border);
-  padding: 0.5rem 0.75rem;
+  padding: 0.65rem 0.75rem;
   text-align: left;
+  vertical-align: top;
 }
 
 .tutor-prose th {
@@ -386,18 +397,55 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+}
 
-/* KaTeX display math ergonomics */
-.tutor-prose .katex-display {
-  margin: 1.15rem 0;
+/* KaTeX's vendor stylesheet is unlayered. Keep these scoped overrides at the
+   same cascade level so its font shorthand and display margins cannot win. */
+/* Reserve real line-box height for fractions, roots, and scripts in prose.
+   KaTeX can still wrap at its own expression boundaries inside this box. */
+:is(.tutor-prose, .tutor-math) .katex:not(.katex-display > .katex) {
+  display: inline-block;
+  max-width: 100%;
+  padding-block: 0.2em;
+  vertical-align: baseline;
+  white-space: normal;
+}
+
+.tutor-math-display {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Scroll wide equations locally and leave room for glyphs above/below the
+   baseline. A max-content child keeps centered overflow reachable on the left. */
+:is(.tutor-prose, .tutor-math-display) .katex-display {
+  max-width: 100%;
+  margin: 1.25rem 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0.35rem 0;
+  padding: 0.65em 0.25rem;
+  -webkit-overflow-scrolling: touch;
 }
 
-.tutor-prose .katex {
-  font-size: 1.04em;
+.tutor-math-display > .katex-display {
+  margin-block: 0;
 }
+
+.tutor-derivation-expression > .katex-display {
+  text-align: left;
+}
+
+:is(.tutor-prose, .tutor-math-display) .katex-display > .katex {
+  width: max-content;
+  min-width: 100%;
+}
+
+:is(.tutor-prose, .tutor-math) .katex {
+  font-size: 1.04em;
+  overflow-wrap: normal;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* Subtle custom scrollbars */

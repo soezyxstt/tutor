@@ -434,12 +434,12 @@ export function CoreShowcaseView() {
                 title: t("Penurunan Bentuk Kanonik", "Derive the standard form"),
                 steps: [
                   {
-                    expression: '$m\\ddot{x} + c\\dot{x} + kx = 0$',
+                    expression: 'm\\ddot{x} + c\\dot{x} + kx = 0',
                     rule: t("Hukum II Newton", "Newton’s second law"),
                   },
                   {
                     expression: '$\\ddot{x} + 2\\zeta\\omega_n\\dot{x} + \\omega_n^2 x = 0$',
-                    rule: t("Bagi dengan m", "Divide by m"),
+                    rule: t("Bagi dengan $m$", "Divide by $m$"),
                   },
                 ],
               },

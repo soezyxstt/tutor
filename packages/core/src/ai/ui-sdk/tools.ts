@@ -51,8 +51,8 @@ export const showStepDerivationSchema = z.object({
   steps: z
     .array(
       z.object({
-        expression: z.string().describe('Ekspresi matematika (LaTeX, misal $a = b$)'),
-        rule: z.string().describe('Aturan atau alasan transformasi singkat'),
+        expression: z.string().describe('Satu ekspresi LaTeX tanpa pembungkus $ atau $$, misal \\frac{a}{b}=c. Jangan isi dengan prosa atau kode Markdown.'),
+        rule: z.string().describe('Alasan langkah dalam Markdown. Bungkus rumus di dalam kalimat dengan $...$, misal gunakan $a_0=0$ sebagai acuan.'),
       })
     )
     .min(2)
