@@ -62,7 +62,9 @@ export async function resolveTutorSettings(env: TutorWorkerEnv): Promise<TutorSe
   try {
     const url = new URL(endpoint);
     if (url.protocol !== 'https:' && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') throw new Error('HTTPS is required for central settings');
-    const request = new Request(url, { signal: AbortSignal.timeout(2_000), redirect: 'error', headers: { Accept: 'application/json' } });
+    // Workers do not implement redirect: 'error'. Manual redirects reach the
+    // status check below and cannot change the trusted settings endpoint.
+    const request = new Request(url, { signal: AbortSignal.timeout(2_000), redirect: 'manual', headers: { Accept: 'application/json' } });
     const response = service ? await service.fetch(request) : await fetch(request);
     if (!response.ok) throw new Error('Central settings are not available');
     const data = await response.json() as Record<string, unknown>;

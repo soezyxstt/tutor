@@ -150,6 +150,7 @@ test('course settings prefer the internal service binding and cache its result',
     serviceCalls++;
     assert.equal(new URL(request.url).pathname, '/api/tutor-config');
     assert.equal(request.method, 'GET');
+    assert.equal(request.redirect, 'manual');
     assert.equal(request.headers.has('Cookie'), false);
     return Response.json({ primaryModel: 'openai/gpt-4.1-mini', fallbackModels: [], source: 'admin', updatedAt: '2026-11-28T00:00:00Z' });
   } } };
@@ -191,6 +192,7 @@ test('URL fallback still works without a binding and never supplies a service ca
   const endpoint = `https://catalog.example/${crypto.randomUUID()}/api/tutor-config`;
   const publicFetch = t.mock.method(globalThis, 'fetch', async (request: Request) => {
     assert.equal(request.url, endpoint);
+    assert.equal(request.redirect, 'manual');
     return Response.json({ primaryModel: 'openai/gpt-4o-mini', fallbackModels: [], source: 'admin' });
   });
   assert.equal((await resolveTutorSettings({ TUTOR_CONFIG_URL: endpoint })).primaryModel, 'openai/gpt-4o-mini');
@@ -217,6 +219,18 @@ test('disabling central settings prevents both service and URL reads', async (t)
   assert.equal(publicFetch.mock.callCount(), 0);
 });
 
+test('central settings reject redirects and retain the environment fallback', async (t) => {
+  const endpoint = `https://catalog.example/${crypto.randomUUID()}/api/tutor-config`;
+  const publicFetch = t.mock.method(globalThis, 'fetch', async (request: Request) => {
+    assert.equal(request.redirect, 'manual');
+    return new Response(null, { status: 302, headers: { Location: 'https://untrusted.example/config' } });
+  });
+  const result = await resolveTutorSettings({ TUTOR_CONFIG_URL: endpoint, AI_MODEL: 'openai/gpt-4o-mini' });
+  assert.equal(result.primaryModel, 'openai/gpt-4o-mini');
+  assert.equal(result.source, 'environment');
+  assert.equal(publicFetch.mock.callCount(), 1);
+});
+
 test('Gemini discovery follows every page, preserves older live IDs, and never forwards provider credentials', async () => {
   const seen: string[] = [];
   const fetcher: typeof fetch = async (input, init) => {
@@ -226,12 +240,24 @@ test('Gemini discovery follows every page, preserves older live IDs, and never f
     assert.equal(headers.has('Authorization'), false);
     assert.equal(headers.get('cf-aig-authorization'), 'Bearer gateway-test-token');
     assert.equal(headers.get('cf-aig-byok-alias'), 'default');
+    assert.equal(init?.redirect, 'manual');
     return Response.json(url.includes('pageToken=next') ? { models: [{ name: 'models/gemini-2.5-pro', supportedGenerationMethods: ['generateContent'] }] } : { models: [{ name: 'models/gemini-4-carbon', supportedGenerationMethods: ['generateContent'] }], nextPageToken: 'next' });
   };
   const rows = await discoverProviderModels({ CF_ACCOUNT_ID: 'account', CF_AI_GATEWAY_ID: 'gateway', CF_AIG_TOKEN: 'gateway-test-token' }, 'google-ai-studio', fetcher);
   assert.equal(seen.length, 2);
   assert.deepEqual(rows.map((row) => row.id), ['google-ai-studio/gemini-4-carbon', 'google-ai-studio/gemini-2.5-pro']);
   assert.equal(rows[1].status, 'available');
+});
+
+test('provider model discovery rejects redirects without following or exposing the body', async () => {
+  let requests = 0;
+  const fetcher: typeof fetch = async (_input, init) => {
+    requests++;
+    assert.equal(init?.redirect, 'manual');
+    return new Response('Private upstream details', { status: 302, headers: { Location: 'https://untrusted.example/models' } });
+  };
+  await assert.rejects(discoverProviderModels({ CF_ACCOUNT_ID: 'account', CF_AI_GATEWAY_ID: 'gateway', CF_AIG_TOKEN: 'token' }, 'openai', fetcher), { message: 'Provider model list returned HTTP 302.' });
+  assert.equal(requests, 1);
 });
 
 test('live provider inventory replaces references; unknown custom capabilities stay unknown', async () => {
@@ -300,6 +326,34 @@ test('failed discovery uses last good catalog with an explicit stale status', as
   assert.equal(catalog.providers.find((provider) => provider.id === 'custom-muse')?.status, 'cached');
   assert.equal(catalog.models.find((model) => model.provider === 'custom-muse')?.source, 'cached');
   assert.ok(!JSON.stringify(catalog).includes('Internal secret detail'));
+});
+
+test('failed inventory retries after one minute while a live inventory caches for one hour', async (t) => {
+  const { env } = fixture();
+  let now = Date.now();
+  t.mock.method(Date, 'now', () => now);
+  let requests = 0;
+  let available = false;
+  const configured = { ...env, CF_ACCOUNT_ID: 'account', CF_AI_GATEWAY_ID: 'gateway', CF_AIG_TOKEN: 'token' };
+  const fetcher: typeof fetch = async (input) => {
+    requests++;
+    if (!available) return new Response(null, { status: 503 });
+    return Response.json(String(input).includes('google-ai-studio') ? { models: [] } : { data: [] });
+  };
+  const first = await getModelCatalog(configured, false, fetcher);
+  assert.ok(first.providers.every((provider) => provider.status !== 'live'));
+  const firstRequests = requests;
+  now += 59_000;
+  await getModelCatalog(configured, false, fetcher);
+  assert.equal(requests, firstRequests);
+  now += 2_000;
+  available = true;
+  const recovered = await getModelCatalog(configured, false, fetcher);
+  assert.ok(recovered.providers.every((provider) => provider.status === 'live'));
+  assert.equal(requests, firstRequests + 3);
+  now += 60_000;
+  await getModelCatalog(configured, false, fetcher);
+  assert.equal(requests, firstRequests + 3);
 });
 
 test('gateway fallback retries asynchronous HTTP errors before returning the first good stream', async () => {

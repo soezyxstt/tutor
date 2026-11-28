@@ -157,6 +157,9 @@ The production workflow runs `scripts/verify-catalog.mjs` after deploy. With
 `CATALOG_CHECK_MODE=binding`, Wrangler opens an authenticated remote service
 binding through `scripts/wrangler.verify.jsonc`. The check reaches the deployed
 Worker and its live secrets and storage without depending on public bot checks.
+The local proxy uses an HTTPS localhost URL while the binding selects the real
+`tutor-catalog` Worker. This keeps the local proxy's allowed-origin guard intact;
+the deployed Worker still rejects requests from a different origin.
 It signs in using Actions secrets, reads settings and provider lists, checks
 origin protection, then revokes its session. It does not change model choices or
 print credentials, cookies, or upstream error bodies.

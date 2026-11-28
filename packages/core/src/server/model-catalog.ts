@@ -180,7 +180,9 @@ async function fetchJson(url: URL, token: string, fetcher: typeof fetch, deadlin
   const response = await fetcher(url, {
     headers: { 'cf-aig-authorization': `Bearer ${token}`, 'cf-aig-byok-alias': 'default', 'cf-aig-cache-ttl': '300', Accept: 'application/json' },
     signal: AbortSignal.timeout(Math.min(FETCH_TIMEOUT_MS, remaining)),
-    redirect: 'error',
+    // Workers support manual/follow only. Reject redirects below without
+    // forwarding gateway credentials to another URL.
+    redirect: 'manual',
   });
   // Never relay an upstream error body: gateways may include sensitive request details.
   if (!response.ok) throw new Error(`Provider model list returned HTTP ${response.status}.`);
@@ -233,7 +235,10 @@ export async function discoverProviderModels(env: TutorWorkerEnv, provider: Mode
 export async function getModelCatalog(env: TutorWorkerEnv, refresh = false, fetcher: typeof fetch = fetch): Promise<ModelCatalog> {
   const namespace = env.TUTOR_ADMIN_STATE;
   const previous = namespace ? await stateRequest<ModelCatalog | null>(namespace, '/model-catalog') : null;
-  if (!refresh && previous && Date.now() - Date.parse(previous.updatedAt) < CATALOG_TTL_MS) return previous;
+  const allProvidersLive = previous?.providers.length === PROVIDERS.length && previous.providers.every((provider) => provider.status === 'live');
+  // A provider outage must not suppress recovery for an hour after it ends.
+  const refreshAfter = allProvidersLive ? CATALOG_TTL_MS : 60_000;
+  if (!refresh && previous && Date.now() - Date.parse(previous.updatedAt) < refreshAfter) return previous;
   const now = new Date().toISOString();
   const results = await Promise.allSettled(PROVIDERS.map((provider) => discoverProviderModels(env, provider, fetcher)));
   const models: ModelEntry[] = [];

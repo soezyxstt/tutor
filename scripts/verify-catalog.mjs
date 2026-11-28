@@ -10,11 +10,16 @@ async function readJson(response, label) {
 // Runs inside Actions. Never print credentials, cookies, response headers, or
 // upstream error bodies. The test reads settings; it never changes a model.
 async function verifyCatalog(fetcher) {
-  const origin = process.env.CATALOG_ORIGIN || 'https://tutor.adihnursyam.com';
+  const bindingMode = process.env.CATALOG_CHECK_MODE === 'binding';
+  // The binding selects the deployed tutor-catalog Worker, regardless of this
+  // URL. Miniflare's local RPC bridge only accepts local Origin headers, so use
+  // an HTTPS localhost origin for this internal test. Public-domain behavior is
+  // checked separately in a browser. Production origin checks stay unchanged.
+  const origin = bindingMode ? 'https://localhost' : process.env.CATALOG_ORIGIN || 'https://tutor.adihnursyam.com';
   let cookie = '';
   const request = (path, init = {}) => fetcher(`${origin}${path}`, {
     ...init,
-    redirect: 'error',
+    redirect: 'manual',
     signal: AbortSignal.timeout(45_000),
     headers: { ...(cookie ? { Cookie: cookie } : {}), ...(init.method ? { Origin: origin, 'Content-Type': 'application/json' } : {}), ...init.headers },
   });
@@ -51,12 +56,16 @@ async function verifyCatalog(fetcher) {
   const sessionInfo = await readJson(session, 'Anonymous session');
   assert.equal(sessionInfo.authenticated, false);
   assert.equal(sessionInfo.configured, true, 'Admin runtime secrets and storage must be configured.');
-  assert.equal((await request('/api/admin/login', { method: 'POST', headers: { Origin: 'https://example.com' }, body: '{}' })).status, 403, 'Cross-origin login must fail.');
+  assert.equal((await request('/api/admin/login', { method: 'POST', headers: { Origin: 'https://other.localhost' }, body: '{}' })).status, 403, 'Cross-origin login must fail.');
 
   assert(process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD, 'Admin test credentials must be supplied.');
   try {
     const login = await request('/api/admin/login', { method: 'POST', body: JSON.stringify({ username: process.env.ADMIN_USERNAME, password: process.env.ADMIN_PASSWORD }) });
-    assert.equal(login.status, 200, 'Admin sign-in must succeed.');
+    if (login.status !== 200) {
+      const error = await login.json().catch(() => null);
+      const code = typeof error?.code === 'string' && /^[A-Z_]{1,40}$/.test(error.code) ? error.code : 'UNKNOWN';
+      assert.fail(`Admin sign-in must succeed (HTTP ${login.status}, ${code}).`);
+    }
     const setCookie = login.headers.get('set-cookie') || '';
     cookie = setCookie.split(';', 1)[0];
     assert(/HttpOnly/.test(setCookie), 'Session cookie must be HttpOnly.');
@@ -67,7 +76,7 @@ async function verifyCatalog(fetcher) {
     const settingsResponse = await request('/api/admin/settings');
     assert.equal(settingsResponse.status, 200, 'Authenticated settings must load.');
     assert.equal((await readJson(settingsResponse, 'Admin settings')).primaryModel, publicSettings.primaryModel);
-    const modelsResponse = await request('/api/admin/models');
+    const modelsResponse = await request('/api/admin/models?refresh=1');
     assert.equal(modelsResponse.status, 200, 'Authenticated model catalog must load.');
     const inventory = await readJson(modelsResponse, 'Model inventory');
     assert(Array.isArray(inventory.models) && inventory.models.length > 0, 'Model list must not be empty.');
@@ -77,7 +86,8 @@ async function verifyCatalog(fetcher) {
       console.log(`${provider.id}: ${provider.status}; ${models.length} models; ${multimodal} with known media inputs.`);
       if (provider.status !== 'live') console.log(`${provider.id}: ${provider.error?.match(/HTTP \d{3}/)?.[0] || 'Live discovery unavailable'}.`);
     }
-    assert.equal((await request('/api/admin/settings', { method: 'PUT', headers: { Origin: 'https://demo.tutor.adihnursyam.com' }, body: '{}' })).status, 403, 'A sibling subdomain must not change settings.');
+    const siblingOrigin = bindingMode ? 'https://course.localhost' : 'https://demo.tutor.adihnursyam.com';
+    assert.equal((await request('/api/admin/settings', { method: 'PUT', headers: { Origin: siblingOrigin }, body: '{}' })).status, 403, 'A sibling subdomain must not change settings.');
     const aiResponse = await request('/api/ai', { method: 'POST', body: JSON.stringify({ language: 'en', courseCode: 'deployment-check', messages: [{ id: 'deployment-check', role: 'user', content: 'Reply with the single word ready.' }] }) });
     assert.equal(aiResponse.status, 200, 'AI tutor request must start.');
     const aiStream = await aiResponse.text();
