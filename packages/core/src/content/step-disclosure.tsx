@@ -175,7 +175,7 @@ export function StepDisclosure({
           <CollapsibleMotion open={hintOpen}>
             <div className="border-l-2 border-primary/40 pl-3 text-[13px] text-muted-foreground">
               <span className="font-medium text-foreground">{t("Petunjuk: ", "Hint: ")}</span>
-              {step.hint}
+              <MathMarkdown content={step.hint} className="text-[13px]" />
             </div>
           </CollapsibleMotion>
         )}

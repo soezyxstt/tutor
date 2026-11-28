@@ -43,6 +43,7 @@ export { TutorTopbar } from './layout/tutor-topbar';
 export { QuickSearchDialog } from './layout/quick-search-dialog';
 
 export { MathMarkdown } from './content/math-markdown';
+export { MathExpression } from './content/math-expression';
 export { Callout, type CalloutTone } from './content/callout';
 export { StepDisclosure } from './content/step-disclosure';
 export { ProblemView } from './content/problem-view';

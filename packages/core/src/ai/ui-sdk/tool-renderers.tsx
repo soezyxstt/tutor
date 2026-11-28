@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { RadioGroup, RadioGroupItem, Skeleton, cn } from '@tutor/ui';
 import { MathMarkdown } from '../../content/math-markdown';
+import { MathExpression } from '../../content/math-expression';
 import type { AiUiToolInvocation, ShowQuickQuizInput } from './tools';
 
 const LazyInteractivePlot = React.lazy(() => import('./interactive-plot'));
@@ -120,8 +121,9 @@ export function AiToolInvocationView({
           <div className="text-xs font-semibold text-primary">
             {invocation.args.title}
           </div>
-          <MathMarkdown
-            content={`$$\n${invocation.args.latex}\n$$`}
+          <MathExpression
+            latex={invocation.args.latex}
+            display
             className="text-[13.5px]"
           />
           {invocation.args.symbols.length > 0 && (
@@ -129,11 +131,11 @@ export function AiToolInvocationView({
               {invocation.args.symbols.map((sym, idx) => (
                 <div
                   key={idx}
-                  className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 py-1.5"
+                  className="grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-x-3 gap-y-2 py-2.5 sm:grid-cols-[auto_minmax(0,1fr)_auto]"
                 >
                   <dt className="font-medium text-foreground">
-                    <MathMarkdown
-                      content={`$${sym.symbol}$`}
+                    <MathExpression
+                      latex={sym.symbol}
                       className="text-xs"
                     />
                   </dt>
@@ -141,8 +143,8 @@ export function AiToolInvocationView({
                     <MathMarkdown content={sym.meaning} className="text-xs leading-relaxed" />
                   </dd>
                   {sym.unit && (
-                    <dd className="font-mono text-[11px] text-muted-foreground">
-                      <MathMarkdown content={sym.unit} className="text-[11px] leading-snug" />
+                    <dd className="col-start-2 font-mono text-[11px] text-muted-foreground sm:col-start-auto">
+                      <MathMarkdown content={sym.unit} className="text-[11px]" />
                     </dd>
                   )}
                 </div>
@@ -163,20 +165,22 @@ export function AiToolInvocationView({
             {invocation.args.steps.map((s, idx) => (
               <li
                 key={idx}
-                className="flex flex-col gap-0.5 py-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+                className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)] gap-x-2 py-3"
               >
-                <div className="flex items-baseline gap-2">
-                  <span className="font-mono text-[11px] text-primary">
-                    {idx + 1}.
-                  </span>
+                <span className="pt-2 font-mono text-[11px] text-primary" aria-hidden="true">
+                  {idx + 1}.
+                </span>
+                <div className="min-w-0 space-y-2">
+                  <MathExpression
+                    latex={s.expression}
+                    display
+                    className="tutor-derivation-expression text-[14px]"
+                  />
                   <MathMarkdown
-                    content={s.expression}
-                    className="text-[13.5px]"
+                    content={s.rule}
+                    className="text-[13px] text-muted-foreground"
                   />
                 </div>
-                <span className="pl-4 text-xs text-muted-foreground sm:pl-0 sm:text-right">
-                  {s.rule}
-                </span>
               </li>
             ))}
           </ol>
@@ -195,7 +199,7 @@ export function AiToolInvocationView({
               <thead>
                 <tr className="border-b border-border text-[11px] text-muted-foreground uppercase">
                   {invocation.args.columns.map((col, idx) => (
-                    <th key={idx} className="py-1.5 pr-3 font-semibold">
+                    <th key={idx} className="min-w-[10rem] py-2.5 pr-4 font-semibold">
                       {col}
                     </th>
                   ))}
@@ -207,7 +211,7 @@ export function AiToolInvocationView({
                     {row.map((cell, cIdx) => (
                       <td
                         key={cIdx}
-                        className="py-1.5 pr-3 align-top text-foreground"
+                        className="min-w-[10rem] py-2.5 pr-4 align-top text-foreground"
                       >
                         <MathMarkdown
                           content={cell}

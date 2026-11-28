@@ -2,7 +2,7 @@ name: Check Tutor
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, staging]
   workflow_dispatch:
 
 permissions:

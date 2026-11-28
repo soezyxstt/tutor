@@ -158,3 +158,13 @@ The PR preview does not perform that transfer.
 
 Do not point the old Pages build at the monorepo root. Future IPE changes belong
 in this app and deploy through the Worker workflow.
+
+After the domain transfer, the Pages project is retained only as a rollback
+snapshot. On 2026-11-28 its automatic production deployments from `staging` were
+disabled before integrating the monorepo there. The shared-math fix branch joins
+`main` and the original migration branch in the Pages preview exclusions. Old
+standalone branches may still build previews. The retained production snapshot
+is `https://02976825.ipe-5lm.pages.dev`; merging monorepo changes must not replace it.
+
+The monorepo checks and isolated IPE Worker preview now run for pull requests to
+both `staging` and `main`. Only a push to `main` deploys the live IPE Worker.

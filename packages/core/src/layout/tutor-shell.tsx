@@ -18,9 +18,9 @@ import { QuickSearchDialog } from './quick-search-dialog';
 import { SelectionAiPopover } from '../ai/selection-ai-popover';
 
 const fontSizeScale: Record<ReadingFontSize, string> = {
-  sm: '[&_.tutor-prose]:text-[14.5px]',
-  md: '[&_.tutor-prose]:text-[15.5px]',
-  lg: '[&_.tutor-prose]:text-[17px]',
+  sm: '[&_.tutor-prose]:text-[14.5px] [&_.tutor-math]:text-[14.5px]',
+  md: '[&_.tutor-prose]:text-[15.5px] [&_.tutor-math]:text-[15.5px]',
+  lg: '[&_.tutor-prose]:text-[17px] [&_.tutor-math]:text-[17px]',
 };
 
 function getPrimaryAnchorId(
