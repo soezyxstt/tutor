@@ -1,11 +1,12 @@
 import { Hono } from 'hono';
-import { convertToCoreMessages, streamText, tool } from 'ai';
+import { convertToCoreMessages, createDataStreamResponse, streamText, tool } from 'ai';
 import type { Message } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { registerAdminRoutes } from './admin-routes';
 import type { DurableNamespaceLike } from './admin-state';
 import { resolveTutorSettings } from './tutor-settings';
 import { createGatewayFetch } from './gateway-fetch';
+import { readGeminiToolSignatures } from './gateway-stream';
 import { buildTutorSystemPrompt } from './teaching-prompt';
 export { TutorAdminState } from './admin-state';
 import {
@@ -175,14 +176,6 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
       });
     }
 
-    const provider = createOpenAI({
-      apiKey: directKey || 'cf-aig-byok',
-      baseURL: gatewayUrl || undefined,
-      headers: customHeaders,
-      fetch: createGatewayFetch({ models, byok: useByok, direct: !gatewayUrl }),
-      compatibility: 'compatible',
-    });
-
     const systemPrompt = buildTutorSystemPrompt(body);
 
     const tools = {
@@ -233,15 +226,36 @@ export function createTutorWorker(options: { admin?: boolean } = {}) {
     };
 
     try {
-        const result = streamText({
-          model: provider(models[0]),
-          system: systemPrompt,
-          messages: convertToCoreMessages(body.messages),
-          tools,
-          maxRetries: 0,
-          abortSignal: c.req.raw.signal,
-        });
-        return result.toDataStreamResponse({ getErrorMessage: () => body.language === 'en' ? 'The AI tutor could not answer. Please try again.' : 'Tutor AI belum bisa menjawab. Coba lagi.' });
+      const messages = convertToCoreMessages(body.messages);
+      const toolSignatures = readGeminiToolSignatures(body.messages);
+      return createDataStreamResponse({
+        onError: () => body.language === 'en' ? 'The AI tutor could not answer. Please try again.' : 'Tutor AI belum bisa menjawab. Coba lagi.',
+        execute(dataStream) {
+          const provider = createOpenAI({
+            apiKey: directKey || 'cf-aig-byok',
+            baseURL: gatewayUrl || undefined,
+            headers: customHeaders,
+            fetch: createGatewayFetch({
+              models, byok: useByok, direct: !gatewayUrl, toolSignatures,
+              onToolSignature: (signature) => dataStream.writeMessageAnnotation(signature),
+            }),
+            compatibility: 'compatible',
+          });
+          const result = streamText({
+            // These tools support optional fields and arbitrary numeric parameter
+            // names, with Zod validation on every returned call. The SDK otherwise
+            // treats unified IDs starting with "openai/" as reasoning models and
+            // silently enables incompatible strict JSON schemas for every tool.
+            model: provider.chat(models[0], { structuredOutputs: false }),
+            system: systemPrompt,
+            messages,
+            tools,
+            maxRetries: 0,
+            abortSignal: c.req.raw.signal,
+          });
+          result.mergeIntoDataStream(dataStream);
+        },
+      });
     } catch {
       return c.json({ error: body.language === 'en' ? 'The AI tutor could not process this conversation.' : 'Tutor AI belum dapat memproses percakapan ini.' }, 400);
     }
