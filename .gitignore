@@ -1,7 +1,7 @@
-node_modules/
-dist/
-*.tsbuildinfo
-.env*
-.openai/
-test-results/
-public/__qa.html
+node_modules
+dist
+.wrangler
+.wrangler-preview.json
+.dev.vars
+*.local
+.DS_Store

@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import '@tutor/ui/styles.css';
+
+@source '../../../packages/ui/src';
+@source '../../../packages/core/src/catalog';
+@source '../../../packages/core/src/i18n';
+@source './';
+
+.catalog-course:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 5px;
+}
