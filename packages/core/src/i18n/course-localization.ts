@@ -3,7 +3,7 @@ import type { Locale } from './language';
 
 const invariantKeys = new Set([
   'id', 'key', 'slug', 'kind', 'type', 'mode', 'code', 'domain', 'difficulty',
-  'correctOptionId', 'misconceptionTag', 'latex', 'unit',
+  'correctOptionId', 'misconceptionTag', 'latex', 'unit', 'data', 'sourceDetails', 'relatedProblemId',
 ]);
 
 type MergeState = { missing: boolean; translated: boolean };

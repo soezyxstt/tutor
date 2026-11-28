@@ -1,0 +1,85 @@
+name: "Deploy IPE"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/ipe/**'
+      - 'packages/ui/**'
+      - 'packages/core/**'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'package.json'
+      - '.github/workflows/deploy-ipe.yml'
+      - 'scripts/prepare-course-preview.mjs'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/ipe/**'
+      - 'packages/ui/**'
+      - 'packages/core/**'
+      - 'pnpm-lock.yaml'
+      - 'scripts/prepare-course-preview.mjs'
+      - '.github/workflows/deploy-ipe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-tutor-ipe-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.21.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate and test
+        run: |
+          pnpm validate
+          pnpm typecheck
+          pnpm test
+
+      - name: Build course
+        run: pnpm --filter @tutor/app-ipe build
+
+      - name: Prepare isolated branch preview
+        if: github.ref != 'refs/heads/main'
+        env:
+          PREVIEW_ID: ${{ github.event.pull_request.number && format('pr-{0}', github.event.pull_request.number) || 'preview' }}
+        run: node scripts/prepare-course-preview.mjs ipe "$PREVIEW_ID"
+
+      - name: Deploy course Worker and AI service
+        working-directory: apps/ipe
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_DEPLOY_PAGES_TOKEN }}
+          CF_AIG_TOKEN: ${{ secrets.CF_AIG_TOKEN }}
+          PREVIEW: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          config=wrangler.jsonc
+          if [ "$PREVIEW" = true ]; then config=.wrangler-preview.json; fi
+          pnpm exec wrangler deploy --config "$config" --var "CF_ACCOUNT_ID:${CLOUDFLARE_ACCOUNT_ID}"
+          if [ -n "${CF_AIG_TOKEN}" ]; then
+            printf '%s' "${CF_AIG_TOKEN}" | pnpm exec wrangler secret put CF_AIG_TOKEN --config "$config"
+          fi

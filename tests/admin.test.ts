@@ -1,4 +1,5 @@
 import test from 'node:test';
+import './ai-runtime.test';
 import assert from 'node:assert/strict';
 import { createTutorWorker } from '../packages/core/src/server/worker';
 import type { TutorWorkerEnv } from '../packages/core/src/server/worker';

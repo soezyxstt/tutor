@@ -20,6 +20,8 @@ export interface SimulationSpec {
   title: string;
   caption?: string;
   params: SimulationParamDef[];
+  /** Fixed source settings (modes, sample arrays, geometry), never translated or AI-edited. */
+  data?: Record<string, string | number | number[]>;
 }
 
 export interface StepCheckpoint {
@@ -49,6 +51,8 @@ export interface SolutionStep {
   checkpoint?: StepCheckpoint;
   /** Optional collapsible "Kenapa cara ini?" drawer separating What from Why */
   rationale?: StepRationale;
+  /** A visual tied to this step, using the same shared controls and AI parameter state. */
+  simulation?: SimulationSpec;
 }
 
 export interface MaterialDerivation {
@@ -104,6 +108,7 @@ export interface PracticeOption {
 
 export interface PracticeQuestion {
   id: string;
+  relatedProblemId?: string;
   prompt: string;
   options: PracticeOption[];
   correctOptionId: string;
@@ -171,6 +176,21 @@ export interface ProblemItem {
   slug: string;
   title: string;
   source?: string;
+  /** Verbatim evidence remains in its original language when the lesson is translated. */
+  sourceDetails?: {
+    url: string;
+    file: string;
+    pages: number[];
+    original: string;
+    originalLanguage: Locale;
+    /** Prefer plural references when a solution draws on several course sources. */
+    references?: Array<{ url: string; title: string; pages: number[] }>;
+    /** Compatibility with courses authored before multiple references were supported. */
+    reference?: { url: string; title: string; pages?: number[] };
+  };
+  /** Source-grounded explanations, translated with the rest of the lesson. */
+  sourceNotes?: string[];
+  assumptions?: string[];
   exam?: ExamRef;
   difficulty: DifficultyLevel;
   estimatedMinutes?: number;
@@ -179,6 +199,8 @@ export interface ProblemItem {
   given?: string[];
   asked?: string;
   simulation?: SimulationSpec;
+  /** Additional source visuals, in reading order. */
+  simulations?: SimulationSpec[];
   steps: SolutionStep[];
   finalAnswer: string;
   takeaway?: string;
@@ -194,7 +216,7 @@ export interface CourseModule {
 }
 
 /** Translation overlays only replace display text; stable IDs, answer keys and physics stay in the source. */
-type TranslationInvariant = 'id' | 'key' | 'slug' | 'kind' | 'type' | 'mode' | 'code' | 'domain' | 'difficulty' | 'correctOptionId' | 'misconceptionTag' | 'latex' | 'unit';
+type TranslationInvariant = 'id' | 'key' | 'slug' | 'kind' | 'type' | 'mode' | 'code' | 'domain' | 'difficulty' | 'correctOptionId' | 'misconceptionTag' | 'latex' | 'unit' | 'data' | 'sourceDetails' | 'relatedProblemId';
 export type TextTranslation<T> = T extends string ? string
   : T extends readonly (infer E)[] ? E extends string ? string[]
     : Array<TextTranslation<E> & (E extends { id: string } ? { id: string } : E extends { key: string } ? { key: string } : unknown)>

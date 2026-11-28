@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md text-[13px] font-medium whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-background active:translate-y-px disabled:pointer-events-none disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-3.5',
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md text-[13px] font-medium whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background active:translate-y-px disabled:pointer-events-none disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-3.5',
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-muted',
         outline:
-          'border border-border bg-transparent text-foreground hover:bg-surface-subtle',
+          'border border-input bg-transparent text-foreground hover:bg-surface-subtle',
         ghost:
           'border-0 bg-transparent text-muted-foreground hover:bg-surface-subtle hover:text-foreground',
         icon:

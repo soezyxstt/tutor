@@ -3,6 +3,7 @@ import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { cn } from '@tutor/ui';
+import { remarkTemperatureUnits } from './remark-temperature-units';
 
 export function MathMarkdown({
   content,
@@ -14,7 +15,7 @@ export function MathMarkdown({
   return (
     <div className={cn('tutor-prose', className)}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath]}
+        remarkPlugins={[remarkGfm, remarkMath, remarkTemperatureUnits]}
         rehypePlugins={[[rehypeKatex, { strict: false }]]}
       >
         {content}

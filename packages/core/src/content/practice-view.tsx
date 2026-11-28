@@ -23,6 +23,8 @@ import { useTutorStore } from '../store/tutor-store';
 import { MathMarkdown } from './math-markdown';
 import { SimulationStage } from '../simulation/simulation-stage';
 import { InlineAiThread } from '../ai/inline-ai-thread';
+import { FadedPractice } from './faded-practice';
+import { languageHref } from '../i18n/language';
 
 const difficultyLabel: Record<
   PracticeItem['difficulty'],
@@ -43,7 +45,7 @@ export function PracticeView({
   practice: PracticeItem;
 }) {
   const itemKey = `${courseSlug}:${practice.id}`;
-  const { t } = useLanguage();
+  const { t, preference } = useLanguage();
   const firstAnchor = `${itemKey}:q:${practice.questions[0]?.id ?? 'main'}`;
 
   const isCompleted = useTutorStore((s) => !!s.completedIds[itemKey]);
@@ -226,6 +228,7 @@ export function PracticeView({
               )}
 
               <RadioGroup
+                aria-label={`${t('Soal', 'Question')} ${index + 1}`}
                 value={selected}
                 onValueChange={(val) => setPracticeAnswer(qKey, val)}
                 className="gap-2"
@@ -287,9 +290,14 @@ export function PracticeView({
                       {isCorrect ? t('Jawaban tepat', 'Correct') : t('Perlu ditinjau ulang', 'Review your answer')}
                     </div>
                     <MathMarkdown
+                      content={q.options.find((option) => option.id === selected)?.feedback ?? ''}
+                      className="text-[13.5px] leading-relaxed"
+                    />
+                    <MathMarkdown
                       content={q.explanation}
                       className="text-[13.5px] leading-relaxed text-muted-foreground"
                     />
+                    {q.relatedProblemId && <a href={languageHref(`?item=${encodeURIComponent(q.relatedProblemId)}`, preference)} className="inline-block pt-2 text-sm text-primary underline underline-offset-4">{t('Lihat pembahasan terkait', 'Read the related worked solution')}</a>}
                   </div>
                 </div>
               </CollapsibleMotion>
@@ -301,12 +309,15 @@ export function PracticeView({
                 courseTitle={courseTitle}
                 itemKey={itemKey}
                 itemTitle={practice.title}
+                contextText={[q.prompt, ...q.options.map((option) => option.label)].join('\n\n')}
                 simulation={practice.simulation}
               />
             </li>
           );
         })}
       </ol>
+
+      <FadedPractice courseSlug={courseSlug} courseTitle={courseTitle} practice={practice} />
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
         <span className="font-mono text-xs text-muted-foreground">

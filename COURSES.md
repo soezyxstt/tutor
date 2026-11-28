@@ -15,6 +15,8 @@ App `demo` merupakan referensi UI dan tidak muncul di katalog publik.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `demo` | `FI1101` | Mekanika & Getaran | `https://demo.tutor.adihnursyam.com` | `tutor-demo` | `.github/workflows/deploy-demo.yml` | Showcase / Core Reference | 2 modul (`M1 Osilasi Teredam`, `M2 Dinamika Benda Tegar`), 2 materi, 1 latihan, 3 pembahasan (`UTS 2024`, `UTS 2023`), simulasi RK4, katalog Core UI (`?view=components`) |
 | `starter` | `MK1001` | Template Starter | `https://starter.tutor.adihnursyam.com` | `tutor-starter` | *(template — tidak di-deploy)* | Template | Template bersih untuk `pnpm new-course` |
+| `ipe` | `MS3105` | Instrumentasi, Pengukuran & Eksperimen | `https://ipe.tutor.adihnursyam.com` | `tutor-ipe` | `.github/workflows/deploy-ipe.yml` | Migrasi siap ditinjau | 8 modul, 8 materi, 8 set latihan (30 soal konsep, 8 tugas terbimbing, 8 esai), 47 soal ujian dengan 419 langkah, 90 visual, UTS 1/UTS 2/UAS 2023 sampai 2025, bahasa Indonesia dan Inggris |
+
 
 ## Infrastruktur & Secret Bersama
 

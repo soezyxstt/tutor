@@ -72,7 +72,7 @@ export function QuickSearchDialog({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("Cari materi, latihan, atau pembahasan soal…", "Search lessons, practice, or solutions…")}
-            className="min-w-0 flex-1 border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
+            className="min-w-0 flex-1 border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
 

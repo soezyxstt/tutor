@@ -4,7 +4,8 @@ import { BotMessageSquare, Pause, Play, RotateCcw } from 'lucide-react';
 import { Button, Skeleton, Slider } from '@tutor/ui';
 import type { SimulationSpec } from '../types/course';
 import { useTutorStore } from '../store/tutor-store';
-import { getSimulationComponent } from './simulation-registry';
+import { clearSimulationContextState, getSimulationComponent, updateSimulationContextState, useSimulationContextState } from './simulation-registry';
+import type { SimulationContextState } from './simulation-registry';
 
 export function SimulationStage({
   courseSlug,
@@ -16,6 +17,9 @@ export function SimulationStage({
   aiAnchorId?: string;
 }) {
   const simKey = `${courseSlug}:${spec.id}`;
+  const contextState = useSimulationContextState(simKey);
+  const setContextState = React.useCallback((patch: SimulationContextState) => updateSimulationContextState(simKey, patch), [simKey]);
+  React.useEffect(() => () => clearSimulationContextState(simKey), [simKey]);
   const { t } = useLanguage();
   const storedParams = useTutorStore((s) => s.simParams[simKey]);
   const setSimParam = useTutorStore((s) => s.setSimParam);
@@ -39,6 +43,11 @@ export function SimulationStage({
   );
 
   const SimComponent = getSimulationComponent(spec.type);
+  const setParam = React.useCallback((key: string, value: number) => {
+    const definition = spec.params.find((param) => param.key === key);
+    if (!definition || !Number.isFinite(value)) return;
+    setSimParam(simKey, key, Math.min(definition.max, Math.max(definition.min, value)));
+  }, [spec.params, simKey, setSimParam]);
 
   return (
     <figure className="space-y-3 border-y border-border py-4">
@@ -63,6 +72,7 @@ export function SimulationStage({
             aria-label={t("Reset parameter simulasi", "Reset simulation parameters")}
             title={t("Reset parameter", "Reset parameters")}
             onClick={() => {
+              clearSimulationContextState(simKey);
               resetSimParams(simKey, defaults);
               setResetSignal((n) => n + 1);
             }}
@@ -98,9 +108,15 @@ export function SimulationStage({
             }
           >
             <SimComponent
+              key={spec.id}
+              spec={spec}
               params={activeParams}
               playing={playing}
               resetSignal={resetSignal}
+              setParam={setParam}
+              setPlaying={setPlaying}
+              contextState={contextState}
+              setContextState={setContextState}
             />
           </React.Suspense>
         ) : (
@@ -119,18 +135,19 @@ export function SimulationStage({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">{p.label}</span>
                 <span className="font-mono font-medium text-foreground">
-                  {val.toFixed(p.step < 1 ? 2 : 0)}
+                  {new Intl.NumberFormat(undefined, { maximumFractionDigits: 8 }).format(val)}
                   {p.unit ? ` ${p.unit}` : ''}
                 </span>
               </div>
               <Slider
+                aria-label={p.label}
                 value={[val]}
                 min={p.min}
                 max={p.max}
                 step={p.step}
                 onValueChange={([next]) => {
                   if (typeof next === 'number') {
-                    setSimParam(simKey, p.key, next);
+                    setParam(p.key, next);
                   }
                 }}
               />

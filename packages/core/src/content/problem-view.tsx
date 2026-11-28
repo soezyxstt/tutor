@@ -1,6 +1,6 @@
 import { useLanguage } from '../i18n/language-provider';
 import { Bookmark, BotMessageSquare, CheckCircle2, Circle } from 'lucide-react';
-import { Badge, Button, Separator, cn } from '@tutor/ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Badge, Button, Separator, cn } from '@tutor/ui';
 import type { ProblemItem } from '../types/course';
 import { useTutorStore } from '../store/tutor-store';
 import { MathMarkdown } from './math-markdown';
@@ -30,7 +30,12 @@ export function ProblemView({
   const itemKey = `${courseSlug}:${problem.id}`;
   const { t } = useLanguage();
   const statementAnchor = `${itemKey}:statement`;
-  const simAnchor = `${itemKey}:simulation`;
+  const simulations = [
+    ...(problem.simulation ? [problem.simulation] : []),
+    ...(problem.simulations ?? []),
+  ];
+  const references = problem.sourceDetails?.references
+    ?? (problem.sourceDetails?.reference ? [problem.sourceDetails.reference] : []);
 
   const isCompleted = useTutorStore((s) => !!s.completedIds[itemKey]);
   const isBookmarked = useTutorStore((s) => !!s.bookmarkedIds[itemKey]);
@@ -39,6 +44,11 @@ export function ProblemView({
   const openInlineAi = useTutorStore((s) => s.openInlineAi);
 
   const diff = difficultyLabel[problem.difficulty];
+  const problemContext = [
+    problem.statement, ...(problem.given ?? []), problem.asked,
+    ...(problem.assumptions ?? []), ...(problem.sourceNotes ?? []),
+    ...references.map((reference) => `${reference.title}; ${t('halaman PDF', 'PDF pages')} ${reference.pages?.join(', ') ?? ''}; ${reference.url}`),
+  ].filter(Boolean).join('\n\n');
 
   return (
     <article className="pb-16">
@@ -123,6 +133,62 @@ export function ProblemView({
       >
         <MathMarkdown content={problem.statement} />
 
+        {problem.sourceDetails && (
+          <Accordion type="single" collapsible className="border-y border-border/70">
+            <AccordionItem value="original-source" className="border-0">
+              <AccordionTrigger className="text-sm">
+                {t('Lihat naskah dan sumber soal', 'Read the original problem and sources')}
+              </AccordionTrigger>
+              <AccordionContent className="space-y-4">
+                <p className="text-xs text-muted-foreground">
+                  <a href={problem.sourceDetails.url} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-4">
+                    {problem.sourceDetails.file}
+                  </a>
+                  {problem.sourceDetails.pages.length > 0 && ` · ${t('halaman', 'pages')} ${problem.sourceDetails.pages.join(', ')}`}
+                  {` · ${problem.sourceDetails.originalLanguage === 'id' ? t('Bahasa Indonesia', 'Indonesian') : 'English'}`}
+                </p>
+                <div lang={problem.sourceDetails.originalLanguage} className="whitespace-pre-wrap break-words text-sm leading-relaxed">
+                  {problem.sourceDetails.original}
+                </div>
+                {references.length > 0 && (
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <p className="font-medium">{t('Rujukan materi', 'Course references')}</p>
+                    <ul className="space-y-2">
+                      {references.map((reference) => (
+                        <li key={reference.url}>
+                          <a href={reference.url} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-4">
+                            {reference.title}
+                          </a>
+                          {!!reference.pages?.length && ` · ${t('halaman PDF', 'PDF pages')} ${reference.pages.join(', ')}`}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
+
+        {!!problem.assumptions?.length && (
+          <Callout tone="tip" label={t('Catatan sumber dan asumsi', 'Source notes and assumptions')}>
+            <ul className="space-y-2">
+              {problem.assumptions.map((assumption, index) => (
+                <li key={index}><MathMarkdown content={assumption} className="text-sm" /></li>
+              ))}
+            </ul>
+          </Callout>
+        )}
+
+        {!!problem.sourceNotes?.length && (
+          <section aria-label={t('Dasar dari materi kuliah', 'Basis in the course material')} className="space-y-3 border-l-2 border-primary/35 pl-4">
+            <h2 className="text-sm font-semibold">{t('Dasar dari materi kuliah', 'Basis in the course material')}</h2>
+            {problem.sourceNotes.map((note, index) => (
+              <MathMarkdown key={index} content={note} className="text-sm leading-relaxed" />
+            ))}
+          </section>
+        )}
+
         {(problem.given?.length || problem.asked) && (
           <div className="grid gap-4 border-y border-border/80 py-3.5 sm:grid-cols-2">
             {problem.given && problem.given.length > 0 && (
@@ -165,21 +231,25 @@ export function ProblemView({
           courseTitle={courseTitle}
           itemKey={itemKey}
           itemTitle={problem.title}
-          simulation={problem.simulation}
+          contextText={problemContext}
+          simulation={simulations[0]}
           stepCount={problem.steps.length}
         />
       </section>
 
       {/* Optional Interactive Simulation + inline AI thread right below it */}
-      {problem.simulation && (
+      {simulations.map((simulation) => {
+        const simAnchor = `${itemKey}:simulation:${simulation.id}`;
+        return (
         <section
+          key={simulation.id}
           aria-label={t("Simulasi Interaktif", "Interactive simulation")}
           data-ai-anchor={simAnchor}
           className="mt-8"
         >
           <SimulationStage
             courseSlug={courseSlug}
-            spec={problem.simulation}
+            spec={simulation}
             aiAnchorId={simAnchor}
           />
           <InlineAiThread
@@ -189,11 +259,13 @@ export function ProblemView({
             courseTitle={courseTitle}
             itemKey={itemKey}
             itemTitle={problem.title}
-            simulation={problem.simulation}
+            contextText={problemContext}
+            simulation={simulation}
             stepCount={problem.steps.length}
           />
         </section>
-      )}
+        );
+      })}
 
       {/* Progressive Step-by-Step Solution (each step has its own inline AI anchor) */}
       <StepDisclosure
@@ -202,7 +274,8 @@ export function ProblemView({
         itemKey={itemKey}
         steps={problem.steps}
         problemTitle={problem.title}
-        simulation={problem.simulation}
+        problemContext={problemContext}
+        simulation={simulations[0]}
       />
 
       {/* Final Answer */}

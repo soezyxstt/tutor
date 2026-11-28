@@ -1,7 +1,7 @@
 import { useLanguage } from '../../i18n/language-provider';
 import * as React from 'react';
 import { RotateCcw } from 'lucide-react';
-import { Button, Slider } from '@tutor/ui';
+import { Button, Slider, useTheme } from '@tutor/ui';
 import { compileMathExpression } from './safe-math';
 import type { RenderInteractivePlotInput } from './tools';
 
@@ -29,6 +29,7 @@ export default function InteractivePlotBlock({
   const [hoverX, setHoverX] = React.useState<number | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { t } = useLanguage();
+  const { resolvedTheme } = useTheme();
 
   const compiledCurves = React.useMemo(
     () =>
@@ -41,7 +42,7 @@ export default function InteractivePlotBlock({
 
   const [xMin, xMax] = data.xDomain;
 
-  React.useEffect(() => {
+  const redraw = React.useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -199,6 +200,13 @@ export default function InteractivePlotBlock({
 
     ctx.restore();
   }, [compiledCurves, data.xLabel, hoverX, params, xMax, xMin]);
+
+  React.useEffect(() => {
+    // ThemeProvider applies its root class in a parent effect. Draw in the
+    // next frame so CSS tokens already reflect the selected theme.
+    const frame = window.requestAnimationFrame(redraw);
+    return () => window.cancelAnimationFrame(frame);
+  }, [redraw, resolvedTheme]);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
